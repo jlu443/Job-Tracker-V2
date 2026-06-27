@@ -1,0 +1,23 @@
+# Global scraper settings.
+
+# Server-side search terms. The scraper issues one paged query per term per
+# company, so a job matching any term is captured. Empty string "" means
+# "all jobs" (no filter) — remove it if you only want keyword-matched roles.
+search_terms:
+  - intern
+  - new grad
+  - university
+  - early career
+  - entry level
+
+# Pagination
+page_limit: 20          # Workday caps at ~20 per request
+max_pages_per_term: 50  # safety cap: 50 * 20 = 1000 jobs per term
+
+# Politeness
+request_timeout: 30     # seconds
+delay_between_requests: 0.5  # seconds, to avoid hammering a tenant
+
+# Classification: keyword pass is always on. The Haiku fallback only runs when
+# keywords are inconclusive AND this is true AND ANTHROPIC_API_KEY is set.
+use_llm_fallback: true

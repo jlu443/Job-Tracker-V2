@@ -1,0 +1,7 @@
+# Hand-curated Workday careers URLs (one per line) for the discovery step.
+# discover.py parses tenant/wd/site out of each and validates against the API.
+# Add any company careers URL of the form:
+#   https://{tenant}.{wd}.myworkdayjobs.com/{SiteName}
+# Lines starting with # are ignored.
+
+https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite

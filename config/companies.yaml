@@ -1,0 +1,18 @@
+# Validated Workday tenants to scrape.
+#
+# Each entry needs three values, all readable from a company's careers URL:
+#   https://{tenant}.{wd}.myworkdayjobs.com/{site}
+#
+#   tenant  -> first subdomain label      (nvidia)
+#   wd      -> the wdN subdomain label     (wd5)
+#   site    -> the career-site path label  (NVIDIAExternalCareerSite)
+#
+# discover.py appends validated entries here automatically. You can also add
+# entries by hand. Optional `search_terms` overrides the global defaults in
+# config/settings.yaml for that company.
+
+companies:
+  - tenant: nvidia
+    wd: wd5
+    site: NVIDIAExternalCareerSite
+    name: NVIDIA
