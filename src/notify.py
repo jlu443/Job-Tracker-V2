@@ -40,14 +40,50 @@ def _embed(job: dict) -> dict:
 
 _ANNOUNCE_ROLES = {"intern", "new_grad"}
 
+# US state abbreviations and country keywords used to detect non-US locations.
+_US_STATES = {
+    "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
+    "KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+    "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT",
+    "VA","WA","WV","WI","WY","DC",
+}
+_NON_US_KEYWORDS = {
+    "canada","uk","united kingdom","germany","france","india","china","japan",
+    "australia","singapore","ireland","netherlands","spain","italy","poland",
+    "brazil","mexico","israel","sweden","switzerland","remote - non us",
+}
+
+
+def _is_us_location(location: str) -> bool:
+    """Return True if the location appears to be in the US or is unspecified."""
+    if not location:
+        return True  # no location info — let it through
+    loc = location.lower()
+    # Reject if a known non-US keyword appears
+    for kw in _NON_US_KEYWORDS:
+        if kw in loc:
+            return False
+    # Accept if a US state abbreviation appears (e.g. "Austin, TX" or "New York, NY")
+    parts = [p.strip().upper() for p in loc.replace(",", " ").split()]
+    if any(p in _US_STATES for p in parts):
+        return True
+    # Accept common US-only strings
+    if "united states" in loc or "usa" in loc or "u.s." in loc or "remote" in loc:
+        return True
+    # Ambiguous — let it through rather than silently drop
+    return True
+
 
 def post_new_jobs(new_jobs: list[dict]) -> None:
-    jobs_to_post = [j for j in new_jobs if j.get("role_type") in _ANNOUNCE_ROLES]
+    jobs_to_post = [
+        j for j in new_jobs
+        if j.get("role_type") in _ANNOUNCE_ROLES and _is_us_location(j.get("location", ""))
+    ]
     skipped = len(new_jobs) - len(jobs_to_post)
     if skipped:
-        print(f"Filtered out {skipped} non-intern/new_grad jobs from announcement.")
+        print(f"Filtered out {skipped} non-intern/new_grad or non-US jobs from announcement.")
     if not jobs_to_post:
-        print("No new intern/new_grad jobs to announce.")
+        print("No new intern/new_grad US jobs to announce.")
         return
 
     webhook = os.environ.get("DISCORD_WEBHOOK_URL")

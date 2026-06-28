@@ -12,8 +12,9 @@ pipeline:
 
 Run occasionally (it's slow); the per-run scraper just reads companies.yaml.
 
-    python -m src.discover                 # Common Crawl + seeds
-    python -m src.discover --seeds-only    # skip Common Crawl
+    python -m src.discover                 # GitHub repos + Common Crawl + seeds
+    python -m src.discover --seeds-only    # skip Common Crawl and GitHub
+    python -m src.discover --no-github     # skip GitHub only
 """
 
 from __future__ import annotations
@@ -94,6 +95,43 @@ def _clear_checkpoint() -> None:
             os.remove(_CHECKPOINT)
     except IOError:
         pass
+
+
+# GitHub repos with curated internship/new-grad Workday links.
+# Raw content URLs — these are markdown files with apply links embedded.
+_GITHUB_SOURCES = [
+    # SimplifyJobs internship lists
+    "https://raw.githubusercontent.com/SimplifyJobs/Summer2025-Internships/dev/README.md",
+    "https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README.md",
+    "https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions/dev/README.md",
+    # Pittsburg CSC repo - another popular list
+    "https://raw.githubusercontent.com/ReaVNaiL/New-Grad-2024/main/README.md",
+    "https://raw.githubusercontent.com/Ouckah/Summer2025-Internships/main/README.md",
+]
+
+
+def harvest_from_github() -> list[dict]:
+    """Scrape curated internship/new-grad GitHub repos for Workday apply URLs."""
+    out = []
+    for url in _GITHUB_SOURCES:
+        try:
+            resp = requests.get(url, headers=_HEADERS, timeout=30)
+            if resp.status_code == 404:
+                continue
+            resp.raise_for_status()
+            for match in _URL_RE.finditer(resp.text):
+                site = match.group("site")
+                if site.lower() in {"wday", "cxs", "assets", "static"}:
+                    continue
+                out.append({
+                    "tenant": match.group("tenant").lower(),
+                    "wd": match.group("wd").lower(),
+                    "site": site,
+                })
+            print(f"  GitHub: {url.split('/')[-3]}/{url.split('/')[-2]} -> {len(out)} candidates so far")
+        except requests.RequestException as exc:
+            print(f"  GitHub source failed ({url}): {exc}")
+    return out
 
 
 def harvest_from_seeds() -> list[dict]:
@@ -208,14 +246,33 @@ def _validate(cand: dict, timeout: int = 30) -> bool:
     endpoint = (f"https://{cand['tenant']}.{cand['wd']}.myworkdayjobs.com"
                 f"/wday/cxs/{cand['tenant']}/{cand['site']}/jobs")
     payload = {"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""}
-    try:
-        resp = requests.post(endpoint, json=payload, headers={
-            **_HEADERS, "Content-Type": "application/json"}, timeout=timeout)
-        if resp.status_code != 200:
+    headers = {**_HEADERS, "Content-Type": "application/json"}
+    backoff = _INITIAL_BACKOFF
+    for attempt in range(_MAX_RETRIES):
+        try:
+            resp = requests.post(endpoint, json=payload, headers=headers, timeout=timeout)
+            # 4xx (except 429) = wrong tenant/site — no point retrying
+            if resp.status_code in (400, 404, 410, 422):
+                return False
+            # 429 or 5xx — transient, retry with backoff
+            if resp.status_code == 429 or resp.status_code >= 500:
+                if attempt < _MAX_RETRIES - 1:
+                    retry_after = float(resp.json().get("retry_after", backoff)) \
+                        if resp.status_code == 429 else backoff
+                    time.sleep(retry_after)
+                    backoff = min(backoff * 2, 60)
+                    continue
+                return False
+            if resp.status_code != 200:
+                return False
+            return bool(resp.json().get("jobPostings"))
+        except (requests.RequestException, ValueError):
+            if attempt < _MAX_RETRIES - 1:
+                time.sleep(backoff)
+                backoff = min(backoff * 2, 60)
+                continue
             return False
-        return bool(resp.json().get("jobPostings"))
-    except (requests.RequestException, ValueError):
-        return False
+    return False
 
 
 def _dedupe(cands: list[dict]) -> list[dict]:
@@ -231,11 +288,20 @@ def _dedupe(cands: list[dict]) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--seeds-only", action="store_true",
-                    help="skip the Common Crawl harvest")
+                    help="skip Common Crawl and GitHub harvests")
+    ap.add_argument("--no-github", action="store_true",
+                    help="skip GitHub harvest")
+    ap.add_argument("--no-cc", action="store_true",
+                    help="skip Common Crawl harvest (GitHub + seeds only)")
     args = ap.parse_args()
 
     candidates = harvest_from_seeds()
-    if not args.seeds_only:
+
+    if not args.seeds_only and not args.no_github:
+        print("Harvesting from GitHub internship/new-grad repos ...")
+        candidates += harvest_from_github()
+
+    if not args.seeds_only and not args.no_cc:
         print("Harvesting candidates from Common Crawl ...")
         candidates += harvest_from_common_crawl()
 
