@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS jobs (
 );
 CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs(status);
 CREATE INDEX IF NOT EXISTS idx_jobs_role   ON jobs(role_type);
-CREATE INDEX IF NOT EXISTS idx_jobs_source ON jobs(source);
 """
 
 _MIGRATIONS = [
@@ -56,6 +55,7 @@ def connect(path: str) -> sqlite3.Connection:
         col = stmt.split("ADD COLUMN")[1].strip().split()[0]
         if col not in existing_cols:
             conn.execute(stmt)
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_jobs_source ON jobs(source)")
     conn.commit()
     return conn
 
