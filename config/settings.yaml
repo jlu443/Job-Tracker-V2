@@ -21,3 +21,20 @@ delay_between_requests: 0.5  # seconds, to avoid hammering a tenant
 # Classification: keyword pass is always on. The zero-shot fallback (facebook/bart-large-mnli)
 # only runs for ambiguous titles when this is true. Model downloads ~1.6GB on first use.
 use_llm_fallback: true
+
+# External job board scraping via JobSpy (Indeed, Glassdoor, ZipRecruiter).
+# LinkedIn is intentionally excluded — it blocks datacenter IPs (GitHub Actions).
+jobspy:
+  enabled: true
+  sites:
+    - indeed
+    - glassdoor
+    - zip_recruiter
+  search_terms:
+    - software engineer intern
+    - software engineering internship
+    - new grad software engineer
+    - entry level software engineer
+  location: United States
+  results_per_term: 100
+  hours_old: 72    # only jobs posted in the last 3 days

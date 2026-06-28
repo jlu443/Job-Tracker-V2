@@ -19,16 +19,19 @@ CREATE TABLE IF NOT EXISTS jobs (
     location    TEXT,
     role_type   TEXT CHECK(role_type IN ('intern','new_grad','mid','senior')),
     posted_on   TEXT NOT NULL DEFAULT '',
+    source      TEXT NOT NULL DEFAULT 'workday',
     first_seen  TEXT NOT NULL,
     last_seen   TEXT NOT NULL,
     status      TEXT NOT NULL DEFAULT 'active'
 );
 CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs(status);
 CREATE INDEX IF NOT EXISTS idx_jobs_role   ON jobs(role_type);
+CREATE INDEX IF NOT EXISTS idx_jobs_source ON jobs(source);
 """
 
 _MIGRATIONS = [
     "ALTER TABLE jobs ADD COLUMN posted_on TEXT NOT NULL DEFAULT ''",
+    "ALTER TABLE jobs ADD COLUMN source TEXT NOT NULL DEFAULT 'workday'",
 ]
 
 
@@ -74,17 +77,18 @@ def sync(conn: sqlite3.Connection, postings: list, role_for) -> UpsertResult:
                            (p.job_id,)).fetchone()
         if row is None:
             role = role_for(p)
+            source = getattr(p, "source", "workday")
             conn.execute(
                 "INSERT INTO jobs (job_id, company, title, apply_url, location, "
-                "role_type, posted_on, first_seen, last_seen, status) "
-                "VALUES (?,?,?,?,?,?,?,?,?,'active')",
+                "role_type, posted_on, source, first_seen, last_seen, status) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,'active')",
                 (p.job_id, p.company, p.title, p.apply_url, p.location,
-                 role, p.posted_on, now, now),
+                 role, p.posted_on, source, now, now),
             )
             new_jobs.append({
                 "job_id": p.job_id, "company": p.company, "title": p.title,
                 "apply_url": p.apply_url, "location": p.location,
-                "role_type": role, "posted_on": p.posted_on,
+                "role_type": role, "posted_on": p.posted_on, "source": source,
             })
         else:
             conn.execute(

@@ -134,6 +134,56 @@ def harvest_from_github() -> list[dict]:
     return out
 
 
+def harvest_from_jobspy() -> list[dict]:
+    """Search Indeed/Glassdoor/ZipRecruiter for intern/new-grad roles and extract
+    any Workday apply URLs — these are verified tenant+site combos by definition."""
+    try:
+        from jobspy import scrape_jobs
+    except ImportError:
+        print("  jobspy not installed — skipping JobSpy discovery.")
+        return []
+
+    search_terms = [
+        "software engineer intern",
+        "software engineering internship",
+        "new grad software engineer",
+        "entry level software engineer",
+    ]
+    sites = ["indeed", "glassdoor", "zip_recruiter"]
+    out = []
+
+    for term in search_terms:
+        print(f"  [jobspy discovery] '{term}' ...")
+        try:
+            df = scrape_jobs(
+                site_name=sites,
+                search_term=term,
+                location="United States",
+                results_wanted=100,
+                hours_old=168,  # last week
+                country_indeed="USA",
+                verbose=0,
+            )
+        except Exception as exc:
+            print(f"  [jobspy discovery] failed for {term!r}: {exc}")
+            continue
+
+        if df is None or df.empty:
+            continue
+
+        for _, row in df.iterrows():
+            for col in ("job_url_direct", "job_url", "apply_url"):
+                url = str(row.get(col) or "")
+                if "myworkdayjobs.com" in url:
+                    parsed = _parse_url(url)
+                    if parsed:
+                        out.append(parsed)
+                        break
+
+    print(f"  [jobspy discovery] {len(out)} Workday URLs extracted.")
+    return out
+
+
 def harvest_from_seeds() -> list[dict]:
     if not os.path.exists(_SEEDS):
         return []
@@ -288,11 +338,13 @@ def _dedupe(cands: list[dict]) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--seeds-only", action="store_true",
-                    help="skip Common Crawl and GitHub harvests")
+                    help="skip Common Crawl, GitHub, and JobSpy harvests")
     ap.add_argument("--no-github", action="store_true",
                     help="skip GitHub harvest")
     ap.add_argument("--no-cc", action="store_true",
-                    help="skip Common Crawl harvest (GitHub + seeds only)")
+                    help="skip Common Crawl harvest")
+    ap.add_argument("--no-jobspy", action="store_true",
+                    help="skip JobSpy harvest")
     args = ap.parse_args()
 
     candidates = harvest_from_seeds()
@@ -300,6 +352,10 @@ def main() -> int:
     if not args.seeds_only and not args.no_github:
         print("Harvesting from GitHub internship/new-grad repos ...")
         candidates += harvest_from_github()
+
+    if not args.seeds_only and not args.no_jobspy:
+        print("Harvesting Workday URLs from job boards via JobSpy ...")
+        candidates += harvest_from_jobspy()
 
     if not args.seeds_only and not args.no_cc:
         print("Harvesting candidates from Common Crawl ...")

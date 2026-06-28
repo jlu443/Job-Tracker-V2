@@ -2,3 +2,4 @@ requests>=2.31
 PyYAML>=6.0
 transformers>=4.40
 torch>=2.0
+python-jobspy>=1.1.80

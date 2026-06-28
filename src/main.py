@@ -10,7 +10,7 @@ import sys
 
 import yaml
 
-from . import classify, db, notify, scraper
+from . import classify, db, jobspy_scraper, notify, scraper
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _DB_PATH = os.path.join(_ROOT, "data", "jobs.db")
@@ -33,13 +33,21 @@ def main() -> int:
     os.makedirs(os.path.dirname(_DB_PATH), exist_ok=True)
     conn = db.connect(_DB_PATH)
 
-    all_postings: list[scraper.JobPosting] = []
+    # --- Workday scrape ---
+    all_postings: list = []
     for company in companies:
         name = company.get("name", company["tenant"])
         print(f"Scraping {name} ...")
         postings = scraper.fetch_company_jobs(company, settings)
         print(f"  {len(postings)} postings")
         all_postings.extend(postings)
+
+    print(f"\nWorkday postings this run: {len(all_postings)}")
+
+    # --- External job boards (Indeed, Glassdoor, ZipRecruiter) ---
+    print("\nScraping external job boards ...")
+    external_postings = jobspy_scraper.fetch_jobs(settings)
+    all_postings.extend(external_postings)
 
     print(f"\nTotal postings this run: {len(all_postings)}")
 
