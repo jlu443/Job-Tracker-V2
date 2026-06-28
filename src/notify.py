@@ -35,20 +35,27 @@ def _embed(job: dict) -> dict:
     }
 
 
+_ANNOUNCE_ROLES = {"intern", "new_grad"}
+
+
 def post_new_jobs(new_jobs: list[dict]) -> None:
-    if not new_jobs:
-        print("No new jobs to announce.")
+    jobs_to_post = [j for j in new_jobs if j.get("role_type") in _ANNOUNCE_ROLES]
+    skipped = len(new_jobs) - len(jobs_to_post)
+    if skipped:
+        print(f"Filtered out {skipped} non-intern/new_grad jobs from announcement.")
+    if not jobs_to_post:
+        print("No new intern/new_grad jobs to announce.")
         return
 
     webhook = os.environ.get("DISCORD_WEBHOOK_URL")
     if not webhook:
-        print(f"DISCORD_WEBHOOK_URL not set — would announce {len(new_jobs)} jobs:")
-        for j in new_jobs:
+        print(f"DISCORD_WEBHOOK_URL not set — would announce {len(jobs_to_post)} jobs:")
+        for j in jobs_to_post:
             print(f"  [{j['role_type']}] {j['company']}: {j['title']}")
         return
 
-    for i in range(0, len(new_jobs), _MAX_EMBEDS):
-        batch = new_jobs[i:i + _MAX_EMBEDS]
+    for i in range(0, len(jobs_to_post), _MAX_EMBEDS):
+        batch = jobs_to_post[i:i + _MAX_EMBEDS]
         payload = {"embeds": [_embed(j) for j in batch]}
         try:
             resp = requests.post(webhook, json=payload, timeout=30)
@@ -63,4 +70,4 @@ def post_new_jobs(new_jobs: list[dict]) -> None:
             print(f"  ! Discord post failed: {exc}")
         time.sleep(0.5)  # stay under the webhook rate limit
 
-    print(f"Announced {len(new_jobs)} new jobs to Discord.")
+    print(f"Announced {len(jobs_to_post)} new jobs to Discord.")

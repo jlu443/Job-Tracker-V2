@@ -4,3 +4,5 @@ __pycache__/
 .venv/
 venv/
 *.egg-info/
+data/
+.discover_checkpoint.json

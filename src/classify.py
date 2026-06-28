@@ -2,13 +2,12 @@
 
 Two layers:
   1. Keyword/regex pass — deterministic, free, handles the clear majority.
-  2. Claude Haiku fallback — only for titles the keyword pass can't decide,
-     and only when use_llm_fallback is on and ANTHROPIC_API_KEY is set.
+  2. Zero-shot NLI fallback — facebook/bart-large-mnli, runs locally, no API key.
+     Model is downloaded once (~1.6 GB) and cached by HuggingFace.
 """
 
 from __future__ import annotations
 
-import os
 import re
 
 ROLE_TYPES = ("intern", "new_grad", "mid", "senior")
@@ -28,6 +27,28 @@ _RULES: list[tuple[str, str]] = [
 
 _COMPILED = [(re.compile(p, re.IGNORECASE), label) for p, label in _RULES]
 
+# Descriptive labels for zero-shot NLI — more context beats bare words.
+_ZS_LABELS = {
+    "intern": "internship, co-op, or summer position for students",
+    "new_grad": "entry-level position for new or recent graduates",
+    "mid": "mid-level position requiring a few years of experience",
+    "senior": "senior, staff, lead, principal, or management role",
+}
+
+_pipeline = None  # lazily loaded
+
+
+def _get_pipeline():
+    global _pipeline
+    if _pipeline is None:
+        from transformers import pipeline
+        _pipeline = pipeline(
+            "zero-shot-classification",
+            model="facebook/bart-large-mnli",
+            device=-1,  # CPU; set to 0 for GPU
+        )
+    return _pipeline
+
 
 def classify_by_keyword(title: str) -> str | None:
     """Return a role type, or None if no rule matches (inconclusive)."""
@@ -37,53 +58,28 @@ def classify_by_keyword(title: str) -> str | None:
     return None
 
 
-# --- Claude Haiku fallback ---------------------------------------------------
-
-_SYSTEM = (
-    "You classify software/tech job titles by seniority. "
-    "Reply with exactly one of these words and nothing else: "
-    "intern, new_grad, mid, senior. "
-    "Use 'new_grad' for entry-level/university/early-career roles, "
-    "'mid' for roles needing a few years of experience, "
-    "'senior' for senior/staff/principal/lead/management roles."
-)
-
-_client = None  # lazily constructed
-
-
-def _get_client():
-    global _client
-    if _client is None:
-        import anthropic  # imported lazily so the scraper runs without the dep
-        _client = anthropic.Anthropic()
-    return _client
-
-
-def classify_by_llm(title: str) -> str | None:
-    """Single Haiku call. Returns a valid role type, or None on any problem."""
+def classify_by_zeroshot(title: str) -> str | None:
+    """Zero-shot NLI classification. Returns a valid role type, or None on error."""
     try:
-        resp = _get_client().messages.create(
-            model="claude-haiku-4-5",
-            max_tokens=8,
-            system=_SYSTEM,
-            messages=[{"role": "user", "content": title}],
-        )
-    except Exception as exc:  # network, auth, rate limit — never fatal
-        print(f"  ! LLM classify failed for {title!r}: {exc}")
+        clf = _get_pipeline()
+        result = clf(title, list(_ZS_LABELS.values()), multi_label=False)
+        best_desc = result["labels"][0]
+        # Map description back to role type key
+        desc_to_key = {v: k for k, v in _ZS_LABELS.items()}
+        return desc_to_key.get(best_desc)
+    except Exception as exc:
+        print(f"  ! zero-shot classify failed for {title!r}: {exc}")
         return None
-
-    text = next((b.text for b in resp.content if b.type == "text"), "").strip().lower()
-    return text if text in ROLE_TYPES else None
 
 
 def classify(title: str, settings: dict) -> str:
-    """Keyword pass first; Haiku only on inconclusive titles. Defaults to 'mid'."""
+    """Keyword pass first; zero-shot NLI only on inconclusive titles. Defaults to 'mid'."""
     label = classify_by_keyword(title)
     if label:
         return label
 
-    if settings.get("use_llm_fallback") and os.environ.get("ANTHROPIC_API_KEY"):
-        label = classify_by_llm(title)
+    if settings.get("use_llm_fallback"):
+        label = classify_by_zeroshot(title)
         if label:
             return label
 
