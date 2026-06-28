@@ -23,15 +23,18 @@ _ROLE_COLORS = {
 
 
 def _embed(job: dict) -> dict:
+    fields = [
+        {"name": "Company", "value": job["company"] or "—", "inline": True},
+        {"name": "Role", "value": job["role_type"], "inline": True},
+        {"name": "Location", "value": job["location"] or "—", "inline": True},
+    ]
+    if job.get("posted_on"):
+        fields.append({"name": "Posted", "value": job["posted_on"], "inline": True})
     return {
         "title": job["title"][:256],
         "url": job["apply_url"],
         "color": _ROLE_COLORS.get(job["role_type"], 0x95A5A6),
-        "fields": [
-            {"name": "Company", "value": job["company"] or "—", "inline": True},
-            {"name": "Role", "value": job["role_type"], "inline": True},
-            {"name": "Location", "value": job["location"] or "—", "inline": True},
-        ],
+        "fields": fields,
     }
 
 

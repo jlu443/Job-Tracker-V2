@@ -28,6 +28,7 @@ class JobPosting:
     title: str
     apply_url: str
     location: str
+    posted_on: str       # ISO date from Workday's postedOn field, or ""
 
 
 def _base_url(tenant: str, wd: str) -> str:
@@ -95,6 +96,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
                     title=p.get("title", "").strip(),
                     apply_url=f"{base}/{site}{ext}",
                     location=p.get("locationsText", "").strip(),
+                    posted_on=p.get("postedOn", "").strip(),
                 )
 
             offset += limit

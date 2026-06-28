@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS jobs (
     apply_url   TEXT NOT NULL,
     location    TEXT,
     role_type   TEXT CHECK(role_type IN ('intern','new_grad','mid','senior')),
+    posted_on   TEXT NOT NULL DEFAULT '',
     first_seen  TEXT NOT NULL,
     last_seen   TEXT NOT NULL,
     status      TEXT NOT NULL DEFAULT 'active'
@@ -25,6 +26,10 @@ CREATE TABLE IF NOT EXISTS jobs (
 CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs(status);
 CREATE INDEX IF NOT EXISTS idx_jobs_role   ON jobs(role_type);
 """
+
+_MIGRATIONS = [
+    "ALTER TABLE jobs ADD COLUMN posted_on TEXT NOT NULL DEFAULT ''",
+]
 
 
 @dataclass
@@ -42,6 +47,13 @@ def connect(path: str) -> sqlite3.Connection:
     conn = sqlite3.connect(path)
     conn.row_factory = sqlite3.Row
     conn.executescript(_SCHEMA)
+    # Apply migrations idempotently — SQLite ALTER TABLE errors if column exists.
+    existing_cols = {row[1] for row in conn.execute("PRAGMA table_info(jobs)")}
+    for stmt in _MIGRATIONS:
+        col = stmt.split("ADD COLUMN")[1].strip().split()[0]
+        if col not in existing_cols:
+            conn.execute(stmt)
+    conn.commit()
     return conn
 
 
@@ -64,14 +76,15 @@ def sync(conn: sqlite3.Connection, postings: list, role_for) -> UpsertResult:
             role = role_for(p)
             conn.execute(
                 "INSERT INTO jobs (job_id, company, title, apply_url, location, "
-                "role_type, first_seen, last_seen, status) "
-                "VALUES (?,?,?,?,?,?,?,?,'active')",
+                "role_type, posted_on, first_seen, last_seen, status) "
+                "VALUES (?,?,?,?,?,?,?,?,?,'active')",
                 (p.job_id, p.company, p.title, p.apply_url, p.location,
-                 role, now, now),
+                 role, p.posted_on, now, now),
             )
             new_jobs.append({
                 "job_id": p.job_id, "company": p.company, "title": p.title,
-                "apply_url": p.apply_url, "location": p.location, "role_type": role,
+                "apply_url": p.apply_url, "location": p.location,
+                "role_type": role, "posted_on": p.posted_on,
             })
         else:
             conn.execute(
