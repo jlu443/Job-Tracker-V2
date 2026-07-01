@@ -1,0 +1,86 @@
+# Greenhouse job board tokens — one entry per company.
+# Token comes from: https://boards.greenhouse.io/{token}
+# Run: python -m src.discover to add more automatically.
+
+companies:
+  # AI / ML
+  - token: anthropic
+    name: Anthropic
+  - token: openai
+    name: OpenAI
+  - token: scale
+    name: Scale AI
+  - token: cohere
+    name: Cohere
+  - token: huggingface
+    name: Hugging Face
+  - token: perplexityai
+    name: Perplexity AI
+
+  # Tech — Large
+  - token: airbnb
+    name: Airbnb
+  - token: lyft
+    name: Lyft
+  - token: pinterest
+    name: Pinterest
+  - token: reddit
+    name: Reddit
+  - token: roblox
+    name: Roblox
+  - token: duolingo
+    name: Duolingo
+  - token: figma
+    name: Figma
+  - token: notion
+    name: Notion
+  - token: discord
+    name: Discord
+  - token: asana
+    name: Asana
+  - token: canva
+    name: Canva
+  - token: dropbox
+    name: Dropbox
+
+  # Fintech
+  - token: stripe
+    name: Stripe
+  - token: plaid
+    name: Plaid
+  - token: brex
+    name: Brex
+  - token: robinhood
+    name: Robinhood
+  - token: chime
+    name: Chime
+
+  # Infrastructure / DevTools
+  - token: hashicorp
+    name: HashiCorp
+  - token: gitlab
+    name: GitLab
+  - token: cloudflare
+    name: Cloudflare
+  - token: datadog
+    name: Datadog
+  - token: grafana
+    name: Grafana Labs
+  - token: vercel
+    name: Vercel
+
+  # Other Tech
+  - token: flexport
+    name: Flexport
+  - token: faire
+    name: Faire
+  - token: toast
+    name: Toast
+  - token: rippling
+    name: Rippling
+  - token: gusto
+    name: Gusto
+  - token: carta
+    name: Carta
+  - token: benchling
+    name: Benchling

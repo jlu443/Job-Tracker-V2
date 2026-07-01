@@ -30,19 +30,30 @@ import requests
 import yaml
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_COMPANIES = os.path.join(_ROOT, "config", "companies.yaml")
-_SEEDS = os.path.join(_ROOT, "config", "seeds.txt")
-_CHECKPOINT = os.path.join(_ROOT, ".discover_checkpoint.json")
+_COMPANIES    = os.path.join(_ROOT, "config", "companies.yaml")
+_GH_COMPANIES = os.path.join(_ROOT, "config", "greenhouse.yaml")
+_LV_COMPANIES = os.path.join(_ROOT, "config", "lever.yaml")
+_SEEDS        = os.path.join(_ROOT, "config", "seeds.txt")
+_CHECKPOINT   = os.path.join(_ROOT, ".discover_checkpoint.json")
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker-discover)"}
 _MAX_RETRIES = 5
 _INITIAL_BACKOFF = 2
 
-# Captures tenant, wd, and site from a careers URL.
-#   https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite
+# Captures tenant, wd, and site from a Workday careers URL.
 _URL_RE = re.compile(
     r"https?://(?P<tenant>[a-z0-9-]+)\.(?P<wd>wd\d+)\.myworkdayjobs\.com"
     r"/(?:[a-z]{2}-[A-Z]{2}/)?(?P<site>[A-Za-z0-9_-]+)",
+    re.IGNORECASE,
+)
+# Greenhouse: boards.greenhouse.io/{token} or boards-api.greenhouse.io/v1/boards/{token}
+_GH_RE = re.compile(
+    r"boards(?:-api)?\.greenhouse\.io(?:/v1/boards)?/([a-z0-9_-]+)",
+    re.IGNORECASE,
+)
+# Lever: jobs.lever.co/{slug}
+_LV_RE = re.compile(
+    r"jobs\.lever\.co/([a-z0-9_-]+)",
     re.IGNORECASE,
 )
 
@@ -110,28 +121,99 @@ _GITHUB_SOURCES = [
 ]
 
 
-def harvest_from_github() -> list[dict]:
-    """Scrape curated internship/new-grad GitHub repos for Workday apply URLs."""
-    out = []
+def _fetch_github_text() -> list[str]:
+    """Fetch raw text from all GitHub sources. Returns list of page texts."""
+    texts = []
     for url in _GITHUB_SOURCES:
         try:
             resp = requests.get(url, headers=_HEADERS, timeout=30)
             if resp.status_code == 404:
                 continue
             resp.raise_for_status()
-            for match in _URL_RE.finditer(resp.text):
-                site = match.group("site")
-                if site.lower() in {"wday", "cxs", "assets", "static"}:
-                    continue
-                out.append({
-                    "tenant": match.group("tenant").lower(),
-                    "wd": match.group("wd").lower(),
-                    "site": site,
-                })
-            print(f"  GitHub: {url.split('/')[-3]}/{url.split('/')[-2]} -> {len(out)} candidates so far")
+            texts.append(resp.text)
+            print(f"  GitHub: fetched {url.split('/')[-3]}/{url.split('/')[-2]}")
         except requests.RequestException as exc:
             print(f"  GitHub source failed ({url}): {exc}")
+    return texts
+
+
+def harvest_from_github() -> list[dict]:
+    """Extract Workday URLs from curated GitHub repos."""
+    out = []
+    for text in _fetch_github_text():
+        for match in _URL_RE.finditer(text):
+            site = match.group("site")
+            if site.lower() in {"wday", "cxs", "assets", "static"}:
+                continue
+            out.append({
+                "tenant": match.group("tenant").lower(),
+                "wd": match.group("wd").lower(),
+                "site": site,
+            })
+    print(f"  GitHub Workday candidates: {len(out)}")
     return out
+
+
+def harvest_greenhouse_from_github() -> list[dict]:
+    """Extract Greenhouse tokens from curated GitHub repos."""
+    seen, out = set(), []
+    for text in _fetch_github_text():
+        for match in _GH_RE.finditer(text):
+            token = match.group(1).lower()
+            if token not in seen and token not in {"v1", "boards", "jobs"}:
+                seen.add(token)
+                out.append({"token": token, "name": token})
+    print(f"  GitHub Greenhouse candidates: {len(out)}")
+    return out
+
+
+def harvest_lever_from_github() -> list[dict]:
+    """Extract Lever slugs from curated GitHub repos."""
+    seen, out = set(), []
+    for text in _fetch_github_text():
+        for match in _LV_RE.finditer(text):
+            slug = match.group(1).lower()
+            if slug not in seen:
+                seen.add(slug)
+                out.append({"slug": slug, "name": slug})
+    print(f"  GitHub Lever candidates: {len(out)}")
+    return out
+
+
+def _validate_greenhouse(token: str, timeout: int = 20) -> bool:
+    url = f"https://boards-api.greenhouse.io/v1/boards/{token}/jobs"
+    try:
+        resp = requests.get(url, headers=_HEADERS, timeout=timeout)
+        if resp.status_code != 200:
+            return False
+        return bool(resp.json().get("jobs"))
+    except (requests.RequestException, ValueError):
+        return False
+
+
+def _validate_lever(slug: str, timeout: int = 20) -> bool:
+    url = f"https://api.lever.co/v0/postings/{slug}?mode=json"
+    try:
+        resp = requests.get(url, headers=_HEADERS, timeout=timeout)
+        if resp.status_code != 200:
+            return False
+        data = resp.json()
+        return isinstance(data, list) and len(data) > 0
+    except (requests.RequestException, ValueError):
+        return False
+
+
+def _load_existing_yaml(path: str) -> tuple[list[dict], set]:
+    if not os.path.exists(path):
+        return [], set()
+    existing = yaml.safe_load(open(path, encoding="utf-8")) or {}
+    companies = existing.get("companies", [])
+    return companies, {c.get("token") or c.get("slug") for c in companies}
+
+
+def _save_yaml(path: str, companies: list[dict]) -> None:
+    with open(path, "w", encoding="utf-8") as fh:
+        yaml.safe_dump({"companies": companies}, fh, sort_keys=False, allow_unicode=True)
 
 
 def harvest_from_jobspy() -> list[dict]:
@@ -347,6 +429,7 @@ def main() -> int:
                     help="skip JobSpy harvest")
     args = ap.parse_args()
 
+    # ── Workday discovery ────────────────────────────────────────────────────
     candidates = harvest_from_seeds()
 
     if not args.seeds_only and not args.no_github:
@@ -362,33 +445,69 @@ def main() -> int:
         candidates += harvest_from_common_crawl()
 
     candidates = _dedupe(candidates)
-    print(f"{len(candidates)} unique candidate tenants. Validating ...")
+    print(f"\n{len(candidates)} unique Workday candidate tenants. Validating ...")
 
-    existing = yaml.safe_load(open(_COMPANIES, encoding="utf-8")) or {}
-    existing_companies = existing.get("companies", [])
-    existing_keys = {(c["tenant"], c["wd"], c["site"]) for c in existing_companies}
-
-    added = 0
+    wd_companies, wd_keys = _load_existing_yaml(_COMPANIES)
+    wd_added = 0
     for c in candidates:
         key = (c["tenant"], c["wd"], c["site"])
-        if key in existing_keys:
+        if key in wd_keys:
             continue
         if _validate(c):
-            c["name"] = c["tenant"]  # default; edit by hand for a nicer label
-            existing_companies.append(c)
-            existing_keys.add(key)
-            added += 1
-            print(f"  + {c['tenant']} / {c['site']}")
+            c["name"] = c["tenant"]
+            wd_companies.append(c)
+            wd_keys.add(key)
+            wd_added += 1
+            print(f"  + [workday] {c['tenant']} / {c['site']}")
         time.sleep(0.3)
 
-    existing["companies"] = existing_companies
-    with open(_COMPANIES, "w", encoding="utf-8") as fh:
-        yaml.safe_dump(existing, fh, sort_keys=False, allow_unicode=True)
+    _save_yaml(_COMPANIES, wd_companies)
+    print(f"Workday: added {wd_added}, total {len(wd_companies)}.")
 
-    print(f"\nAdded {added} new validated companies. "
-          f"Total: {len(existing_companies)}.")
+    # ── Greenhouse discovery ─────────────────────────────────────────────────
+    gh_candidates: list[dict] = []
+    if not args.seeds_only and not args.no_github:
+        print("\nHarvesting Greenhouse tokens from GitHub repos ...")
+        gh_candidates += harvest_greenhouse_from_github()
+
+    gh_companies, gh_keys = _load_existing_yaml(_GH_COMPANIES)
+    gh_added = 0
+    for c in gh_candidates:
+        if c["token"] in gh_keys:
+            continue
+        if _validate_greenhouse(c["token"]):
+            gh_companies.append(c)
+            gh_keys.add(c["token"])
+            gh_added += 1
+            print(f"  + [greenhouse] {c['token']}")
+        time.sleep(0.3)
+
+    _save_yaml(_GH_COMPANIES, gh_companies)
+    print(f"Greenhouse: added {gh_added}, total {len(gh_companies)}.")
+
+    # ── Lever discovery ──────────────────────────────────────────────────────
+    lv_candidates: list[dict] = []
+    if not args.seeds_only and not args.no_github:
+        print("\nHarvesting Lever slugs from GitHub repos ...")
+        lv_candidates += harvest_lever_from_github()
+
+    lv_companies, lv_keys = _load_existing_yaml(_LV_COMPANIES)
+    lv_added = 0
+    for c in lv_candidates:
+        if c["slug"] in lv_keys:
+            continue
+        if _validate_lever(c["slug"]):
+            lv_companies.append(c)
+            lv_keys.add(c["slug"])
+            lv_added += 1
+            print(f"  + [lever] {c['slug']}")
+        time.sleep(0.3)
+
+    _save_yaml(_LV_COMPANIES, lv_companies)
+    print(f"Lever: added {lv_added}, total {len(lv_companies)}.")
 
     _clear_checkpoint()
+    print(f"\nDone. Workday +{wd_added}  Greenhouse +{gh_added}  Lever +{lv_added}")
     return 0
 
 

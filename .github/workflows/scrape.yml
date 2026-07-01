@@ -2,8 +2,8 @@ name: scrape-jobs
 
 on:
   schedule:
-    # Every 6 hours. Note: GitHub cron is best-effort and often runs late.
-    - cron: "0 */6 * * *"
+    # Every 3 hours. Note: GitHub cron is best-effort and often runs late.
+    - cron: "0 */3 * * *"
   workflow_dispatch: {}   # allow manual runs from the Actions tab
 
 # Allow the job to push the updated DB back to the repo.
@@ -31,6 +31,7 @@ jobs:
       - name: Run scraper
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          GOOGLE_SHEETS_WEBHOOK_URL: ${{ secrets.GOOGLE_SHEETS_WEBHOOK_URL }}
         run: python -m src.main
 
       - name: Commit updated database
