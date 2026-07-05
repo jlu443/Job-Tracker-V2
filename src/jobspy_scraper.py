@@ -60,6 +60,16 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
     proxies = {"http": proxy, "https": proxy} if proxy else None
     if proxy:
         print(f"  [jobspy] Using proxy: {proxy.split('@')[-1]}")  # hide credentials
+    else:
+        # These sites block datacenter IPs; without a proxy every request just
+        # burns minutes in jobspy's retry loop before failing anyway.
+        needs_proxy = {"glassdoor", "zip_recruiter", "linkedin"}
+        skipped = [s for s in sites if s in needs_proxy]
+        if skipped:
+            print(f"  [jobspy] JOBSPY_PROXY not set — skipping {', '.join(skipped)}")
+            sites = [s for s in sites if s not in needs_proxy]
+        if not sites:
+            return []
 
     seen: dict[str, JobPosting] = {}
 

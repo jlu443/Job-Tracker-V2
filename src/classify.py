@@ -84,3 +84,40 @@ def classify(title: str, settings: dict) -> str:
             return label
 
     return "mid"  # safe default when nothing else decides
+
+
+def _zeroshot_many(titles: list[str]) -> dict[str, str]:
+    """One batched zero-shot call for many titles. Returns title -> role type."""
+    try:
+        clf = _get_pipeline()
+        results = clf(titles, list(_ZS_LABELS.values()), multi_label=False,
+                      batch_size=8)
+        if isinstance(results, dict):    # pipeline unwraps single-item lists
+            results = [results]
+        desc_to_key = {v: k for k, v in _ZS_LABELS.items()}
+        out = {}
+        for title, res in zip(titles, results):
+            key = desc_to_key.get(res["labels"][0])
+            if key:
+                out[title] = key
+        return out
+    except Exception as exc:
+        print(f"  ! zero-shot batch classify failed: {exc}")
+        return {}
+
+
+def classify_batch(titles: list[str], settings: dict) -> list[str]:
+    """Classify many titles at once.
+
+    Keyword pass first; the inconclusive remainder is deduped and sent through
+    the zero-shot model in one batched call — orders of magnitude faster than
+    one pipeline invocation per title on CPU.
+    """
+    labels = [classify_by_keyword(t) for t in titles]
+    if settings.get("use_llm_fallback"):
+        pending = sorted({t for t, l in zip(titles, labels) if l is None})
+        if pending:
+            print(f"  zero-shot classifying {len(pending)} unique ambiguous titles ...")
+            resolved = _zeroshot_many(pending)
+            labels = [l or resolved.get(t) for t, l in zip(titles, labels)]
+    return [l or "mid" for l in labels]

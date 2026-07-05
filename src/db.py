@@ -60,6 +60,11 @@ def connect(path: str) -> sqlite3.Connection:
     return conn
 
 
+def existing_ids(conn: sqlite3.Connection) -> set[str]:
+    """All job_ids ever seen — lets callers pre-classify only genuinely new rows."""
+    return {r[0] for r in conn.execute("SELECT job_id FROM jobs")}
+
+
 def sync(conn: sqlite3.Connection, postings: list, role_for) -> UpsertResult:
     """Reconcile this run's postings against the DB.
 

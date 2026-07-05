@@ -15,7 +15,10 @@ from datetime import datetime, timezone
 
 import requests
 
+from . import http_pool
+
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
+_SESSION = http_pool.make_session(_HEADERS)
 
 
 @dataclass(frozen=True)
@@ -36,7 +39,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
     timeout = settings.get("request_timeout", 30)
 
     try:
-        resp = requests.get(url, headers=_HEADERS, timeout=timeout)
+        resp = _SESSION.get(url, timeout=timeout)
         if resp.status_code == 404:
             print(f"  ! {name}: slug '{slug}' not found (404)")
             return []

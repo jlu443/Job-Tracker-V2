@@ -14,11 +14,14 @@ from dataclasses import dataclass
 
 import requests
 
+from . import http_pool
+
 _HEADERS = {
     "Content-Type": "application/json",
     "Accept": "application/json",
     "User-Agent": "Mozilla/5.0 (job-tracker)",
 }
+_SESSION = http_pool.make_session(_HEADERS)
 
 
 @dataclass(frozen=True)
@@ -73,8 +76,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
             payload = {"appliedFacets": {}, "limit": limit, "offset": offset,
                        "searchText": term}
             try:
-                resp = requests.post(endpoint, json=payload, headers=_HEADERS,
-                                     timeout=timeout)
+                resp = _SESSION.post(endpoint, json=payload, timeout=timeout)
                 resp.raise_for_status()
                 data = resp.json()
             except (requests.RequestException, ValueError) as exc:

@@ -14,7 +14,10 @@ from dataclasses import dataclass, field
 
 import requests
 
+from . import http_pool
+
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
+_SESSION = http_pool.make_session(_HEADERS)
 _PAGE_SIZE = 100
 _MAX_PAGES = 50   # safety cap: 5000 postings per company
 
@@ -45,8 +48,8 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
     out, offset = [], 0
     for _ in range(_MAX_PAGES):
         try:
-            resp = requests.get(base, params={"limit": _PAGE_SIZE, "offset": offset},
-                                headers=_HEADERS, timeout=timeout)
+            resp = _SESSION.get(base, params={"limit": _PAGE_SIZE, "offset": offset},
+                                timeout=timeout)
             if resp.status_code == 404:
                 print(f"  ! {name}: company '{company_id}' not found (404)")
                 return out

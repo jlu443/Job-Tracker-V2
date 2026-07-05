@@ -18,6 +18,8 @@ concurrency:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    # Fail fast instead of burning the 6h default when something hangs.
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
 
@@ -27,6 +29,13 @@ jobs:
           cache: pip
 
       - run: pip install -r requirements.txt
+
+      # bart-large-mnli is ~1.6GB; without this it re-downloads every run.
+      - name: Cache HuggingFace models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-bart-large-mnli
 
       - name: Run scraper
         env:

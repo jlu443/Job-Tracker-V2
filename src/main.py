@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import os
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 import yaml
@@ -67,7 +68,7 @@ def main() -> int:
     workers = settings.get("scrape_workers", 8)
     for label, companies, module in boards:
         print(f"\n=== {label} ({len(companies)} companies) ===")
-        count_before = len(all_postings)
+        count_before, t0 = len(all_postings), time.time()
         with ThreadPoolExecutor(max_workers=workers) as pool:
             for company, postings in zip(
                     companies,
@@ -76,18 +77,31 @@ def main() -> int:
                 if postings:
                     print(f"  {_company_name(company)}: {len(postings)} postings")
                 all_postings.extend(postings)
-        print(f"{label} total: {len(all_postings) - count_before}")
+        print(f"{label} total: {len(all_postings) - count_before} "
+              f"in {time.time() - t0:.0f}s")
 
     # --- External job boards (Indeed, Glassdoor, ZipRecruiter) ---
     print("\n=== External job boards ===")
+    t0 = time.time()
     all_postings.extend(jobspy_scraper.fetch_jobs(settings))
+    print(f"External boards done in {time.time() - t0:.0f}s")
 
     print(f"\nTotal postings this run: {len(all_postings)}")
+
+    # Classify only genuinely new postings, in one batched pass — calling the
+    # zero-shot model per title serially is what blows up CI runtime.
+    t0 = time.time()
+    existing = db.existing_ids(conn)
+    new_postings = [p for p in all_postings if p.job_id not in existing]
+    print(f"Classifying {len(new_postings)} new postings ...")
+    roles = classify.classify_batch([p.title for p in new_postings], settings)
+    role_by_id = {p.job_id: r for p, r in zip(new_postings, roles)}
+    print(f"Classification done in {time.time() - t0:.0f}s")
 
     result = db.sync(
         conn,
         all_postings,
-        role_for=lambda p: classify.classify(p.title, settings),
+        role_for=lambda p: role_by_id.get(p.job_id, "mid"),
     )
 
     print(f"New: {len(result.new_jobs)}  Updated: {result.updated}  "

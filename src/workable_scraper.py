@@ -14,10 +14,13 @@ from dataclasses import dataclass, field
 
 import requests
 
+from . import http_pool
+
 _HEADERS = {
     "User-Agent": "Mozilla/5.0 (job-tracker)",
     "Content-Type": "application/json",
 }
+_SESSION = http_pool.make_session(_HEADERS)
 _MAX_PAGES = 200   # v3 returns 10 per page
 
 
@@ -54,8 +57,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
         if token:
             payload["token"] = token
         try:
-            resp = requests.post(url, json=payload, headers=_HEADERS,
-                                 timeout=timeout)
+            resp = _SESSION.post(url, json=payload, timeout=timeout)
             if resp.status_code == 404:
                 print(f"  ! {name}: account '{slug}' not found (404)")
                 return out
