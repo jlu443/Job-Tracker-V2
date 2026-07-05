@@ -1,83 +1,67 @@
-"""Evaluate Workday discovery coverage.
+"""Evaluate discovery coverage across every supported ATS.
 
-Answers "are we missing companies?" by measuring the discovery funnel:
+Answers "are we missing companies?" by measuring the discovery funnel per ATS:
 
-    Common Crawl unique tenants  ->  validated into companies.yaml
+    candidates surfaced (seeds + Common Crawl)  ->  validated into config
 
-A large gap between "surfaced" and "validated" means tenants exist that we
-failed to capture (usually the crawled URL pointed at a stale/closed site).
-A small total "surfaced" count means Common Crawl itself is the bottleneck —
-add more CC indexes or another discovery source.
+A large gap between "surfaced" and "validated" means boards exist that we
+failed to capture (usually stale/closed at validation time). A small total
+"surfaced" count means the harvest itself is the bottleneck — raise
+--cc-max-pages / --cc-indexes or add another discovery source.
 
     python -m src.coverage              # full re-harvest (slow), then report
-    python -m src.coverage --quick      # report from companies.yaml only
+    python -m src.coverage --quick      # report from config files only
 """
 
 from __future__ import annotations
 
 import argparse
-import os
 import sys
 
-import yaml
-
-from . import discover
-
-_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_COMPANIES = os.path.join(_ROOT, "config", "companies.yaml")
-
-
-def _load_companies() -> list[dict]:
-    data = yaml.safe_load(open(_COMPANIES, encoding="utf-8")) or {}
-    return data.get("companies", [])
+from .discover import (ATS_SPECS, _dedupe, _load_existing,
+                       harvest_from_common_crawl, harvest_from_seeds)
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true",
-                    help="skip the Common Crawl re-harvest; report companies.yaml stats only")
+                    help="skip the Common Crawl re-harvest; report config stats only")
+    ap.add_argument("--cc-max-pages", type=int, default=40)
+    ap.add_argument("--cc-indexes", type=int, default=3)
     args = ap.parse_args()
 
-    companies = _load_companies()
-    validated_tenants = {c["tenant"] for c in companies}
-    validated_keys = {(c["tenant"], c["wd"], c["site"]) for c in companies}
-
-    print("=== companies.yaml ===")
-    print(f"  Entries (tenant+site combos): {len(companies)}")
-    print(f"  Unique tenants              : {len(validated_tenants)}")
-    print(f"  Unique tenant+wd+site keys  : {len(validated_keys)}")
+    print("=== Configured companies per ATS ===")
+    for spec in ATS_SPECS:
+        companies, keys = _load_existing(spec)
+        print(f"  {spec.name:<16} {len(companies):>6} entries "
+              f"({len(keys)} unique keys)")
 
     if args.quick:
         return 0
 
-    print("\n=== Re-harvesting Common Crawl to measure the funnel ===")
-    print("(this is slow; Ctrl-C is safe — progress is checkpointed)\n")
-    raw = discover.harvest_from_common_crawl()
-    raw += discover.harvest_from_seeds()
+    print("\n=== Re-harvesting (seeds + Common Crawl) to measure the funnel ===")
+    print("(slow; Ctrl-C is safe — CC progress is checkpointed)\n")
+    found = harvest_from_seeds()
+    for ats, cands in harvest_from_common_crawl(
+            max_pages=args.cc_max_pages, num_indexes=args.cc_indexes).items():
+        found.setdefault(ats, []).extend(cands)
 
-    surfaced_tenants = {c["tenant"] for c in raw}
-    surfaced_keys = {(c["tenant"], c["wd"], c["site"]) for c in raw}
-
-    missing_tenants = surfaced_tenants - validated_tenants
-    missing_keys = surfaced_keys - validated_keys
-
-    print("\n=== Coverage funnel ===")
-    print(f"  Common Crawl surfaced tenants : {len(surfaced_tenants)}")
-    print(f"  Of those, validated           : {len(surfaced_tenants & validated_tenants)}")
-    print(f"  Surfaced but NOT in yaml       : {len(missing_tenants)}")
-    print(f"  Surfaced site-combos not in yaml: {len(missing_keys)}")
-
-    if missing_tenants:
-        coverage_pct = 100 * len(surfaced_tenants & validated_tenants) / len(surfaced_tenants)
-        print(f"\n  Tenant coverage: {coverage_pct:.1f}% of surfaced tenants are validated.")
-        print(f"\n  Sample of {min(30, len(missing_tenants))} surfaced-but-missing tenants:")
-        for t in sorted(missing_tenants)[:30]:
-            print(f"    - {t}")
-        print("\n  These either had no jobs at scrape time or their crawled site")
-        print("  path was stale. Re-run `python -m src.discover` to retry them.")
-    else:
-        print("\n  Every surfaced tenant is in companies.yaml — Common Crawl is the ceiling.")
-        print("  To find more, add newer CC indexes to _CC_INDEXES in discover.py.")
+    print("\n=== Coverage funnel per ATS ===")
+    for spec in ATS_SPECS:
+        surfaced = {spec.key(c) for c in _dedupe(spec, found.get(spec.name, []))}
+        _, validated = _load_existing(spec)
+        missing = surfaced - validated
+        pct = 100 * len(surfaced & validated) / len(surfaced) if surfaced else 0.0
+        print(f"\n  {spec.name}")
+        print(f"    surfaced          : {len(surfaced)}")
+        print(f"    validated in yaml : {len(surfaced & validated)} ({pct:.1f}%)")
+        print(f"    surfaced-not-saved: {len(missing)}")
+        if missing:
+            sample = sorted(str(k) for k in missing)[:15]
+            for k in sample:
+                print(f"      - {k}")
+            print("    (had no jobs at validation time, or stale URL — "
+                  "re-run `python -m src.discover` to retry)")
 
     return 0
 

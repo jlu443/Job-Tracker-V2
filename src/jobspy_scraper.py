@@ -11,6 +11,7 @@ Indeed, Glassdoor, and ZipRecruiter work fine in CI.
 from __future__ import annotations
 
 import hashlib
+import os
 from dataclasses import dataclass
 
 # Import here so the rest of the app works without jobspy installed.
@@ -47,11 +48,18 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
     if not board_settings.get("enabled", True):
         return []
 
-    sites = board_settings.get("sites", ["indeed", "glassdoor", "zip_recruiter"])
+    sites = board_settings.get("sites", ["indeed"])
     search_terms = board_settings.get("search_terms", settings.get("search_terms", []))
     location = board_settings.get("location", "United States")
     results_per_term = board_settings.get("results_per_term", 50)
     hours_old = board_settings.get("hours_old", 72)
+
+    # Residential proxy — required for Glassdoor/ZipRecruiter from datacenter IPs.
+    # Format: http://user:pass@host:port  or  socks5://user:pass@host:port
+    proxy = os.environ.get("JOBSPY_PROXY")
+    proxies = {"http": proxy, "https": proxy} if proxy else None
+    if proxy:
+        print(f"  [jobspy] Using proxy: {proxy.split('@')[-1]}")  # hide credentials
 
     seen: dict[str, JobPosting] = {}
 
@@ -65,6 +73,7 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
                 results_wanted=results_per_term,
                 hours_old=hours_old,
                 country_indeed="USA",
+                proxies=proxies,
                 verbose=0,
             )
         except Exception as exc:

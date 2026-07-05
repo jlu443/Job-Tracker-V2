@@ -1,36 +1,27 @@
-# Lever job board slugs — one entry per company.
-# Slug comes from: https://jobs.lever.co/{slug}
-# Run: python -m src.discover to add more automatically.
-
 companies:
-  # Tech
-  - slug: squarespace
-    name: Squarespace
-  - slug: mozilla
-    name: Mozilla
-  - slug: thumbtack
-    name: Thumbtack
-  - slug: anduril
-    name: Anduril Industries
-  - slug: verkada
-    name: Verkada
-  - slug: nuro
-    name: Nuro
-  - slug: waymo
-    name: Waymo
-  - slug: cruise
-    name: Cruise
-  - slug: aurora
-    name: Aurora Innovation
-  - slug: zoox
-    name: Zoox
-
-  # Fintech / Crypto
-  - slug: anchorage
-    name: Anchorage Digital
-  - slug: chainalysis
-    name: Chainalysis
-
-  # Other
-  - slug: duolingo
-    name: Duolingo
+- slug: squarespace
+  name: Squarespace
+- slug: mozilla
+  name: Mozilla
+- slug: thumbtack
+  name: Thumbtack
+- slug: anduril
+  name: Anduril Industries
+- slug: verkada
+  name: Verkada
+- slug: nuro
+  name: Nuro
+- slug: waymo
+  name: Waymo
+- slug: cruise
+  name: Cruise
+- slug: aurora
+  name: Aurora Innovation
+- slug: zoox
+  name: Zoox
+- slug: anchorage
+  name: Anchorage Digital
+- slug: chainalysis
+  name: Chainalysis
+- slug: duolingo
+  name: Duolingo

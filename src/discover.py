@@ -1,20 +1,28 @@
-"""Discover Workday tenants and write the validated ones to companies.yaml.
+"""Discover company job boards across every supported ATS.
 
-There is no public registry of Workday tenants, so this is a harvest+validate
-pipeline:
+The scrapers can only fetch what discovery finds, so discovery is the coverage
+ceiling. The pipeline is source-agnostic and ATS-agnostic:
 
-  1. Harvest candidate careers URLs from the Common Crawl URL index (free, broad)
-     and from config/seeds.txt (hand-curated head start).
-  2. Parse each into (tenant, wd, site).
-  3. Validate by calling the CXS jobs endpoint with limit=1 — keep only the ones
-     that return jobs.
-  4. Merge survivors into config/companies.yaml (existing entries preserved).
+    sources (broad)               extraction                 validation (exact)
+    ---------------               ----------                 ------------------
+    config/seeds.txt           →                          →
+    GitHub job lists (+JSON)   →   every ATS's URL regex  →   hit the ATS's
+    JobSpy posting URLs        →   runs over every byte   →   public API; keep
+    Common Crawl URL index     →   of harvested text      →   boards with jobs
 
-Run occasionally (it's slow); the per-run scraper just reads companies.yaml.
+Every source feeds every ATS: a Greenhouse link in a GitHub README, an Ashby
+URL inside an Indeed posting, and a Workday tenant in Common Crawl are all
+caught in the same pass. Validation is cheap (one API call per candidate), so
+false positives from the broad harvest cost nothing. Survivors are merged into
+per-ATS config files; existing entries are always preserved.
 
-    python -m src.discover                 # GitHub repos + Common Crawl + seeds
-    python -m src.discover --seeds-only    # skip Common Crawl and GitHub
-    python -m src.discover --no-github     # skip GitHub only
+Run occasionally (it's slow); the per-run scraper just reads the config files.
+
+    python -m src.discover                    # all sources, all ATSes
+    python -m src.discover --seeds-only       # seeds.txt only (fast smoke test)
+    python -m src.discover --no-cc            # skip Common Crawl (the slow one)
+    python -m src.discover --ats greenhouse,ashby   # limit to some ATSes
+    python -m src.discover --cc-max-pages 100      # cap CC pages per pattern
 """
 
 from __future__ import annotations
@@ -25,205 +33,283 @@ import os
 import re
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
+from typing import Callable
+from urllib.parse import unquote
 
 import requests
 import yaml
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_COMPANIES    = os.path.join(_ROOT, "config", "companies.yaml")
-_GH_COMPANIES = os.path.join(_ROOT, "config", "greenhouse.yaml")
-_LV_COMPANIES = os.path.join(_ROOT, "config", "lever.yaml")
-_SEEDS        = os.path.join(_ROOT, "config", "seeds.txt")
-_CHECKPOINT   = os.path.join(_ROOT, ".discover_checkpoint.json")
+_CONFIG_DIR = os.path.join(_ROOT, "config")
+_SEEDS = os.path.join(_CONFIG_DIR, "seeds.txt")
+_CHECKPOINT = os.path.join(_ROOT, ".discover_checkpoint.json")
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker-discover)"}
-_MAX_RETRIES = 5
+_MAX_RETRIES = 4
 _INITIAL_BACKOFF = 2
+_VALIDATE_WORKERS = 8
 
-# Captures tenant, wd, and site from a Workday careers URL.
-_URL_RE = re.compile(
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Shared HTTP helpers (retry on 429/5xx/network, give up fast on 4xx)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _request_json(method: str, url: str, *, payload: dict | None = None,
+                  params: dict | None = None, timeout: int = 25):
+    """Return parsed JSON, or None on a definitive miss (4xx) / repeated failure."""
+    backoff = _INITIAL_BACKOFF
+    headers = dict(_HEADERS)
+    if payload is not None:
+        headers["Content-Type"] = "application/json"
+    for attempt in range(_MAX_RETRIES):
+        try:
+            resp = requests.request(method, url, json=payload, params=params,
+                                    headers=headers, timeout=timeout)
+            if resp.status_code == 429 or resp.status_code >= 500:
+                raise requests.RequestException(f"HTTP {resp.status_code}")
+            if resp.status_code != 200:
+                return None
+            return resp.json()
+        except (requests.RequestException, ValueError):
+            if attempt == _MAX_RETRIES - 1:
+                return None
+            time.sleep(backoff)
+            backoff = min(backoff * 2, 30)
+    return None
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ATS registry: URL patterns, Common Crawl queries, and validators per ATS
+# ─────────────────────────────────────────────────────────────────────────────
+
+_WD_RE = re.compile(
     r"https?://(?P<tenant>[a-z0-9-]+)\.(?P<wd>wd\d+)\.myworkdayjobs\.com"
     r"/(?:[a-z]{2}-[A-Z]{2}/)?(?P<site>[A-Za-z0-9_-]+)",
     re.IGNORECASE,
 )
-# Greenhouse: boards.greenhouse.io/{token} or boards-api.greenhouse.io/v1/boards/{token}
-_GH_RE = re.compile(
-    r"boards(?:-api)?\.greenhouse\.io(?:/v1/boards)?/([a-z0-9_-]+)",
-    re.IGNORECASE,
-)
-# Lever: jobs.lever.co/{slug}
-_LV_RE = re.compile(
-    r"jobs\.lever\.co/([a-z0-9_-]+)",
-    re.IGNORECASE,
-)
+_WD_BAD_SITES = {"wday", "cxs", "assets", "static", "login", "fonts"}
 
-# Common Crawl indexes to query — newest first. Each covers ~1-2 months of crawl data.
-_CC_INDEXES = [
-    "https://index.commoncrawl.org/CC-MAIN-2025-18-index",  # Apr/May 2025
-    "https://index.commoncrawl.org/CC-MAIN-2025-13-index",  # Mar 2025
-    "https://index.commoncrawl.org/CC-MAIN-2025-08-index",  # Feb 2025
-    "https://index.commoncrawl.org/CC-MAIN-2024-51-index",  # Dec 2024
-    "https://index.commoncrawl.org/CC-MAIN-2024-46-index",  # Nov 2024
+_GH_RES = [
+    re.compile(r"boards(?:-api)?\.greenhouse\.io(?:/v1/boards)?/([a-z0-9_-]+)", re.I),
+    re.compile(r"job-boards(?:\.eu)?\.greenhouse\.io/([a-z0-9_-]+)", re.I),
+    re.compile(r"greenhouse\.io/embed/job_board\?[^\s\"'<>]*?for=([a-z0-9_-]+)", re.I),
+]
+_GH_BAD = {"v1", "boards", "jobs", "embed", "js", "generic", "internal"}
+
+_LV_RE = re.compile(r"jobs\.lever\.co/([A-Za-z0-9_-]+)", re.I)
+
+_ASHBY_RE = re.compile(r"jobs\.ashbyhq\.com/([A-Za-z0-9_.%-]+)", re.I)
+_ASHBY_BAD = {"api"}
+
+_SR_RE = re.compile(
+    r"(?:jobs|careers)\.smartrecruiters\.com/(?:oneclick-ui/company/)?([A-Za-z0-9]+)",
+    re.I,
+)
+_SR_BAD = {"sitemap", "favicon"}
+
+_WK_RE = re.compile(r"apply\.workable\.com/([a-z0-9-]+)", re.I)
+_WK_BAD = {"api", "j", "jobs", "assets"}
+
+
+def _extract_workday(text: str) -> list[dict]:
+    out = []
+    for m in _WD_RE.finditer(text):
+        site = m.group("site")
+        if site.lower() in _WD_BAD_SITES:
+            continue
+        out.append({"tenant": m.group("tenant").lower(), "wd": m.group("wd").lower(),
+                    "site": site, "name": m.group("tenant").lower()})
+    return out
+
+
+def _extract_greenhouse(text: str) -> list[dict]:
+    out = []
+    for rx in _GH_RES:
+        for m in rx.finditer(text):
+            token = m.group(1).lower()
+            if token not in _GH_BAD:
+                out.append({"token": token, "name": token})
+    return out
+
+
+def _extract_lever(text: str) -> list[dict]:
+    return [{"slug": m.group(1).lower(), "name": m.group(1).lower()}
+            for m in _LV_RE.finditer(text)]
+
+
+def _extract_ashby(text: str) -> list[dict]:
+    out = []
+    for m in _ASHBY_RE.finditer(text):
+        slug = m.group(1).rstrip(".")
+        if slug.lower() in _ASHBY_BAD:
+            continue
+        out.append({"slug": slug, "name": unquote(slug)})
+    return out
+
+
+def _extract_smartrecruiters(text: str) -> list[dict]:
+    out = []
+    for m in _SR_RE.finditer(text):
+        company = m.group(1)
+        if company.lower() in _SR_BAD:
+            continue
+        out.append({"company": company, "name": company})
+    return out
+
+
+def _extract_workable(text: str) -> list[dict]:
+    out = []
+    for m in _WK_RE.finditer(text):
+        slug = m.group(1).lower()
+        if slug in _WK_BAD:
+            continue
+        out.append({"slug": slug, "name": slug})
+    return out
+
+
+def _validate_workday(c: dict) -> bool:
+    url = (f"https://{c['tenant']}.{c['wd']}.myworkdayjobs.com"
+           f"/wday/cxs/{c['tenant']}/{c['site']}/jobs")
+    data = _request_json("POST", url, payload={
+        "appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""})
+    return bool(data and data.get("jobPostings"))
+
+
+def _validate_greenhouse(c: dict) -> bool:
+    url = f"https://boards-api.greenhouse.io/v1/boards/{c['token']}/jobs"
+    data = _request_json("GET", url)
+    return bool(data and data.get("jobs"))
+
+
+def _validate_lever(c: dict) -> bool:
+    url = f"https://api.lever.co/v0/postings/{c['slug']}?mode=json"
+    data = _request_json("GET", url)
+    return isinstance(data, list) and len(data) > 0
+
+
+def _validate_ashby(c: dict) -> bool:
+    url = f"https://api.ashbyhq.com/posting-api/job-board/{c['slug']}"
+    data = _request_json("GET", url)
+    return bool(data and data.get("jobs"))
+
+
+def _validate_smartrecruiters(c: dict) -> bool:
+    url = f"https://api.smartrecruiters.com/v1/companies/{c['company']}/postings"
+    data = _request_json("GET", url, params={"limit": 1})
+    return bool(data and data.get("totalFound"))
+
+
+def _validate_workable(c: dict) -> bool:
+    url = f"https://apply.workable.com/api/v3/accounts/{c['slug']}/jobs"
+    data = _request_json("POST", url, payload={"query": ""})
+    return bool(data and data.get("total"))
+
+
+@dataclass(frozen=True)
+class ATSSpec:
+    name: str                             # id used in --ats and reporting
+    config_file: str                      # yaml file under config/
+    extract: Callable[[str], list[dict]]  # text -> candidate dicts
+    validate: Callable[[dict], bool]      # one API call: does this board exist?
+    key: Callable[[dict], object]         # dedupe / merge identity
+    cc_patterns: tuple[str, ...]          # Common Crawl URL-index queries
+
+    @property
+    def config_path(self) -> str:
+        return os.path.join(_CONFIG_DIR, self.config_file)
+
+
+ATS_SPECS: list[ATSSpec] = [
+    ATSSpec("workday", "companies.yaml", _extract_workday, _validate_workday,
+            lambda c: (c["tenant"], c["wd"], c["site"]),
+            ("*.myworkdayjobs.com/*",)),
+    ATSSpec("greenhouse", "greenhouse.yaml", _extract_greenhouse, _validate_greenhouse,
+            lambda c: c["token"],
+            ("boards.greenhouse.io/*", "job-boards.greenhouse.io/*")),
+    ATSSpec("lever", "lever.yaml", _extract_lever, _validate_lever,
+            lambda c: c["slug"],
+            ("jobs.lever.co/*",)),
+    ATSSpec("ashby", "ashby.yaml", _extract_ashby, _validate_ashby,
+            lambda c: c["slug"].lower(),
+            ("jobs.ashbyhq.com/*",)),
+    ATSSpec("smartrecruiters", "smartrecruiters.yaml", _extract_smartrecruiters,
+            _validate_smartrecruiters,
+            lambda c: c["company"].lower(),
+            ("jobs.smartrecruiters.com/*", "careers.smartrecruiters.com/*")),
+    ATSSpec("workable", "workable.yaml", _extract_workable, _validate_workable,
+            lambda c: c["slug"],
+            ("apply.workable.com/*",)),
 ]
 
 
-def _parse_url(url: str) -> dict | None:
-    m = _URL_RE.search(url)
-    if not m:
-        return None
-    site = m.group("site")
-    # Skip Workday's own asset/path segments that aren't career sites.
-    if site.lower() in {"wday", "cxs", "assets", "static"}:
-        return None
-    return {"tenant": m.group("tenant").lower(), "wd": m.group("wd").lower(),
-            "site": site}
+def _extract_all(text: str, specs: list[ATSSpec]) -> dict[str, list[dict]]:
+    return {spec.name: spec.extract(text) for spec in specs}
 
 
-def _load_checkpoint() -> list[dict]:
-    """Load candidates from checkpoint if it exists."""
-    if not os.path.exists(_CHECKPOINT):
-        return []
-    try:
-        with open(_CHECKPOINT, encoding="utf-8") as fh:
-            return json.load(fh)
-    except (json.JSONDecodeError, IOError):
-        return []
+def _merge_found(dst: dict[str, list[dict]], src: dict[str, list[dict]]) -> None:
+    for ats, cands in src.items():
+        dst.setdefault(ats, []).extend(cands)
 
 
-def _save_checkpoint(candidates: list[dict]) -> None:
-    """Save candidates to checkpoint file."""
-    try:
-        with open(_CHECKPOINT, "w", encoding="utf-8") as fh:
-            json.dump(candidates, fh)
-    except IOError as e:
-        print(f"Warning: couldn't save checkpoint ({e})")
+# ─────────────────────────────────────────────────────────────────────────────
+# Source: seeds.txt — hand-curated URLs, any supported ATS
+# ─────────────────────────────────────────────────────────────────────────────
+
+def harvest_from_seeds(specs: list[ATSSpec] = ATS_SPECS) -> dict[str, list[dict]]:
+    if not os.path.exists(_SEEDS):
+        return {}
+    with open(_SEEDS, encoding="utf-8") as fh:
+        text = "\n".join(line for line in fh if not line.lstrip().startswith("#"))
+    return _extract_all(text, specs)
 
 
-def _clear_checkpoint() -> None:
-    """Delete checkpoint file after successful completion."""
-    try:
-        if os.path.exists(_CHECKPOINT):
-            os.remove(_CHECKPOINT)
-    except IOError:
-        pass
+# ─────────────────────────────────────────────────────────────────────────────
+# Source: GitHub internship/new-grad lists (READMEs + structured listings.json)
+# ─────────────────────────────────────────────────────────────────────────────
 
-
-# GitHub repos with curated internship/new-grad Workday links.
-# Raw content URLs — these are markdown files with apply links embedded.
 _GITHUB_SOURCES = [
-    # SimplifyJobs internship lists
-    "https://raw.githubusercontent.com/SimplifyJobs/Summer2025-Internships/dev/README.md",
+    # SimplifyJobs ships machine-readable listings.json next to the README —
+    # it keeps entries (with apply URLs) that have rotated out of the README.
+    "https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/.github/scripts/listings.json",
+    "https://raw.githubusercontent.com/SimplifyJobs/Summer2027-Internships/dev/.github/scripts/listings.json",
+    "https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions/dev/.github/scripts/listings.json",
     "https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README.md",
+    "https://raw.githubusercontent.com/SimplifyJobs/Summer2027-Internships/dev/README.md",
     "https://raw.githubusercontent.com/SimplifyJobs/New-Grad-Positions/dev/README.md",
-    # Pittsburg CSC repo - another popular list
-    "https://raw.githubusercontent.com/ReaVNaiL/New-Grad-2024/main/README.md",
     "https://raw.githubusercontent.com/Ouckah/Summer2025-Internships/main/README.md",
+    "https://raw.githubusercontent.com/ReaVNaiL/New-Grad-2024/main/README.md",
+    "https://raw.githubusercontent.com/vanshb03/Summer2026-Internships/dev/README.md",
 ]
 
 
-def _fetch_github_text() -> list[str]:
-    """Fetch raw text from all GitHub sources. Returns list of page texts."""
-    texts = []
+def harvest_from_github(specs: list[ATSSpec] = ATS_SPECS) -> dict[str, list[dict]]:
+    found: dict[str, list[dict]] = {}
     for url in _GITHUB_SOURCES:
         try:
             resp = requests.get(url, headers=_HEADERS, timeout=30)
             if resp.status_code == 404:
-                continue
+                continue        # repo/season doesn't exist yet — fine
             resp.raise_for_status()
-            texts.append(resp.text)
-            print(f"  GitHub: fetched {url.split('/')[-3]}/{url.split('/')[-2]}")
         except requests.RequestException as exc:
             print(f"  GitHub source failed ({url}): {exc}")
-    return texts
+            continue
+        print(f"  GitHub: fetched {'/'.join(url.split('/')[3:5])} ({url.rsplit('/', 1)[-1]})")
+        _merge_found(found, _extract_all(resp.text, specs))
+    return found
 
 
-def harvest_from_github() -> list[dict]:
-    """Extract Workday URLs from curated GitHub repos."""
-    out = []
-    for text in _fetch_github_text():
-        for match in _URL_RE.finditer(text):
-            site = match.group("site")
-            if site.lower() in {"wday", "cxs", "assets", "static"}:
-                continue
-            out.append({
-                "tenant": match.group("tenant").lower(),
-                "wd": match.group("wd").lower(),
-                "site": site,
-            })
-    print(f"  GitHub Workday candidates: {len(out)}")
-    return out
+# ─────────────────────────────────────────────────────────────────────────────
+# Source: JobSpy — apply URLs on Indeed/Glassdoor postings point at ATS boards
+# ─────────────────────────────────────────────────────────────────────────────
 
-
-def harvest_greenhouse_from_github() -> list[dict]:
-    """Extract Greenhouse tokens from curated GitHub repos."""
-    seen, out = set(), []
-    for text in _fetch_github_text():
-        for match in _GH_RE.finditer(text):
-            token = match.group(1).lower()
-            if token not in seen and token not in {"v1", "boards", "jobs"}:
-                seen.add(token)
-                out.append({"token": token, "name": token})
-    print(f"  GitHub Greenhouse candidates: {len(out)}")
-    return out
-
-
-def harvest_lever_from_github() -> list[dict]:
-    """Extract Lever slugs from curated GitHub repos."""
-    seen, out = set(), []
-    for text in _fetch_github_text():
-        for match in _LV_RE.finditer(text):
-            slug = match.group(1).lower()
-            if slug not in seen:
-                seen.add(slug)
-                out.append({"slug": slug, "name": slug})
-    print(f"  GitHub Lever candidates: {len(out)}")
-    return out
-
-
-def _validate_greenhouse(token: str, timeout: int = 20) -> bool:
-    url = f"https://boards-api.greenhouse.io/v1/boards/{token}/jobs"
-    try:
-        resp = requests.get(url, headers=_HEADERS, timeout=timeout)
-        if resp.status_code != 200:
-            return False
-        return bool(resp.json().get("jobs"))
-    except (requests.RequestException, ValueError):
-        return False
-
-
-def _validate_lever(slug: str, timeout: int = 20) -> bool:
-    url = f"https://api.lever.co/v0/postings/{slug}?mode=json"
-    try:
-        resp = requests.get(url, headers=_HEADERS, timeout=timeout)
-        if resp.status_code != 200:
-            return False
-        data = resp.json()
-        return isinstance(data, list) and len(data) > 0
-    except (requests.RequestException, ValueError):
-        return False
-
-
-def _load_existing_yaml(path: str) -> tuple[list[dict], set]:
-    if not os.path.exists(path):
-        return [], set()
-    existing = yaml.safe_load(open(path, encoding="utf-8")) or {}
-    companies = existing.get("companies", [])
-    return companies, {c.get("token") or c.get("slug") for c in companies}
-
-
-def _save_yaml(path: str, companies: list[dict]) -> None:
-    with open(path, "w", encoding="utf-8") as fh:
-        yaml.safe_dump({"companies": companies}, fh, sort_keys=False, allow_unicode=True)
-
-
-def harvest_from_jobspy() -> list[dict]:
-    """Search Indeed/Glassdoor/ZipRecruiter for intern/new-grad roles and extract
-    any Workday apply URLs — these are verified tenant+site combos by definition."""
+def harvest_from_jobspy(specs: list[ATSSpec] = ATS_SPECS) -> dict[str, list[dict]]:
     try:
         from jobspy import scrape_jobs
     except ImportError:
         print("  jobspy not installed — skipping JobSpy discovery.")
-        return []
+        return {}
 
     search_terms = [
         "software engineer intern",
@@ -231,283 +317,288 @@ def harvest_from_jobspy() -> list[dict]:
         "new grad software engineer",
         "entry level software engineer",
     ]
-    sites = ["indeed", "glassdoor", "zip_recruiter"]
-    out = []
-
+    found: dict[str, list[dict]] = {}
     for term in search_terms:
         print(f"  [jobspy discovery] '{term}' ...")
         try:
-            df = scrape_jobs(
-                site_name=sites,
-                search_term=term,
-                location="United States",
-                results_wanted=100,
-                hours_old=168,  # last week
-                country_indeed="USA",
-                verbose=0,
-            )
+            df = scrape_jobs(site_name=["indeed", "glassdoor", "zip_recruiter"],
+                             search_term=term, location="United States",
+                             results_wanted=100, hours_old=168,
+                             country_indeed="USA", verbose=0)
         except Exception as exc:
             print(f"  [jobspy discovery] failed for {term!r}: {exc}")
             continue
-
         if df is None or df.empty:
             continue
-
-        for _, row in df.iterrows():
-            for col in ("job_url_direct", "job_url", "apply_url"):
-                url = str(row.get(col) or "")
-                if "myworkdayjobs.com" in url:
-                    parsed = _parse_url(url)
-                    if parsed:
-                        out.append(parsed)
-                        break
-
-    print(f"  [jobspy discovery] {len(out)} Workday URLs extracted.")
-    return out
+        urls = []
+        for col in ("job_url_direct", "job_url", "apply_url"):
+            if col in df.columns:
+                urls.extend(str(u) for u in df[col].dropna())
+        _merge_found(found, _extract_all("\n".join(urls), specs))
+    return found
 
 
-def harvest_from_seeds() -> list[dict]:
-    if not os.path.exists(_SEEDS):
-        return []
-    out = []
-    with open(_SEEDS, encoding="utf-8") as fh:
-        for line in fh:
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-            parsed = _parse_url(line)
-            if parsed:
-                out.append(parsed)
-    return out
+# ─────────────────────────────────────────────────────────────────────────────
+# Source: Common Crawl URL index — one query pattern per ATS domain
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Fallback if collinfo.json is unreachable.
+_CC_FALLBACK_INDEXES = [
+    "https://index.commoncrawl.org/CC-MAIN-2025-18-index",
+    "https://index.commoncrawl.org/CC-MAIN-2025-13-index",
+]
 
 
-_CC_PAGE_SIZE = 500
+def _cc_newest_indexes(n: int) -> list[str]:
+    """Ask Common Crawl for its index list so we always use the newest crawls."""
+    try:
+        resp = requests.get("https://index.commoncrawl.org/collinfo.json",
+                            headers=_HEADERS, timeout=30)
+        resp.raise_for_status()
+        return [c["cdx-api"] for c in resp.json()][:n]
+    except (requests.RequestException, ValueError, KeyError) as exc:
+        print(f"  collinfo.json unavailable ({exc}); using fallback index list.")
+        return _CC_FALLBACK_INDEXES[:n]
 
 
-def _fetch_cc_page(index_url: str, offset: int) -> tuple[list[dict], bool]:
-    """Fetch one page from a Common Crawl index. Returns (parsed_candidates, has_more)."""
-    params = {
-        "url": "*.myworkdayjobs.com/*",
-        "output": "json",
-        "limit": _CC_PAGE_SIZE,
-        "offset": offset,
-    }
+def _cc_get(index_url: str, params: dict) -> requests.Response | None:
+    """GET with retries. Returns the response, or None if the pattern has no
+    captures (404). Raises on repeated transient failure."""
     backoff = _INITIAL_BACKOFF
     for attempt in range(_MAX_RETRIES):
         try:
             resp = requests.get(index_url, params=params, headers=_HEADERS,
-                                timeout=60, stream=True)
+                                timeout=90)
+            if resp.status_code == 404:
+                return None
             resp.raise_for_status()
-            lines = []
-            for line in resp.iter_lines():
-                if line:
-                    lines.append(line)
-            out = []
-            for line in lines:
-                try:
-                    rec = json.loads(line)
-                except ValueError:
-                    continue
-                parsed = _parse_url(rec.get("url", ""))
-                if parsed:
-                    out.append(parsed)
-            has_more = len(lines) == _CC_PAGE_SIZE
-            return out, has_more
+            return resp
         except requests.RequestException as exc:
             if attempt == _MAX_RETRIES - 1:
                 raise
-            print(f"    Page at offset {offset} failed ({exc}). Retrying in {backoff}s...")
+            print(f"    request failed ({exc}); retry in {backoff}s")
             time.sleep(backoff)
             backoff = min(backoff * 2, 60)
-    return [], False  # unreachable
+    return None  # unreachable
 
 
-def _harvest_one_index(index_url: str, start_offset: int, out: list[dict]) -> None:
-    """Harvest all pages from one CC index starting at start_offset."""
-    offset = start_offset
-    index_name = index_url.split("/")[-1]
-    while True:
-        print(f"  [{index_name}] offset {offset}...")
-        has_more = True
+def _cc_num_pages(index_url: str, pattern: str) -> int:
+    resp = _cc_get(index_url, {"url": pattern, "output": "json",
+                               "showNumPages": "true"})
+    if resp is None:
+        return 0
+    try:
+        return int(resp.json().get("pages", 0))
+    except ValueError:
+        return 0
+
+
+def _fetch_cc_page(index_url: str, pattern: str, page: int) -> list[str]:
+    """All URLs from one page of a CC index query.
+
+    NOTE: the CDX server paginates with page=N (and reports the page count via
+    showNumPages). It silently ignores offset=, so offset-based paging just
+    re-reads the first block forever.
+    """
+    resp = _cc_get(index_url, {"url": pattern, "output": "json", "fl": "url",
+                               "page": page})
+    if resp is None:
+        return []
+    urls = []
+    for line in resp.text.splitlines():
+        if not line.strip():
+            continue
         try:
-            page_candidates, has_more = _fetch_cc_page(index_url, offset)
-            out.extend(page_candidates)
-        except requests.RequestException as exc:
-            print(f"  [{index_name}] offset {offset} permanently failed ({exc}). Skipping page.")
-
-        offset += _CC_PAGE_SIZE
-
-        if not has_more:
-            print(f"  [{index_name}] done. Total candidates so far: {len(out)}")
-            return
-
-        time.sleep(0.5)
+            urls.append(json.loads(line).get("url", ""))
+        except ValueError:
+            continue
+    return urls
 
 
-def harvest_from_common_crawl() -> list[dict]:
-    """Query multiple Common Crawl indexes for *.myworkdayjobs.com URLs, paginated."""
+def _load_checkpoint() -> dict:
+    if not os.path.exists(_CHECKPOINT):
+        return {}
+    try:
+        with open(_CHECKPOINT, encoding="utf-8") as fh:
+            data = json.load(fh)
+        return data if isinstance(data, dict) and data.get("version") == 2 else {}
+    except (json.JSONDecodeError, IOError):
+        return {}
+
+
+def _save_checkpoint(done: list[str], found: dict[str, list[dict]]) -> None:
+    try:
+        with open(_CHECKPOINT, "w", encoding="utf-8") as fh:
+            json.dump({"version": 2, "done": done, "found": found}, fh)
+    except IOError as exc:
+        print(f"Warning: couldn't save checkpoint ({exc})")
+
+
+def _clear_checkpoint() -> None:
+    try:
+        if os.path.exists(_CHECKPOINT):
+            os.remove(_CHECKPOINT)
+    except IOError:
+        pass
+
+
+def harvest_from_common_crawl(specs: list[ATSSpec] = ATS_SPECS,
+                              max_pages: int = 40,
+                              num_indexes: int = 3) -> dict[str, list[dict]]:
+    """Query CC indexes for every ATS's URL pattern. Checkpointed per
+    (index, pattern) pair, so Ctrl-C and re-run is always safe."""
     checkpoint = _load_checkpoint()
-    if isinstance(checkpoint, dict):
-        done_indexes = checkpoint.get("done_indexes", [])
-        current_index = checkpoint.get("current_index", 0)
-        start_offset = checkpoint.get("offset", 0)
-        out = checkpoint.get("candidates", [])
-        print(f"Resuming from checkpoint: index {current_index}, offset={start_offset}, {len(out)} candidates so far.")
-    else:
-        done_indexes, current_index, start_offset, out = [], 0, 0, []
+    done: list[str] = checkpoint.get("done", [])
+    found: dict[str, list[dict]] = checkpoint.get("found", {})
+    if done:
+        print(f"Resuming CC harvest: {len(done)} index/pattern pairs already done.")
 
-    for i, index_url in enumerate(_CC_INDEXES):
-        if i < current_index:
-            continue
-        if index_url in done_indexes:
-            continue
-        index_name = index_url.split("/")[-1]
-        print(f"\nHarvesting from {index_name} ...")
-        offset = start_offset if i == current_index else 0
-        _harvest_one_index(index_url, offset, out)
-        done_indexes.append(index_url)
-        start_offset = 0
-        _save_checkpoint({"done_indexes": done_indexes, "current_index": i + 1,
-                          "offset": 0, "candidates": out})
-
-    print(f"\nAll indexes harvested. Total raw candidates: {len(out)}")
-    return out
-
-
-def _validate(cand: dict, timeout: int = 30) -> bool:
-    endpoint = (f"https://{cand['tenant']}.{cand['wd']}.myworkdayjobs.com"
-                f"/wday/cxs/{cand['tenant']}/{cand['site']}/jobs")
-    payload = {"appliedFacets": {}, "limit": 1, "offset": 0, "searchText": ""}
-    headers = {**_HEADERS, "Content-Type": "application/json"}
-    backoff = _INITIAL_BACKOFF
-    for attempt in range(_MAX_RETRIES):
-        try:
-            resp = requests.post(endpoint, json=payload, headers=headers, timeout=timeout)
-            # 4xx (except 429) = wrong tenant/site — no point retrying
-            if resp.status_code in (400, 404, 410, 422):
-                return False
-            # 429 or 5xx — transient, retry with backoff
-            if resp.status_code == 429 or resp.status_code >= 500:
-                if attempt < _MAX_RETRIES - 1:
-                    retry_after = float(resp.json().get("retry_after", backoff)) \
-                        if resp.status_code == 429 else backoff
-                    time.sleep(retry_after)
-                    backoff = min(backoff * 2, 60)
+    indexes = _cc_newest_indexes(num_indexes)
+    for index_url in indexes:
+        index_name = index_url.rstrip("/").split("/")[-1]
+        for spec in specs:
+            for pattern in spec.cc_patterns:
+                pair = f"{index_name}|{pattern}"
+                if pair in done:
                     continue
-                return False
-            if resp.status_code != 200:
-                return False
-            return bool(resp.json().get("jobPostings"))
-        except (requests.RequestException, ValueError):
-            if attempt < _MAX_RETRIES - 1:
-                time.sleep(backoff)
-                backoff = min(backoff * 2, 60)
-                continue
-            return False
-    return False
+                try:
+                    num_pages = _cc_num_pages(index_url, pattern)
+                except requests.RequestException as exc:
+                    print(f"  [{index_name}] {pattern}: page count failed "
+                          f"({exc}); skipping.")
+                    continue
+                fetch = min(num_pages, max_pages)
+                print(f"  [{index_name}] {pattern} — {num_pages} pages"
+                      + (f", capped at {max_pages}" if num_pages > max_pages else ""))
+                for page in range(fetch):
+                    try:
+                        urls = _fetch_cc_page(index_url, pattern, page)
+                    except requests.RequestException as exc:
+                        print(f"    page {page} permanently failed ({exc}); "
+                              f"moving on.")
+                        continue
+                    cands = spec.extract("\n".join(urls))
+                    found.setdefault(spec.name, []).extend(cands)
+                    time.sleep(0.5)
+                done.append(pair)
+                _save_checkpoint(done, found)
+    return found
 
 
-def _dedupe(cands: list[dict]) -> list[dict]:
+# ─────────────────────────────────────────────────────────────────────────────
+# Validate + merge into per-ATS config files
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _dedupe(spec: ATSSpec, cands: list[dict]) -> list[dict]:
     seen, out = set(), []
     for c in cands:
-        key = (c["tenant"], c["wd"], c["site"])
-        if key not in seen:
-            seen.add(key)
+        k = spec.key(c)
+        if k not in seen:
+            seen.add(k)
             out.append(c)
     return out
 
 
+def _load_existing(spec: ATSSpec) -> tuple[list[dict], set]:
+    if not os.path.exists(spec.config_path):
+        return [], set()
+    data = yaml.safe_load(open(spec.config_path, encoding="utf-8")) or {}
+    companies = data.get("companies", []) or []
+    return companies, {spec.key(c) for c in companies}
+
+
+def _save_config(spec: ATSSpec, companies: list[dict]) -> None:
+    with open(spec.config_path, "w", encoding="utf-8") as fh:
+        yaml.safe_dump({"companies": companies}, fh, sort_keys=False,
+                       allow_unicode=True)
+
+
+def validate_and_merge(spec: ATSSpec, candidates: list[dict]) -> int:
+    """Validate new candidates concurrently; merge survivors into the config."""
+    existing, existing_keys = _load_existing(spec)
+    todo = [c for c in _dedupe(spec, candidates) if spec.key(c) not in existing_keys]
+    if not todo:
+        print(f"  [{spec.name}] nothing new to validate "
+              f"({len(existing)} already configured).")
+        return 0
+
+    print(f"  [{spec.name}] validating {len(todo)} new candidates ...")
+    added = 0
+    with ThreadPoolExecutor(max_workers=_VALIDATE_WORKERS) as pool:
+        for cand, ok in zip(todo, pool.map(spec.validate, todo)):
+            if not ok:
+                continue
+            existing.append(cand)
+            existing_keys.add(spec.key(cand))
+            added += 1
+            print(f"    + [{spec.name}] {cand.get('name')}")
+    _save_config(spec, existing)
+    print(f"  [{spec.name}] added {added}, total {len(existing)}.")
+    return added
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CLI
+# ─────────────────────────────────────────────────────────────────────────────
+
 def main() -> int:
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--seeds-only", action="store_true",
-                    help="skip Common Crawl, GitHub, and JobSpy harvests")
-    ap.add_argument("--no-github", action="store_true",
-                    help="skip GitHub harvest")
-    ap.add_argument("--no-cc", action="store_true",
-                    help="skip Common Crawl harvest")
-    ap.add_argument("--no-jobspy", action="store_true",
-                    help="skip JobSpy harvest")
+                    help="only harvest from config/seeds.txt")
+    ap.add_argument("--no-github", action="store_true", help="skip GitHub lists")
+    ap.add_argument("--no-jobspy", action="store_true", help="skip JobSpy harvest")
+    ap.add_argument("--no-cc", action="store_true", help="skip Common Crawl")
+    ap.add_argument("--ats", default="",
+                    help="comma-separated ATS subset, e.g. greenhouse,ashby")
+    ap.add_argument("--cc-max-pages", type=int, default=40,
+                    help="max CDX pages per index/pattern pair (a page is a "
+                         "multi-thousand-URL block)")
+    ap.add_argument("--cc-indexes", type=int, default=3,
+                    help="how many of the newest CC indexes to query")
     args = ap.parse_args()
 
-    # ── Workday discovery ────────────────────────────────────────────────────
-    candidates = harvest_from_seeds()
+    specs = ATS_SPECS
+    if args.ats:
+        wanted = {s.strip().lower() for s in args.ats.split(",") if s.strip()}
+        unknown = wanted - {s.name for s in ATS_SPECS}
+        if unknown:
+            print(f"Unknown ATS name(s): {', '.join(sorted(unknown))}. "
+                  f"Known: {', '.join(s.name for s in ATS_SPECS)}")
+            return 1
+        specs = [s for s in ATS_SPECS if s.name in wanted]
+
+    found: dict[str, list[dict]] = {s.name: [] for s in specs}
+
+    print("Harvesting from seeds.txt ...")
+    _merge_found(found, harvest_from_seeds(specs))
 
     if not args.seeds_only and not args.no_github:
-        print("Harvesting from GitHub internship/new-grad repos ...")
-        candidates += harvest_from_github()
+        print("Harvesting from GitHub job lists ...")
+        _merge_found(found, harvest_from_github(specs))
 
     if not args.seeds_only and not args.no_jobspy:
-        print("Harvesting Workday URLs from job boards via JobSpy ...")
-        candidates += harvest_from_jobspy()
+        print("Harvesting ATS URLs from job boards via JobSpy ...")
+        _merge_found(found, harvest_from_jobspy(specs))
 
     if not args.seeds_only and not args.no_cc:
-        print("Harvesting candidates from Common Crawl ...")
-        candidates += harvest_from_common_crawl()
+        print("Harvesting from Common Crawl ...")
+        _merge_found(found, harvest_from_common_crawl(
+            specs, max_pages=args.cc_max_pages, num_indexes=args.cc_indexes))
 
-    candidates = _dedupe(candidates)
-    print(f"\n{len(candidates)} unique Workday candidate tenants. Validating ...")
+    print("\nRaw candidates per ATS:")
+    for spec in specs:
+        uniq = len(_dedupe(spec, found.get(spec.name, [])))
+        print(f"  {spec.name:<16} {len(found.get(spec.name, [])):>7} raw "
+              f"/ {uniq} unique")
 
-    wd_companies, wd_keys = _load_existing_yaml(_COMPANIES)
-    wd_added = 0
-    for c in candidates:
-        key = (c["tenant"], c["wd"], c["site"])
-        if key in wd_keys:
-            continue
-        if _validate(c):
-            c["name"] = c["tenant"]
-            wd_companies.append(c)
-            wd_keys.add(key)
-            wd_added += 1
-            print(f"  + [workday] {c['tenant']} / {c['site']}")
-        time.sleep(0.3)
-
-    _save_yaml(_COMPANIES, wd_companies)
-    print(f"Workday: added {wd_added}, total {len(wd_companies)}.")
-
-    # ── Greenhouse discovery ─────────────────────────────────────────────────
-    gh_candidates: list[dict] = []
-    if not args.seeds_only and not args.no_github:
-        print("\nHarvesting Greenhouse tokens from GitHub repos ...")
-        gh_candidates += harvest_greenhouse_from_github()
-
-    gh_companies, gh_keys = _load_existing_yaml(_GH_COMPANIES)
-    gh_added = 0
-    for c in gh_candidates:
-        if c["token"] in gh_keys:
-            continue
-        if _validate_greenhouse(c["token"]):
-            gh_companies.append(c)
-            gh_keys.add(c["token"])
-            gh_added += 1
-            print(f"  + [greenhouse] {c['token']}")
-        time.sleep(0.3)
-
-    _save_yaml(_GH_COMPANIES, gh_companies)
-    print(f"Greenhouse: added {gh_added}, total {len(gh_companies)}.")
-
-    # ── Lever discovery ──────────────────────────────────────────────────────
-    lv_candidates: list[dict] = []
-    if not args.seeds_only and not args.no_github:
-        print("\nHarvesting Lever slugs from GitHub repos ...")
-        lv_candidates += harvest_lever_from_github()
-
-    lv_companies, lv_keys = _load_existing_yaml(_LV_COMPANIES)
-    lv_added = 0
-    for c in lv_candidates:
-        if c["slug"] in lv_keys:
-            continue
-        if _validate_lever(c["slug"]):
-            lv_companies.append(c)
-            lv_keys.add(c["slug"])
-            lv_added += 1
-            print(f"  + [lever] {c['slug']}")
-        time.sleep(0.3)
-
-    _save_yaml(_LV_COMPANIES, lv_companies)
-    print(f"Lever: added {lv_added}, total {len(lv_companies)}.")
+    print("\nValidating and merging into config files ...")
+    totals = {}
+    for spec in specs:
+        totals[spec.name] = validate_and_merge(spec, found.get(spec.name, []))
 
     _clear_checkpoint()
-    print(f"\nDone. Workday +{wd_added}  Greenhouse +{gh_added}  Lever +{lv_added}")
+    summary = "  ".join(f"{k} +{v}" for k, v in totals.items())
+    print(f"\nDone. {summary}")
     return 0
 
 

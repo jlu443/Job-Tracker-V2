@@ -17,6 +17,7 @@ max_pages_per_term: 50  # safety cap: 50 * 20 = 1000 jobs per term
 # Politeness
 request_timeout: 30     # seconds
 delay_between_requests: 0.5  # seconds, to avoid hammering a tenant
+scrape_workers: 8       # companies scraped concurrently (different hosts)
 
 # Classification: keyword pass is always on. The zero-shot fallback (facebook/bart-large-mnli)
 # only runs for ambiguous titles when this is true. Model downloads ~1.6GB on first use.
@@ -30,6 +31,8 @@ jobspy:
     - indeed
     - glassdoor
     - zip_recruiter
+  # glassdoor and zip_recruiter require a residential proxy from CI (set JOBSPY_PROXY secret).
+  # Without it, only Indeed works from GitHub Actions datacenter IPs.
   search_terms:
     - software engineer intern
     - software engineering internship

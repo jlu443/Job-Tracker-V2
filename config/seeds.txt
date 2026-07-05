@@ -1,11 +1,18 @@
-# Hand-curated Workday careers URLs (one per line) for the discovery step.
-# discover.py parses tenant/wd/site out of each and validates against the API.
-# Add any company careers URL of the form:
-#   https://{tenant}.{wd}.myworkdayjobs.com/{SiteName}
-# Lines starting with # are ignored.
+# Hand-curated careers URLs (one per line) for the discovery step.
+# Any supported ATS URL works — discover.py extracts the tenant/token/slug and
+# validates it against the ATS's public API before saving:
 #
-# IMPORTANT: Only add URLs that you have verified work (i.e. the full URL loads
-# a real Workday careers page). The site path segment is not guessable — get it
-# from the actual URL in your browser.
+#   Workday         https://{tenant}.{wd}.myworkdayjobs.com/{SiteName}
+#   Greenhouse      https://boards.greenhouse.io/{token}  or  https://job-boards.greenhouse.io/{token}
+#   Lever           https://jobs.lever.co/{slug}
+#   Ashby           https://jobs.ashbyhq.com/{slug}
+#   SmartRecruiters https://jobs.smartrecruiters.com/{Company}
+#   Workable        https://apply.workable.com/{slug}
+#
+# Lines starting with # are ignored. Invalid or jobless boards are simply
+# skipped at validation time, so it's safe to paste any careers URL here.
 
 https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite
+https://jobs.ashbyhq.com/openai
+https://jobs.smartrecruiters.com/ServiceNow
+https://apply.workable.com/netguru

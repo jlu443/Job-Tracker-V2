@@ -27,7 +27,7 @@ config/companies.yaml ──▶ scraper ──▶ classifier ──▶ SQLite �
 | Classify | [src/classify.py](src/classify.py) | Title → `intern \| new_grad \| mid \| senior`. Keyword pass first; Claude Haiku only for ambiguous titles |
 | Persist | [src/db.py](src/db.py) | SQLite upsert keyed on Workday job id; tracks `first_seen` / `last_seen` / `status` |
 | Notify | [src/notify.py](src/notify.py) | Posts `first_seen == this run` jobs to a Discord webhook (each job once) |
-| Discover | [src/discover.py](src/discover.py) | Harvests + validates new Workday tenants into `companies.yaml` |
+| Discover | [src/discover.py](src/discover.py) | Harvests careers URLs from seeds, GitHub job lists, JobSpy postings, and the Common Crawl URL index; every source feeds every ATS (Workday, Greenhouse, Lever, Ashby, SmartRecruiters, Workable). Candidates are validated against each ATS's public API and merged into the per-ATS config files |
 
 ## Setup
 
