@@ -16,6 +16,12 @@ from . import (ashby_scraper, classify, db, greenhouse_scraper, jobspy_scraper,
                lever_scraper, notify, scraper, sheets, smartrecruiters_scraper,
                workable_scraper)
 
+# Windows consoles default to cp1252; job titles are frequently Unicode.
+# Never let a print() kill the run after the DB has already synced.
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, "reconfigure"):
+        _stream.reconfigure(errors="replace")
+
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _DB_PATH = os.path.join(_ROOT, "data", "jobs.db")
 _CONFIG_DIR = os.path.join(_ROOT, "config")

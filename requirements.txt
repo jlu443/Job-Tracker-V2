@@ -1,5 +1,9 @@
 requests>=2.31
 PyYAML>=6.0
-transformers>=4.40
-torch>=2.0
 python-jobspy>=1.1.80
+
+# Only needed when use_llm_fallback is true in config/settings.yaml (zero-shot
+# classification). Not installed in CI: the CUDA torch build alone is ~5GB and
+# the fallback is too slow on CPU runners at current posting volume.
+# transformers>=4.40
+# torch>=2.0
