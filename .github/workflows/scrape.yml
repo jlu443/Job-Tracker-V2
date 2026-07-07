@@ -2,8 +2,9 @@ name: scrape-jobs
 
 on:
   schedule:
-    # Every 2 hours. Note: GitHub cron is best-effort and often runs late.
-    - cron: "0 */2 * * *"
+    # Every hour. Note: GitHub cron is best-effort and often runs late,
+    # especially at the top of the hour — expect some jitter or skipped slots.
+    - cron: "0 * * * *"
   workflow_dispatch: {}   # allow manual runs from the Actions tab
 
 # Allow the job to push the updated DB back to the repo.
