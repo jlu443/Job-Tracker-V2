@@ -1,75 +1,103 @@
 # Job Tracker V2
 
-Tracks intern / new-grad / tech roles across companies that use **Workday**, and
-announces newly-posted jobs to a Discord channel.
+Tracks intern / new-grad tech roles across **~2,800 company job boards** spanning
+six applicant-tracking systems — **Workday, Greenhouse, Lever, Ashby,
+SmartRecruiters, Workable** — plus external job boards (**Indeed, Glassdoor,
+ZipRecruiter** via JobSpy), and announces newly-posted intern/new-grad US jobs
+to a **Discord channel** and a **Google Sheet**.
 
-It works by calling Workday's own JSON jobs API directly — no browser, no DOM
-scraping, no "black box" link extraction. Every Workday career site exposes:
+Every ATS scraper calls that platform's own public JSON API directly — no
+browser, no DOM scraping. For example, every Workday career site exposes:
 
 ```
 POST https://{tenant}.{wd}.myworkdayjobs.com/wday/cxs/{tenant}/{site}/jobs
 ```
 
 which returns structured job rows (title, location, apply path, stable job id).
+Greenhouse, Lever, Ashby, SmartRecruiters, and Workable have equivalent public
+endpoints.
 
 ## How it works
 
 ```
-config/companies.yaml ──▶ scraper ──▶ classifier ──▶ SQLite ──▶ Discord
-   (validated tenants)     (JSON API)  (keyword +     (new/      (announce
-                                        Haiku)         updated/    new jobs
-                                                       removed)    once)
+config/*.yaml ──▶ scrapers ──▶ classifier ──▶ SQLite ──▶ Discord + Google Sheets
+ (per-ATS         (6 ATS JSON   (keyword +     (new/       (announce new
+  company lists)   APIs +        zero-shot      updated/     intern/new_grad
+                   JobSpy)       fallback)      removed)     US jobs, once)
 ```
 
 | Step | File | What it does |
 |---|---|---|
-| Scrape | [src/scraper.py](src/scraper.py) | Pages the Workday jobs API per company + search term |
-| Classify | [src/classify.py](src/classify.py) | Title → `intern \| new_grad \| mid \| senior`. Keyword pass first; Claude Haiku only for ambiguous titles |
-| Persist | [src/db.py](src/db.py) | SQLite upsert keyed on Workday job id; tracks `first_seen` / `last_seen` / `status` |
-| Notify | [src/notify.py](src/notify.py) | Posts `first_seen == this run` jobs to a Discord webhook (each job once) |
-| Discover | [src/discover.py](src/discover.py) | Harvests careers URLs from seeds, GitHub job lists, JobSpy postings, and the Common Crawl URL index; every source feeds every ATS (Workday, Greenhouse, Lever, Ashby, SmartRecruiters, Workable). Candidates are validated against each ATS's public API and merged into the per-ATS config files |
+| Scrape | [src/scraper.py](src/scraper.py) (Workday), [greenhouse_scraper.py](src/greenhouse_scraper.py), [lever_scraper.py](src/lever_scraper.py), [ashby_scraper.py](src/ashby_scraper.py), [smartrecruiters_scraper.py](src/smartrecruiters_scraper.py), [workable_scraper.py](src/workable_scraper.py) | One module per ATS, each hitting that platform's public jobs API. Companies are scraped concurrently (`scrape_workers` threads) over pooled HTTP connections ([src/http_pool.py](src/http_pool.py)) |
+| External boards | [src/jobspy_scraper.py](src/jobspy_scraper.py) | Indeed / Glassdoor / ZipRecruiter via JobSpy, normalized into the same posting shape. LinkedIn is excluded (blocks datacenter IPs) |
+| Classify | [src/classify.py](src/classify.py) | Title → `intern \| new_grad \| mid \| senior`. Deterministic keyword/regex pass first; an optional local zero-shot model (`facebook/bart-large-mnli`) handles ambiguous titles when `use_llm_fallback` is on. Only genuinely new postings are classified, in one batched pass |
+| Persist | [src/db.py](src/db.py) | SQLite upsert keyed on job id; tracks `first_seen` / `last_seen` / `status` / `source` |
+| Notify | [src/notify.py](src/notify.py) | Posts `first_seen == this run` jobs to a Discord webhook — filtered to **intern/new_grad roles in the US** — each job announced once |
+| Sheet sync | [src/sheets.py](src/sheets.py) | Appends the same new jobs to a Google Sheet via an Apps Script webhook ([docs/apps_script.gs](docs/apps_script.gs)) |
+| Discover | [src/discover.py](src/discover.py) | Harvests careers URLs from seeds, GitHub job lists, JobSpy postings, and the Common Crawl URL index; every source feeds every ATS. Candidates are validated against each ATS's public API and merged into the per-ATS config files |
+| Coverage | [src/coverage.py](src/coverage.py) | Reports the discovery funnel per ATS (candidates surfaced → validated into config) to answer "are we missing companies?" |
 
 ## Setup
 
 ```bash
 pip install -r requirements.txt
-cp .env.example .env   # optional: add keys for local runs
+cp .env.example .env   # optional: add webhook URLs for local runs
 ```
 
 ## Run locally
 
 ```bash
-python -m src.main        # scrape + classify + persist + announce
-python -m src.discover    # find new Workday companies (slow; run occasionally)
+python -m src.main                    # scrape + classify + persist + announce
+python -m src.discover                # find new company boards (slow; run occasionally)
+python -m src.discover --seeds-only   # fast smoke test of discovery
+python -m src.coverage --quick        # per-ATS config stats without re-harvesting
 ```
 
-Without `ANTHROPIC_API_KEY`, classification uses the keyword pass only (the
-Haiku tiebreaker is skipped). Without `DISCORD_WEBHOOK_URL`, new jobs print to
-stdout instead of posting.
+Without `DISCORD_WEBHOOK_URL`, new jobs print to stdout instead of posting.
+Without `GOOGLE_SHEETS_WEBHOOK_URL`, the sheet sync is skipped.
 
 ## Configuration
 
-- **`config/companies.yaml`** — the companies to scrape. Each needs `tenant`,
-  `wd`, and `site`, all readable from a careers URL
-  `https://{tenant}.{wd}.myworkdayjobs.com/{site}`. `discover.py` appends to it.
-- **`config/settings.yaml`** — search terms, pagination caps, politeness delays,
-  and the LLM-fallback toggle.
-- **`config/seeds.txt`** — hand-curated careers URLs for the discovery step.
+- **Per-ATS company lists** — [config/companies.yaml](config/companies.yaml)
+  (Workday), [greenhouse.yaml](config/greenhouse.yaml),
+  [lever.yaml](config/lever.yaml), [ashby.yaml](config/ashby.yaml),
+  [smartrecruiters.yaml](config/smartrecruiters.yaml),
+  [workable.yaml](config/workable.yaml). `discover.py` appends validated boards
+  to these; existing entries are always preserved.
+- **[config/settings.yaml](config/settings.yaml)** — search terms, pagination
+  caps, politeness delays, scrape concurrency, the zero-shot-fallback toggle,
+  and JobSpy settings (sites, search terms, location, recency window).
+- **[config/seeds.txt](config/seeds.txt)** — hand-curated careers URLs for the
+  discovery step.
+
+### Classification fallback
+
+The keyword pass is always on and free. The zero-shot fallback
+(`use_llm_fallback: true`) runs `facebook/bart-large-mnli` locally — no API
+key, but a ~1.6 GB one-time model download, and it needs `transformers` +
+`torch` (commented out in [requirements.txt](requirements.txt)). It's **off in
+CI**: classifying thousands of ambiguous titles on a CPU runner takes hours.
+Inconclusive titles default to `mid`, which is never announced anyway.
 
 ## Scheduling (GitHub Actions, $0 hosting)
 
-[.github/workflows/scrape.yml](.github/workflows/scrape.yml) runs every 6 hours,
+[.github/workflows/scrape.yml](.github/workflows/scrape.yml) runs **hourly**,
 then commits the updated `data/jobs.db` back to the repo so state survives
-between runs on ephemeral runners.
+between runs on ephemeral runners. A concurrency group prevents two runs from
+racing on the committed DB, and the DB is committed even if a late step fails
+so postings aren't re-announced next run.
 
 To enable:
 
 1. Push this repo to GitHub.
-2. In **Settings → Secrets and variables → Actions**, add:
-   - `ANTHROPIC_API_KEY` (optional — for the Haiku classifier)
-   - `DISCORD_WEBHOOK_URL` (optional — for announcements)
-3. The workflow needs write permission to push the DB; it's already declared via
-   `permissions: contents: write`. Confirm **Settings → Actions → General →
+2. In **Settings → Secrets and variables → Actions**, add (all optional):
+   - `DISCORD_WEBHOOK_URL` — for Discord announcements
+   - `GOOGLE_SHEETS_WEBHOOK_URL` — for the Google Sheet sync (see
+     [docs/apps_script.gs](docs/apps_script.gs) for the one-time setup)
+   - `JOBSPY_PROXY` — residential proxy; without it only Indeed works from
+     GitHub's datacenter IPs (Glassdoor/ZipRecruiter block them)
+3. The workflow needs write permission to push the DB; it's already declared
+   via `permissions: contents: write`. Confirm **Settings → Actions → General →
    Workflow permissions** allows read/write.
 
 **Known tradeoffs of this hosting choice:**
@@ -81,14 +109,16 @@ To enable:
 
 ```sql
 CREATE TABLE jobs (
-    job_id      TEXT PRIMARY KEY,   -- Workday id, e.g. JR2016444
+    job_id      TEXT PRIMARY KEY,   -- ATS-native id, or a hash for external boards
     company     TEXT NOT NULL,
     title       TEXT NOT NULL,
     apply_url   TEXT NOT NULL,
     location    TEXT,
     role_type   TEXT CHECK(role_type IN ('intern','new_grad','mid','senior')),
+    posted_on   TEXT NOT NULL DEFAULT '',       -- posting date when the source provides one
+    source      TEXT NOT NULL DEFAULT 'workday', -- which ATS/board it came from
     first_seen  TEXT NOT NULL,      -- ISO-8601, set once
     last_seen   TEXT NOT NULL,      -- bumped every run the job is still live
-    status      TEXT DEFAULT 'active'  -- 'removed' when it drops out
+    status      TEXT NOT NULL DEFAULT 'active'  -- 'removed' when it drops out
 );
 ```
