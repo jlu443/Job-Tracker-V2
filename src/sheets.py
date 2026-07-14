@@ -16,9 +16,11 @@ import os
 import requests
 
 # The columns we send, in order. The Apps Script writes these as a header row
-# once and appends a row per job.
+# once and appends a row per job. (Sheets created before the enrichment
+# columns existed keep their old header; add the three names manually.)
 _COLUMNS = ["first_seen", "company", "title", "role_type", "location",
-            "posted_on", "source", "apply_url", "job_id"]
+            "posted_on", "source", "apply_url", "job_id",
+            "sponsorship", "clearance", "grad_year"]
 
 
 def _row(job: dict) -> list:

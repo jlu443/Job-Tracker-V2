@@ -20,6 +20,9 @@ CREATE TABLE IF NOT EXISTS jobs (
     role_type   TEXT CHECK(role_type IN ('intern','new_grad','mid','senior')),
     posted_on   TEXT NOT NULL DEFAULT '',
     source      TEXT NOT NULL DEFAULT 'workday',
+    sponsorship TEXT NOT NULL DEFAULT '',
+    clearance   TEXT NOT NULL DEFAULT '',
+    grad_year   TEXT NOT NULL DEFAULT '',
     first_seen  TEXT NOT NULL,
     last_seen   TEXT NOT NULL,
     status      TEXT NOT NULL DEFAULT 'active'
@@ -31,6 +34,9 @@ CREATE INDEX IF NOT EXISTS idx_jobs_role   ON jobs(role_type);
 _MIGRATIONS = [
     "ALTER TABLE jobs ADD COLUMN posted_on TEXT NOT NULL DEFAULT ''",
     "ALTER TABLE jobs ADD COLUMN source TEXT NOT NULL DEFAULT 'workday'",
+    "ALTER TABLE jobs ADD COLUMN sponsorship TEXT NOT NULL DEFAULT ''",
+    "ALTER TABLE jobs ADD COLUMN clearance TEXT NOT NULL DEFAULT ''",
+    "ALTER TABLE jobs ADD COLUMN grad_year TEXT NOT NULL DEFAULT ''",
 ]
 
 
@@ -65,6 +71,28 @@ def existing_ids(conn: sqlite3.Connection) -> set[str]:
     return {r[0] for r in conn.execute("SELECT job_id FROM jobs")}
 
 
+def active_keys(conn: sqlite3.Connection, key_fn) -> set[str]:
+    """key_fn(company, title, location) over every active row — used to spot
+    re-listings of already-tracked jobs under a new id/source."""
+    rows = conn.execute(
+        "SELECT company, title, location FROM jobs WHERE status = 'active'")
+    return {k for k in (key_fn(r["company"], r["title"], r["location"])
+                        for r in rows) if k}
+
+
+def update_enrichment(conn: sqlite3.Connection, jobs: list[dict]) -> None:
+    """Persist the flags enrich.enrich_jobs() set on the job dicts."""
+    if not jobs:
+        return
+    conn.executemany(
+        "UPDATE jobs SET sponsorship = ?, clearance = ?, grad_year = ? "
+        "WHERE job_id = ?",
+        [(j.get("sponsorship", ""), j.get("clearance", ""),
+          j.get("grad_year", ""), j["job_id"]) for j in jobs],
+    )
+    conn.commit()
+
+
 def sync(conn: sqlite3.Connection, postings: list, role_for) -> UpsertResult:
     """Reconcile this run's postings against the DB.
 
@@ -94,6 +122,10 @@ def sync(conn: sqlite3.Connection, postings: list, role_for) -> UpsertResult:
                 "job_id": p.job_id, "company": p.company, "title": p.title,
                 "apply_url": p.apply_url, "location": p.location,
                 "role_type": role, "posted_on": p.posted_on, "source": source,
+                "first_seen": now,
+                # scrape-time description (JobSpy only) for the enrichment pass
+                "description": getattr(p, "description", ""),
+                "sponsorship": "", "clearance": "", "grad_year": "",
             })
         else:
             conn.execute(

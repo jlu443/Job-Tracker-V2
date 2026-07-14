@@ -30,6 +30,16 @@ def _embed(job: dict) -> dict:
     ]
     if job.get("posted_on"):
         fields.append({"name": "Posted", "value": job["posted_on"], "inline": True})
+    # Flags parsed from the job description by enrich.py.
+    sponsorship = job.get("sponsorship")
+    if sponsorship == "no":
+        fields.append({"name": "Sponsorship", "value": "❌ Not offered", "inline": True})
+    elif sponsorship == "yes":
+        fields.append({"name": "Sponsorship", "value": "✅ Offered", "inline": True})
+    if job.get("clearance"):
+        fields.append({"name": "Clearance", "value": "🔒 Required", "inline": True})
+    if job.get("grad_year"):
+        fields.append({"name": "Grad year", "value": job["grad_year"], "inline": True})
     return {
         "title": job["title"][:256],
         "url": job["apply_url"],

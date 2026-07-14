@@ -26,6 +26,15 @@ scrape_workers: 8       # companies scraped concurrently (different hosts)
 # announced anyway, so the fallback adds nothing for notifications.
 use_llm_fallback: false
 
+# Enrichment: fetch the full description of each new intern/new_grad posting
+# (a handful of extra requests per run) and parse it into flags — visa
+# sponsorship (no/yes), security clearance, graduation-year window. Flags show
+# up in the Discord embed, the Google Sheet, and the DB.
+enrich_descriptions: true
+# When true, jobs whose description explicitly rules out visa sponsorship
+# (or requires US citizenship) are dropped from Discord/Sheets announcements.
+exclude_no_sponsorship: false
+
 # External job board scraping via JobSpy (Indeed, Glassdoor, ZipRecruiter).
 # LinkedIn is intentionally excluded — it blocks datacenter IPs (GitHub Actions).
 jobspy:

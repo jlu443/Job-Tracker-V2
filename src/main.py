@@ -12,9 +12,9 @@ from concurrent.futures import ThreadPoolExecutor
 
 import yaml
 
-from . import (ashby_scraper, classify, db, greenhouse_scraper, jobspy_scraper,
-               lever_scraper, notify, scraper, sheets, smartrecruiters_scraper,
-               workable_scraper)
+from . import (ashby_scraper, classify, db, dedupe, enrich, greenhouse_scraper,
+               jobspy_scraper, lever_scraper, notify, scraper, sheets,
+               smartrecruiters_scraper, workable_scraper)
 
 # Windows consoles default to cp1252; job titles are frequently Unicode.
 # Never let a print() kill the run after the DB has already synced.
@@ -94,6 +94,12 @@ def main() -> int:
 
     print(f"\nTotal postings this run: {len(all_postings)}")
 
+    # Same role listed on both an ATS board and an aggregator: keep the
+    # first-party copy (ATS boards were scraped first).
+    all_postings, cross_dupes = dedupe.dedupe_postings(all_postings)
+    if cross_dupes:
+        print(f"Dropped {cross_dupes} cross-source duplicate postings.")
+
     # Classify only genuinely new postings, in one batched pass — calling the
     # zero-shot model per title serially is what blows up CI runtime.
     t0 = time.time()
@@ -104,6 +110,9 @@ def main() -> int:
     role_by_id = {p.job_id: r for p, r in zip(new_postings, roles)}
     print(f"Classification done in {time.time() - t0:.0f}s")
 
+    # Snapshot before sync so "already tracked" means "active before this run".
+    prior_keys = db.active_keys(conn, dedupe.fuzzy_key)
+
     result = db.sync(
         conn,
         all_postings,
@@ -113,8 +122,29 @@ def main() -> int:
     print(f"New: {len(result.new_jobs)}  Updated: {result.updated}  "
           f"Removed: {result.removed}")
 
-    notify.post_new_jobs(result.new_jobs)
-    sheets.post_new_jobs(result.new_jobs)
+    # A "new" row whose company/title/location matches a job that was already
+    # active is a re-listing (new req id, or Indeed↔ATS crossover) — store it,
+    # but don't announce it again.
+    fresh = [j for j in result.new_jobs
+             if dedupe.fuzzy_key(j["company"], j["title"], j["location"])
+             not in prior_keys]
+    if len(fresh) != len(result.new_jobs):
+        print(f"Suppressed {len(result.new_jobs) - len(fresh)} re-listings "
+              "of already-tracked jobs.")
+
+    # Parse descriptions of announceable postings into relevance flags.
+    targets = [j for j in fresh if j["role_type"] in ("intern", "new_grad")]
+    if settings.get("enrich_descriptions", True) and targets:
+        enrich.enrich_jobs(targets)
+        db.update_enrichment(conn, targets)
+        if settings.get("exclude_no_sponsorship"):
+            before = len(fresh)
+            fresh = [j for j in fresh if j.get("sponsorship") != "no"]
+            if len(fresh) != before:
+                print(f"Excluded {before - len(fresh)} no-sponsorship jobs.")
+
+    notify.post_new_jobs(fresh)
+    sheets.post_new_jobs(fresh)
     conn.close()
     return 0
 

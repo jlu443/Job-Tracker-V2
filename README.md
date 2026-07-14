@@ -20,19 +20,22 @@ endpoints.
 ## How it works
 
 ```
-config/*.yaml ──▶ scrapers ──▶ classifier ──▶ SQLite ──▶ Discord + Google Sheets
- (per-ATS         (6 ATS JSON   (keyword +     (new/       (announce new
-  company lists)   APIs +        zero-shot      updated/     intern/new_grad
-                   JobSpy)       fallback)      removed)     US jobs, once)
+config/*.yaml ──▶ scrapers ──▶ dedupe ──▶ classifier ──▶ SQLite ──▶ enrich ──▶ Discord + Sheets
+ (per-ATS         (6 ATS JSON   (drop        (keyword +    (new/      (parse desc:  (announce new
+  company lists)   APIs +        cross-source  zero-shot    updated/    sponsorship,  intern/new_grad
+                   JobSpy)       duplicates)   fallback)    removed)    clearance,    US jobs, once)
+                                                                        grad year)
 ```
 
 | Step | File | What it does |
 |---|---|---|
 | Scrape | [src/scraper.py](src/scraper.py) (Workday), [greenhouse_scraper.py](src/greenhouse_scraper.py), [lever_scraper.py](src/lever_scraper.py), [ashby_scraper.py](src/ashby_scraper.py), [smartrecruiters_scraper.py](src/smartrecruiters_scraper.py), [workable_scraper.py](src/workable_scraper.py) | One module per ATS, each hitting that platform's public jobs API. Companies are scraped concurrently (`scrape_workers` threads) over pooled HTTP connections ([src/http_pool.py](src/http_pool.py)) |
-| External boards | [src/jobspy_scraper.py](src/jobspy_scraper.py) | Indeed / Glassdoor / ZipRecruiter via JobSpy, normalized into the same posting shape. LinkedIn is excluded (blocks datacenter IPs) |
+| External boards | [src/jobspy_scraper.py](src/jobspy_scraper.py) | Indeed / Glassdoor / ZipRecruiter via JobSpy, scraped per-site and normalized into the same posting shape (descriptions kept for enrichment). Sites that block datacenter IPs go through `JOBSPY_PROXY` in CI; Indeed always goes direct |
+| Dedupe | [src/dedupe.py](src/dedupe.py) | Drops cross-source duplicates within a run (first-party ATS copy wins over aggregators) and suppresses re-announcing a job already tracked under another id/source, via a fuzzy (company, title, city) key |
 | Classify | [src/classify.py](src/classify.py) | Title → `intern \| new_grad \| mid \| senior`. Deterministic keyword/regex pass first; an optional local zero-shot model (`facebook/bart-large-mnli`) handles ambiguous titles when `use_llm_fallback` is on. Only genuinely new postings are classified, in one batched pass |
 | Persist | [src/db.py](src/db.py) | SQLite upsert keyed on job id; tracks `first_seen` / `last_seen` / `status` / `source` |
-| Notify | [src/notify.py](src/notify.py) | Posts `first_seen == this run` jobs to a Discord webhook — filtered to **intern/new_grad roles in the US** — each job announced once |
+| Enrich | [src/enrich.py](src/enrich.py) | Fetches the full description of each new intern/new_grad posting from the ATS's detail API and parses it into flags: visa sponsorship (`no`/`yes`), security clearance, graduation-year window. Flags land in the DB, the Discord embed, and the Sheet |
+| Notify | [src/notify.py](src/notify.py) | Posts `first_seen == this run` jobs to a Discord webhook — filtered to **intern/new_grad roles in the US** — each job announced once, with sponsorship/clearance/grad-year flags when found |
 | Sheet sync | [src/sheets.py](src/sheets.py) | Appends the same new jobs to a Google Sheet via an Apps Script webhook ([docs/apps_script.gs](docs/apps_script.gs)) |
 | Discover | [src/discover.py](src/discover.py) | Harvests careers URLs from seeds, GitHub job lists, JobSpy postings, and the Common Crawl URL index; every source feeds every ATS. Candidates are validated against each ATS's public API and merged into the per-ATS config files |
 | Coverage | [src/coverage.py](src/coverage.py) | Reports the discovery funnel per ATS (candidates surfaced → validated into config) to answer "are we missing companies?" |
@@ -66,7 +69,9 @@ Without `GOOGLE_SHEETS_WEBHOOK_URL`, the sheet sync is skipped.
   to these; existing entries are always preserved.
 - **[config/settings.yaml](config/settings.yaml)** — search terms, pagination
   caps, politeness delays, scrape concurrency, the zero-shot-fallback toggle,
-  and JobSpy settings (sites, search terms, location, recency window).
+  JobSpy settings (sites, search terms, location, recency window), and the
+  enrichment toggles (`enrich_descriptions`, plus `exclude_no_sponsorship` to
+  drop jobs that explicitly rule out visa sponsorship from announcements).
 - **[config/seeds.txt](config/seeds.txt)** — hand-curated careers URLs for the
   discovery step.
 
@@ -117,6 +122,9 @@ CREATE TABLE jobs (
     role_type   TEXT CHECK(role_type IN ('intern','new_grad','mid','senior')),
     posted_on   TEXT NOT NULL DEFAULT '',       -- posting date when the source provides one
     source      TEXT NOT NULL DEFAULT 'workday', -- which ATS/board it came from
+    sponsorship TEXT NOT NULL DEFAULT '',       -- 'no' | 'yes' | '' (parsed from description)
+    clearance   TEXT NOT NULL DEFAULT '',       -- 'yes' when a clearance is required
+    grad_year   TEXT NOT NULL DEFAULT '',       -- e.g. '2026' or '2026, 2027'
     first_seen  TEXT NOT NULL,      -- ISO-8601, set once
     last_seen   TEXT NOT NULL,      -- bumped every run the job is still live
     status      TEXT NOT NULL DEFAULT 'active'  -- 'removed' when it drops out
