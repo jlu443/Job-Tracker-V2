@@ -2,9 +2,10 @@ name: scrape-jobs
 
 on:
   schedule:
-    # Every hour. Note: GitHub cron is best-effort and often runs late,
-    # especially at the top of the hour — expect some jitter or skipped slots.
-    - cron: "0 * * * *"
+    # Every hour, at an off-peak minute: GitHub drops/delays scheduled runs
+    # when the top of the hour is congested (":00" was yielding a run only
+    # every 3-5 hours).
+    - cron: "23 * * * *"
   workflow_dispatch: {}   # allow manual runs from the Actions tab
 
 # Allow the job to push the updated DB back to the repo.
@@ -29,7 +30,10 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      - run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt pytest
+
+      # Guard the committed DB: a broken parser/migration must not run.
+      - run: python -m pytest -q tests
 
       # (HuggingFace model cache removed: use_llm_fallback is off in CI —
       # bart-large-mnli on a CPU runner can't classify this volume in time.

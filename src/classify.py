@@ -14,18 +14,77 @@ ROLE_TYPES = ("intern", "new_grad", "mid", "senior")
 
 # Ordered most-specific first. First matching pattern wins.
 _RULES: list[tuple[str, str]] = [
-    (r"\b(intern|internship|co-?op|summer\s+(?:analyst|associate))\b", "intern"),
-    (r"\b(new\s*grad|new\s*graduate|university\s*grad|campus|early\s*career|"
-     r"entry[\s-]*level|graduate\s+(?:program|engineer|analyst)|associate\s+"
-     r"(?:engineer|developer))\b", "new_grad"),
+    (r"\b(intern|interns|internship|co-?op|summer\s+(?:analyst|associate)|"
+     r"working\s+student|student|apprentice(?:ship)?|fellowship|externship)\b",
+     "intern"),
+    (r"\b(new\s*grad|new\s*graduate|new\s+college\s+grad(?:uate)?|ncg|"
+     r"university\s*grad(?:uate)?|recent\s+grad(?:uate)?|campus|"
+     r"early\s*(?:career|talent|in\s+career)|entry[\s-]*level|"
+     r"graduate\s+(?:program|engineer|analyst|scientist|researcher|developer)|"
+     r"class\s+of\s+20\d\d|rotation(?:al)?\s+(?:program|engineer)|"
+     r"leadership\s+development\s+program|residency|junior|jr\.?|"
+     r"associate\s+(?:software\s+)?(?:engineer|developer|product\s+manager|"
+     r"data\s+scientist)|apm)\b", "new_grad"),
+    # "Software Engineer I", "Analyst 1" — level one of a laddered title.
+    (r"\b(?:engineer|developer|analyst|scientist|programmer|technician|"
+     r"designer|specialist)\s*(?:i|1)\b", "new_grad"),
+    # "Data Scientist - PhD (2026)": degree plus a graduation year.
+    (r"\b(?:phd|ph\.d|ms|m\.s|bs|b\.s|masters?|bachelors?)\b.{0,20}\b20[2-3]\d\b",
+     "new_grad"),
     (r"\b(senior|sr\.?|staff|principal|lead|architect|distinguished|"
      r"director|head\s+of|vp|manager|mgr|fellow)\b", "senior"),
     (r"\b(iii|iv|v)\b", "senior"),
-    (r"\b(ii)\b", "mid"),
+    (r"\b(ii|2)\b", "mid"),
     (r"\b\d{2,}\+?\s*years?\b", "senior"),  # "5+ years", "10 years"
 ]
 
 _COMPILED = [(re.compile(p, re.IGNORECASE), label) for p, label in _RULES]
+
+# Job function. Ordered: first match wins, so specific families come before
+# the generic "engineer" catch-all, and non-software engineering disciplines
+# are claimed before it can mislabel them as software.
+_CATEGORY_RULES: list[tuple[str, str]] = [
+    (r"\b(quant|quantitative|trading|trader)\b", "quant"),
+    (r"\b(asic|fpga|rtl|silicon|circuit|analog|mixed[\s-]signal|hardware|"
+     r"physical\s+design|design\s+verification|dft|photonics|semiconductor|"
+     r"pcb|signal\s+(?:and|&)\s+power\s+integrity|electrical\s+engineer|"
+     r"cpu|gpu\s+architecture|soc|rf|transistor|avionics)\b", "hardware"),
+    (r"\b(machine\s+learning|ml|ai|artificial\s+intelligence|deep\s+learning|"
+     r"data\s+scien\w*|data\s+engineer\w*|data\s+analy\w*|analytics|"
+     r"computer\s+vision|nlp|llm|research\s+scientist|applied\s+scientist|"
+     r"business\s+intelligence)\b", "data_ml"),
+    (r"\b(product\s+manag\w*|apm|technical\s+program\s+manag\w*|tpm)\b", "product"),
+    (r"\b(security\s+(?:guard|officer))\b", "other"),
+    (r"\b(software|swe|sde|developer|programmer|devops|sre|site\s+reliability|"
+     r"back[\s-]?end|front[\s-]?end|full[\s-]?stack|web|mobile|ios|android|"
+     r"cloud|platform|infrastructure|security|cyber\w*|computer\s+science|"
+     r"embedded|firmware|qa|sdet|test\s+automation|forward\s+deployed|"
+     r"it)\b", "software"),
+    (r"\b(mechanical|civil|chemical|industrial|manufacturing|process|"
+     r"structural|environmental|propulsion|thermal|materials|biomedical|"
+     r"petroleum|mining|nuclear|construction|field\s+service|sales|"
+     r"marketing|legal|finance|accounting|recruit\w*|hr|human\s+resources|"
+     r"traffic|bridge|highway|roadway|transportation|geotechnical|water|"
+     r"wastewater|hvac|production|operations\s+engineer\w*|power\s+delivery|"
+     r"substation|utility|utilities|land\s+development|urban)\b",
+     "other"),
+    (r"\b(systems?\s+engineer\w*|solutions?\s+engineer|engineer\w*|"
+     r"technolog\w*)\b", "software"),
+]
+_CATEGORY_COMPILED = [(re.compile(p, re.IGNORECASE), c) for p, c in _CATEGORY_RULES]
+
+CATEGORIES = ("software", "data_ml", "hardware", "quant", "product", "other")
+
+
+def categorize(title: str) -> str:
+    for pattern, category in _CATEGORY_COMPILED:
+        if pattern.search(title):
+            return category
+    return "other"
+
+
+def is_entry_level(title: str) -> bool:
+    return classify_by_keyword(title) in ("intern", "new_grad")
 
 # Descriptive labels for zero-shot NLI — more context beats bare words.
 _ZS_LABELS = {

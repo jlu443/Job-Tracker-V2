@@ -14,43 +14,63 @@ companies:
 - tenant: abcsupply
   wd: wd1
   site: ABCSupplyCareers
-  name: abcsupply
+  name: ABC Supply
+  aliases:
+  - abcsupply
 - tenant: abcsupply
   wd: wd1
   site: ACMcareers
-  name: abcsupply
+  name: ABC Supply
+  aliases:
+  - abcsupply
 - tenant: abcsupply
   wd: wd1
   site: MuleHideCareers
-  name: abcsupply
+  name: ABC Supply
+  aliases:
+  - abcsupply
 - tenant: abglobal
   wd: wd1
   site: alliancebernsteincareers
-  name: abglobal
+  name: AllianceBernstein
+  aliases:
+  - abglobal
 - tenant: abglobal
   wd: wd1
   site: abcampuscareers
-  name: abglobal
+  name: AllianceBernstein
+  aliases:
+  - abglobal
 - tenant: academy
   wd: wd1
   site: Careers
-  name: academy
+  name: Academy Sports + Outdoors
+  aliases:
+  - academy
 - tenant: acehardware
   wd: wd1
   site: AHHS_External
-  name: acehardware
+  name: Ace Hardware
+  aliases:
+  - acehardware
 - tenant: acehardware
   wd: wd1
   site: AIH_External
-  name: acehardware
+  name: Ace Hardware
+  aliases:
+  - acehardware
 - tenant: acehardware
   wd: wd1
   site: EJDExternal
-  name: acehardware
+  name: Ace Hardware
+  aliases:
+  - acehardware
 - tenant: acehardware
   wd: wd1
   site: External
-  name: acehardware
+  name: Ace Hardware
+  aliases:
+  - acehardware
 - tenant: acrisure
   wd: wd1
   site: Acrisure
@@ -66,7 +86,9 @@ companies:
 - tenant: advisorgroup
   wd: wd1
   site: Advisor_Career_Site
-  name: advisorgroup
+  name: Osaic
+  aliases:
+  - advisorgroup
 - tenant: aenetworks
   wd: wd1
   site: AE-Careers
@@ -138,15 +160,21 @@ companies:
 - tenant: alliantenergy
   wd: wd1
   site: alliant
-  name: alliantenergy
+  name: Alliant Energy
+  aliases:
+  - alliantenergy
 - tenant: allisontransmission
   wd: wd1
   site: ATI-External
-  name: allisontransmission
+  name: Allison Transmission
+  aliases:
+  - allisontransmission
 - tenant: allisontransmission
   wd: wd1
   site: WDC-External
-  name: allisontransmission
+  name: Allison Transmission
+  aliases:
+  - allisontransmission
 - tenant: altamed
   wd: wd1
   site: Careers
@@ -222,11 +250,15 @@ companies:
 - tenant: alwayscompassionate
   wd: wd1
   site: ACHomeCare
-  name: alwayscompassionate
+  name: Always Compassionate Home Care
+  aliases:
+  - alwayscompassionate
 - tenant: amat
   wd: wd1
   site: External
-  name: amat
+  name: Applied Materials
+  aliases:
+  - amat
 - tenant: ambgroup
   wd: wd1
   site: AMB_FF
@@ -242,19 +274,27 @@ companies:
 - tenant: american
   wd: wd1
   site: AU
-  name: american
+  name: American University
+  aliases:
+  - american
 - tenant: americanredcross
   wd: wd1
   site: American_Red_Cross_Careers
-  name: americanredcross
+  name: American Red Cross
+  aliases:
+  - americanredcross
 - tenant: amfam
   wd: wd1
   site: Agent-Staff
-  name: amfam
+  name: American Family Insurance Group
+  aliases:
+  - amfam
 - tenant: amfam
   wd: wd1
   site: Agent-Staff-Private
-  name: amfam
+  name: American Family Insurance Group
+  aliases:
+  - amfam
 - tenant: amgen
   wd: wd1
   site: Careers
@@ -266,15 +306,21 @@ companies:
 - tenant: amn
   wd: wd1
   site: AMN_Careers
-  name: amn
+  name: AMN Healthcare
+  aliases:
+  - amn
 - tenant: amn
   wd: wd1
   site: AMN_Opportunities
-  name: amn
+  name: AMN Healthcare
+  aliases:
+  - amn
 - tenant: analogdevices
   wd: wd1
   site: External
-  name: analogdevices
+  name: Analog Devices
+  aliases:
+  - analogdevices
 - tenant: salesforce
   wd: wd12
   site: External_Career_Site
@@ -302,7 +348,9 @@ companies:
 - tenant: micron
   wd: wd1
   site: External
-  name: micron
+  name: Micron Technology
+  aliases:
+  - micron
 - tenant: kla
   wd: wd1
   site: Search
@@ -318,19 +366,27 @@ companies:
 - tenant: gilead
   wd: wd1
   site: gileadcareers
-  name: gilead
+  name: Gilead Sciences
+  aliases:
+  - gilead
 - tenant: boeing
   wd: wd1
   site: EXTERNAL_CAREERS
-  name: boeing
+  name: The Boeing Company
+  aliases:
+  - boeing
 - tenant: acehardware
   wd: wd1
   site: ahhs_external
-  name: acehardware
+  name: Ace Hardware
+  aliases:
+  - acehardware
 - tenant: abglobal
   wd: wd1
   site: privatealliancebernsteincareers
-  name: abglobal
+  name: AllianceBernstein
+  aliases:
+  - abglobal
 - tenant: 3m
   wd: wd1
   site: search
@@ -339,3 +395,8667 @@ companies:
   wd: wd1
   site: AAM-Career-Site
   name: aampower
+- tenant: faithtechnologies
+  wd: wd1
+  site: FTI_Engineering
+  name: Faith Technologies
+  aliases:
+  - faithtechnologies
+- tenant: cox
+  wd: wd1
+  site: Cox_External_Career_Site_1
+  name: cox
+- tenant: expedia
+  wd: wd108
+  site: private
+  name: Expedia Group
+  aliases:
+  - expedia
+- tenant: moog
+  wd: wd5
+  site: moog_external_career_site
+  name: moog
+- tenant: intapp
+  wd: wd1
+  site: Intapp
+  name: intapp
+- tenant: chipotle
+  wd: wd5
+  site: ChipotleCareers
+  name: Chipotle Mexican Grill
+  aliases:
+  - chipotle
+- tenant: fiserv
+  wd: wd5
+  site: ext
+  name: fiserv
+- tenant: manulife
+  wd: wd3
+  site: MFCJH_adminJobs
+  name: Manulife Financial
+  aliases:
+  - manulife
+- tenant: cae
+  wd: wd3
+  site: career
+  name: cae
+- tenant: cibc
+  wd: wd3
+  site: campus
+  name: cibc
+- tenant: cooperstandard
+  wd: wd1
+  site: CooperStandard
+  name: Cooper Standard
+  aliases:
+  - cooperstandard
+- tenant: uva
+  wd: wd1
+  site: uvastudentjobs
+  name: University of Virginia
+  aliases:
+  - uva
+- tenant: trendmicro
+  wd: wd3
+  site: External
+  name: Trend Micro
+  aliases:
+  - trendmicro
+- tenant: bmo
+  wd: wd3
+  site: External
+  name: Bank of Montreal
+  aliases:
+  - bmo
+- tenant: alliance
+  wd: wd3
+  site: nissanjobs
+  name: Nissan Global
+  aliases:
+  - alliance
+- tenant: kla
+  wd: wd1
+  site: search
+  name: kla
+- tenant: bmo
+  wd: wd3
+  site: Campus
+  name: Bank of Montreal
+  aliases:
+  - bmo
+- tenant: mastercard
+  wd: wd1
+  site: CorporateCareers
+  name: mastercard
+- tenant: kla
+  wd: wd1
+  site: UR
+  name: kla
+- tenant: roche
+  wd: wd3
+  site: ROG-A2O-GENE
+  name: Genentech
+  aliases:
+  - roche
+- tenant: parsons
+  wd: wd5
+  site: search
+  name: parsons
+- tenant: disney
+  wd: wd5
+  site: disneycareer
+  name: The Walt Disney Company
+  aliases:
+  - disney
+- tenant: disney
+  wd: wd5
+  site: disneycareerdc
+  name: The Walt Disney Company
+  aliases:
+  - disney
+- tenant: elevancehealth
+  wd: wd1
+  site: ANT
+  name: elevancehealth
+- tenant: eversource
+  wd: wd1
+  site: ExternalSite
+  name: Eversource Energy
+  aliases:
+  - eversource
+- tenant: haier
+  wd: wd3
+  site: ge_appliances
+  name: GE Appliances
+  aliases:
+  - haier
+- tenant: bpinternational
+  wd: wd3
+  site: bpEarlyCareers
+  name: BP
+  aliases:
+  - bpinternational
+- tenant: tmobile
+  wd: wd1
+  site: External
+  name: T-Mobile
+  aliases:
+  - tmobile
+- tenant: roche
+  wd: wd3
+  site: roche-ext
+  name: Genentech
+  aliases:
+  - roche
+- tenant: spgi
+  wd: wd5
+  site: SPGI_Careers
+  name: S&P Global
+  aliases:
+  - spgi
+- tenant: globalhr
+  wd: wd5
+  site: rec_rtx_ext_gateway
+  name: RTX
+  aliases:
+  - globalhr
+- tenant: kbr
+  wd: wd5
+  site: KBR_Careers
+  name: kbr
+- tenant: proofpoint
+  wd: wd5
+  site: proofpointcareers
+  name: proofpoint
+- tenant: acciona
+  wd: wd3
+  site: acciona_employment_channel
+  name: acciona
+- tenant: ngc
+  wd: wd1
+  site: Northrop_Grumman_External_Site
+  name: Northrop Grumman
+  aliases:
+  - ngc
+- tenant: canadiantirecorporation
+  wd: wd3
+  site: Enterprise_External_Careers_Site
+  name: Canadian Tire
+  aliases:
+  - canadiantirecorporation
+- tenant: talentmanagementsolution
+  wd: wd3
+  site: JonasSoftwareCanada
+  name: Jonas Software
+  aliases:
+  - talentmanagementsolution
+- tenant: motorolasolutions
+  wd: wd5
+  site: Careers
+  name: Motorola
+  aliases:
+  - motorolasolutions
+- tenant: flexerasoftware
+  wd: wd1
+  site: FlexeraSoftware
+  name: Flexera
+  aliases:
+  - flexerasoftware
+- tenant: flextronics
+  wd: wd1
+  site: Careers
+  name: Flextronics International
+  aliases:
+  - flextronics
+- tenant: airliquidehr
+  wd: wd3
+  site: AirLiquideExternalCareer
+  name: Air Liquide
+  aliases:
+  - airliquidehr
+- tenant: att
+  wd: wd1
+  site: attcollege
+  name: AT&T
+  aliases:
+  - att
+- tenant: fmr
+  wd: wd1
+  site: targeted
+  name: Fidelity Investments
+  aliases:
+  - fmr
+- tenant: citi
+  wd: wd5
+  site: '2'
+  name: citi
+- tenant: firstam
+  wd: wd1
+  site: fctcareers
+  name: First American
+  aliases:
+  - firstam
+- tenant: caci
+  wd: wd1
+  site: external
+  name: caci
+- tenant: globalfoundries
+  wd: wd1
+  site: External
+  name: globalfoundries
+- tenant: peak6group
+  wd: wd1
+  site: apexfintechsolutions
+  name: Apex Fintech Solutions
+  aliases:
+  - peak6group
+- tenant: markelcorp
+  wd: wd5
+  site: GlobalCareers
+  name: Markel Group, Inc.
+  aliases:
+  - markelcorp
+- tenant: verizon
+  wd: wd12
+  site: verizon-careers
+  name: Verizon Communications
+  aliases:
+  - verizon
+- tenant: copart
+  wd: wd12
+  site: copart
+  name: copart
+- tenant: bah
+  wd: wd1
+  site: bah_jobs
+  name: Booz Allen
+  aliases:
+  - bah
+- tenant: psu
+  wd: wd1
+  site: PSU_Staff
+  name: Pennsylvania State University
+  aliases:
+  - psu
+- tenant: awg
+  wd: wd3
+  site: AW
+  name: Anglian Water
+  aliases:
+  - awg
+- tenant: awg
+  wd: wd3
+  site: broadbean_external
+  name: Anglian Water
+  aliases:
+  - awg
+- tenant: jj
+  wd: wd5
+  site: JJ
+  name: Johnson & Johnson
+  aliases:
+  - jj
+- tenant: blueorigin
+  wd: wd5
+  site: blueorigin
+  name: Blue Origin
+  aliases:
+  - blueorigin
+- tenant: intel
+  wd: wd1
+  site: external
+  name: intel
+- tenant: leidos
+  wd: wd5
+  site: External
+  name: leidos
+- tenant: biotechne
+  wd: wd5
+  site: Biotechne
+  name: Bio-Techne
+  aliases:
+  - biotechne
+- tenant: etsy
+  wd: wd5
+  site: Etsy_Careers
+  name: etsy
+- tenant: menasha
+  wd: wd12
+  site: menashacorp
+  name: Menasha Corporation
+  aliases:
+  - menasha
+- tenant: hcsc
+  wd: wd1
+  site: HCSC_External
+  name: hcsc
+- tenant: ovintiv
+  wd: wd3
+  site: ovintivcareers
+  name: ovintiv
+- tenant: abb
+  wd: wd3
+  site: external_career_page
+  name: abb
+- tenant: hpe
+  wd: wd5
+  site: Jobsathpe
+  name: Hewlett Packard Enterprise
+  aliases:
+  - hpe
+- tenant: wexinc
+  wd: wd5
+  site: WEXInc
+  name: Wex
+  aliases:
+  - wexinc
+- tenant: maersk
+  wd: wd3
+  site: maersk_careers
+  name: maersk
+- tenant: bmo
+  wd: wd3
+  site: Privileged
+  name: Bank of Montreal
+  aliases:
+  - bmo
+- tenant: expedia
+  wd: wd108
+  site: search
+  name: Expedia Group
+  aliases:
+  - expedia
+- tenant: selinc
+  wd: wd1
+  site: SEL
+  name: Schweitzer Engineering Laboratories
+  aliases:
+  - selinc
+- tenant: empower
+  wd: wd12
+  site: empower
+  name: empower
+- tenant: freese
+  wd: wd1
+  site: Freese_Nichols_External
+  name: Freese and Nichols
+  aliases:
+  - freese
+- tenant: veralto
+  wd: wd1
+  site: hachjobs
+  name: veralto
+- tenant: curtisswright
+  wd: wd1
+  site: cw_external_career_site
+  name: Curtiss-Wright Corporation
+  aliases:
+  - curtisswright
+- tenant: gevernova
+  wd: wd5
+  site: vernova_externalsite
+  name: GE Vernova
+  aliases:
+  - gevernova
+- tenant: gdit
+  wd: wd5
+  site: gdit_earlytalent
+  name: General Dynamics Information Technology
+  aliases:
+  - gdit
+- tenant: globalhr
+  wd: wd5
+  site: Private_Posting_No_TMP
+  name: RTX
+  aliases:
+  - globalhr
+- tenant: gfs
+  wd: wd5
+  site: usjobs-gen-gfs
+  name: Gordon Food Service
+  aliases:
+  - gfs
+- tenant: gresearch
+  wd: wd103
+  site: G-Research
+  name: G-Research
+  aliases:
+  - gresearch
+- tenant: warnerbros
+  wd: wd5
+  site: global
+  name: Warner Bros.
+  aliases:
+  - warnerbros
+- tenant: graco
+  wd: wd501
+  site: Graco_Careers
+  name: graco
+- tenant: greenheckgroup
+  wd: wd5
+  site: external
+  name: Greenheck Group
+  aliases:
+  - greenheckgroup
+- tenant: mfs
+  wd: wd1
+  site: MFS-Careers
+  name: mfs
+- tenant: austintexas
+  wd: wd5
+  site: COA_Careers
+  name: City of Austin
+  aliases:
+  - austintexas
+- tenant: travelers
+  wd: wd5
+  site: External
+  name: travelers
+- tenant: regalrexnord
+  wd: wd1
+  site: careers
+  name: Regal Rexnord
+  aliases:
+  - regalrexnord
+- tenant: slihrms
+  wd: wd3
+  site: careers
+  name: AtkinsRéalis
+  aliases:
+  - slihrms
+- tenant: autodesk
+  wd: wd1
+  site: uni
+  name: autodesk
+- tenant: sarepta
+  wd: wd5
+  site: sarepta_external
+  name: sarepta
+- tenant: strayer
+  wd: wd1
+  site: SEI
+  name: Strategic Education
+  aliases:
+  - strayer
+- tenant: mii
+  wd: wd5
+  site: MiTek
+  name: MiTek
+  aliases:
+  - mii
+- tenant: washpost
+  wd: wd5
+  site: washingtonpostcareers
+  name: washpost
+- tenant: boseallaboutme
+  wd: wd503
+  site: Bose_Careers
+  name: Bose
+  aliases:
+  - boseallaboutme
+- tenant: vareximaging
+  wd: wd103
+  site: External_Career_Site
+  name: Varex Imaging Corporation
+  aliases:
+  - vareximaging
+- tenant: hntb
+  wd: wd5
+  site: hntb_careers
+  name: hntb
+- tenant: jabil
+  wd: wd5
+  site: Jabil_Careers
+  name: jabil
+- tenant: globusmedical
+  wd: wd5
+  site: GMED_Careers
+  name: Globus Medical
+  aliases:
+  - globusmedical
+- tenant: bcbsmn
+  wd: wd5
+  site: bluecrossmn
+  name: Blue Cross and Blue Shield of Minnesota
+  aliases:
+  - bcbsmn
+- tenant: labcorp
+  wd: wd1
+  site: external
+  name: labcorp
+- tenant: nasdaq
+  wd: wd1
+  site: Global_External_Site
+  name: nasdaq
+- tenant: medline
+  wd: wd5
+  site: Medline
+  name: medline
+- tenant: harman
+  wd: wd3
+  site: HARMAN
+  name: HARMAN International
+  aliases:
+  - harman
+- tenant: qtsdatacenters
+  wd: wd5
+  site: qts
+  name: QTS
+  aliases:
+  - qtsdatacenters
+- tenant: hntb
+  wd: wd5
+  site: hntb_university_careers
+  name: hntb
+- tenant: imf
+  wd: wd5
+  site: IMF
+  name: International Monetary Fund
+  aliases:
+  - imf
+- tenant: aveva
+  wd: wd3
+  site: AVEVA_careers
+  name: aveva
+- tenant: sunlife
+  wd: wd3
+  site: Campus
+  name: Sun Life
+  aliases:
+  - sunlife
+- tenant: thermofisher
+  wd: wd5
+  site: ThermoFisherCareers
+  name: Thermo Fisher Scientific
+  aliases:
+  - thermofisher
+- tenant: flir
+  wd: wd1
+  site: flircareers
+  name: Teledyne
+  aliases:
+  - flir
+- tenant: autodesk
+  wd: wd1
+  site: Ext
+  name: autodesk
+- tenant: chg
+  wd: wd5
+  site: US_External_Career_Site
+  name: C.H. Guenther
+  aliases:
+  - chg
+- tenant: mksinst
+  wd: wd1
+  site: MKSCareersUniversity
+  name: MKS Instruments
+  aliases:
+  - mksinst
+- tenant: campingworld
+  wd: wd5
+  site: Jobs
+  name: Camping World
+  aliases:
+  - campingworld
+- tenant: resmed
+  wd: wd3
+  site: ResMed_External_Careers
+  name: resmed
+- tenant: msd
+  wd: wd5
+  site: searchjobs
+  name: Merck
+  aliases:
+  - msd
+- tenant: asmglobal
+  wd: wd1
+  site: careers
+  name: ASM Global
+  aliases:
+  - asmglobal
+- tenant: tel
+  wd: wd3
+  site: tel-careers
+  name: Tokyo Electron
+  aliases:
+  - tel
+- tenant: recar
+  wd: wd108
+  site: SLATEcareers
+  name: Slate Auto
+  aliases:
+  - recar
+- tenant: wwecorp
+  wd: wd5
+  site: tko
+  name: TKO Group Holdings, Inc
+  aliases:
+  - wwecorp
+- tenant: trimble
+  wd: wd1
+  site: TrimbleCareers
+  name: trimble
+- tenant: draper
+  wd: wd5
+  site: Draper_Careers
+  name: draper
+- tenant: hp
+  wd: wd5
+  site: EXTEU-AC-CareerSite
+  name: Hewlett Packard (HP)
+  aliases:
+  - hp
+- tenant: homedepot
+  wd: wd5
+  site: CareerDepotCanada
+  name: The Home Depot
+  aliases:
+  - homedepot
+- tenant: hpe
+  wd: wd5
+  site: acjobsite
+  name: Hewlett Packard Enterprise
+  aliases:
+  - hpe
+- tenant: finastra
+  wd: wd3
+  site: FINC
+  name: finastra
+- tenant: cat
+  wd: wd5
+  site: CaterpillarCareers
+  name: Caterpillar Inc.
+  aliases:
+  - cat
+- tenant: vanderlande
+  wd: wd3
+  site: careers
+  name: Vanderlande Industries
+  aliases:
+  - vanderlande
+- tenant: momentive
+  wd: wd1
+  site: MC
+  name: momentive
+- tenant: gevernova
+  wd: wd5
+  site: only_confidential_executive_recruiting
+  name: GE Vernova
+  aliases:
+  - gevernova
+- tenant: sec
+  wd: wd3
+  site: Samsung_Careers
+  name: Samsung
+  aliases:
+  - sec
+- tenant: gfs
+  wd: wd5
+  site: usprivate-gfs
+  name: Gordon Food Service
+  aliases:
+  - gfs
+- tenant: cogeco
+  wd: wd3
+  site: Cogeco_Careers
+  name: cogeco
+- tenant: creationtech
+  wd: wd1
+  site: Creation
+  name: Creation Technologies
+  aliases:
+  - creationtech
+- tenant: zoom
+  wd: wd5
+  site: zoom
+  name: zoom
+- tenant: quickenloans
+  wd: wd5
+  site: rocket_careers
+  name: quickenloans
+- tenant: thyssenkruppmaterialsna
+  wd: wd12
+  site: '1'
+  name: thyssenkrupp
+  aliases:
+  - thyssenkruppmaterialsna
+- tenant: aero
+  wd: wd5
+  site: external
+  name: The Aerospace Corporation
+  aliases:
+  - aero
+- tenant: sonyglobal
+  wd: wd1
+  site: SonyGlobalCareers
+  name: Sony
+  aliases:
+  - sonyglobal
+- tenant: aspentech
+  wd: wd5
+  site: aspentech
+  name: aspentech
+- tenant: greystar
+  wd: wd1
+  site: External
+  name: Greystar Worldwide
+  aliases:
+  - greystar
+- tenant: nidec
+  wd: wd1
+  site: nidec
+  name: nidec
+- tenant: wwecorp
+  wd: wd5
+  site: wwecorp
+  name: TKO Group Holdings, Inc
+  aliases:
+  - wwecorp
+- tenant: entrust
+  wd: wd1
+  site: entrustcareers
+  name: entrust
+- tenant: mcgill
+  wd: wd3
+  site: McGill_Careers
+  name: McGill University
+  aliases:
+  - mcgill
+- tenant: dollartree
+  wd: wd5
+  site: dollartreeus
+  name: Dollar Tree
+  aliases:
+  - dollartree
+- tenant: interdigital
+  wd: wd5
+  site: InterDigital_Intern
+  name: interdigital
+- tenant: aptiv
+  wd: wd5
+  site: aptiv_careers
+  name: aptiv
+- tenant: mckesson
+  wd: wd3
+  site: External_Careers
+  name: mckesson
+- tenant: jci
+  wd: wd5
+  site: JCI_Confidential
+  name: Johnson Controls
+  aliases:
+  - jci
+- tenant: guidestone
+  wd: wd1
+  site: guidestone
+  name: guidestone
+- tenant: jainglobal
+  wd: wd5
+  site: ExternalSite
+  name: Jain Global
+  aliases:
+  - jainglobal
+- tenant: invesco
+  wd: wd1
+  site: IVZearlycareers
+  name: invesco
+- tenant: thales
+  wd: wd3
+  site: Careers
+  name: thales
+- tenant: borgwarner
+  wd: wd5
+  site: BorgWarner_Careers
+  name: borgwarner
+- tenant: memorialhermann
+  wd: wd5
+  site: external
+  name: Memorial Hermann
+  aliases:
+  - memorialhermann
+- tenant: everestre
+  wd: wd5
+  site: careers
+  name: Everest
+  aliases:
+  - everestre
+- tenant: freudenberg
+  wd: wd3
+  site: freudenberg-group
+  name: Freudenberg Group
+  aliases:
+  - freudenberg
+- tenant: astrazeneca
+  wd: wd3
+  site: Careers
+  name: astrazeneca
+- tenant: firstam
+  wd: wd1
+  site: firstamericancareers
+  name: First American
+  aliases:
+  - firstam
+- tenant: draftkings
+  wd: wd1
+  site: Campus_Career_Portal
+  name: draftkings
+- tenant: bloomenergy
+  wd: wd1
+  site: bloomenergycareers
+  name: Bloom Energy
+  aliases:
+  - bloomenergy
+- tenant: amainc
+  wd: wd12
+  site: ama_careers
+  name: Analytical Mechanics Associates
+  aliases:
+  - amainc
+- tenant: frontiereconomics
+  wd: wd3
+  site: Frontier_Economics_Careers
+  name: Frontier Economics
+  aliases:
+  - frontiereconomics
+- tenant: cccis
+  wd: wd1
+  site: broadbean_external
+  name: CCC Intelligent Solutions
+  aliases:
+  - cccis
+- tenant: gen
+  wd: wd1
+  site: careers
+  name: gen
+- tenant: itron
+  wd: wd5
+  site: Early_Careers
+  name: itron
+- tenant: itron
+  wd: wd5
+  site: Itron
+  name: itron
+- tenant: autonation
+  wd: wd5
+  site: Careers
+  name: autonation
+- tenant: vsp
+  wd: wd1
+  site: vspvisioncareers
+  name: VSP Vision
+  aliases:
+  - vsp
+- tenant: assetmark
+  wd: wd5
+  site: AssetMark_Careers
+  name: assetmark
+- tenant: rhsc
+  wd: wd5
+  site: delta_dental_of_michigan
+  name: Delta Dental
+  aliases:
+  - rhsc
+- tenant: rbc
+  wd: wd3
+  site: rbcglobal1
+  name: Royal Bank of Canada
+  aliases:
+  - rbc
+- tenant: polaris
+  wd: wd5
+  site: PolarisJobs
+  name: polaris
+- tenant: barrywehmiller
+  wd: wd1
+  site: BWConfidential
+  name: Barry-Wehmiller
+  aliases:
+  - barrywehmiller
+- tenant: ciena
+  wd: wd5
+  site: Careers
+  name: ciena
+- tenant: allegion
+  wd: wd5
+  site: careers
+  name: allegion
+- tenant: tencent
+  wd: wd1
+  site: Tencent_Careers
+  name: tencent
+- tenant: valeo
+  wd: wd3
+  site: valeo_jobs
+  name: valeo
+- tenant: cmegroup
+  wd: wd1
+  site: cme_careers
+  name: CME Group
+  aliases:
+  - cmegroup
+- tenant: driscolls
+  wd: wd5
+  site: driscolls
+  name: Driscoll's
+  aliases:
+  - driscolls
+- tenant: ironmountain
+  wd: wd5
+  site: iron-mountain-jobs
+  name: Iron Mountain
+  aliases:
+  - ironmountain
+- tenant: utaustin
+  wd: wd1
+  site: UTstaff
+  name: University of Texas at Austin
+  aliases:
+  - utaustin
+- tenant: redhat
+  wd: wd5
+  site: jobs
+  name: Red Hat
+  aliases:
+  - redhat
+- tenant: centerstone
+  wd: wd5
+  site: centerstonecareers
+  name: centerstone
+- tenant: generac
+  wd: wd5
+  site: external
+  name: generac
+- tenant: brunswick
+  wd: wd1
+  site: search
+  name: brunswick
+- tenant: icf
+  wd: wd5
+  site: icfexternal_career_site
+  name: ICF International
+  aliases:
+  - icf
+- tenant: coxhealth
+  wd: wd5
+  site: CoxHealth_External
+  name: coxhealth
+- tenant: sierraspace
+  wd: wd1
+  site: Sierra_Space_External_Career_Site
+  name: Sierra Space
+  aliases:
+  - sierraspace
+- tenant: jll
+  wd: wd1
+  site: jllcareers
+  name: Jones Lang LaSalle (JLL)
+  aliases:
+  - jll
+- tenant: huron
+  wd: wd1
+  site: huroncareers
+  name: huron
+- tenant: insulet
+  wd: wd5
+  site: insuletcareers
+  name: Insulet Corporation
+  aliases:
+  - insulet
+- tenant: biibhr
+  wd: wd3
+  site: external
+  name: Biogen
+  aliases:
+  - biibhr
+- tenant: generalmotors
+  wd: wd5
+  site: Careers_GM
+  name: General Motors
+  aliases:
+  - generalmotors
+- tenant: pluralsight
+  wd: wd1
+  site: Careers
+  name: pluralsight
+- tenant: guardianlife
+  wd: wd5
+  site: guardian-life-careers
+  name: Guardian Life
+  aliases:
+  - guardianlife
+- tenant: troweprice
+  wd: wd5
+  site: TRowePrice
+  name: T. Rowe Price
+  aliases:
+  - troweprice
+- tenant: jm
+  wd: wd103
+  site: External
+  name: Johns Manville (JM)
+  aliases:
+  - jm
+- tenant: asml
+  wd: wd3
+  site: asmlext1
+  name: asml
+- tenant: calix
+  wd: wd1
+  site: External
+  name: calix
+- tenant: bcbsnc
+  wd: wd5
+  site: bcbsnc
+  name: Blue Cross and Blue Shield of North Carolina
+  aliases:
+  - bcbsnc
+- tenant: barr
+  wd: wd1
+  site: barrcareers
+  name: barr
+- tenant: corteva
+  wd: wd5
+  site: corteva
+  name: corteva
+- tenant: nreca
+  wd: wd1
+  site: external
+  name: NRECA International
+  aliases:
+  - nreca
+- tenant: calibercollision
+  wd: wd1
+  site: protech
+  name: Protech Automotive Solutions
+  aliases:
+  - calibercollision
+- tenant: woodward
+  wd: wd5
+  site: woodward
+  name: Woodward Governor
+  aliases:
+  - woodward
+- tenant: phigroup
+  wd: wd12
+  site: phihealthcareers
+  name: PHI Air Medical
+  aliases:
+  - phigroup
+- tenant: healthfirst
+  wd: wd1
+  site: healthfirst
+  name: healthfirst
+- tenant: bjswholesaleclub
+  wd: wd1
+  site: BJsCareers
+  name: BJ's Wholesale Club
+  aliases:
+  - bjswholesaleclub
+- tenant: gehc
+  wd: wd5
+  site: GEHC_ExternalSite
+  name: GE Healthcare
+  aliases:
+  - gehc
+- tenant: vanguard
+  wd: wd5
+  site: vanguard_external
+  name: vanguard
+- tenant: iberdrola
+  wd: wd3
+  site: iberdrola
+  name: Iberdrola Group
+  aliases:
+  - iberdrola
+- tenant: jci
+  wd: wd5
+  site: JCI
+  name: Johnson Controls
+  aliases:
+  - jci
+- tenant: statestreet
+  wd: wd1
+  site: Global
+  name: State Street
+  aliases:
+  - statestreet
+- tenant: dyson
+  wd: wd3
+  site: dyson_careers
+  name: dyson
+- tenant: thomsonreuters
+  wd: wd5
+  site: External_Career_Site
+  name: Thomson Reuters
+  aliases:
+  - thomsonreuters
+- tenant: zoetis
+  wd: wd5
+  site: zoetis
+  name: zoetis
+- tenant: tamus
+  wd: wd1
+  site: pvamu_external
+  name: tamus
+- tenant: sanofi
+  wd: wd3
+  site: SanofiCareers
+  name: sanofi
+- tenant: zoll
+  wd: wd5
+  site: ZOLLMedicalCorp
+  name: ZOLL Medical Corporation
+  aliases:
+  - zoll
+- tenant: bpinternational
+  wd: wd3
+  site: bpCareers
+  name: BP
+  aliases:
+  - bpinternational
+- tenant: ameresco
+  wd: wd5
+  site: Ameresco
+  name: ameresco
+- tenant: ferrovial
+  wd: wd3
+  site: ferrovial_career_site
+  name: ferrovial
+- tenant: altera
+  wd: wd1
+  site: altera
+  name: Altera Corporation
+  aliases:
+  - altera
+- tenant: coorstek
+  wd: wd1
+  site: CoorsTekCareers
+  name: coorstek
+- tenant: clorox
+  wd: wd1
+  site: InviteClorox
+  name: clorox
+- tenant: albemarle
+  wd: wd5
+  site: External
+  name: albemarle
+- tenant: transamerica
+  wd: wd5
+  site: US
+  name: transamerica
+- tenant: td
+  wd: wd3
+  site: TD_Bank_Careers
+  name: TD Bank
+  aliases:
+  - td
+- tenant: cvshealth
+  wd: wd1
+  site: CVS_Health_Careers
+  name: CVS Health
+  aliases:
+  - cvshealth
+- tenant: pae
+  wd: wd1
+  site: amentum_careers
+  name: Amentum
+  aliases:
+  - pae
+- tenant: cadence
+  wd: wd1
+  site: External_Careers
+  name: Cadence Design Systems
+  aliases:
+  - cadence
+- tenant: campaignmonitor
+  wd: wd5
+  site: marigold
+  name: Marigold
+  aliases:
+  - campaignmonitor
+- tenant: fhlbny
+  wd: wd1
+  site: FHLBNY
+  name: Federal Home Loan Bank of New York
+  aliases:
+  - fhlbny
+- tenant: aah
+  wd: wd5
+  site: External
+  name: Advocate Health Care
+  aliases:
+  - aah
+- tenant: hitachi
+  wd: wd1
+  site: hitachi
+  name: hitachi
+- tenant: cvshealth
+  wd: wd1
+  site: Private_Postings_Intern_Conversion_ONLY
+  name: CVS Health
+  aliases:
+  - cvshealth
+- tenant: fnbcorp
+  wd: wd501
+  site: FNBCORP
+  name: First National Bank
+  aliases:
+  - fnbcorp
+- tenant: aaaie
+  wd: wd1
+  site: csaacareers
+  name: aaaie
+- tenant: draftkings
+  wd: wd1
+  site: Employee_Referral_Portal
+  name: draftkings
+- tenant: rollsroyce
+  wd: wd3
+  site: Intern_Graduate
+  name: Rolls-Royce
+  aliases:
+  - rollsroyce
+- tenant: nelnet
+  wd: wd1
+  site: MyNelnet
+  name: nelnet
+- tenant: unisys
+  wd: wd5
+  site: External
+  name: unisys
+- tenant: lonza
+  wd: wd3
+  site: lonza_careers
+  name: lonza
+- tenant: freseniusmedicalcare
+  wd: wd3
+  site: fme
+  name: Fresenius Medical Care
+  aliases:
+  - freseniusmedicalcare
+- tenant: amfam
+  wd: wd1
+  site: AmFamGroupInternCareers
+  name: American Family Insurance Group
+  aliases:
+  - amfam
+- tenant: vfc
+  wd: wd5
+  site: vfc_careers
+  name: VF
+  aliases:
+  - vfc
+- tenant: cadence
+  wd: wd1
+  site: Univ_Careers
+  name: Cadence Design Systems
+  aliases:
+  - cadence
+- tenant: citi
+  wd: wd5
+  site: Citi_Early_Careers_Events_Site
+  name: citi
+- tenant: marmon
+  wd: wd501
+  site: Marmon_Careers
+  name: Marmon Holdings
+  aliases:
+  - marmon
+- tenant: alcon
+  wd: wd5
+  site: careers_alcon
+  name: alcon
+- tenant: bostondynamics
+  wd: wd1
+  site: Boston_Dynamics
+  name: Boston Dynamics
+  aliases:
+  - bostondynamics
+- tenant: modernatx
+  wd: wd1
+  site: M_tx
+  name: Moderna
+  aliases:
+  - modernatx
+- tenant: bcidaho
+  wd: wd5
+  site: BCI
+  name: Blue Cross of Idaho
+  aliases:
+  - bcidaho
+- tenant: cincinnatichildrens
+  wd: wd5
+  site: careersatcincinnatichildrens
+  name: Cincinnati Children’s Hospital and Medical Center
+  aliases:
+  - cincinnatichildrens
+- tenant: ensemblehp
+  wd: wd5
+  site: ensemblehealthpartnerscareers
+  name: Ensemble Health Partners
+  aliases:
+  - ensemblehp
+- tenant: nxp
+  wd: wd3
+  site: careers
+  name: NXP Semiconductors
+  aliases:
+  - nxp
+- tenant: availity
+  wd: wd1
+  site: availity_careers_us
+  name: availity
+- tenant: abbott
+  wd: wd5
+  site: abbottcareers
+  name: abbott
+- tenant: denver
+  wd: wd1
+  site: CCD-denver-denvergov-CSC_Jobs-Civil_service_jobs-Police_Jobs-Fire_Jobs
+  name: denver
+- tenant: allstate
+  wd: wd5
+  site: allstate_careers
+  name: Allstate Insurance Company
+  aliases:
+  - allstate
+- tenant: onehealthineers
+  wd: wd3
+  site: SHSJB
+  name: Varian
+  aliases:
+  - onehealthineers
+- tenant: novartis
+  wd: wd3
+  site: Novartis_Careers
+  name: novartis
+- tenant: bcbsks
+  wd: wd1
+  site: External
+  name: Blue Cross and Blue Shield of Kansas
+  aliases:
+  - bcbsks
+- tenant: tencent
+  wd: wd1
+  site: OA_Huoshui_Platform
+  name: tencent
+- tenant: epicorsoftware
+  wd: wd5
+  site: epicorjobs
+  name: Epicor
+  aliases:
+  - epicorsoftware
+- tenant: entegris
+  wd: wd1
+  site: entegriscareers
+  name: entegris
+- tenant: talentmanagementsolution
+  wd: wd3
+  site: perseus-careers
+  name: Jonas Software
+  aliases:
+  - talentmanagementsolution
+- tenant: valmont
+  wd: wd1
+  site: ValmontCareers
+  name: valmont
+- tenant: carters
+  wd: wd1
+  site: CartersCareers
+  name: Carter's
+  aliases:
+  - carters
+- tenant: sbdinc
+  wd: wd1
+  site: Stanley_Black_Decker_Career_Site
+  name: Stanley Black & Decker
+  aliases:
+  - sbdinc
+- tenant: integritymarketing
+  wd: wd1
+  site: Integrity
+  name: Integrity
+  aliases:
+  - integritymarketing
+- tenant: pattersoncompanies
+  wd: wd501
+  site: PDCO
+  name: pattersoncompanies
+- tenant: roberthalf
+  wd: wd1
+  site: roberthalfcareers
+  name: roberthalf
+- tenant: nshs
+  wd: wd1
+  site: ns-eeh
+  name: Endeavor Health
+  aliases:
+  - nshs
+- tenant: iqvia
+  wd: wd1
+  site: IQVIA
+  name: iqvia
+- tenant: guggenheiminvestment
+  wd: wd5
+  site: External
+  name: Guggenheim
+  aliases:
+  - guggenheiminvestment
+- tenant: cadence
+  wd: wd1
+  site: University_Talent_Intern
+  name: Cadence Design Systems
+  aliases:
+  - cadence
+- tenant: cadence
+  wd: wd1
+  site: University_Talent
+  name: Cadence Design Systems
+  aliases:
+  - cadence
+- tenant: rsm
+  wd: wd1
+  site: RSMCareers
+  name: rsm
+- tenant: lumentum
+  wd: wd5
+  site: LITE
+  name: lumentum
+- tenant: humana
+  wd: wd5
+  site: humana_external_career_site
+  name: humana
+- tenant: interac
+  wd: wd3
+  site: Interac
+  name: interac
+- tenant: philips
+  wd: wd3
+  site: jobs-and-careers
+  name: philips
+- tenant: therapybrands
+  wd: wd1
+  site: EnsoraHealth
+  name: Ensora Health
+  aliases:
+  - therapybrands
+- tenant: oshkoshcorporation
+  wd: wd5
+  site: Oshkosh
+  name: Oshkosh
+  aliases:
+  - oshkoshcorporation
+- tenant: deluxe
+  wd: wd5
+  site: USA_CAN
+  name: deluxe
+- tenant: usbank
+  wd: wd1
+  site: US_Bank_Careers
+  name: U.S. Bank
+  aliases:
+  - usbank
+- tenant: ccf
+  wd: wd1
+  site: ClevelandClinicCareers
+  name: Cleveland Clinic
+  aliases:
+  - ccf
+- tenant: elkay
+  wd: wd1
+  site: Elkay_External
+  name: Zurn Elkay Water Solutions
+  aliases:
+  - elkay
+- tenant: freseniusglobal
+  wd: wd3
+  site: FK_Careers
+  name: Fresenius Kabi
+  aliases:
+  - freseniusglobal
+- tenant: swbc
+  wd: wd1
+  site: swbccareers
+  name: swbc
+- tenant: sartorius
+  wd: wd3
+  site: sartoriuscareers
+  name: sartorius
+- tenant: vermeer
+  wd: wd5
+  site: externalcareersite
+  name: vermeer
+- tenant: ksmcpa
+  wd: wd12
+  site: ksmcareers
+  name: KSM
+  aliases:
+  - ksmcpa
+- tenant: marvell
+  wd: wd1
+  site: MarvellCareers2
+  name: marvell
+- tenant: unilever
+  wd: wd3
+  site: Unilever_Experienced_Professionals
+  name: unilever
+- tenant: genpt
+  wd: wd1
+  site: Careers
+  name: Genuine Parts Company
+  aliases:
+  - genpt
+- tenant: amgen
+  wd: wd1
+  site: careers
+  name: amgen
+- tenant: chrobinson
+  wd: wd5
+  site: CHRobinson
+  name: C.H. Robinson
+  aliases:
+  - chrobinson
+- tenant: tamus
+  wd: wd1
+  site: TAMIU_Student_Employment
+  name: tamus
+- tenant: masco
+  wd: wd1
+  site: Masco
+  name: masco
+- tenant: vantagedc
+  wd: wd1
+  site: Vantage
+  name: Vantage Data Centers
+  aliases:
+  - vantagedc
+- tenant: hcad
+  wd: wd5
+  site: HCADCareers
+  name: Harris Central Appraisal District
+  aliases:
+  - hcad
+- tenant: aaamidatlantic
+  wd: wd5
+  site: aaamidatlantic
+  name: AAA Club Alliance
+  aliases:
+  - aaamidatlantic
+- tenant: gaig
+  wd: wd1
+  site: GAIG_External
+  name: Great American Insurance Company
+  aliases:
+  - gaig
+- tenant: edwards
+  wd: wd5
+  site: edwardscareers
+  name: Edwards Lifesciences
+  aliases:
+  - edwards
+- tenant: aaaie
+  wd: wd1
+  site: CSAACareers2
+  name: aaaie
+- tenant: orthofix
+  wd: wd1
+  site: external_careers
+  name: orthofix
+- tenant: rakuten
+  wd: wd1
+  site: RakutenAmericas
+  name: rakuten
+- tenant: vst
+  wd: wd5
+  site: vistra_careers
+  name: Vistra
+  aliases:
+  - vst
+- tenant: thehartford
+  wd: wd5
+  site: Careers_External
+  name: The Hartford
+  aliases:
+  - thehartford
+- tenant: franklintempleton
+  wd: wd5
+  site: invitation-only
+  name: Franklin Templeton
+  aliases:
+  - franklintempleton
+- tenant: sensata
+  wd: wd1
+  site: Sensata-Careers
+  name: sensata
+- tenant: viavisolutions
+  wd: wd1
+  site: careers
+  name: Viavi Solutions
+  aliases:
+  - viavisolutions
+- tenant: orthoclinical
+  wd: wd1
+  site: Search
+  name: QuidelOrtho
+  aliases:
+  - orthoclinical
+- tenant: ffive
+  wd: wd5
+  site: f5jobs
+  name: F5
+  aliases:
+  - ffive
+- tenant: imh
+  wd: wd108
+  site: IntermountainCareers
+  name: Intermountain Healthcare
+  aliases:
+  - imh
+- tenant: sonos
+  wd: wd1
+  site: Sonos
+  name: sonos
+- tenant: harriscomputer
+  wd: wd3
+  site: '1'
+  name: Harris Computer
+  aliases:
+  - harriscomputer
+- tenant: gnw
+  wd: wd1
+  site: GNW
+  name: Genworth Financial
+  aliases:
+  - gnw
+- tenant: cisive
+  wd: wd108
+  site: Cisive
+  name: cisive
+- tenant: pitneybowes
+  wd: wd1
+  site: pbcareers
+  name: Pitney Bowes
+  aliases:
+  - pitneybowes
+- tenant: kla
+  wd: wd1
+  site: AnnArbor
+  name: kla
+- tenant: centene
+  wd: wd5
+  site: Centene_External
+  name: centene
+- tenant: saputo
+  wd: wd5
+  site: saputo_external_careers
+  name: saputo
+- tenant: fmr
+  wd: wd1
+  site: fidelitycareers
+  name: Fidelity Investments
+  aliases:
+  - fmr
+- tenant: mars
+  wd: wd3
+  site: external
+  name: mars
+- tenant: nb
+  wd: wd1
+  site: NBCareers
+  name: Neuberger Berman
+  aliases:
+  - nb
+- tenant: flowserve
+  wd: wd1
+  site: applied
+  name: flowserve
+- tenant: equifax
+  wd: wd5
+  site: UR_External
+  name: equifax
+- tenant: choicehotels
+  wd: wd5
+  site: External
+  name: Choice Hotels
+  aliases:
+  - choicehotels
+- tenant: kcura
+  wd: wd1
+  site: External_Career_Site
+  name: Relativity
+  aliases:
+  - kcura
+- tenant: bird
+  wd: wd3
+  site: BirdConstructionCareers
+  name: Bird Construction
+  aliases:
+  - bird
+- tenant: stewart
+  wd: wd1
+  site: External
+  name: stewart
+- tenant: doterra
+  wd: wd1
+  site: doTERRACareers
+  name: doterra
+- tenant: oreillyauto
+  wd: wd1
+  site: oreilly
+  name: O'Reilly Auto Parts
+  aliases:
+  - oreillyauto
+- tenant: dukeenergy
+  wd: wd1
+  site: search
+  name: Duke Energy
+  aliases:
+  - dukeenergy
+- tenant: michelinhr
+  wd: wd3
+  site: Michelin
+  name: Michelin
+  aliases:
+  - michelinhr
+- tenant: kiongroup
+  wd: wd3
+  site: KION_SCS
+  name: KION Group
+  aliases:
+  - kiongroup
+- tenant: my7elevenhr
+  wd: wd12
+  site: Careers
+  name: 7-Eleven
+  aliases:
+  - my7elevenhr
+- tenant: creditacceptance
+  wd: wd5
+  site: Credit_Acceptance
+  name: Credit Acceptance Careers
+  aliases:
+  - creditacceptance
+- tenant: oclc
+  wd: wd1
+  site: OCLC_Careers
+  name: oclc
+- tenant: advanceauto
+  wd: wd5
+  site: advanceexternalcareers
+  name: Advance Auto Parts
+  aliases:
+  - advanceauto
+- tenant: colliers
+  wd: wd3
+  site: Colliers-External-Career-Site
+  name: colliers
+- tenant: sailpoint
+  wd: wd1
+  site: SailPoint
+  name: sailpoint
+- tenant: kiongroup
+  wd: wd3
+  site: kiongroup
+  name: KION Group
+  aliases:
+  - kiongroup
+- tenant: broadridge
+  wd: wd5
+  site: careers
+  name: broadridge
+- tenant: accenture
+  wd: wd103
+  site: AccentureCareers
+  name: accenture
+- tenant: circlek
+  wd: wd3
+  site: circlekstorejobs
+  name: Circle K
+  aliases:
+  - circlek
+- tenant: byu
+  wd: wd1
+  site: byu-careers
+  name: byu
+- tenant: roberthalf
+  wd: wd1
+  site: protivitiexperiencedcareers
+  name: roberthalf
+- tenant: vanguard
+  wd: wd5
+  site: contractors_restricted
+  name: vanguard
+- tenant: viatris
+  wd: wd5
+  site: External
+  name: viatris
+- tenant: relx
+  wd: wd3
+  site: relx
+  name: relx
+- tenant: radiancetech
+  wd: wd12
+  site: Radiance_External
+  name: Radiance Technologies
+  aliases:
+  - radiancetech
+- tenant: beigene
+  wd: wd5
+  site: beigene
+  name: BeOne
+  aliases:
+  - beigene
+- tenant: relx
+  wd: wd3
+  site: ElsevierJobs
+  name: relx
+- tenant: fivebelow
+  wd: wd1
+  site: fivebelowcareers
+  name: Five Below
+  aliases:
+  - fivebelow
+- tenant: pnc
+  wd: wd5
+  site: External
+  name: PNC Financial Services
+  aliases:
+  - pnc
+- tenant: global
+  wd: wd1
+  site: globalpartnerscareers
+  name: Global Partners
+  aliases:
+  - global
+- tenant: aristocrat
+  wd: wd3
+  site: aristocratexternalcareerssite
+  name: Aristocrat Leisure
+  aliases:
+  - aristocrat
+- tenant: hubinternational
+  wd: wd1
+  site: HUBInternational
+  name: hubinternational
+- tenant: texascapitalbank
+  wd: wd12
+  site: Careers
+  name: Texas Capital Bank
+  aliases:
+  - texascapitalbank
+- tenant: lsu
+  wd: wd1
+  site: LSU
+  name: Louisiana State University (LSU)
+  aliases:
+  - lsu
+- tenant: livenation
+  wd: wd503
+  site: TMExternalSite
+  name: Live Nation Entertainment
+  aliases:
+  - livenation
+- tenant: danaher
+  wd: wd1
+  site: DanaherJobs
+  name: Danaher Corporation
+  aliases:
+  - danaher
+- tenant: countryfinancial
+  wd: wd5
+  site: COUNTRYCorporateExternal
+  name: COUNTRY Financial
+  aliases:
+  - countryfinancial
+- tenant: asuep
+  wd: wd5
+  site: ASUEP
+  name: Arizona State University
+  aliases:
+  - asuep
+- tenant: cat
+  wd: wd5
+  site: solarturbines
+  name: Caterpillar Inc.
+  aliases:
+  - cat
+- tenant: danaher
+  wd: wd1
+  site: danaherjobs
+  name: Danaher Corporation
+  aliases:
+  - danaher
+- tenant: capitalone
+  wd: wd12
+  site: Capital_One
+  name: Capital One
+  aliases:
+  - capitalone
+- tenant: acushnetgolf
+  wd: wd12
+  site: ACU
+  name: Acushnet Holdings
+  aliases:
+  - acushnetgolf
+- tenant: xylem
+  wd: wd5
+  site: xylem-careers
+  name: xylem
+- tenant: rrhs
+  wd: wd5
+  site: RRH
+  name: Rochester Regional Health
+  aliases:
+  - rrhs
+- tenant: avav
+  wd: wd1
+  site: avav
+  name: AeroVironment
+  aliases:
+  - avav
+- tenant: argonne
+  wd: wd1
+  site: EDU_PUB
+  name: Argonne National Laboratory
+  aliases:
+  - argonne
+- tenant: koppers
+  wd: wd5
+  site: Koppers
+  name: koppers
+- tenant: brookfield
+  wd: wd5
+  site: brookfieldprivate
+  name: brookfield
+- tenant: finra
+  wd: wd1
+  site: FINRA
+  name: finra
+- tenant: ambarella
+  wd: wd108
+  site: ambarella
+  name: ambarella
+- tenant: alliedsolutions
+  wd: wd501
+  site: Allied_External
+  name: Allied Solutions
+  aliases:
+  - alliedsolutions
+- tenant: liberty
+  wd: wd5
+  site: lu_job_board_staff
+  name: Liberty University
+  aliases:
+  - liberty
+- tenant: geisinger
+  wd: wd5
+  site: geisingerexternal
+  name: geisinger
+- tenant: livanova
+  wd: wd5
+  site: search
+  name: livanova
+- tenant: johnsonbrothers
+  wd: wd5
+  site: johnsonbrothers
+  name: Johnson Brothers Liquor Company
+  aliases:
+  - johnsonbrothers
+- tenant: vrtx
+  wd: wd501
+  site: vertex_careers
+  name: Vertex Pharmaceuticals
+  aliases:
+  - vrtx
+- tenant: starrcompanies
+  wd: wd1
+  site: careers
+  name: Starr Insurance
+  aliases:
+  - starrcompanies
+- tenant: rb
+  wd: wd5
+  site: FRS
+  name: The Federal Reserve System
+  aliases:
+  - rb
+- tenant: barrywehmiller
+  wd: wd1
+  site: BWCareers
+  name: Barry-Wehmiller
+  aliases:
+  - barrywehmiller
+- tenant: gcu
+  wd: wd1
+  site: GCU
+  name: Grand Canyon University
+  aliases:
+  - gcu
+- tenant: pg
+  wd: wd5
+  site: '1000'
+  name: Procter & Gamble
+  aliases:
+  - pg
+- tenant: graybar
+  wd: wd1
+  site: Careers
+  name: graybar
+- tenant: northwesternmutual
+  wd: wd5
+  site: corporate-careers
+  name: Northwestern Mutual
+  aliases:
+  - northwesternmutual
+- tenant: glencorecorp
+  wd: wd3
+  site: External
+  name: Glencore
+  aliases:
+  - glencorecorp
+- tenant: wfscorp
+  wd: wd5
+  site: wfscareers
+  name: World Kinect
+  aliases:
+  - wfscorp
+- tenant: boeing
+  wd: wd1
+  site: INTERN
+  name: The Boeing Company
+  aliases:
+  - boeing
+- tenant: standard
+  wd: wd1
+  site: search
+  name: Standard Insurance
+  aliases:
+  - standard
+- tenant: andersonsinc
+  wd: wd1
+  site: TheAndersonsCareers
+  name: The Andersons
+  aliases:
+  - andersonsinc
+- tenant: cboe
+  wd: wd1
+  site: External_Career_CBOE
+  name: cboe
+- tenant: dentsuaegis
+  wd: wd3
+  site: DAN_GLOBAL
+  name: Dentsu
+  aliases:
+  - dentsuaegis
+- tenant: nyp
+  wd: wd1
+  site: nypcareers
+  name: NewYork-Presbyterian
+  aliases:
+  - nyp
+- tenant: thekineticgroup
+  wd: wd1
+  site: EXTERNAL_TKG
+  name: The Kinetic Group
+  aliases:
+  - thekineticgroup
+- tenant: geaerospace
+  wd: wd5
+  site: ge_externalsite
+  name: GE Aerospace
+  aliases:
+  - geaerospace
+- tenant: premierinc
+  wd: wd1
+  site: external_professional
+  name: Premier
+  aliases:
+  - premierinc
+- tenant: kbr
+  wd: wd5
+  site: Frazer_Nash_Careers
+  name: kbr
+- tenant: otppb
+  wd: wd3
+  site: OntarioTeachers_Careers
+  name: Ontario Teachers' Pension Plan
+  aliases:
+  - otppb
+- tenant: leonardocompany
+  wd: wd3
+  site: LeonardoCareerSite
+  name: Leonardo
+  aliases:
+  - leonardocompany
+- tenant: lambweston
+  wd: wd1
+  site: CTE
+  name: Lamb Weston
+  aliases:
+  - lambweston
+- tenant: dowjones
+  wd: wd1
+  site: New_York_Post_Careers
+  name: dowjones
+- tenant: brookfield
+  wd: wd5
+  site: bpandc
+  name: brookfield
+- tenant: equinix
+  wd: wd1
+  site: External
+  name: equinix
+- tenant: cohesity
+  wd: wd5
+  site: Cohesity_Careers
+  name: cohesity
+- tenant: arcticwolf
+  wd: wd1
+  site: External
+  name: Arctic Wolf
+  aliases:
+  - arcticwolf
+- tenant: lseg
+  wd: wd3
+  site: Graduate_Careers
+  name: lseg
+- tenant: livenation
+  wd: wd503
+  site: InsomniacExternalSite
+  name: Live Nation Entertainment
+  aliases:
+  - livenation
+- tenant: livenation
+  wd: wd503
+  site: LNExternalSite
+  name: Live Nation Entertainment
+  aliases:
+  - livenation
+- tenant: lplfinancial
+  wd: wd1
+  site: university
+  name: LPL Financial Holdings
+  aliases:
+  - lplfinancial
+- tenant: littelfuse
+  wd: wd1
+  site: Littelfuse-Careers
+  name: littelfuse
+- tenant: massmutual
+  wd: wd1
+  site: MMAscendCareers
+  name: MassMutual Ascend
+  aliases:
+  - massmutual
+- tenant: magna
+  wd: wd3
+  site: Magna
+  name: Magna International
+  aliases:
+  - magna
+- tenant: marmon
+  wd: wd501
+  site: Marmon_MSIP_Internships
+  name: Marmon Holdings
+  aliases:
+  - marmon
+- tenant: mastercard
+  wd: wd1
+  site: Public_Posting_Site
+  name: mastercard
+- tenant: tempus
+  wd: wd5
+  site: Tempus_Careers
+  name: tempus
+- tenant: matthey
+  wd: wd3
+  site: Ext_Career_Site
+  name: Johnson Matthey
+  aliases:
+  - matthey
+- tenant: brocku
+  wd: wd3
+  site: brocku_careers
+  name: Brock University
+  aliases:
+  - brocku
+- tenant: waystar
+  wd: wd1
+  site: Waystar
+  name: waystar
+- tenant: progyny
+  wd: wd5
+  site: progyny
+  name: progyny
+- tenant: jlp
+  wd: wd3
+  site: JLPjobs_careers
+  name: John Lewis Partnership
+  aliases:
+  - jlp
+- tenant: maricopa
+  wd: wd1
+  site: MC_External
+  name: Maricopa County
+  aliases:
+  - maricopa
+- tenant: cardinalhealth
+  wd: wd1
+  site: EXT
+  name: Cardinal Health
+  aliases:
+  - cardinalhealth
+- tenant: uchicago
+  wd: wd5
+  site: External
+  name: University of Chicago
+  aliases:
+  - uchicago
+- tenant: evonik
+  wd: wd3
+  site: External_Careers
+  name: evonik
+- tenant: snc
+  wd: wd1
+  site: snc_external_career_site
+  name: Sierra Nevada Corporation
+  aliases:
+  - snc
+- tenant: synnex
+  wd: wd5
+  site: tdsynnexcareers
+  name: TD Synnex
+  aliases:
+  - synnex
+- tenant: cws
+  wd: wd3
+  site: cws_jobs
+  name: cws
+- tenant: sonoco
+  wd: wd1
+  site: CorporateCareers
+  name: sonoco
+- tenant: calibercollision
+  wd: wd1
+  site: caliber
+  name: Protech Automotive Solutions
+  aliases:
+  - calibercollision
+- tenant: rakuten
+  wd: wd1
+  site: RakutenRewards
+  name: rakuten
+- tenant: clearwateranalytics
+  wd: wd1
+  site: Clearwater_Analytics_Careers
+  name: Clearwater Analytics
+  aliases:
+  - clearwateranalytics
+- tenant: zeissgroup
+  wd: wd3
+  site: External
+  name: Zeiss
+  aliases:
+  - zeissgroup
+- tenant: skechers
+  wd: wd5
+  site: One-career-site
+  name: skechers
+- tenant: lbg
+  wd: wd3
+  site: LBG_Careers
+  name: Lloyds Bank
+  aliases:
+  - lbg
+- tenant: chemours
+  wd: wd103
+  site: Chemours
+  name: chemours
+- tenant: logitech
+  wd: wd5
+  site: Logitech
+  name: logitech
+- tenant: archgroup
+  wd: wd1
+  site: careers
+  name: Arch Capital Group
+  aliases:
+  - archgroup
+- tenant: jabil
+  wd: wd5
+  site: jabil_careers
+  name: jabil
+- tenant: ultra
+  wd: wd3
+  site: ultra-careers
+  name: ultra
+- tenant: accuray
+  wd: wd5
+  site: external
+  name: accuray
+- tenant: zayo
+  wd: wd1
+  site: zayo_careers
+  name: zayo
+- tenant: umusic
+  wd: wd5
+  site: umgus
+  name: Universal Music Group Careers
+  aliases:
+  - umusic
+- tenant: fifththird
+  wd: wd5
+  site: 53careers
+  name: Fifth Third Bank
+  aliases:
+  - fifththird
+- tenant: hendrick
+  wd: wd5
+  site: HMSCareers
+  name: Hendrick Motorsports
+  aliases:
+  - hendrick
+- tenant: axiomspace
+  wd: wd5
+  site: External_Career_Site
+  name: Axiom Space
+  aliases:
+  - axiomspace
+- tenant: allegromicro
+  wd: wd5
+  site: allegrocareers
+  name: Allegro MicroSystems
+  aliases:
+  - allegromicro
+- tenant: acs
+  wd: wd5
+  site: acscan
+  name: American Cancer Society
+  aliases:
+  - acs
+- tenant: acs
+  wd: wd5
+  site: acscareers
+  name: American Cancer Society
+  aliases:
+  - acs
+- tenant: arrowstreetcapital
+  wd: wd5
+  site: Campus_Careers
+  name: Arrowstreet Capital
+  aliases:
+  - arrowstreetcapital
+- tenant: interdigital
+  wd: wd5
+  site: InterDigital_Career
+  name: interdigital
+- tenant: xenergy
+  wd: wd5
+  site: X-energyUS
+  name: X-energy
+  aliases:
+  - xenergy
+- tenant: nvent
+  wd: wd5
+  site: nVent
+  name: nvent
+- tenant: volarisgroup
+  wd: wd3
+  site: AssetWorks
+  name: volarisgroup
+- tenant: henryschein
+  wd: wd1
+  site: External_Careers
+  name: Henry Schein
+  aliases:
+  - henryschein
+- tenant: circle
+  wd: wd1
+  site: Circle
+  name: circle
+- tenant: spectrumcontrol
+  wd: wd1
+  site: spectrumcontrol
+  name: Spectrum Control
+  aliases:
+  - spectrumcontrol
+- tenant: tti
+  wd: wd1
+  site: tti_pe
+  name: Milwaukee Tool
+  aliases:
+  - tti
+- tenant: umd
+  wd: wd1
+  site: UMCP
+  name: University of Maryland - College Park
+  aliases:
+  - umd
+- tenant: propharmagroup
+  wd: wd1
+  site: ppgcareers
+  name: ProPharma Group
+  aliases:
+  - propharmagroup
+- tenant: bdx
+  wd: wd1
+  site: EXTERNAL_CAREER_SITE_USA
+  name: Becton Dickinson
+  aliases:
+  - bdx
+- tenant: applied
+  wd: wd501
+  site: applied
+  name: Applied Fluid Power
+  aliases:
+  - applied
+- tenant: spe
+  wd: wd1
+  site: SonyPicturesEntertainment
+  name: Sony Pictures Entertainment
+  aliases:
+  - spe
+- tenant: centific
+  wd: wd1
+  site: Centific_Global
+  name: centific
+- tenant: ercot
+  wd: wd1
+  site: ercot_careers
+  name: ercot
+- tenant: mgpru
+  wd: wd3
+  site: mandgprudential
+  name: M&G
+  aliases:
+  - mgpru
+- tenant: mizuho
+  wd: wd1
+  site: Mizuho_Confidential
+  name: Mizuho Securities USA
+  aliases:
+  - mizuho
+- tenant: monolithicpower
+  wd: wd12
+  site: MPS_Careers
+  name: Monolithic Power Systems
+  aliases:
+  - monolithicpower
+- tenant: myview
+  wd: wd3
+  site: paradox_careers
+  name: Loblaw Companies
+  aliases:
+  - myview
+- tenant: nelnet
+  wd: wd1
+  site: mynelnet
+  name: nelnet
+- tenant: abcfinancial
+  wd: wd5
+  site: abcfinancialservices
+  name: ABC Fitness
+  aliases:
+  - abcfinancial
+- tenant: magna
+  wd: wd3
+  site: magna
+  name: Magna International
+  aliases:
+  - magna
+- tenant: rxo
+  wd: wd501
+  site: rxojobs
+  name: rxo
+- tenant: rockwellautomation
+  wd: wd1
+  site: External-Rockwell-Automation-Early-Careers
+  name: Rockwell Automation
+  aliases:
+  - rockwellautomation
+- tenant: assurant
+  wd: wd1
+  site: External_Limited_Posting
+  name: assurant
+- tenant: bcbsri
+  wd: wd1
+  site: BCBSRICareers
+  name: Blue Cross and Blue Shield of Rhode Island
+  aliases:
+  - bcbsri
+- tenant: brooksauto
+  wd: wd1
+  site: Brooks_External_Site
+  name: Brooks Automation
+  aliases:
+  - brooksauto
+- tenant: insperity
+  wd: wd12
+  site: NSP
+  name: insperity
+- tenant: cambiumlearning
+  wd: wd1
+  site: camb
+  name: Cambium Learning Group
+  aliases:
+  - cambiumlearning
+- tenant: massgeneralbrigham
+  wd: wd1
+  site: mgbexternal
+  name: Mass General Brigham
+  aliases:
+  - massgeneralbrigham
+- tenant: oxy
+  wd: wd5
+  site: Corporate
+  name: oxy
+- tenant: musc
+  wd: wd1
+  site: MUSC
+  name: Medical University of South Carolina
+  aliases:
+  - musc
+- tenant: ace
+  wd: wd5
+  site: careers
+  name: AAA Club Alliance
+  aliases:
+  - ace
+- tenant: eisneramper
+  wd: wd1
+  site: EisnerAmperEarlyCareers
+  name: eisneramper
+- tenant: nwis
+  wd: wd12
+  site: NW
+  name: Nightwing Intelligence Solutions
+  aliases:
+  - nwis
+- tenant: nordsonhcm
+  wd: wd501
+  site: nordsoncareers
+  name: Nordson
+  aliases:
+  - nordsonhcm
+- tenant: tmobile
+  wd: wd1
+  site: external
+  name: T-Mobile
+  aliases:
+  - tmobile
+- tenant: oxy
+  wd: wd5
+  site: UniversityRelations
+  name: oxy
+- tenant: theocc
+  wd: wd5
+  site: careers
+  name: OCC
+  aliases:
+  - theocc
+- tenant: peak6group
+  wd: wd1
+  site: CapMan
+  name: Apex Fintech Solutions
+  aliases:
+  - peak6group
+- tenant: bobsdf
+  wd: wd1
+  site: bobs_careers
+  name: Bob's Discount Furniture
+  aliases:
+  - bobsdf
+- tenant: schnucks
+  wd: wd5
+  site: SchnucksCareers
+  name: schnucks
+- tenant: caa
+  wd: wd1
+  site: Careers
+  name: Creative Artists Agency
+  aliases:
+  - caa
+- tenant: salesforce
+  wd: wd12
+  site: Futureforce_Internships
+  name: salesforce
+- tenant: salesforce
+  wd: wd12
+  site: Salesforce_Research
+  name: salesforce
+- tenant: arraytechinc
+  wd: wd5
+  site: Array_Careers
+  name: ARRAY Technologies
+  aliases:
+  - arraytechinc
+- tenant: gunvor
+  wd: wd3
+  site: Gunvor_Careers
+  name: gunvor
+- tenant: athene
+  wd: wd5
+  site: Apollo_Careers
+  name: Apollo Global
+  aliases:
+  - athene
+- tenant: belk
+  wd: wd1
+  site: careers
+  name: belk
+- tenant: cognex
+  wd: wd1
+  site: External_Career_Site
+  name: cognex
+- tenant: phinia
+  wd: wd5
+  site: PHINIA_Careers
+  name: phinia
+- tenant: pwc
+  wd: wd3
+  site: Global_Campus_Careers
+  name: PricewaterhouseCoopers (PwC)
+  aliases:
+  - pwc
+- tenant: rbc
+  wd: wd3
+  site: RBCEARLYTALENT1
+  name: Royal Bank of Canada
+  aliases:
+  - rbc
+- tenant: rbc
+  wd: wd3
+  site: ExternalPrivatePostingStudents
+  name: Royal Bank of Canada
+  aliases:
+  - rbc
+- tenant: golimitless
+  wd: wd1
+  site: Staff_External_career_site
+  name: International Mission Board
+  aliases:
+  - golimitless
+- tenant: realtyincome
+  wd: wd108
+  site: realty_income_careers
+  name: Realty Income
+  aliases:
+  - realtyincome
+- tenant: repsol
+  wd: wd3
+  site: Repsol
+  name: repsol
+- tenant: ritehite
+  wd: wd12
+  site: RHH
+  name: Rite Hite
+  aliases:
+  - ritehite
+- tenant: rochester
+  wd: wd5
+  site: UR_Staff
+  name: University of Rochester
+  aliases:
+  - rochester
+- tenant: multicare
+  wd: wd1
+  site: multicare
+  name: MultiCare Health System
+  aliases:
+  - multicare
+- tenant: smithnephew
+  wd: wd5
+  site: External
+  name: Smith+Nephew
+  aliases:
+  - smithnephew
+- tenant: snyk
+  wd: wd103
+  site: External
+  name: snyk
+- tenant: premera
+  wd: wd5
+  site: premera
+  name: Premera Blue Cross
+  aliases:
+  - premera
+- tenant: pipersandler
+  wd: wd501
+  site: Piper_Sandler_Careers
+  name: Piper Sandler
+  aliases:
+  - pipersandler
+- tenant: rockwellautomation
+  wd: wd1
+  site: External_Rockwell_Automation
+  name: Rockwell Automation
+  aliases:
+  - rockwellautomation
+- tenant: goodrx
+  wd: wd1
+  site: Careers
+  name: goodrx
+- tenant: axos
+  wd: wd5
+  site: Axos
+  name: Axos Bank
+  aliases:
+  - axos
+- tenant: bnl
+  wd: wd1
+  site: externa
+  name: Brookhaven Lab
+  aliases:
+  - bnl
+- tenant: merceruniversity
+  wd: wd1
+  site: student
+  name: Mercer University
+  aliases:
+  - merceruniversity
+- tenant: enovis
+  wd: wd5
+  site: enovis
+  name: enovis
+- tenant: uline
+  wd: wd1
+  site: Uline_Careers
+  name: uline
+- tenant: gensler
+  wd: wd1
+  site: genslercareers
+  name: gensler
+- tenant: meredith
+  wd: wd5
+  site: EXT
+  name: DotDash Meredith
+  aliases:
+  - meredith
+- tenant: juliusbaer
+  wd: wd3
+  site: External
+  name: Julius Baer
+  aliases:
+  - juliusbaer
+- tenant: son
+  wd: wd108
+  site: NebraskaStateCareers
+  name: State of Nebraska
+  aliases:
+  - son
+- tenant: signetjewelers
+  wd: wd1
+  site: SignetCorporateCareers
+  name: Signet Jewelers
+  aliases:
+  - signetjewelers
+- tenant: bcbsri
+  wd: wd1
+  site: bcbsricareers
+  name: Blue Cross and Blue Shield of Rhode Island
+  aliases:
+  - bcbsri
+- tenant: sprinklr
+  wd: wd1
+  site: careers
+  name: sprinklr
+- tenant: soti
+  wd: wd3
+  site: SOTI-Next-Gen
+  name: soti
+- tenant: firstquality
+  wd: wd5
+  site: firstquality
+  name: First Quality
+  aliases:
+  - firstquality
+- tenant: stbancorp
+  wd: wd5
+  site: ST_Bank_Careers
+  name: S&T Bank
+  aliases:
+  - stbancorp
+- tenant: hp
+  wd: wd5
+  site: externalcareersite
+  name: Hewlett Packard (HP)
+  aliases:
+  - hp
+- tenant: starz
+  wd: wd5
+  site: Starz
+  name: starz
+- tenant: jackson
+  wd: wd1
+  site: Jackson_Careers
+  name: jackson
+- tenant: jackson
+  wd: wd1
+  site: jackson_campus
+  name: jackson
+- tenant: kyndryl
+  wd: wd5
+  site: KyndrylProfessionalCareers
+  name: kyndryl
+- tenant: evercommerce
+  wd: wd1
+  site: evercommerce_careers
+  name: evercommerce
+- tenant: bpinternational
+  wd: wd3
+  site: bpPrivateExternalCareersSite
+  name: BP
+  aliases:
+  - bpinternational
+- tenant: ingrammicro
+  wd: wd5
+  site: IngramMicro
+  name: Ingram Micro
+  aliases:
+  - ingrammicro
+- tenant: hcmportal
+  wd: wd5
+  site: Search
+  name: United Parcel Service (UPS)
+  aliases:
+  - hcmportal
+- tenant: tandemdiabetes
+  wd: wd12
+  site: tandemdiabetes
+  name: Tandem Diabetes Care
+  aliases:
+  - tandemdiabetes
+- tenant: synchronyfinancial
+  wd: wd5
+  site: University
+  name: Synchrony Financial
+  aliases:
+  - synchronyfinancial
+- tenant: cc
+  wd: wd3
+  site: ChanelCareers
+  name: Chanel
+  aliases:
+  - cc
+- tenant: spectris
+  wd: wd3
+  site: PMS_Careers
+  name: spectris
+- tenant: starfish
+  wd: wd501
+  site: Careers
+  name: Torch Technologies
+  aliases:
+  - starfish
+- tenant: uasys
+  wd: wd5
+  site: uasys
+  name: University of Arkansas
+  aliases:
+  - uasys
+- tenant: ryder
+  wd: wd5
+  site: RyderCareers
+  name: Ryder System
+  aliases:
+  - ryder
+- tenant: northwest
+  wd: wd1
+  site: Northwest_Careers
+  name: Northwest Bank
+  aliases:
+  - northwest
+- tenant: homedepot
+  wd: wd5
+  site: careerdepot
+  name: The Home Depot
+  aliases:
+  - homedepot
+- tenant: dow
+  wd: wd1
+  site: ExternalCareers
+  name: Dow Chemical Company
+  aliases:
+  - dow
+- tenant: usertesting
+  wd: wd12
+  site: UserTesting
+  name: usertesting
+- tenant: rangersmlb
+  wd: wd5
+  site: Rangers
+  name: Texas Rangers
+  aliases:
+  - rangersmlb
+- tenant: utaustin
+  wd: wd1
+  site: utstudent
+  name: University of Texas at Austin
+  aliases:
+  - utaustin
+- tenant: usnh
+  wd: wd5
+  site: Careers
+  name: University System of New Hampshire
+  aliases:
+  - usnh
+- tenant: ubc
+  wd: wd10
+  site: ubcstaffjobs
+  name: University of British Columbia
+  aliases:
+  - ubc
+- tenant: baxter
+  wd: wd1
+  site: baxter
+  name: Baxter International
+  aliases:
+  - baxter
+- tenant: csl
+  wd: wd1
+  site: CSL_External
+  name: csl
+- tenant: trumpf
+  wd: wd3
+  site: TRUMPF_Students
+  name: trumpf
+- tenant: hiscox
+  wd: wd3
+  site: Hiscox_External_Site
+  name: hiscox
+- tenant: centrica
+  wd: wd3
+  site: Centrica
+  name: centrica
+- tenant: arlo
+  wd: wd12
+  site: external_careers
+  name: arlo
+- tenant: alliancedata
+  wd: wd5
+  site: breadfinancial_us
+  name: Bread Financial
+  aliases:
+  - alliancedata
+- tenant: americanredcross
+  wd: wd1
+  site: american_red_cross_careers
+  name: American Red Cross
+  aliases:
+  - americanredcross
+- tenant: volarisgroup
+  wd: wd3
+  site: BiblioCommons
+  name: volarisgroup
+- tenant: swib
+  wd: wd12
+  site: ext
+  name: State of Wisconsin Investment Board
+  aliases:
+  - swib
+- tenant: vishay
+  wd: wd3
+  site: VishayCareers
+  name: Vishay Intertechnology
+  aliases:
+  - vishay
+- tenant: cibc
+  wd: wd3
+  site: search
+  name: cibc
+- tenant: olatheks
+  wd: wd1
+  site: olatheks
+  name: City Of Olathe
+  aliases:
+  - olatheks
+- tenant: airliquidehr
+  wd: wd3
+  site: airgasexternalcareer
+  name: Air Liquide
+  aliases:
+  - airliquidehr
+- tenant: athenahealth
+  wd: wd1
+  site: External
+  name: Athena Health
+  aliases:
+  - athenahealth
+- tenant: campbellsoup
+  wd: wd5
+  site: externalcareers_globalsite
+  name: The Campbell's Company
+  aliases:
+  - campbellsoup
+- tenant: xcelenergy
+  wd: wd1
+  site: External
+  name: Xcel Energy
+  aliases:
+  - xcelenergy
+- tenant: millerknoll
+  wd: wd1
+  site: MillerKnoll
+  name: millerknoll
+- tenant: rakuten
+  wd: wd1
+  site: RakutenAdvertising
+  name: rakuten
+- tenant: regions
+  wd: wd5
+  site: regions_careers
+  name: Regions Bank
+  aliases:
+  - regions
+- tenant: directsupply
+  wd: wd501
+  site: direct-supply-careers
+  name: Direct Supply
+  aliases:
+  - directsupply
+- tenant: hyperiongrp
+  wd: wd3
+  site: Hyperion_External
+  name: Howden
+  aliases:
+  - hyperiongrp
+- tenant: spellmanhv
+  wd: wd1
+  site: SpellmanHVCareers
+  name: Spellman High Voltage Electronics
+  aliases:
+  - spellmanhv
+- tenant: wattswater
+  wd: wd5
+  site: Intern-External
+  name: Watts Water
+  aliases:
+  - wattswater
+- tenant: bbva
+  wd: wd3
+  site: BBVA
+  name: Banco Bilbao Vizcaya Argentaria
+  aliases:
+  - bbva
+- tenant: tnsi
+  wd: wd1
+  site: Search
+  name: TNS
+  aliases:
+  - tnsi
+- tenant: revvity
+  wd: wd103
+  site: External
+  name: revvity
+- tenant: simmonsbank
+  wd: wd5
+  site: SimmonsCareers
+  name: Simmons Bank
+  aliases:
+  - simmonsbank
+- tenant: bcbsa
+  wd: wd1
+  site: careers
+  name: Blue Cross Blue Shield
+  aliases:
+  - bcbsa
+- tenant: lowes
+  wd: wd5
+  site: LWS_External_CS
+  name: Lowe's
+  aliases:
+  - lowes
+- tenant: erickson
+  wd: wd108
+  site: external
+  name: Erickson Senior Living
+  aliases:
+  - erickson
+- tenant: skechers
+  wd: wd5
+  site: one-career-site
+  name: skechers
+- tenant: salesforce
+  wd: wd12
+  site: futureforce_newgradroles
+  name: salesforce
+- tenant: newschool
+  wd: wd1
+  site: external
+  name: The New School
+  aliases:
+  - newschool
+- tenant: acg
+  wd: wd1
+  site: Careers
+  name: Auto Club Group
+  aliases:
+  - acg
+- tenant: shakeshack
+  wd: wd5
+  site: External
+  name: Shake Shack
+  aliases:
+  - shakeshack
+- tenant: transperfect
+  wd: wd5
+  site: transperfect
+  name: transperfect
+- tenant: gsk
+  wd: wd5
+  site: GSKCareers
+  name: gsk
+- tenant: kyndryl
+  wd: wd5
+  site: KyndrylEarlyCareers
+  name: kyndryl
+- tenant: group1001wd
+  wd: wd5
+  site: careers
+  name: Group 1001
+  aliases:
+  - group1001wd
+- tenant: ssctech
+  wd: wd1
+  site: ssctechnologies
+  name: SS&C
+  aliases:
+  - ssctech
+- tenant: dallascollege
+  wd: wd1
+  site: Dallas_College_Careers
+  name: Dallas College
+  aliases:
+  - dallascollege
+- tenant: ag
+  wd: wd3
+  site: Airbus
+  name: Airbus
+  aliases:
+  - ag
+- tenant: dxctechnology
+  wd: wd1
+  site: dxcjobs
+  name: DXC Technology
+  aliases:
+  - dxctechnology
+- tenant: situsamc
+  wd: wd1
+  site: SitusAMC
+  name: situsamc
+- tenant: fox
+  wd: wd1
+  site: Domestic
+  name: fox
+- tenant: costar
+  wd: wd1
+  site: Costar_Campus
+  name: CoStar Group
+  aliases:
+  - costar
+- tenant: theaccessgroup
+  wd: wd103
+  site: Access_Group_External_Careers
+  name: The Access Group
+  aliases:
+  - theaccessgroup
+- tenant: seic
+  wd: wd1
+  site: SEI_Global_Services
+  name: SEI
+  aliases:
+  - seic
+- tenant: ffin
+  wd: wd1
+  site: First_Financial_Bank
+  name: First Financial
+  aliases:
+  - ffin
+- tenant: becu
+  wd: wd1
+  site: External
+  name: becu
+- tenant: dtna
+  wd: wd5
+  site: dtna_affiliate
+  name: Daimler Truck
+  aliases:
+  - dtna
+- tenant: amcor
+  wd: wd5
+  site: amcor_external_career_site
+  name: amcor
+- tenant: strsoh
+  wd: wd1
+  site: STRS_Jobs
+  name: STRS Ohio
+  aliases:
+  - strsoh
+- tenant: argonne
+  wd: wd1
+  site: Argonne_Careers
+  name: Argonne National Laboratory
+  aliases:
+  - argonne
+- tenant: fmc
+  wd: wd12
+  site: FMC
+  name: FMC Corporation
+  aliases:
+  - fmc
+- tenant: bmc
+  wd: wd1
+  site: BMC
+  name: Boston Medical Center
+  aliases:
+  - bmc
+- tenant: gaig
+  wd: wd1
+  site: National_Interstate_External
+  name: Great American Insurance Company
+  aliases:
+  - gaig
+- tenant: elekta
+  wd: wd3
+  site: Elekta_Careers
+  name: elekta
+- tenant: semtech
+  wd: wd1
+  site: SemtechJobs
+  name: semtech
+- tenant: ardian
+  wd: wd103
+  site: ArdianCareers
+  name: ardian
+- tenant: baltimorecity
+  wd: wd1
+  site: External
+  name: City of Baltimore
+  aliases:
+  - baltimorecity
+- tenant: tmobile
+  wd: wd1
+  site: contractorconversion
+  name: T-Mobile
+  aliases:
+  - tmobile
+- tenant: newbalance
+  wd: wd1
+  site: careers
+  name: New Balance
+  aliases:
+  - newbalance
+- tenant: sifive
+  wd: wd1
+  site: sifivecareers
+  name: sifive
+- tenant: tsc
+  wd: wd12
+  site: TSC-Careers
+  name: tsc
+- tenant: american
+  wd: wd1
+  site: au
+  name: American University
+  aliases:
+  - american
+- tenant: championx
+  wd: wd1
+  site: championx_external
+  name: championx
+- tenant: woundedwarriorproject
+  wd: wd5
+  site: wwp
+  name: Wounded Warrior Project
+  aliases:
+  - woundedwarriorproject
+- tenant: datarobot
+  wd: wd1
+  site: DataRobot_External_Careers
+  name: datarobot
+- tenant: jj
+  wd: wd5
+  site: jj
+  name: Johnson & Johnson
+  aliases:
+  - jj
+- tenant: jci
+  wd: wd5
+  site: jci
+  name: Johnson Controls
+  aliases:
+  - jci
+- tenant: situsamc
+  wd: wd1
+  site: situsamc
+  name: situsamc
+- tenant: enbridge
+  wd: wd3
+  site: enbridge_careers
+  name: enbridge
+- tenant: swift
+  wd: wd3
+  site: join-swift
+  name: swift
+- tenant: granite
+  wd: wd1
+  site: careers
+  name: Granite Construction
+  aliases:
+  - granite
+- tenant: rgare
+  wd: wd1
+  site: Careers
+  name: RGA Reinsurance Company
+  aliases:
+  - rgare
+- tenant: assurant
+  wd: wd1
+  site: Assurant_Careers
+  name: assurant
+- tenant: solenis
+  wd: wd1
+  site: Solenis
+  name: solenis
+- tenant: relx
+  wd: wd3
+  site: RiskSolutions
+  name: relx
+- tenant: hancockwhitney
+  wd: wd5
+  site: Careers
+  name: Hancock Whitney
+  aliases:
+  - hancockwhitney
+- tenant: geha
+  wd: wd5
+  site: GEHACareers
+  name: geha
+- tenant: primerica
+  wd: wd1
+  site: pri
+  name: primerica
+- tenant: simonsfoundation
+  wd: wd1
+  site: simonsfoundationcareers
+  name: Simons Foundation
+  aliases:
+  - simonsfoundation
+- tenant: dickssportinggoods
+  wd: wd1
+  site: DSG
+  name: Dick's Sporting Goods
+  aliases:
+  - dickssportinggoods
+- tenant: bakerhughes
+  wd: wd5
+  site: BakerHughes
+  name: Baker Hughes
+  aliases:
+  - bakerhughes
+- tenant: covestro
+  wd: wd3
+  site: cov_external
+  name: covestro
+- tenant: statestreet
+  wd: wd1
+  site: equest
+  name: State Street
+  aliases:
+  - statestreet
+- tenant: prysmiangroup
+  wd: wd3
+  site: careers
+  name: Prysmian Cables & Systems
+  aliases:
+  - prysmiangroup
+- tenant: welocalize
+  wd: wd1
+  site: welocalize
+  name: welocalize
+- tenant: fermilab
+  wd: wd5
+  site: FermilabCareers
+  name: fermilab
+- tenant: miqdigital
+  wd: wd3
+  site: MiQ_Careers
+  name: MiQ
+  aliases:
+  - miqdigital
+- tenant: ryan
+  wd: wd1
+  site: RyanCareers
+  name: ryan
+- tenant: okgov
+  wd: wd1
+  site: okgovjobs
+  name: Oklahoma State Government
+  aliases:
+  - okgov
+- tenant: inmar
+  wd: wd1
+  site: inmarcareers
+  name: Inmar Intelligence
+  aliases:
+  - inmar
+- tenant: theirc
+  wd: wd1
+  site: External_Careers
+  name: International Rescue Committee (IRC)
+  aliases:
+  - theirc
+- tenant: santander
+  wd: wd3
+  site: SantanderCareers
+  name: santander
+- tenant: ntrs
+  wd: wd1
+  site: northerntrust
+  name: Northern Trust
+  aliases:
+  - ntrs
+- tenant: americancentury
+  wd: wd5
+  site: AmericanCenturyInvestments
+  name: American Century Investments
+  aliases:
+  - americancentury
+- tenant: taylor
+  wd: wd1
+  site: external
+  name: Taylor Corporation
+  aliases:
+  - taylor
+- tenant: bbinsurance
+  wd: wd1
+  site: careers
+  name: Brown & Brown Insurance
+  aliases:
+  - bbinsurance
+- tenant: jmfamily
+  wd: wd1
+  site: jmfamily_external
+  name: JM Family
+  aliases:
+  - jmfamily
+- tenant: oregon
+  wd: wd5
+  site: sor_external_career_site
+  name: Oregon State Government
+  aliases:
+  - oregon
+- tenant: ryan
+  wd: wd1
+  site: Students-Graduates
+  name: ryan
+- tenant: fortrea
+  wd: wd1
+  site: Fortrea
+  name: fortrea
+- tenant: scgov
+  wd: wd5
+  site: SCGOV
+  name: Sarasota County
+  aliases:
+  - scgov
+- tenant: mymvw
+  wd: wd5
+  site: mvw
+  name: Marriott Vacations Worldwide
+  aliases:
+  - mymvw
+- tenant: usventure
+  wd: wd1
+  site: usvexternal
+  name: U.S. Venture
+  aliases:
+  - usventure
+- tenant: rakuten
+  wd: wd1
+  site: Kobo
+  name: rakuten
+- tenant: pwc
+  wd: wd3
+  site: US_Entry_Level_Careers
+  name: PricewaterhouseCoopers (PwC)
+  aliases:
+  - pwc
+- tenant: myhrhome
+  wd: wd1
+  site: OneMainCareers
+  name: OneMain Financial
+  aliases:
+  - myhrhome
+- tenant: gentex
+  wd: wd5
+  site: Gentex
+  name: Gentex Corporation
+  aliases:
+  - gentex
+- tenant: onto
+  wd: wd1
+  site: onto_careers
+  name: Onto Innovation
+  aliases:
+  - onto
+- tenant: clearesult
+  wd: wd1
+  site: CLEAResult_External_Careers
+  name: clearesult
+- tenant: wattswater
+  wd: wd5
+  site: external
+  name: Watts Water
+  aliases:
+  - wattswater
+- tenant: goosehead
+  wd: wd503
+  site: Careers
+  name: Goosehead Insurance
+  aliases:
+  - goosehead
+- tenant: rogersbh
+  wd: wd1
+  site: rbhcareer
+  name: Rogers Behavioral Health
+  aliases:
+  - rogersbh
+- tenant: amynta
+  wd: wd5
+  site: global
+  name: Amynta Group
+  aliases:
+  - amynta
+- tenant: acxiomllc
+  wd: wd5
+  site: AcxiomUSA
+  name: Acxiom
+  aliases:
+  - acxiomllc
+- tenant: rehlko
+  wd: wd12
+  site: Reh
+  name: rehlko
+- tenant: copeland
+  wd: wd5
+  site: copeland_external_careers_page
+  name: copeland
+- tenant: bigcommerce
+  wd: wd12
+  site: Commerce
+  name: bigcommerce
+- tenant: cerence
+  wd: wd5
+  site: Cerence
+  name: cerence
+- tenant: ymcaatlanta
+  wd: wd1
+  site: ymca-careers
+  name: YMCA of Metropolitan Atlanta
+  aliases:
+  - ymcaatlanta
+- tenant: wilburellis
+  wd: wd12
+  site: wilbur-ellis
+  name: Wilbur-Ellis
+  aliases:
+  - wilburellis
+- tenant: bdo
+  wd: wd3
+  site: BDO
+  name: BDO Canada
+  aliases:
+  - bdo
+- tenant: zendesk
+  wd: wd1
+  site: zendesk
+  name: zendesk
+- tenant: bah
+  wd: wd1
+  site: Confidential
+  name: Booz Allen
+  aliases:
+  - bah
+- tenant: chartermfg
+  wd: wd5
+  site: Charter_Careers
+  name: Charter Manufacturing
+  aliases:
+  - chartermfg
+- tenant: amn
+  wd: wd1
+  site: amn_careers
+  name: AMN Healthcare
+  aliases:
+  - amn
+- tenant: heidelbergmaterials
+  wd: wd3
+  site: global_hm_career_site
+  name: Heidelberg Materials
+  aliases:
+  - heidelbergmaterials
+- tenant: baird
+  wd: wd1
+  site: careers
+  name: baird
+- tenant: iheartmedia
+  wd: wd5
+  site: External_iHM
+  name: iheartmedia
+- tenant: chamberlain
+  wd: wd1
+  site: Chamberlain_Group
+  name: Chamberlain Group
+  aliases:
+  - chamberlain
+- tenant: gi
+  wd: wd1
+  site: Global_Infrastructure
+  name: Global Infrastructure
+  aliases:
+  - gi
+- tenant: navcanada
+  wd: wd10
+  site: NAV_Careers
+  name: NAV CANADA
+  aliases:
+  - navcanada
+- tenant: gdit
+  wd: wd5
+  site: external_career_site
+  name: General Dynamics Information Technology
+  aliases:
+  - gdit
+- tenant: ucar
+  wd: wd5
+  site: UCAR_Careers
+  name: University Corporation for Atmospheric Research
+  aliases:
+  - ucar
+- tenant: suncor
+  wd: wd1
+  site: Suncor_External
+  name: suncor
+- tenant: boydgroup
+  wd: wd1
+  site: boydcareers
+  name: The Boyd Group
+  aliases:
+  - boydgroup
+- tenant: tmx
+  wd: wd3
+  site: TMX_Careers
+  name: TMX Group
+  aliases:
+  - tmx
+- tenant: ameriprise
+  wd: wd5
+  site: Ameriprise
+  name: Ameriprise Financial
+  aliases:
+  - ameriprise
+- tenant: bluescopenac
+  wd: wd5
+  site: BNACareers
+  name: BlueScope
+  aliases:
+  - bluescopenac
+- tenant: carrier
+  wd: wd5
+  site: jobs
+  name: Carrier Global
+  aliases:
+  - carrier
+- tenant: motorolasolutions
+  wd: wd5
+  site: careers
+  name: Motorola
+  aliases:
+  - motorolasolutions
+- tenant: mgic
+  wd: wd5
+  site: mgic
+  name: mgic
+- tenant: ulse
+  wd: wd5
+  site: ulsecareers
+  name: ulse
+- tenant: imerys
+  wd: wd3
+  site: imerys-careers
+  name: imerys
+- tenant: thisisglobal
+  wd: wd3
+  site: Global
+  name: Global
+  aliases:
+  - thisisglobal
+- tenant: spectrumhealth
+  wd: wd5
+  site: CorewellHealthCareers
+  name: Corewell Health
+  aliases:
+  - spectrumhealth
+- tenant: fairstone
+  wd: wd3
+  site: FairstoneCareers
+  name: Fairstone Financial
+  aliases:
+  - fairstone
+- tenant: costar
+  wd: wd1
+  site: CoStarCareers
+  name: CoStar Group
+  aliases:
+  - costar
+- tenant: drivetime
+  wd: wd1
+  site: DriveTime
+  name: drivetime
+- tenant: yai
+  wd: wd5
+  site: careers
+  name: yai
+- tenant: ascensushr
+  wd: wd1
+  site: ascensuscareers
+  name: Ascensus
+  aliases:
+  - ascensushr
+- tenant: sbasite
+  wd: wd5
+  site: SBA_Communications_Careers
+  name: SBA Communications Corporation
+  aliases:
+  - sbasite
+- tenant: lighting
+  wd: wd3
+  site: jobs-and-careers
+  name: Signify
+  aliases:
+  - lighting
+- tenant: igsenergy
+  wd: wd1
+  site: IGS
+  name: IGS Energy
+  aliases:
+  - igsenergy
+- tenant: umb
+  wd: wd1
+  site: UMBExternal
+  name: umb
+- tenant: trustage
+  wd: wd1
+  site: TruStage
+  name: trustage
+- tenant: ptc
+  wd: wd1
+  site: ptc
+  name: ptc
+- tenant: tricentis
+  wd: wd1
+  site: tricentis_careers
+  name: tricentis
+- tenant: wustl
+  wd: wd1
+  site: external
+  name: Wash U
+  aliases:
+  - wustl
+- tenant: asu
+  wd: wd1
+  site: ASUStaffCareers
+  name: Arizona State University
+  aliases:
+  - asu
+- tenant: rbs
+  wd: wd3
+  site: rbs
+  name: NatWest Group
+  aliases:
+  - rbs
+- tenant: medtronic
+  wd: wd1
+  site: redeploymentmedtroniccareers
+  name: medtronic
+- tenant: liveoakbancshares
+  wd: wd1
+  site: Live_Oak
+  name: Live Oak Bank
+  aliases:
+  - liveoakbancshares
+- tenant: uhaul
+  wd: wd1
+  site: UhaulJobs
+  name: uhaul
+- tenant: irhythmtech
+  wd: wd5
+  site: irhythm
+  name: iRhythm Technologies
+  aliases:
+  - irhythmtech
+- tenant: fullsteam
+  wd: wd1
+  site: external
+  name: fullsteam
+- tenant: strideinc
+  wd: wd1
+  site: SK
+  name: Stride
+  aliases:
+  - strideinc
+- tenant: tcenergy
+  wd: wd3
+  site: CAREER_SITE_TC
+  name: TC Energy
+  aliases:
+  - tcenergy
+- tenant: manulife
+  wd: wd3
+  site: MFCJH_Jobs
+  name: Manulife Financial
+  aliases:
+  - manulife
+- tenant: stryker
+  wd: wd1
+  site: StrykerCareers
+  name: stryker
+- tenant: westernunion
+  wd: wd5
+  site: WesternUnionJobs
+  name: Western Union
+  aliases:
+  - westernunion
+- tenant: cdw
+  wd: wd5
+  site: careers
+  name: CDW Corporation
+  aliases:
+  - cdw
+- tenant: stoneridge
+  wd: wd5
+  site: careers
+  name: stoneridge
+- tenant: sluhn
+  wd: wd1
+  site: SLUHN
+  name: St. Luke's University Health Network
+  aliases:
+  - sluhn
+- tenant: arienscompany
+  wd: wd5
+  site: external
+  name: AriensCo
+  aliases:
+  - arienscompany
+- tenant: csagroup
+  wd: wd3
+  site: csagroup
+  name: CSA Group
+  aliases:
+  - csagroup
+- tenant: tamus
+  wd: wd1
+  site: System-wide_External
+  name: tamus
+- tenant: jeffersonhealth
+  wd: wd5
+  site: ThomasJeffersonExternal
+  name: Jefferson Health
+  aliases:
+  - jeffersonhealth
+- tenant: caresource
+  wd: wd1
+  site: caresource
+  name: caresource
+- tenant: dowjones
+  wd: wd1
+  site: Dow_Jones_Career
+  name: dowjones
+- tenant: corebridgefinancial
+  wd: wd1
+  site: CorebridgeFinancial
+  name: Corebridge Financial
+  aliases:
+  - corebridgefinancial
+- tenant: nshe
+  wd: wd1
+  site: UNR-external
+  name: University of Nevada, Reno
+  aliases:
+  - nshe
+- tenant: nphosting
+  wd: wd5
+  site: FDFCareers
+  name: FirstDay Foundation
+  aliases:
+  - nphosting
+- tenant: jd
+  wd: wd103
+  site: Campus_Career_Site
+  name: JINGDONG
+  aliases:
+  - jd
+- tenant: tencent
+  wd: wd1
+  site: Lightspeed
+  name: tencent
+- tenant: revantage
+  wd: wd1
+  site: Revantage
+  name: Revantage Corporate Services
+  aliases:
+  - revantage
+- tenant: lsu
+  wd: wd1
+  site: lsuwaiver
+  name: Louisiana State University (LSU)
+  aliases:
+  - lsu
+- tenant: fenwick
+  wd: wd1
+  site: Fenwick_External_Careers
+  name: Fenwick & West
+  aliases:
+  - fenwick
+- tenant: dmainc
+  wd: wd5
+  site: dma
+  name: DuCharme, McMillen & Associates
+  aliases:
+  - dmainc
+- tenant: corpay
+  wd: wd103
+  site: ext_001
+  name: corpay
+- tenant: transunion
+  wd: wd5
+  site: TransUnion
+  name: transunion
+- tenant: dairynet
+  wd: wd1
+  site: DPCcareers
+  name: Dairyland Power Cooperative
+  aliases:
+  - dairynet
+- tenant: soti
+  wd: wd3
+  site: Careers
+  name: soti
+- tenant: tutorperini
+  wd: wd12
+  site: external
+  name: Tutor Perini Corporation
+  aliases:
+  - tutorperini
+- tenant: idexcorp
+  wd: wd5
+  site: idex_careers
+  name: IDEX
+  aliases:
+  - idexcorp
+- tenant: ncnu
+  wd: wd1
+  site: aaa_ncnu_careers
+  name: AAA Mountainwest Group
+  aliases:
+  - ncnu
+- tenant: ascendperformancematerials
+  wd: wd1
+  site: ascend
+  name: Ascend Performance Materials
+  aliases:
+  - ascendperformancematerials
+- tenant: ncr
+  wd: wd1
+  site: ext_non_us
+  name: NCR Voyix
+  aliases:
+  - ncr
+- tenant: msigna
+  wd: wd5
+  site: gbl
+  name: MSIG USA
+  aliases:
+  - msigna
+- tenant: osu
+  wd: wd1
+  site: OSUCareers
+  name: Ohio State University
+  aliases:
+  - osu
+- tenant: ulse
+  wd: wd5
+  site: ulricareers
+  name: ulse
+- tenant: intelcomgroup
+  wd: wd3
+  site: Intelcom
+  name: Intelcom | Dragonfly
+  aliases:
+  - intelcomgroup
+- tenant: omers
+  wd: wd3
+  site: omers_external
+  name: omers
+- tenant: shi
+  wd: wd12
+  site: shicareers
+  name: SHI International
+  aliases:
+  - shi
+- tenant: charlottenc
+  wd: wd12
+  site: citgov
+  name: City of Charlotte
+  aliases:
+  - charlottenc
+- tenant: resolvetech
+  wd: wd1
+  site: rts
+  name: Resolve Tech Solutions
+  aliases:
+  - resolvetech
+- tenant: epiqsystems
+  wd: wd503
+  site: Epiq_Careers
+  name: Epiq Systems
+  aliases:
+  - epiqsystems
+- tenant: statestreet
+  wd: wd1
+  site: global
+  name: State Street
+  aliases:
+  - statestreet
+- tenant: intactfc
+  wd: wd3
+  site: intactfc
+  name: Intact
+  aliases:
+  - intactfc
+- tenant: standoutforgood
+  wd: wd12
+  site: StandOutForGood
+  name: Altar'd State
+  aliases:
+  - standoutforgood
+- tenant: tysonfoods
+  wd: wd5
+  site: TSN
+  name: Tyson Foods
+  aliases:
+  - tysonfoods
+- tenant: sharecare
+  wd: wd1
+  site: Sharecare_Careers
+  name: sharecare
+- tenant: envista
+  wd: wd1
+  site: envistacareers
+  name: envista
+- tenant: snapfinance
+  wd: wd1
+  site: snap_external_careers
+  name: Snap Finance
+  aliases:
+  - snapfinance
+- tenant: modmed
+  wd: wd501
+  site: ModMed12
+  name: Modernizing Medicine
+  aliases:
+  - modmed
+- tenant: cubic
+  wd: wd1
+  site: cubic_USA_careers
+  name: cubic
+- tenant: ttc
+  wd: wd1
+  site: Toro_External_Careers
+  name: The Toro Company
+  aliases:
+  - ttc
+- tenant: integralads
+  wd: wd1
+  site: IAScareers
+  name: Integral Ad Science
+  aliases:
+  - integralads
+- tenant: scanhealthplan
+  wd: wd108
+  site: scancareers
+  name: SCAN
+  aliases:
+  - scanhealthplan
+- tenant: semtech
+  wd: wd1
+  site: SemtechCareers
+  name: semtech
+- tenant: papajohns
+  wd: wd1
+  site: papajohnscareers
+  name: Papa John's
+  aliases:
+  - papajohns
+- tenant: novanta
+  wd: wd5
+  site: Novanta-Careers
+  name: novanta
+- tenant: lumeris
+  wd: wd1
+  site: LC
+  name: lumeris
+- tenant: gtweed
+  wd: wd1
+  site: Careers
+  name: Greene Tweed
+  aliases:
+  - gtweed
+- tenant: volarisgroup
+  wd: wd3
+  site: volaris
+  name: volarisgroup
+- tenant: pattersoncompanies
+  wd: wd501
+  site: pdco
+  name: pattersoncompanies
+- tenant: slu
+  wd: wd5
+  site: Careers
+  name: St. Louis University
+  aliases:
+  - slu
+- tenant: cgg
+  wd: wd103
+  site: viridiencareers
+  name: Viridien
+  aliases:
+  - cgg
+- tenant: energynorthwest
+  wd: wd1
+  site: External
+  name: Energy Northwest
+  aliases:
+  - energynorthwest
+- tenant: avisbudget
+  wd: wd1
+  site: abg_careers
+  name: Avis Budget Group
+  aliases:
+  - avisbudget
+- tenant: howard
+  wd: wd1
+  site: HU
+  name: Howard University
+  aliases:
+  - howard
+- tenant: americanfidelity
+  wd: wd5
+  site: External
+  name: American Fidelity
+  aliases:
+  - americanfidelity
+- tenant: cenovus
+  wd: wd3
+  site: careers
+  name: Cenovus Energy
+  aliases:
+  - cenovus
+- tenant: desjardins
+  wd: wd10
+  site: Desjardins
+  name: Desjardins Group
+  aliases:
+  - desjardins
+- tenant: aveva
+  wd: wd3
+  site: RIB_Careers
+  name: aveva
+- tenant: invesco
+  wd: wd1
+  site: IVZ
+  name: invesco
+- tenant: talentmanagementsolution
+  wd: wd3
+  site: JonasSoftwareUSA
+  name: Jonas Software
+  aliases:
+  - talentmanagementsolution
+- tenant: deckers
+  wd: wd5
+  site: Deckers
+  name: Deckers Brands
+  aliases:
+  - deckers
+- tenant: stevens
+  wd: wd5
+  site: External
+  name: Stevens Institute of Technology
+  aliases:
+  - stevens
+- tenant: jefferson
+  wd: wd5
+  site: external
+  name: Jefferson County Colorado
+  aliases:
+  - jefferson
+- tenant: bci
+  wd: wd10
+  site: BCI_Careers
+  name: British Columbia Investment
+  aliases:
+  - bci
+- tenant: clarivate
+  wd: wd3
+  site: Clarivate_Careers
+  name: clarivate
+- tenant: swa
+  wd: wd1
+  site: external
+  name: Southwest Airlines
+  aliases:
+  - swa
+- tenant: pfizer
+  wd: wd1
+  site: PfizerCareers
+  name: pfizer
+- tenant: maersk
+  wd: wd3
+  site: APMT_Careers
+  name: maersk
+- tenant: ankura
+  wd: wd5
+  site: ankura
+  name: Ankura Consulting Group
+  aliases:
+  - ankura
+- tenant: raymondjames
+  wd: wd1
+  site: RaymondJamesEarlyCareers
+  name: Raymond James Financial
+  aliases:
+  - raymondjames
+- tenant: terex
+  wd: wd1
+  site: terexcareers
+  name: terex
+- tenant: cisecurity
+  wd: wd1
+  site: CIS_External_Career_Site
+  name: Center for Internet Security (CIS)
+  aliases:
+  - cisecurity
+- tenant: ancestry
+  wd: wd501
+  site: Careers
+  name: ancestry
+- tenant: cableone
+  wd: wd1
+  site: Cable_One_External_Careers
+  name: Cable One
+  aliases:
+  - cableone
+- tenant: guidewire
+  wd: wd5
+  site: external
+  name: guidewire
+- tenant: cisco
+  wd: wd5
+  site: cisco_careers
+  name: cisco
+- tenant: symbotic
+  wd: wd504
+  site: Symbotic
+  name: symbotic
+- tenant: saks
+  wd: wd1
+  site: careers_at_saks
+  name: Saks Global
+  aliases:
+  - saks
+- tenant: liveramp
+  wd: wd5
+  site: LiveRampCareers
+  name: liveramp
+- tenant: ultra
+  wd: wd3
+  site: uiccareers
+  name: ultra
+- tenant: jadeglobal
+  wd: wd5
+  site: jade_careers
+  name: Jade Global
+  aliases:
+  - jadeglobal
+- tenant: salesforce
+  wd: wd12
+  site: Futureforce_NewGradRoles
+  name: salesforce
+- tenant: zillow
+  wd: wd5
+  site: Zillow_Group_External
+  name: zillow
+- tenant: fhlbi
+  wd: wd1
+  site: FHLBI_Careers
+  name: Federal Home Loan Bank of Indianapolis
+  aliases:
+  - fhlbi
+- tenant: floridatech
+  wd: wd5
+  site: FloridaTechCareers
+  name: Florida Institute of Technology
+  aliases:
+  - floridatech
+- tenant: cswg
+  wd: wd1
+  site: cs_careers
+  name: C&S Wholesale Grocers
+  aliases:
+  - cswg
+- tenant: oh
+  wd: wd3
+  site: OH
+  name: Ontario Health
+  aliases:
+  - oh
+- tenant: scj
+  wd: wd5
+  site: External_Career_Site
+  name: SC Johnson
+  aliases:
+  - scj
+- tenant: cmcmarkets
+  wd: wd3
+  site: CMC_Markets_Careers
+  name: CMC Markets
+  aliases:
+  - cmcmarkets
+- tenant: psecu
+  wd: wd12
+  site: PSECU
+  name: psecu
+- tenant: ijm
+  wd: wd5
+  site: careers-ijm
+  name: ijm
+- tenant: verabradley
+  wd: wd5
+  site: vbcareers
+  name: Vera Bradley
+  aliases:
+  - verabradley
+- tenant: spectris
+  wd: wd3
+  site: HBK_Careers
+  name: spectris
+- tenant: heinz
+  wd: wd1
+  site: KraftHeinz_Careers_UR
+  name: Kraft Heinz
+  aliases:
+  - heinz
+- tenant: fau
+  wd: wd1
+  site: FAU
+  name: Florida Atlantic University
+  aliases:
+  - fau
+- tenant: heinz
+  wd: wd1
+  site: KraftHeinz_Careers
+  name: Kraft Heinz
+  aliases:
+  - heinz
+- tenant: imcoinvest
+  wd: wd3
+  site: IMCO
+  name: Investment Management Corporation of Ontario
+  aliases:
+  - imcoinvest
+- tenant: sentara
+  wd: wd1
+  site: SCS
+  name: Sentara Health
+  aliases:
+  - sentara
+- tenant: investpsp
+  wd: wd3
+  site: psp_careers
+  name: PSP Investments
+  aliases:
+  - investpsp
+- tenant: aimco
+  wd: wd10
+  site: AIMCoCareers
+  name: Alberta Investment Management Corporation
+  aliases:
+  - aimco
+- tenant: bdx
+  wd: wd1
+  site: US_EARLY_TALENT_SITE
+  name: Becton Dickinson
+  aliases:
+  - bdx
+- tenant: cranecompany
+  wd: wd5
+  site: Careers
+  name: Crane Co.
+  aliases:
+  - cranecompany
+- tenant: fhlbtopeka
+  wd: wd1
+  site: FHLBT
+  name: FHLBank Topeka
+  aliases:
+  - fhlbtopeka
+- tenant: snhu
+  wd: wd503
+  site: External_Career_Site
+  name: Southern New Hampshire University
+  aliases:
+  - snhu
+- tenant: gafsgi
+  wd: wd5
+  site: GAF_Careers
+  name: GAF
+  aliases:
+  - gafsgi
+- tenant: nationwidechildrens
+  wd: wd5
+  site: NCHCareers
+  name: Nationwide Children's Hospital
+  aliases:
+  - nationwidechildrens
+- tenant: mmc
+  wd: wd1
+  site: mmc
+  name: mmc
+- tenant: syneoshealth
+  wd: wd12
+  site: Syneos_Health_External_Site
+  name: Syneos Health
+  aliases:
+  - syneoshealth
+- tenant: lseg
+  wd: wd3
+  site: Careers
+  name: lseg
+- tenant: cw
+  wd: wd1
+  site: external
+  name: Cushman & Wakefield
+  aliases:
+  - cw
+- tenant: firstnational
+  wd: wd12
+  site: fnbocareers
+  name: FNBO
+  aliases:
+  - firstnational
+- tenant: sekologistics
+  wd: wd503
+  site: Seko_Logistics
+  name: SEKO Logistics
+  aliases:
+  - sekologistics
+- tenant: alteryx
+  wd: wd108
+  site: AlteryxCareers
+  name: alteryx
+- tenant: capgroup
+  wd: wd1
+  site: capitalgroupcareers
+  name: Capital Group
+  aliases:
+  - capgroup
+- tenant: boeing
+  wd: wd1
+  site: external_subsidiary
+  name: The Boeing Company
+  aliases:
+  - boeing
+- tenant: blackrock
+  wd: wd1
+  site: BlackRock_Professional
+  name: blackrock
+- tenant: shawinc
+  wd: wd1
+  site: External
+  name: Shaw Industries Group
+  aliases:
+  - shawinc
+- tenant: agilent
+  wd: wd5
+  site: Agilent_Student_Careers
+  name: Agilent Technologies
+  aliases:
+  - agilent
+- tenant: boystown
+  wd: wd1
+  site: boystowncareers
+  name: Boys Town
+  aliases:
+  - boystown
+- tenant: allstate
+  wd: wd5
+  site: sourcing_event
+  name: Allstate Insurance Company
+  aliases:
+  - allstate
+- tenant: imerys
+  wd: wd3
+  site: imerys_career2
+  name: imerys
+- tenant: kengarff
+  wd: wd1
+  site: external_site
+  name: Ken Garff Auto Group
+  aliases:
+  - kengarff
+- tenant: largo
+  wd: wd1
+  site: external
+  name: City of Largo
+  aliases:
+  - largo
+- tenant: smithfieldfoods
+  wd: wd1
+  site: Careers
+  name: Smithfield Foods
+  aliases:
+  - smithfieldfoods
+- tenant: bakertilly
+  wd: wd5
+  site: BTCareers
+  name: Baker Tilly
+  aliases:
+  - bakertilly
+- tenant: brambles
+  wd: wd5
+  site: Brambles_Careers
+  name: CHEP
+  aliases:
+  - brambles
+- tenant: ivytech
+  wd: wd1
+  site: ivy_tech_careers
+  name: Ivy Tech Community College
+  aliases:
+  - ivytech
+- tenant: miamioh
+  wd: wd5
+  site: miamioh-staff
+  name: Miami University
+  aliases:
+  - miamioh
+- tenant: financialombudsman
+  wd: wd3
+  site: FinancialOmbudsmanService
+  name: Financial Ombudsman Service
+  aliases:
+  - financialombudsman
+- tenant: wpi
+  wd: wd5
+  site: WPI_External_Career_Site
+  name: Worcester Polytechnic Institute
+  aliases:
+  - wpi
+- tenant: ghr
+  wd: wd1
+  site: us-emplsv
+  name: Bank of America
+  aliases:
+  - ghr
+- tenant: pennant
+  wd: wd1
+  site: PennantServicesCareerSite
+  name: Pennant Group
+  aliases:
+  - pennant
+- tenant: mydpr
+  wd: wd5
+  site: '11212017'
+  name: DPR Family of Companies
+  aliases:
+  - mydpr
+- tenant: tjx
+  wd: wd1
+  site: tjx_external
+  name: tjx
+- tenant: axis
+  wd: wd3
+  site: external_career_site
+  name: Axis Communications AB
+  aliases:
+  - axis
+- tenant: lytx
+  wd: wd1
+  site: Lytx
+  name: Lytx Careers
+  aliases:
+  - lytx
+- tenant: uasys
+  wd: wd5
+  site: UAF_External_Career_Site
+  name: University of Arkansas
+  aliases:
+  - uasys
+- tenant: archildrens
+  wd: wd1
+  site: external_career_site
+  name: Arkansas Children's
+  aliases:
+  - archildrens
+- tenant: oldrepublic
+  wd: wd1
+  site: oldrepublictitle
+  name: Old Republic Title
+  aliases:
+  - oldrepublic
+- tenant: bb
+  wd: wd3
+  site: blackberry
+  name: Blackberry
+  aliases:
+  - bb
+- tenant: neighborlybrands
+  wd: wd1
+  site: neighborly
+  name: Neighborly
+  aliases:
+  - neighborlybrands
+- tenant: trellix
+  wd: wd1
+  site: EnterpriseCareers
+  name: trellix
+- tenant: sandvik
+  wd: wd3
+  site: sandvik-jobs
+  name: sandvik
+- tenant: astrazeneca
+  wd: wd3
+  site: alexion
+  name: astrazeneca
+- tenant: munters
+  wd: wd3
+  site: external_careers
+  name: munters
+- tenant: pwc
+  wd: wd3
+  site: Global_Experienced_Careers
+  name: PricewaterhouseCoopers (PwC)
+  aliases:
+  - pwc
+- tenant: coreandmain
+  wd: wd1
+  site: coreandmain
+  name: Core & Main
+  aliases:
+  - coreandmain
+- tenant: bcbst
+  wd: wd1
+  site: external
+  name: bcbst
+- tenant: clio
+  wd: wd3
+  site: ClioCareerSite
+  name: clio
+- tenant: nrel
+  wd: wd5
+  site: NLR
+  name: National Laboratory of the Rockies
+  aliases:
+  - nrel
+- tenant: altasciences
+  wd: wd1
+  site: Careers
+  name: altasciences
+- tenant: rfcuny
+  wd: wd108
+  site: RFCUNY
+  name: rfcuny
+- tenant: mlse
+  wd: wd3
+  site: MLSE
+  name: Maple Leaf Sports & Entertainment Partnership (MLSE)
+  aliases:
+  - mlse
+- tenant: elanco
+  wd: wd5
+  site: External_Career
+  name: elanco
+- tenant: sedgwick
+  wd: wd1
+  site: Sedgwick
+  name: Sedgwick Claims Management Services
+  aliases:
+  - sedgwick
+- tenant: volarisgroup
+  wd: wd3
+  site: GoAssetWorks
+  name: volarisgroup
+- tenant: keybank
+  wd: wd5
+  site: External_Career_Site
+  name: keybank
+- tenant: bcbsaz
+  wd: wd1
+  site: bcbsazcareers
+  name: Blue Cross Blue Shield of Arizona
+  aliases:
+  - bcbsaz
+- tenant: tdwilliamson
+  wd: wd1
+  site: TDWCareers
+  name: T.D. Williamson
+  aliases:
+  - tdwilliamson
+- tenant: paloaltonetworks
+  wd: wd5
+  site: panwexternalcareers
+  name: Palo Alto Networks
+  aliases:
+  - paloaltonetworks
+- tenant: isu
+  wd: wd1
+  site: IowaStateJobs
+  name: Iowa State University
+  aliases:
+  - isu
+- tenant: target
+  wd: wd5
+  site: targetcareers
+  name: target
+- tenant: blackstone
+  wd: wd1
+  site: Blackstone_Campus_Careers
+  name: blackstone
+- tenant: nc
+  wd: wd108
+  site: NC_Careers
+  name: State of North Carolina
+  aliases:
+  - nc
+- tenant: mosscm
+  wd: wd1
+  site: moss_careers
+  name: Moss & Associates
+  aliases:
+  - mosscm
+- tenant: visa
+  wd: wd5
+  site: Visa
+  name: visa
+- tenant: evergreenix
+  wd: wd1
+  site: external-careers2
+  name: Everfox
+  aliases:
+  - evergreenix
+- tenant: gia
+  wd: wd1
+  site: GIA
+  name: gia
+- tenant: bannerhealth
+  wd: wd108
+  site: Careers
+  name: Banner Health
+  aliases:
+  - bannerhealth
+- tenant: univision
+  wd: wd1
+  site: External
+  name: TelevisaUnivision
+  aliases:
+  - univision
+- tenant: datasite
+  wd: wd1
+  site: datasite
+  name: datasite
+- tenant: alfalaval
+  wd: wd3
+  site: Alfa_Laval_jobs
+  name: ALFA LAVAL
+  aliases:
+  - alfalaval
+- tenant: relx
+  wd: wd3
+  site: LexisNexisLegal
+  name: relx
+- tenant: chevron
+  wd: wd5
+  site: University
+  name: Chevron Corporation
+  aliases:
+  - chevron
+- tenant: ncsecu
+  wd: wd1
+  site: secu
+  name: State Employees' Credit Union (SECU)
+  aliases:
+  - ncsecu
+- tenant: mtb
+  wd: wd5
+  site: Campus
+  name: M&T Bank
+  aliases:
+  - mtb
+- tenant: auroragov
+  wd: wd1
+  site: careers
+  name: City of Aurora
+  aliases:
+  - auroragov
+- tenant: finning
+  wd: wd3
+  site: External
+  name: finning
+- tenant: avaap
+  wd: wd501
+  site: AvaapCareers
+  name: avaap
+- tenant: levistraussandco
+  wd: wd5
+  site: external
+  name: Levi Strauss & Co.
+  aliases:
+  - levistraussandco
+- tenant: blackrock
+  wd: wd1
+  site: BlackRock_Early_Careers_Program
+  name: blackrock
+- tenant: compassion
+  wd: wd5
+  site: CompassionCareersPrivateLink
+  name: Compassion International
+  aliases:
+  - compassion
+- tenant: pru
+  wd: wd5
+  site: Careers
+  name: pru
+- tenant: pru
+  wd: wd5
+  site: pgim_careers
+  name: pru
+- tenant: lnw
+  wd: wd5
+  site: lightwonderexternalcareers
+  name: Light & Wonder
+  aliases:
+  - lnw
+- tenant: compassion
+  wd: wd5
+  site: compassioncareers
+  name: Compassion International
+  aliases:
+  - compassion
+- tenant: colpipe
+  wd: wd1
+  site: Search
+  name: Colonial Pipeline Company
+  aliases:
+  - colpipe
+- tenant: uottawa
+  wd: wd3
+  site: uOttawa_External_Career_Site
+  name: University of Ottawa
+  aliases:
+  - uottawa
+- tenant: rockwoolgroup
+  wd: wd3
+  site: ROCKWOOL
+  name: ROCKWOOL Group
+  aliases:
+  - rockwoolgroup
+- tenant: mosaic
+  wd: wd5
+  site: mosaic
+  name: mosaic
+- tenant: brandeis
+  wd: wd5
+  site: Jobs
+  name: Brandeis University
+  aliases:
+  - brandeis
+- tenant: guidehouse
+  wd: wd1
+  site: external
+  name: guidehouse
+- tenant: vizient
+  wd: wd1
+  site: Vizient_Careers
+  name: vizient
+- tenant: baldwin
+  wd: wd1
+  site: MSI
+  name: MSI
+  aliases:
+  - baldwin
+- tenant: baldwin
+  wd: wd1
+  site: Baldwin
+  name: MSI
+  aliases:
+  - baldwin
+- tenant: conagrabrands
+  wd: wd1
+  site: Careers_US
+  name: Conagra Brands
+  aliases:
+  - conagrabrands
+- tenant: axiscapital
+  wd: wd1
+  site: axiscareers
+  name: Axis Capital
+  aliases:
+  - axiscapital
+- tenant: bankeasy
+  wd: wd5
+  site: bank-easy-job-openings
+  name: First Bank & Trust
+  aliases:
+  - bankeasy
+- tenant: fticonsulting
+  wd: wd108
+  site: FTIConsultingCareersPrivate
+  name: FTI Consulting
+  aliases:
+  - fticonsulting
+- tenant: fticonsulting
+  wd: wd108
+  site: FTIConsultingCareers
+  name: FTI Consulting
+  aliases:
+  - fticonsulting
+- tenant: richemont
+  wd: wd3
+  site: richemont
+  name: richemont
+- tenant: arlo
+  wd: wd12
+  site: External_Careers
+  name: arlo
+- tenant: hrhub
+  wd: wd3
+  site: Euronext_Career_Page
+  name: Euronext
+  aliases:
+  - hrhub
+- tenant: autostore
+  wd: wd3
+  site: autostore
+  name: autostore
+- tenant: exclusivenetworks
+  wd: wd103
+  site: Exclusive-Networks-Career
+  name: Exclusive Networks
+  aliases:
+  - exclusivenetworks
+- tenant: asuep
+  wd: wd5
+  site: ASUFoundation
+  name: Arizona State University
+  aliases:
+  - asuep
+- tenant: nexstar
+  wd: wd5
+  site: nexstar
+  name: nexstar
+- tenant: northeastern
+  wd: wd1
+  site: careers
+  name: Northeastern University
+  aliases:
+  - northeastern
+- tenant: aep
+  wd: wd1
+  site: AEPCareerSite
+  name: American Electric Power
+  aliases:
+  - aep
+- tenant: conocophillips
+  wd: wd1
+  site: External
+  name: conocophillips
+- tenant: coke
+  wd: wd1
+  site: coca-cola-careers
+  name: The Coca-Cola Company
+  aliases:
+  - coke
+- tenant: pentair
+  wd: wd5
+  site: pentair_careers
+  name: pentair
+- tenant: williams
+  wd: wd5
+  site: External
+  name: williams
+- tenant: vitalant
+  wd: wd12
+  site: Careers
+  name: vitalant
+- tenant: novoco
+  wd: wd108
+  site: Novogradac
+  name: Novogradac
+  aliases:
+  - novoco
+- tenant: ntst
+  wd: wd1
+  site: careers
+  name: Netsmart
+  aliases:
+  - ntst
+- tenant: cnoinc
+  wd: wd5
+  site: Careers
+  name: CNO Financial Group
+  aliases:
+  - cnoinc
+- tenant: nbtbancorp
+  wd: wd12
+  site: NBT-B
+  name: NBT Bank
+  aliases:
+  - nbtbancorp
+- tenant: bcbsla
+  wd: wd1
+  site: Generation_Blue
+  name: Louisiana Blue
+  aliases:
+  - bcbsla
+- tenant: usacs
+  wd: wd1
+  site: usacscareers
+  name: US Acute Care Solutions
+  aliases:
+  - usacs
+- tenant: winlandfoods
+  wd: wd1
+  site: external
+  name: Winland Foods
+  aliases:
+  - winlandfoods
+- tenant: wgu
+  wd: wd5
+  site: External
+  name: wgu
+- tenant: ameren
+  wd: wd1
+  site: External
+  name: ameren
+- tenant: empower
+  wd: wd12
+  site: PanAgora
+  name: empower
+- tenant: ing
+  wd: wd3
+  site: icsgblcor
+  name: ing
+- tenant: truist
+  wd: wd1
+  site: Careers
+  name: Truist Bank
+  aliases:
+  - truist
+- tenant: mckesson
+  wd: wd3
+  site: sourcer_on_req
+  name: mckesson
+- tenant: texaspsf
+  wd: wd501
+  site: TexasPSFCareers
+  name: Texas Permanent School Fund Corporation
+  aliases:
+  - texaspsf
+- tenant: iko
+  wd: wd3
+  site: iko_careers
+  name: iko
+- tenant: saintleo
+  wd: wd503
+  site: SLU
+  name: Saint Leo University
+  aliases:
+  - saintleo
+- tenant: uhyus
+  wd: wd12
+  site: uhy
+  name: UHY
+  aliases:
+  - uhyus
+- tenant: gartner
+  wd: wd5
+  site: EXT
+  name: gartner
+- tenant: crowe
+  wd: wd12
+  site: external_careers
+  name: crowe
+- tenant: pimco
+  wd: wd1
+  site: pimco-careers
+  name: pimco
+- tenant: oneok
+  wd: wd1
+  site: ONEOK_Early_Careers
+  name: oneok
+- tenant: wgl
+  wd: wd5
+  site: altagas
+  name: AltaGas
+  aliases:
+  - wgl
+- tenant: ryancompanies
+  wd: wd5
+  site: ryancompanies
+  name: Ryan Companies
+  aliases:
+  - ryancompanies
+- tenant: deezee
+  wd: wd108
+  site: DeeZee_Careers
+  name: Dee Zee
+  aliases:
+  - deezee
+- tenant: foresters
+  wd: wd3
+  site: ForestersFinancialCareers
+  name: Foresters Financial
+  aliases:
+  - foresters
+- tenant: dimensional
+  wd: wd5
+  site: dfa_careers
+  name: Dimensional Fund Advisors
+  aliases:
+  - dimensional
+- tenant: clr
+  wd: wd5
+  site: CLR_Careers
+  name: Continental Resources
+  aliases:
+  - clr
+- tenant: dedalus
+  wd: wd3
+  site: External
+  name: dedalus
+- tenant: fanniemae
+  wd: wd1
+  site: FannieMaeCareers
+  name: Fannie Mae
+  aliases:
+  - fanniemae
+- tenant: geico
+  wd: wd1
+  site: External
+  name: geico
+- tenant: lthc
+  wd: wd1
+  site: ExcellusBCBSCareers
+  name: Excellus BCBS
+  aliases:
+  - lthc
+- tenant: aoins
+  wd: wd5
+  site: AutoOwners
+  name: Auto-Owners Insurance
+  aliases:
+  - aoins
+- tenant: cubic
+  wd: wd1
+  site: cubic_global_careers
+  name: cubic
+- tenant: cigna
+  wd: wd5
+  site: cignacareers
+  name: Cigna Group
+  aliases:
+  - cigna
+- tenant: thinkbrg
+  wd: wd5
+  site: BRG_External_Career_Site
+  name: BRG
+  aliases:
+  - thinkbrg
+- tenant: frostbank
+  wd: wd5
+  site: External
+  name: Frost
+  aliases:
+  - frostbank
+- tenant: diamondbackenergy
+  wd: wd12
+  site: DBE
+  name: Diamondback Energy
+  aliases:
+  - diamondbackenergy
+- tenant: mmc
+  wd: wd1
+  site: MMC
+  name: mmc
+- tenant: ecolab
+  wd: wd1
+  site: ecolab_external
+  name: ecolab
+- tenant: blackstone
+  wd: wd1
+  site: bx_external_site
+  name: blackstone
+- tenant: freddiemac
+  wd: wd5
+  site: External
+  name: Freddie Mac
+  aliases:
+  - freddiemac
+- tenant: canadiansolar
+  wd: wd5
+  site: CanadianSolar
+  name: Canadian Solar
+  aliases:
+  - canadiansolar
+- tenant: multco
+  wd: wd1
+  site: multco_jobs
+  name: Multnomah County
+  aliases:
+  - multco
+- tenant: customersbank
+  wd: wd1
+  site: customersbankcareers
+  name: Customers Bank
+  aliases:
+  - customersbank
+- tenant: johnsonelectric
+  wd: wd3
+  site: Career_JE
+  name: Johnson Electric
+  aliases:
+  - johnsonelectric
+- tenant: airproducts
+  wd: wd5
+  site: AP0001
+  name: Air Products
+  aliases:
+  - airproducts
+- tenant: commercebank
+  wd: wd1
+  site: CommerceJobs
+  name: Commerce Bank
+  aliases:
+  - commercebank
+- tenant: abinbev
+  wd: wd1
+  site: USA
+  name: Anheuser-Busch
+  aliases:
+  - abinbev
+- tenant: huntington
+  wd: wd12
+  site: HNBcareers
+  name: Huntington Bancshares
+  aliases:
+  - huntington
+- tenant: nationwide
+  wd: wd1
+  site: Nationwide_Career
+  name: nationwide
+- tenant: tiaa
+  wd: wd1
+  site: Search
+  name: tiaa
+- tenant: roberthalf
+  wd: wd1
+  site: ProtivitiNA
+  name: roberthalf
+- tenant: synchronyfinancial
+  wd: wd5
+  site: careers
+  name: Synchrony Financial
+  aliases:
+  - synchronyfinancial
+- tenant: nisource
+  wd: wd1
+  site: NiSource
+  name: nisource
+- tenant: nike
+  wd: wd1
+  site: nke
+  name: nike
+- tenant: verdantas
+  wd: wd108
+  site: Verdantas
+  name: verdantas
+- tenant: nebraskablue
+  wd: wd1
+  site: BCBSNE
+  name: BlueCross BlueShield of Nebraska
+  aliases:
+  - nebraskablue
+- tenant: iatinsurancegroup
+  wd: wd1
+  site: iat
+  name: IAT Insurance Group
+  aliases:
+  - iatinsurancegroup
+- tenant: clarios
+  wd: wd5
+  site: clarioscareers
+  name: clarios
+- tenant: trwd
+  wd: wd1
+  site: TRWDCareers
+  name: Tarrant Regional Water District
+  aliases:
+  - trwd
+- tenant: usfoods
+  wd: wd1
+  site: usfoodscareersExternal
+  name: US Foods
+  aliases:
+  - usfoods
+- tenant: newrez
+  wd: wd1
+  site: NRZ
+  name: newrez
+- tenant: poet
+  wd: wd1
+  site: POET
+  name: poet
+- tenant: ingredion
+  wd: wd1
+  site: IngredionCareers
+  name: ingredion
+- tenant: njm
+  wd: wd1
+  site: njm
+  name: NJM Insurance Group
+  aliases:
+  - njm
+- tenant: andersen
+  wd: wd12
+  site: Andersen_External_Career_Site
+  name: Andersen Corporation
+  aliases:
+  - andersen
+- tenant: interpublic
+  wd: wd5
+  site: omc
+  name: Omnicom Group
+  aliases:
+  - interpublic
+- tenant: cityofvancouver
+  wd: wd5
+  site: COV
+  name: City of Vancouver
+  aliases:
+  - cityofvancouver
+- tenant: wonder
+  wd: wd1
+  site: WG
+  name: wonder
+- tenant: hdsupply
+  wd: wd1
+  site: External
+  name: HD Supply
+  aliases:
+  - hdsupply
+- tenant: kokosing
+  wd: wd5
+  site: Kokosing_External_Career_Site
+  name: kokosing
+- tenant: landolakes
+  wd: wd1
+  site: landolakes
+  name: Land O'Lakes
+  aliases:
+  - landolakes
+- tenant: saabusa
+  wd: wd1
+  site: saab_careers
+  name: Saab
+  aliases:
+  - saabusa
+- tenant: walmart
+  wd: wd504
+  site: WalmartExternal
+  name: walmart
+- tenant: venerable
+  wd: wd5
+  site: venerablecareers
+  name: venerable
+- tenant: crestnicholson
+  wd: wd103
+  site: CN
+  name: Crest Nicholson
+  aliases:
+  - crestnicholson
+- tenant: maryfreebed
+  wd: wd12
+  site: mfb
+  name: Mary Free Bed Rehabilitation Hospital
+  aliases:
+  - maryfreebed
+- tenant: barclays
+  wd: wd3
+  site: External_Career_Site_Barclays
+  name: barclays
+- tenant: directv
+  wd: wd1
+  site: careers
+  name: directv
+- tenant: simon
+  wd: wd1
+  site: Simon
+  name: Simon Property Group
+  aliases:
+  - simon
+- tenant: hyvee
+  wd: wd1
+  site: HyVeeCareers
+  name: Hy-Vee
+  aliases:
+  - hyvee
+- tenant: cna
+  wd: wd1
+  site: CNA_Careers
+  name: CNA Insurance
+  aliases:
+  - cna
+- tenant: gilead
+  wd: wd1
+  site: kitepharmacareers
+  name: Gilead Sciences
+  aliases:
+  - gilead
+- tenant: buildertrend
+  wd: wd108
+  site: External_Careers
+  name: buildertrend
+- tenant: burlington
+  wd: wd5
+  site: BurlingtonCareers
+  name: Burlington Stores
+  aliases:
+  - burlington
+- tenant: meijer
+  wd: wd5
+  site: Meijer
+  name: meijer
+- tenant: countryfinancial
+  wd: wd5
+  site: COUNTRYCorporateInternships
+  name: COUNTRY Financial
+  aliases:
+  - countryfinancial
+- tenant: hbfuller
+  wd: wd1
+  site: Careers
+  name: H.B. Fuller
+  aliases:
+  - hbfuller
+- tenant: greatamerica
+  wd: wd12
+  site: greatamericacareers
+  name: GreatAmerica Financial Services
+  aliases:
+  - greatamerica
+- tenant: polarsemi
+  wd: wd501
+  site: Polar
+  name: Polar Semiconductor
+  aliases:
+  - polarsemi
+- tenant: citjpl
+  wd: wd5
+  site: Jobs
+  name: NASA Jet Propulsion Laboratory (JPL)
+  aliases:
+  - citjpl
+- tenant: spgi
+  wd: wd5
+  site: Kensho_Careers
+  name: S&P Global
+  aliases:
+  - spgi
+- tenant: hmhw
+  wd: wd12
+  site: hmh_careers
+  name: HMH
+  aliases:
+  - hmhw
+- tenant: usaa
+  wd: wd1
+  site: USAAJOBSWD
+  name: usaa
+- tenant: smucker
+  wd: wd5
+  site: US_External_Careers
+  name: J.M. Smucker
+  aliases:
+  - smucker
+- tenant: bdc
+  wd: wd10
+  site: BDC_Careers
+  name: BDC Venture Capital
+  aliases:
+  - bdc
+- tenant: wellington
+  wd: wd5
+  site: Campus
+  name: Wellington Management
+  aliases:
+  - wellington
+- tenant: gables
+  wd: wd5
+  site: Gables_Careers
+  name: Gables Residential
+  aliases:
+  - gables
+- tenant: hq
+  wd: wd12
+  site: Securian_External
+  name: Securian Financial Group
+  aliases:
+  - hq
+- tenant: lego
+  wd: wd103
+  site: LEGO_External
+  name: lego
+- tenant: albemarle
+  wd: wd5
+  site: ketjenexternal
+  name: albemarle
+- tenant: masco
+  wd: wd1
+  site: deltafaucet
+  name: masco
+- tenant: evolito
+  wd: wd3
+  site: Evolito_Career_Site
+  name: evolito
+- tenant: conehealth
+  wd: wd12
+  site: cone_health-careers
+  name: Cone Health
+  aliases:
+  - conehealth
+- tenant: erickson
+  wd: wd108
+  site: External
+  name: Erickson Senior Living
+  aliases:
+  - erickson
+- tenant: austincc
+  wd: wd1
+  site: external
+  name: Austin Community College District
+  aliases:
+  - austincc
+- tenant: alcoa
+  wd: wd5
+  site: Careers
+  name: alcoa
+- tenant: emcins
+  wd: wd5
+  site: EMC_Careers
+  name: EMC Insurance
+  aliases:
+  - emcins
+- tenant: cenhud
+  wd: wd5
+  site: cenhud
+  name: Central Hudson
+  aliases:
+  - cenhud
+- tenant: aksteel
+  wd: wd1
+  site: careers
+  name: Cleveland-Cliffs
+  aliases:
+  - aksteel
+- tenant: awepeople
+  wd: wd3
+  site: Grad_Careers
+  name: AWE
+  aliases:
+  - awepeople
+- tenant: gnw
+  wd: wd1
+  site: enact_mi
+  name: Genworth Financial
+  aliases:
+  - gnw
+- tenant: ncratleos
+  wd: wd1
+  site: ext_intern
+  name: NCR Atleos
+  aliases:
+  - ncratleos
+- tenant: mbda
+  wd: wd3
+  site: MBDA-UK
+  name: mbda
+- tenant: cai
+  wd: wd5
+  site: computer_aid
+  name: cai
+- tenant: oceanspray
+  wd: wd5
+  site: OceanSprayJobs
+  name: Ocean Spray
+  aliases:
+  - oceanspray
+- tenant: plastipak
+  wd: wd1
+  site: Plastipak
+  name: plastipak
+- tenant: newperkinelmer
+  wd: wd1
+  site: External
+  name: PerkinElmer
+  aliases:
+  - newperkinelmer
+- tenant: fhlbc
+  wd: wd1
+  site: search
+  name: FHLBank Chicago
+  aliases:
+  - fhlbc
+- tenant: dfwairport
+  wd: wd5
+  site: External
+  name: Dallas Fort Worth International Airport
+  aliases:
+  - dfwairport
+- tenant: q2ebanking
+  wd: wd5
+  site: Q2
+  name: Q2
+  aliases:
+  - q2ebanking
+- tenant: brookfield
+  wd: wd5
+  site: brookfield
+  name: brookfield
+- tenant: basspro
+  wd: wd1
+  site: careers
+  name: Bass Pro Shops
+  aliases:
+  - basspro
+- tenant: mpc
+  wd: wd1
+  site: MPCCareers
+  name: Marathon Petroleum
+  aliases:
+  - mpc
+- tenant: atcllc
+  wd: wd5
+  site: atcllc
+  name: ATC
+  aliases:
+  - atcllc
+- tenant: ebi
+  wd: wd5
+  site: ebadcareers
+  name: ebi
+- tenant: ebi
+  wd: wd5
+  site: ebicareers
+  name: ebi
+- tenant: wellington
+  wd: wd5
+  site: external
+  name: Wellington Management
+  aliases:
+  - wellington
+- tenant: fccfac
+  wd: wd3
+  site: careers-carrieres
+  name: Farm Credit Canada
+  aliases:
+  - fccfac
+- tenant: axcelis
+  wd: wd1
+  site: axcelis
+  name: Axcelis Technologies
+  aliases:
+  - axcelis
+- tenant: toppan
+  wd: wd108
+  site: TOPPAN-Packaging
+  name: TOPPAN Packaging Americas
+  aliases:
+  - toppan
+- tenant: fis
+  wd: wd5
+  site: searchjobs
+  name: Fidelity National Information Services
+  aliases:
+  - fis
+- tenant: rjet
+  wd: wd108
+  site: External_Career_Site
+  name: Republic Airways
+  aliases:
+  - rjet
+- tenant: ceritypartners
+  wd: wd12
+  site: ceritypartnerscareers
+  name: Cerity Partners
+  aliases:
+  - ceritypartners
+- tenant: churchdwight
+  wd: wd1
+  site: chdcareers
+  name: Church & Dwight
+  aliases:
+  - churchdwight
+- tenant: sunlife
+  wd: wd3
+  site: Experienced-Jobs
+  name: Sun Life
+  aliases:
+  - sunlife
+- tenant: cir
+  wd: wd108
+  site: CIR_External_Career_Site
+  name: Cambridge Investment Research
+  aliases:
+  - cir
+- tenant: thrivent
+  wd: wd5
+  site: external
+  name: thrivent
+- tenant: risepoint
+  wd: wd503
+  site: Risepoint
+  name: risepoint
+- tenant: athene
+  wd: wd5
+  site: athene_careers
+  name: Apollo Global
+  aliases:
+  - athene
+- tenant: upbound
+  wd: wd501
+  site: Acima
+  name: Upbound Group
+  aliases:
+  - upbound
+- tenant: upbound
+  wd: wd501
+  site: Upbound
+  name: Upbound Group
+  aliases:
+  - upbound
+- tenant: emcins
+  wd: wd5
+  site: EMC_Internships
+  name: EMC Insurance
+  aliases:
+  - emcins
+- tenant: nebraskamed
+  wd: wd5
+  site: nm
+  name: Nebraska Medicine
+  aliases:
+  - nebraskamed
+- tenant: vialto
+  wd: wd107
+  site: vialtoexternalcareers
+  name: Vialto Partners
+  aliases:
+  - vialto
+- tenant: maxar
+  wd: wd1
+  site: Vantor
+  name: Vantor
+  aliases:
+  - maxar
+- tenant: gorbel
+  wd: wd501
+  site: gorbelcareers
+  name: gorbel
+- tenant: zekelman
+  wd: wd12
+  site: Careers
+  name: Zekelman Industries
+  aliases:
+  - zekelman
+- tenant: goto
+  wd: wd5
+  site: GoToCareers
+  name: GoTo Group
+  aliases:
+  - goto
+- tenant: ncr
+  wd: wd1
+  site: ext_us
+  name: NCR Voyix
+  aliases:
+  - ncr
+- tenant: gsknch
+  wd: wd3
+  site: GSKCareers
+  name: Haleon
+  aliases:
+  - gsknch
+- tenant: neogen
+  wd: wd5
+  site: neogencareers
+  name: neogen
+- tenant: amfam
+  wd: wd1
+  site: Careers
+  name: American Family Insurance Group
+  aliases:
+  - amfam
+- tenant: azmag
+  wd: wd108
+  site: magcareers
+  name: Maricopa Association of Governments
+  aliases:
+  - azmag
+- tenant: myhrabc
+  wd: wd5
+  site: Global
+  name: Cencora
+  aliases:
+  - myhrabc
+- tenant: pacificlife
+  wd: wd1
+  site: PacificLifeCareers
+  name: Pacific Life
+  aliases:
+  - pacificlife
+- tenant: att
+  wd: wd1
+  site: ATTGeneral
+  name: AT&T
+  aliases:
+  - att
+- tenant: hp
+  wd: wd5
+  site: ExternalCareerSite
+  name: Hewlett Packard (HP)
+  aliases:
+  - hp
+- tenant: horizonmedia
+  wd: wd1
+  site: CareerOpportunities
+  name: Horizon media
+  aliases:
+  - horizonmedia
+- tenant: ms
+  wd: wd5
+  site: External
+  name: Morgan Stanley
+  aliases:
+  - ms
+- tenant: cpsi
+  wd: wd1
+  site: CPSI
+  name: TruBridge
+  aliases:
+  - cpsi
+- tenant: flutterbe
+  wd: wd3
+  site: FlutterUKI_External
+  name: Flutter
+  aliases:
+  - flutterbe
+- tenant: faithtechnologies
+  wd: wd1
+  site: fti
+  name: Faith Technologies
+  aliases:
+  - faithtechnologies
+- tenant: db
+  wd: wd3
+  site: DBWebsite
+  name: Deutsche Bank
+  aliases:
+  - db
+- tenant: brinks
+  wd: wd5
+  site: brinkscareersus
+  name: Brink
+  aliases:
+  - brinks
+- tenant: richardson
+  wd: wd3
+  site: richardson_our_careers
+  name: richardson
+- tenant: mtb
+  wd: wd5
+  site: MTB
+  name: M&T Bank
+  aliases:
+  - mtb
+- tenant: sglottery
+  wd: wd5
+  site: ScientificGamesExternalCareers
+  name: Scientific Games
+  aliases:
+  - sglottery
+- tenant: astreya
+  wd: wd5
+  site: life-at-astreya-opportunities
+  name: astreya
+- tenant: boydcorp
+  wd: wd12
+  site: Boyd_Careers
+  name: Boyd
+  aliases:
+  - boydcorp
+- tenant: wellsky
+  wd: wd1
+  site: WellSkyCareers
+  name: wellsky
+- tenant: trimedx
+  wd: wd1
+  site: TMX
+  name: trimedx
+- tenant: btisolutions
+  wd: wd12
+  site: External
+  name: BTI Solutions
+  aliases:
+  - btisolutions
+- tenant: abbott
+  wd: wd5
+  site: abbottcareers2
+  name: abbott
+- tenant: collegeboard
+  wd: wd1
+  site: Careers
+  name: College Board
+  aliases:
+  - collegeboard
+- tenant: mines
+  wd: wd1
+  site: mines_careers
+  name: Colorado School of Mines
+  aliases:
+  - mines
+- tenant: 2020companies
+  wd: wd1
+  site: external_careers
+  name: 2020 Companies
+  aliases:
+  - 2020companies
+- tenant: ovative
+  wd: wd12
+  site: ovative
+  name: ovative
+- tenant: tsys
+  wd: wd1
+  site: tsys
+  name: tsys
+- tenant: cadence
+  wd: wd1
+  site: University_CST
+  name: Cadence Design Systems
+  aliases:
+  - cadence
+- tenant: iheartmedia
+  wd: wd5
+  site: iHM_Technology_Site
+  name: iheartmedia
+- tenant: jcdecaux
+  wd: wd3
+  site: ExternalSiteJCDUK
+  name: jcdecaux
+- tenant: cbcrc
+  wd: wd3
+  site: CBC_Radio-Canada_Jobs
+  name: CBC/Radio-Canada
+  aliases:
+  - cbcrc
+- tenant: chaucergroup
+  wd: wd3
+  site: chaucer_group_careers
+  name: Chaucer Group
+  aliases:
+  - chaucergroup
+- tenant: bloomberg
+  wd: wd1
+  site: Bloombergindustrygroup_External_Career_Site
+  name: Bloomberg Industry Group
+  aliases:
+  - bloomberg
+- tenant: cadence
+  wd: wd1
+  site: University_Talent_NCG
+  name: Cadence Design Systems
+  aliases:
+  - cadence
+- tenant: domo
+  wd: wd12
+  site: DomoCareers
+  name: domo
+- tenant: cloudera
+  wd: wd5
+  site: external_career
+  name: cloudera
+- tenant: lplfinancial
+  wd: wd1
+  site: External
+  name: LPL Financial Holdings
+  aliases:
+  - lplfinancial
+- tenant: ms
+  wd: wd5
+  site: private
+  name: Morgan Stanley
+  aliases:
+  - ms
+- tenant: knitwellgroup
+  wd: wd1
+  site: US_Corporate_Jobs
+  name: Loft
+  aliases:
+  - knitwellgroup
+- tenant: republic
+  wd: wd5
+  site: Republic
+  name: Republic Services
+  aliases:
+  - republic
+- tenant: plugpower
+  wd: wd5
+  site: Plug_Power_Inc
+  name: Plug Power
+  aliases:
+  - plugpower
+- tenant: erm
+  wd: wd3
+  site: ERM_Careers
+  name: erm
+- tenant: kodiakgas
+  wd: wd12
+  site: KodiakGasCareers
+  name: Kodiak
+  aliases:
+  - kodiakgas
+- tenant: salesforce
+  wd: wd12
+  site: Slack
+  name: salesforce
+- tenant: vumc
+  wd: wd1
+  site: vumccareers
+  name: Vanderbilt Health
+  aliases:
+  - vumc
+- tenant: ucf
+  wd: wd1
+  site: careers
+  name: University of Central Florida
+  aliases:
+  - ucf
+- tenant: hcpss
+  wd: wd1
+  site: hcpss
+  name: Howard County Public School System
+  aliases:
+  - hcpss
+- tenant: nascar
+  wd: wd1
+  site: NASCAR
+  name: nascar
+- tenant: illumina
+  wd: wd1
+  site: illumina-careers
+  name: illumina
+- tenant: cineplex
+  wd: wd3
+  site: Cineplex
+  name: cineplex
+- tenant: essentiahealth
+  wd: wd1
+  site: Essentia_Health
+  name: Essentia Health
+  aliases:
+  - essentiahealth
+- tenant: integer
+  wd: wd1
+  site: External
+  name: Integer Holdings Corporation
+  aliases:
+  - integer
+- tenant: amh
+  wd: wd12
+  site: External_Careers
+  name: amh
+- tenant: raymondjames
+  wd: wd1
+  site: RaymondJamesCareers
+  name: Raymond James Financial
+  aliases:
+  - raymondjames
+- tenant: ringcentral
+  wd: wd1
+  site: RingCentral_Careers
+  name: ringcentral
+- tenant: usc
+  wd: wd5
+  site: ExternalUSCCareers
+  name: University of Southern California
+  aliases:
+  - usc
+- tenant: ferguson
+  wd: wd1
+  site: Ferguson_Experienced
+  name: ferguson
+- tenant: goucher
+  wd: wd1
+  site: Goucher_Careers
+  name: Goucher College
+  aliases:
+  - goucher
+- tenant: husqvarnagroup
+  wd: wd3
+  site: External_Career_Site
+  name: Husqvarna Group
+  aliases:
+  - husqvarnagroup
+- tenant: livingspaces
+  wd: wd5
+  site: ls
+  name: Living Spaces
+  aliases:
+  - livingspaces
+- tenant: psu
+  wd: wd1
+  site: PSU_Academic
+  name: Pennsylvania State University
+  aliases:
+  - psu
+- tenant: ouryahoo
+  wd: wd5
+  site: careers
+  name: Yahoo
+  aliases:
+  - ouryahoo
+- tenant: bbh
+  wd: wd5
+  site: BBH
+  name: Brown Brothers Harriman
+  aliases:
+  - bbh
+- tenant: jpi
+  wd: wd1
+  site: jpicareers
+  name: jpi
+- tenant: worldpay
+  wd: wd5
+  site: Worldpay_External_Careers_Site
+  name: worldpay
+- tenant: daveandbusters
+  wd: wd1
+  site: dave_and_busters_careers
+  name: Dave & Busters
+  aliases:
+  - daveandbusters
+- tenant: badgermeter
+  wd: wd5
+  site: US_CareerSite
+  name: Badger Meter
+  aliases:
+  - badgermeter
+- tenant: jj
+  wd: wd5
+  site: NonCompetetiveHiring
+  name: Johnson & Johnson
+  aliases:
+  - jj
+- tenant: spectris
+  wd: wd3
+  site: Malvern_Panalytical_Careers
+  name: spectris
+- tenant: convatec
+  wd: wd1
+  site: convatec
+  name: ConvaTec Group
+  aliases:
+  - convatec
+- tenant: jda
+  wd: wd5
+  site: JDA_Careers
+  name: Blue Yonder
+  aliases:
+  - jda
+- tenant: plantemoran
+  wd: wd1
+  site: pmexternalcareers
+  name: Plante Moran
+  aliases:
+  - plantemoran
+- tenant: halma
+  wd: wd3
+  site: halma
+  name: halma
+- tenant: ukgrantt
+  wd: wd3
+  site: careersgrantthornton
+  name: Grant Thornton
+  aliases:
+  - ukgrantt
+- tenant: hhmi
+  wd: wd1
+  site: external
+  name: Howard Hughes Medical Institute (HHMI)
+  aliases:
+  - hhmi
+- tenant: sanford
+  wd: wd5
+  site: sanfordhealth
+  name: Sanford Health
+  aliases:
+  - sanford
+- tenant: umiami
+  wd: wd1
+  site: UMFaculty
+  name: University of Miami
+  aliases:
+  - umiami
+- tenant: embryriddle
+  wd: wd1
+  site: External
+  name: Embry-Riddle Aeronautical University
+  aliases:
+  - embryriddle
+- tenant: davita
+  wd: wd1
+  site: DKC_External
+  name: davita
+- tenant: tti
+  wd: wd1
+  site: Milwaukee
+  name: Milwaukee Tool
+  aliases:
+  - tti
+- tenant: solera
+  wd: wd5
+  site: global_career_site
+  name: Solera Holdings
+  aliases:
+  - solera
+- tenant: gapinc
+  wd: wd1
+  site: GAPINC
+  name: GAP
+  aliases:
+  - gapinc
+- tenant: asurion
+  wd: wd5
+  site: asurioncareers_us
+  name: asurion
+- tenant: walkerdunlop
+  wd: wd1
+  site: WD
+  name: Walker & Dunlop
+  aliases:
+  - walkerdunlop
+- tenant: collin
+  wd: wd1
+  site: ExternalStaffCareerSite
+  name: Collin College
+  aliases:
+  - collin
+- tenant: comfortsystemsusa
+  wd: wd1
+  site: Corpcareers
+  name: Comfort Systems USA
+  aliases:
+  - comfortsystemsusa
+- tenant: nordstrom
+  wd: wd501
+  site: nordstrom_careers
+  name: nordstrom
+- tenant: earlywarning
+  wd: wd5
+  site: earlywarningcareers
+  name: Early Warning
+  aliases:
+  - earlywarning
+- tenant: invitationhomes
+  wd: wd503
+  site: INVH
+  name: Invitation Homes
+  aliases:
+  - invitationhomes
+- tenant: usbank
+  wd: wd1
+  site: Elavon_Careers
+  name: U.S. Bank
+  aliases:
+  - usbank
+- tenant: highmarkhealth
+  wd: wd1
+  site: highmark
+  name: Highmark Health
+  aliases:
+  - highmarkhealth
+- tenant: likewize
+  wd: wd1
+  site: External
+  name: likewize
+- tenant: veteransunited
+  wd: wd1
+  site: VUHL
+  name: Veterans United
+  aliases:
+  - veteransunited
+- tenant: baystatehealth
+  wd: wd12
+  site: External_Careers
+  name: Baystate Health
+  aliases:
+  - baystatehealth
+- tenant: aggreko
+  wd: wd3
+  site: aggreko_careers_1
+  name: aggreko
+- tenant: cambridgeassociates
+  wd: wd5
+  site: Cambridge_Associates
+  name: Cambridge Associates
+  aliases:
+  - cambridgeassociates
+- tenant: digikey
+  wd: wd5
+  site: digi-key
+  name: digikey
+- tenant: pjm
+  wd: wd5
+  site: pjmcareers
+  name: pjm
+- tenant: pvh
+  wd: wd1
+  site: PVH_Careers
+  name: pvh
+- tenant: wmg
+  wd: wd1
+  site: WMGUS
+  name: Warner Music
+  aliases:
+  - wmg
+- tenant: wsu
+  wd: wd5
+  site: WSU_Jobs
+  name: Washington State University
+  aliases:
+  - wsu
+- tenant: aritzia
+  wd: wd3
+  site: External
+  name: aritzia
+- tenant: healthcare
+  wd: wd1
+  site: search
+  name: Solventum
+  aliases:
+  - healthcare
+- tenant: o9solutions
+  wd: wd5
+  site: o9SolutionsExternal
+  name: o9 Solutions
+  aliases:
+  - o9solutions
+- tenant: holmanautogroup
+  wd: wd1
+  site: HolmanEnterprisesCareers
+  name: Holman
+  aliases:
+  - holmanautogroup
+- tenant: interstate
+  wd: wd1
+  site: interstatebatteries-careers
+  name: Interstate Batteries
+  aliases:
+  - interstate
+- tenant: woodmac
+  wd: wd3
+  site: woodmaccareers
+  name: Wood Mackenzie
+  aliases:
+  - woodmac
+- tenant: jcrew
+  wd: wd1
+  site: jcrewcareers
+  name: J.Crew
+  aliases:
+  - jcrew
+- tenant: morningstar
+  wd: wd5
+  site: Americas
+  name: morningstar
+- tenant: extraspace
+  wd: wd5
+  site: ESS_External
+  name: Extra Space Storage
+  aliases:
+  - extraspace
+- tenant: dexcom
+  wd: wd1
+  site: Dexcom
+  name: dexcom
+- tenant: mohegan
+  wd: wd1
+  site: mohegan
+  name: mohegan
+- tenant: stblaw
+  wd: wd1
+  site: careers
+  name: Simpson Thacher & Bartlett
+  aliases:
+  - stblaw
+- tenant: idahopowercompany
+  wd: wd1
+  site: external
+  name: Idaho Power
+  aliases:
+  - idahopowercompany
+- tenant: kencogroup
+  wd: wd12
+  site: kenco
+  name: Kenco Management Services
+  aliases:
+  - kencogroup
+- tenant: agilent
+  wd: wd5
+  site: Agilent_Careers
+  name: Agilent Technologies
+  aliases:
+  - agilent
+- tenant: roswellpark
+  wd: wd5
+  site: ExternalCareers
+  name: Roswell Park Comprehensive Cancer Center
+  aliases:
+  - roswellpark
+- tenant: rollsroyce
+  wd: wd3
+  site: professional
+  name: Rolls-Royce
+  aliases:
+  - rollsroyce
+- tenant: niagarawater
+  wd: wd5
+  site: niagara
+  name: Niagara Bottling
+  aliases:
+  - niagarawater
+- tenant: factset
+  wd: wd108
+  site: FactSetCareers
+  name: factset
+- tenant: cadence
+  wd: wd1
+  site: OpenEye_Careers
+  name: Cadence Design Systems
+  aliases:
+  - cadence
+- tenant: daikinapplied
+  wd: wd1
+  site: Daikin-Careers
+  name: Daikin Applied
+  aliases:
+  - daikinapplied
+- tenant: whitecap
+  wd: wd1
+  site: careers
+  name: White Cap Supply Holdings
+  aliases:
+  - whitecap
+- tenant: bestbuycanada
+  wd: wd3
+  site: BestBuyCA_Career
+  name: Best Buy
+  aliases:
+  - bestbuycanada
+- tenant: jcrew
+  wd: wd1
+  site: MadewellCareers
+  name: J.Crew
+  aliases:
+  - jcrew
+- tenant: cambridgeassociates
+  wd: wd5
+  site: Handshake
+  name: Cambridge Associates
+  aliases:
+  - cambridgeassociates
+- tenant: synnex
+  wd: wd5
+  site: hyvecareers
+  name: TD Synnex
+  aliases:
+  - synnex
+- tenant: cardworks
+  wd: wd12
+  site: Merrick_Bank_External
+  name: Merrick Bank
+  aliases:
+  - cardworks
+- tenant: hagerty
+  wd: wd5
+  site: hagerty
+  name: hagerty
+- tenant: fourseasons
+  wd: wd3
+  site: search
+  name: Four Seasons
+  aliases:
+  - fourseasons
+- tenant: orionadvisor
+  wd: wd1
+  site: Orion_Careers
+  name: Orion
+  aliases:
+  - orionadvisor
+- tenant: hargreaveslansdown
+  wd: wd3
+  site: hargreaveslansdown
+  name: Hargreaves Lansdown
+  aliases:
+  - hargreaveslansdown
+- tenant: mksinst
+  wd: wd1
+  site: mkscareersamericas
+  name: MKS Instruments
+  aliases:
+  - mksinst
+- tenant: isu
+  wd: wd1
+  site: iowastatejobs
+  name: Iowa State University
+  aliases:
+  - isu
+- tenant: optrust
+  wd: wd3
+  site: OPTrust
+  name: optrust
+- tenant: columbiasportswearcompany
+  wd: wd5
+  site: CSC_Careers
+  name: Columbia Sportswear Company
+  aliases:
+  - columbiasportswearcompany
+- tenant: columbiasportswearcompany
+  wd: wd5
+  site: Columbia_Career_Site
+  name: Columbia Sportswear Company
+  aliases:
+  - columbiasportswearcompany
+- tenant: myhcm
+  wd: wd3
+  site: Betway
+  name: Betway
+  aliases:
+  - myhcm
+- tenant: austalusa
+  wd: wd1
+  site: austal
+  name: Austal USA
+  aliases:
+  - austalusa
+- tenant: qvc
+  wd: wd5
+  site: QRG
+  name: QVC Group
+  aliases:
+  - qvc
+- tenant: pimacounty
+  wd: wd5
+  site: pimacareers
+  name: Pima County
+  aliases:
+  - pimacounty
+- tenant: publicpartnerships
+  wd: wd1
+  site: ppl
+  name: Public Partnerships (PPL)
+  aliases:
+  - publicpartnerships
+- tenant: lifeworks
+  wd: wd3
+  site: External
+  name: TELUS
+  aliases:
+  - lifeworks
+- tenant: adtran
+  wd: wd3
+  site: adtran
+  name: adtran
+- tenant: luriechildrens
+  wd: wd1
+  site: externalportal
+  name: Ann & Robert H. Lurie Children’s Hospital of Chicago
+  aliases:
+  - luriechildrens
+- tenant: belk
+  wd: wd1
+  site: careers-collegecampus
+  name: belk
+- tenant: cat
+  wd: wd5
+  site: caterpillarcareers
+  name: Caterpillar Inc.
+  aliases:
+  - cat
+- tenant: leidos
+  wd: wd5
+  site: external
+  name: leidos
+- tenant: hamiltonlane
+  wd: wd108
+  site: Search
+  name: Hamilton Lane
+  aliases:
+  - hamiltonlane
+- tenant: kith
+  wd: wd1
+  site: kith_external_careers
+  name: kith
+- tenant: umiami
+  wd: wd1
+  site: UMCareerStaff
+  name: University of Miami
+  aliases:
+  - umiami
+- tenant: sumitomopharma
+  wd: wd5
+  site: smpa
+  name: Sumitomo Pharma America
+  aliases:
+  - sumitomopharma
+- tenant: tamus
+  wd: wd1
+  site: TAMU_External
+  name: tamus
+- tenant: taylormadegolf
+  wd: wd5
+  site: taylormadegolf
+  name: TaylorMade Golf
+  aliases:
+  - taylormadegolf
+- tenant: tamus
+  wd: wd1
+  site: AgriLife_Research_External
+  name: tamus
+- tenant: upenn
+  wd: wd1
+  site: careers-at-penn
+  name: University of Pennsylvania
+  aliases:
+  - upenn
+- tenant: lmu
+  wd: wd1
+  site: careers
+  name: Loyola Marymount University
+  aliases:
+  - lmu
+- tenant: ummc
+  wd: wd5
+  site: UMCCareers
+  name: University of Mississippi Medical Center
+  aliases:
+  - ummc
+- tenant: tmobile
+  wd: wd1
+  site: alumni
+  name: T-Mobile
+  aliases:
+  - tmobile
+- tenant: orchidortho
+  wd: wd5
+  site: careers
+  name: Orchid Orthopedic Solutions
+  aliases:
+  - orchidortho
+- tenant: vfc
+  wd: wd5
+  site: northface_careers
+  name: VF
+  aliases:
+  - vfc
+- tenant: linklogistics
+  wd: wd5
+  site: Link
+  name: Link Logistics
+  aliases:
+  - linklogistics
+- tenant: cvshealth
+  wd: wd1
+  site: cvs_health_careers
+  name: CVS Health
+  aliases:
+  - cvshealth
+- tenant: generalmotors
+  wd: wd5
+  site: careers_gm
+  name: General Motors
+  aliases:
+  - generalmotors
+- tenant: lazboy
+  wd: wd1
+  site: lzbcareers
+  name: La-Z-Boy
+  aliases:
+  - lazboy
+- tenant: tibco
+  wd: wd5
+  site: cloud_software_group
+  name: TIBCO Software
+  aliases:
+  - tibco
+- tenant: brown
+  wd: wd5
+  site: staff-careers-brown
+  name: Brown University
+  aliases:
+  - brown
+- tenant: williammary
+  wd: wd12
+  site: WM
+  name: William & Mary
+  aliases:
+  - williammary
+- tenant: wisconsin
+  wd: wd1
+  site: UW_Madison
+  name: University of Wisconsin-Madison
+  aliases:
+  - wisconsin
+- tenant: wisconsin
+  wd: wd1
+  site: UW_Comprehensives
+  name: University of Wisconsin-Madison
+  aliases:
+  - wisconsin
+- tenant: boeing
+  wd: wd1
+  site: external_careers
+  name: The Boeing Company
+  aliases:
+  - boeing
+- tenant: tamus
+  wd: wd1
+  site: TARLETON_External
+  name: tamus
+- tenant: pinerest
+  wd: wd5
+  site: PineRest
+  name: Pine Rest
+  aliases:
+  - pinerest
+- tenant: bb
+  wd: wd3
+  site: QNX
+  name: Blackberry
+  aliases:
+  - bb
+- tenant: collectorsuniverse
+  wd: wd1
+  site: collectors
+  name: Collectors
+  aliases:
+  - collectorsuniverse
+- tenant: abbluecross
+  wd: wd3
+  site: careers
+  name: Alberta Blue Cross
+  aliases:
+  - abbluecross
+- tenant: jcrew
+  wd: wd1
+  site: FriendsFamilyCareers
+  name: J.Crew
+  aliases:
+  - jcrew
+- tenant: qualifacts
+  wd: wd5
+  site: Qualifacts_External_Careers
+  name: qualifacts
+- tenant: arbella
+  wd: wd5
+  site: Arbella
+  name: arbella
+- tenant: helenoftroy
+  wd: wd503
+  site: Main_HoT
+  name: Helen of Troy
+  aliases:
+  - helenoftroy
+- tenant: ppg
+  wd: wd5
+  site: PPG_CAREERS
+  name: PPG Industries
+  aliases:
+  - ppg
+- tenant: benefis
+  wd: wd1
+  site: bhs
+  name: Benefis Health System
+  aliases:
+  - benefis
+- tenant: ghr
+  wd: wd1
+  site: lateral-emea
+  name: Bank of America
+  aliases:
+  - ghr
+- tenant: regeneron
+  wd: wd1
+  site: Careers
+  name: Regeneron Pharmaceuticals
+  aliases:
+  - regeneron
+- tenant: taxwell
+  wd: wd1
+  site: taxwellcareers
+  name: taxwell
+- tenant: elementfleet
+  wd: wd3
+  site: External_Career_Site
+  name: Element Fleet Management
+  aliases:
+  - elementfleet
+- tenant: lifefitness
+  wd: wd1
+  site: searchLFN
+  name: Life Fitness
+  aliases:
+  - lifefitness
+- tenant: hkex
+  wd: wd3
+  site: HKEXCareerPage
+  name: Hong Kong Exchanges
+  aliases:
+  - hkex
+- tenant: aramsco
+  wd: wd1
+  site: aramscocareers
+  name: aramsco
+- tenant: bristolmyerssquibb
+  wd: wd5
+  site: bms
+  name: Bristol Myers Squibb
+  aliases:
+  - bristolmyerssquibb
+- tenant: umusic
+  wd: wd5
+  site: UMGUS
+  name: Universal Music Group Careers
+  aliases:
+  - umusic
+- tenant: merative
+  wd: wd12
+  site: External_Career_Site
+  name: merative
+- tenant: candescent
+  wd: wd501
+  site: Hiring
+  name: candescent
+- tenant: wsfsbank
+  wd: wd1
+  site: wsfscareers
+  name: WSFS Bank
+  aliases:
+  - wsfsbank
+- tenant: advisorgroup
+  wd: wd1
+  site: advisor_career_site
+  name: Osaic
+  aliases:
+  - advisorgroup
+- tenant: hss
+  wd: wd1
+  site: HSS_Careers
+  name: Hospital for Special Surgery (HSS)
+  aliases:
+  - hss
+- tenant: ryansg
+  wd: wd5
+  site: Ryan_Specialty_Career_Site
+  name: Ryan Specialty
+  aliases:
+  - ryansg
+- tenant: pultegroup
+  wd: wd1
+  site: PGI
+  name: pultegroup
+- tenant: yale
+  wd: wd1
+  site: terminated_layoff_external_career_site
+  name: Yale University
+  aliases:
+  - yale
+- tenant: allina
+  wd: wd5
+  site: external
+  name: Allina Health
+  aliases:
+  - allina
+- tenant: aresmgmt
+  wd: wd1
+  site: External
+  name: Ares Management
+  aliases:
+  - aresmgmt
+- tenant: velco
+  wd: wd12
+  site: VELCO
+  name: velco
+- tenant: transamerica
+  wd: wd5
+  site: AEGONAM
+  name: transamerica
+- tenant: antares
+  wd: wd5
+  site: antares
+  name: Antares Capital
+  aliases:
+  - antares
+- tenant: braunintertec
+  wd: wd5
+  site: brauninterteccareers
+  name: Braun Intertec
+  aliases:
+  - braunintertec
+- tenant: ebay
+  wd: wd5
+  site: apply
+  name: ebay
+- tenant: arrow
+  wd: wd1
+  site: ac
+  name: Arrow Electronics
+  aliases:
+  - arrow
+- tenant: simpro
+  wd: wd3
+  site: simPRO_External_Careers
+  name: simpro
+- tenant: kumc
+  wd: wd5
+  site: kumc-jobs
+  name: University of Kansas Medical Center
+  aliases:
+  - kumc
+- tenant: irsc
+  wd: wd5
+  site: external
+  name: Indian River State College
+  aliases:
+  - irsc
+- tenant: racetrac
+  wd: wd5
+  site: ssc
+  name: racetrac
+- tenant: jcrew
+  wd: wd1
+  site: madewellcareers
+  name: J.Crew
+  aliases:
+  - jcrew
+- tenant: baincapital
+  wd: wd1
+  site: External_Public
+  name: baincapital
+- tenant: printpack
+  wd: wd1
+  site: printpackcareers
+  name: printpack
+- tenant: hastingsdirect
+  wd: wd3
+  site: external_careers
+  name: Hastings Direct
+  aliases:
+  - hastingsdirect
+- tenant: newday
+  wd: wd3
+  site: NewDay
+  name: newday
+- tenant: asda
+  wd: wd103
+  site: AsdaJobs
+  name: asda
+- tenant: nshe
+  wd: wd1
+  site: unlv-external
+  name: University of Nevada, Reno
+  aliases:
+  - nshe
+- tenant: pfizer
+  wd: wd1
+  site: internaljobs
+  name: pfizer
+- tenant: pretiumenterpriseservices
+  wd: wd1
+  site: Selene
+  name: Selene
+  aliases:
+  - pretiumenterpriseservices
+- tenant: kbr
+  wd: wd5
+  site: kbr_careers
+  name: kbr
+- tenant: truist
+  wd: wd1
+  site: careers
+  name: Truist Bank
+  aliases:
+  - truist
+- tenant: unum
+  wd: wd1
+  site: external
+  name: unum
+- tenant: finning
+  wd: wd3
+  site: external
+  name: finning
+- tenant: hpe
+  wd: wd5
+  site: jobsathpe
+  name: Hewlett Packard Enterprise
+  aliases:
+  - hpe
+- tenant: mecca
+  wd: wd3
+  site: careers
+  name: mecca
+- tenant: laticrete
+  wd: wd1
+  site: laticreteinternational
+  name: laticrete
+- tenant: maricopa
+  wd: wd1
+  site: jb_external
+  name: Maricopa County
+  aliases:
+  - maricopa
+- tenant: reliaquest
+  wd: wd5
+  site: ReliaQuest_Careers
+  name: reliaquest
+- tenant: busey
+  wd: wd503
+  site: busey
+  name: Busey Bank
+  aliases:
+  - busey
+- tenant: firstquantum
+  wd: wd3
+  site: First_Quantum_Careers
+  name: First Quantum Minerals
+  aliases:
+  - firstquantum
+- tenant: valmet
+  wd: wd103
+  site: external
+  name: valmet
+- tenant: agilonhealth
+  wd: wd1
+  site: External
+  name: agilon health
+  aliases:
+  - agilonhealth
+- tenant: hysteryale
+  wd: wd1
+  site: hyster-yalecareers
+  name: Hyster-Yale Materials Handling
+  aliases:
+  - hysteryale
+- tenant: ourhrconnect
+  wd: wd501
+  site: SCBlues
+  name: BlueCross BlueShield of South Carolina
+  aliases:
+  - ourhrconnect
+- tenant: mrisoftware
+  wd: wd501
+  site: External_CareerSite
+  name: MRI Software
+  aliases:
+  - mrisoftware
+- tenant: crosscountrymortgage
+  wd: wd1
+  site: CCMCareers
+  name: CrossCountry Mortgage
+  aliases:
+  - crosscountrymortgage
+- tenant: ibc
+  wd: wd5
+  site: ibc_careers
+  name: IBC Bank
+  aliases:
+  - ibc
+- tenant: intuitive
+  wd: wd1
+  site: irtc_careers
+  name: Intuitive Research and Technology Corporation
+  aliases:
+  - intuitive
+- tenant: godirect
+  wd: wd5
+  site: voya_jobs
+  name: Voya Financial
+  aliases:
+  - godirect
+- tenant: albanymed
+  wd: wd5
+  site: albany_med
+  name: Albany Medical College
+  aliases:
+  - albanymed
+- tenant: maritz
+  wd: wd1
+  site: Maritz
+  name: maritz
+- tenant: movadogroup
+  wd: wd1
+  site: careers
+  name: Movado Group
+  aliases:
+  - movadogroup
+- tenant: wwwinc
+  wd: wd1
+  site: WWW
+  name: Wolverine World Wide
+  aliases:
+  - wwwinc
+- tenant: resmed
+  wd: wd3
+  site: MatrixCare_External_Careers
+  name: resmed
+- tenant: goodwinprocter
+  wd: wd5
+  site: External_Careers
+  name: Goodwin
+  aliases:
+  - goodwinprocter
+- tenant: ilitch
+  wd: wd5
+  site: lc
+  name: Little Caesars Enterprises
+  aliases:
+  - ilitch
+- tenant: mitel
+  wd: wd3
+  site: mitelcareers
+  name: Mitel Networks
+  aliases:
+  - mitel
+- tenant: integralife
+  wd: wd1
+  site: careers
+  name: Integra LifeSciences
+  aliases:
+  - integralife
+- tenant: wk
+  wd: wd3
+  site: External
+  name: Wolters Kluwer
+  aliases:
+  - wk
+- tenant: toyota
+  wd: wd503
+  site: tmna
+  name: toyota
+- tenant: memorialhealthcare
+  wd: wd1
+  site: mhs_careers
+  name: Memorial Healthcare System
+  aliases:
+  - memorialhealthcare
+- tenant: remitly
+  wd: wd5
+  site: Remitly_Careers
+  name: remitly
+- tenant: mjhlifesciences
+  wd: wd1
+  site: Careers
+  name: MJH Life Sciences
+  aliases:
+  - mjhlifesciences
+- tenant: arkbluecross
+  wd: wd1
+  site: abcbs_external_careers
+  name: Arkansas Blue Cross
+  aliases:
+  - arkbluecross
+- tenant: equifax
+  wd: wd5
+  site: external
+  name: equifax
+- tenant: wvumedicine
+  wd: wd1
+  site: WVUH
+  name: wvumedicine
+- tenant: turo
+  wd: wd12
+  site: Turo_careers
+  name: turo
+- tenant: pwc
+  wd: wd3
+  site: US_Experienced_Careers
+  name: PricewaterhouseCoopers (PwC)
+  aliases:
+  - pwc
+- tenant: priceline
+  wd: wd1
+  site: Priceline
+  name: priceline
+- tenant: esab
+  wd: wd5
+  site: esabcareers
+  name: ESAB Corporation
+  aliases:
+  - esab
+- tenant: fei
+  wd: wd5
+  site: External
+  name: First Eagle Investments
+  aliases:
+  - fei
+- tenant: issgovernance
+  wd: wd1
+  site: isscareers
+  name: ISS | Institutional Shareholder Services
+  aliases:
+  - issgovernance
+- tenant: bcbsla
+  wd: wd1
+  site: external
+  name: Louisiana Blue
+  aliases:
+  - bcbsla
+- tenant: etsy
+  wd: wd5
+  site: Depop_Careers
+  name: etsy
+- tenant: denverhealth
+  wd: wd1
+  site: DHHA-Main
+  name: Denver Health
+  aliases:
+  - denverhealth
+- tenant: alliedsolutions
+  wd: wd501
+  site: allied_external
+  name: Allied Solutions
+  aliases:
+  - alliedsolutions
+- tenant: nvidia
+  wd: wd5
+  site: nvidiaexternalcareersite
+  name: nvidia
+- tenant: vsg
+  wd: wd1
+  site: vsg
+  name: Vinik Sports Group
+  aliases:
+  - vsg
+- tenant: invenergyllc
+  wd: wd1
+  site: invenergycareers
+  name: Invenergy
+  aliases:
+  - invenergyllc
+- tenant: rbi
+  wd: wd3
+  site: RBI_External_Career_Site
+  name: rbi
+- tenant: ryder
+  wd: wd5
+  site: rydercareers
+  name: Ryder System
+  aliases:
+  - ryder
+- tenant: aamc
+  wd: wd5
+  site: aamc
+  name: Association of American Medical Colleges
+  aliases:
+  - aamc
+- tenant: tamus
+  wd: wd1
+  site: TAMUCC_External
+  name: tamus
+- tenant: alegeus
+  wd: wd1
+  site: Alegeus_External_Careers
+  name: alegeus
+- tenant: oneok
+  wd: wd1
+  site: ONEOK
+  name: oneok
+- tenant: bilh
+  wd: wd1
+  site: External
+  name: Beth Israel Lahey Health
+  aliases:
+  - bilh
+- tenant: corteva
+  wd: wd5
+  site: ctp
+  name: corteva
+- tenant: ochsner
+  wd: wd1
+  site: ochsner
+  name: Ochsner Health
+  aliases:
+  - ochsner
+- tenant: onelineage
+  wd: wd1
+  site: external
+  name: Lineage Logistics
+  aliases:
+  - onelineage
+- tenant: astemo
+  wd: wd102
+  site: Global_Career_Site
+  name: astemo
+- tenant: adient
+  wd: wd3
+  site: External
+  name: adient
+- tenant: kla
+  wd: wd1
+  site: annarbor
+  name: kla
+- tenant: dtna
+  wd: wd5
+  site: dtna_external
+  name: Daimler Truck
+  aliases:
+  - dtna
+- tenant: rocket
+  wd: wd5
+  site: rocket_careers
+  name: Rocket Software
+  aliases:
+  - rocket
+- tenant: medaviehs
+  wd: wd10
+  site: Medavie_External
+  name: Medavie
+  aliases:
+  - medaviehs
+- tenant: capitalhealth
+  wd: wd1
+  site: CapitalHealthCareers
+  name: Capital Health
+  aliases:
+  - capitalhealth
+- tenant: edftrading
+  wd: wd1
+  site: EDFTrading
+  name: EDFT
+  aliases:
+  - edftrading
+- tenant: kansashealthsystem
+  wd: wd1
+  site: careers
+  name: The University of Kansas Hospital
+  aliases:
+  - kansashealthsystem
+- tenant: llbean
+  wd: wd1
+  site: llbean_careers
+  name: L.L.Bean
+  aliases:
+  - llbean
+- tenant: mhs
+  wd: wd1
+  site: careers
+  name: FORTNA
+  aliases:
+  - mhs
+- tenant: mufgub
+  wd: wd3
+  site: mufg-careers
+  name: MUFG
+  aliases:
+  - mufgub
+- tenant: endurance
+  wd: wd103
+  site: SompoInternational
+  name: Sompo International Holdings
+  aliases:
+  - endurance
+- tenant: greystar
+  wd: wd1
+  site: International_Career_Site
+  name: Greystar Worldwide
+  aliases:
+  - greystar
+- tenant: tera
+  wd: wd3
+  site: TERANET
+  name: Teranet
+  aliases:
+  - tera
+- tenant: pra
+  wd: wd1
+  site: PRA_Careers
+  name: PRA Group
+  aliases:
+  - pra
+- tenant: thecsp
+  wd: wd5
+  site: CSP
+  name: The Composites Solution Partner (CSP)
+  aliases:
+  - thecsp
+- tenant: tcbrands
+  wd: wd1
+  site: callaway-careers
+  name: tcbrands
+- tenant: morganlewis
+  wd: wd5
+  site: morganlewis
+  name: Morgan Lewis
+  aliases:
+  - morganlewis
+- tenant: dataminr
+  wd: wd12
+  site: Dataminr
+  name: dataminr
+- tenant: msk
+  wd: wd108
+  site: MSKCC_Careers_Primary
+  name: Memorial Sloan Kettering Cancer Center
+  aliases:
+  - msk
+- tenant: bcbst
+  wd: wd1
+  site: External
+  name: bcbst
+- tenant: lennar
+  wd: wd1
+  site: Lennar_Jobs
+  name: Lennar Corporation
+  aliases:
+  - lennar
+- tenant: silabs
+  wd: wd1
+  site: SiliconlabsCareers
+  name: Silicon Laboratories
+  aliases:
+  - silabs
+- tenant: hindscc
+  wd: wd1
+  site: HCCExternalCareersSite
+  name: Hinds Community College
+  aliases:
+  - hindscc
+- tenant: mckesson
+  wd: wd3
+  site: CoverMyMeds_External_Careers
+  name: mckesson
+- tenant: fgcu
+  wd: wd5
+  site: eaglejobs
+  name: Florida Gulf Coast University
+  aliases:
+  - fgcu
+- tenant: chordenergy
+  wd: wd1
+  site: external
+  name: Chord Energy
+  aliases:
+  - chordenergy
+- tenant: bankatfirst
+  wd: wd1
+  site: ffb
+  name: First Financial Bank
+  aliases:
+  - bankatfirst
+- tenant: icon
+  wd: wd3
+  site: broadbean_external
+  name: icon
+- tenant: oneoncology
+  wd: wd1
+  site: OneOncology
+  name: oneoncology
+- tenant: methodisthealth
+  wd: wd5
+  site: MLH
+  name: Methodist Le Bonheur
+  aliases:
+  - methodisthealth
+- tenant: brownhealth
+  wd: wd12
+  site: External_Careers
+  name: Brown University Health
+  aliases:
+  - brownhealth
+- tenant: aviva
+  wd: wd1
+  site: Aviva_Investors_External
+  name: aviva
+- tenant: aviva
+  wd: wd1
+  site: External
+  name: aviva
+- tenant: calistacorp
+  wd: wd1
+  site: calistabrice
+  name: Calista Brice
+  aliases:
+  - calistacorp
+- tenant: mizuho
+  wd: wd1
+  site: mizuhoamericas
+  name: Mizuho Securities USA
+  aliases:
+  - mizuho
+- tenant: academy
+  wd: wd1
+  site: careers
+  name: Academy Sports + Outdoors
+  aliases:
+  - academy
+- tenant: nordic
+  wd: wd1
+  site: Nordic
+  name: nordic
+- tenant: halifaxhealth
+  wd: wd12
+  site: halifaxhealth
+  name: Halifax Health
+  aliases:
+  - halifaxhealth
+- tenant: amesconstruction
+  wd: wd12
+  site: ames
+  name: Ames Construction
+  aliases:
+  - amesconstruction
+- tenant: pewtrusts
+  wd: wd5
+  site: CenterExternal
+  name: Pew Research Center
+  aliases:
+  - pewtrusts
+- tenant: dssmith
+  wd: wd3
+  site: dss_internal
+  name: DS Smith
+  aliases:
+  - dssmith
+- tenant: evolent
+  wd: wd1
+  site: External
+  name: evolent
+- tenant: mckesson
+  wd: wd3
+  site: SCRI_Careers
+  name: mckesson
+- tenant: aviagen
+  wd: wd1
+  site: aviagen-careers
+  name: aviagen
+- tenant: kantar
+  wd: wd3
+  site: kantar
+  name: kantar
+- tenant: mccoys
+  wd: wd1
+  site: mccoys_external_careers
+  name: McCoy’s
+  aliases:
+  - mccoys
+- tenant: bydeluxe
+  wd: wd5
+  site: Deluxe_External
+  name: Deluxe Media
+  aliases:
+  - bydeluxe
+- tenant: sentryinsurance
+  wd: wd1
+  site: SentryCareers
+  name: Sentry Insurance
+  aliases:
+  - sentryinsurance
+- tenant: pnc
+  wd: wd5
+  site: HarrisWilliams
+  name: PNC Financial Services
+  aliases:
+  - pnc
+- tenant: wmeimg
+  wd: wd1
+  site: WME
+  name: William Morris Endeavor Entertainment (WME)
+  aliases:
+  - wmeimg
+- tenant: fca
+  wd: wd3
+  site: FCA_Careers
+  name: Financial Conduct Authority
+  aliases:
+  - fca
+- tenant: comscore
+  wd: wd5
+  site: External
+  name: comscore
+- tenant: tcbrands
+  wd: wd1
+  site: TravisMathew-Careers
+  name: tcbrands
+- tenant: vertexinc
+  wd: wd1
+  site: VertexInc
+  name: vertexinc
+- tenant: treehouse
+  wd: wd1
+  site: TreeHouseCareers
+  name: TreeHouse Foods
+  aliases:
+  - treehouse
+- tenant: sarahbush
+  wd: wd1
+  site: sarahbush
+  name: Sarah Bush Lincoln Health Center
+  aliases:
+  - sarahbush
+- tenant: patientfirst
+  wd: wd5
+  site: patientfirst
+  name: Patient First
+  aliases:
+  - patientfirst
+- tenant: uofl
+  wd: wd1
+  site: UofLCareerSite
+  name: University of Louisville
+  aliases:
+  - uofl
+- tenant: cambria
+  wd: wd1
+  site: cambria_careers
+  name: cambria
+- tenant: flutterbe
+  wd: wd3
+  site: FlutterInt_External
+  name: Flutter
+  aliases:
+  - flutterbe
+- tenant: lifetime
+  wd: wd1
+  site: lifetime
+  name: Life Time
+  aliases:
+  - lifetime
+- tenant: appliedis
+  wd: wd5
+  site: ais_careers
+  name: Applied Information Sciences
+  aliases:
+  - appliedis
+- tenant: cni
+  wd: wd503
+  site: CNI
+  name: Chickasaw Nation Industries
+  aliases:
+  - cni
+- tenant: halma
+  wd: wd3
+  site: Halma
+  name: halma
+- tenant: materion
+  wd: wd5
+  site: Materion
+  name: materion
+- tenant: roguefitness
+  wd: wd1
+  site: RogueFitness_External_Careers
+  name: Rogue Fitness
+  aliases:
+  - roguefitness
+- tenant: darktrace
+  wd: wd3
+  site: DarktaceExternal
+  name: darktrace
+- tenant: farmerfocus
+  wd: wd5
+  site: FarmerFocus
+  name: Farmer Focus
+  aliases:
+  - farmerfocus
+- tenant: pros
+  wd: wd5
+  site: pros_careers
+  name: PROS Holdings, Inc.
+  aliases:
+  - pros
+- tenant: wisk
+  wd: wd108
+  site: Wisk_Careers
+  name: wisk
+- tenant: bonterra
+  wd: wd1
+  site: bonterratech
+  name: bonterra
+- tenant: cengage
+  wd: wd5
+  site: CengageNorthAmericaCareers
+  name: Cengage Group
+  aliases:
+  - cengage
+- tenant: pureinsurance
+  wd: wd5
+  site: pure
+  name: PURE Insurance
+  aliases:
+  - pureinsurance
+- tenant: criteo
+  wd: wd3
+  site: Criteo_Career_Site
+  name: criteo
+- tenant: shell
+  wd: wd3
+  site: ShellCareers
+  name: shell
+- tenant: davidyurman
+  wd: wd1
+  site: DavidYurmanCareers
+  name: David Yurman
+  aliases:
+  - davidyurman
+- tenant: zebra
+  wd: wd501
+  site: Zebra_careers
+  name: Zebra Technologies
+  aliases:
+  - zebra
+- tenant: medimpact
+  wd: wd5
+  site: medimpact
+  name: medimpact
+- tenant: alation
+  wd: wd503
+  site: ExternalSite
+  name: alation
+- tenant: overlakemedicalcenter
+  wd: wd5
+  site: overlake_external_career_site
+  name: Overlake Hospital Medical Center
+  aliases:
+  - overlakemedicalcenter
+- tenant: humana
+  wd: wd5
+  site: centerwell_external_career_site
+  name: humana
+- tenant: thejacksonlaboratory
+  wd: wd503
+  site: External_JAX
+  name: The Jackson Laboratory
+  aliases:
+  - thejacksonlaboratory
+- tenant: alkami
+  wd: wd12
+  site: alkami
+  name: Alkami Technology
+  aliases:
+  - alkami
+- tenant: agiliti
+  wd: wd5
+  site: careers
+  name: agiliti
+- tenant: costar
+  wd: wd1
+  site: confidential
+  name: CoStar Group
+  aliases:
+  - costar
+- tenant: broadviewfcu
+  wd: wd1
+  site: broadviewfcucareers
+  name: Broadview Federal Credit Union
+  aliases:
+  - broadviewfcu
+- tenant: broadcom
+  wd: wd1
+  site: external_career
+  name: broadcom
+- tenant: chess
+  wd: wd1
+  site: CNMJOBS
+  name: CNM Central New Mexico Community College
+  aliases:
+  - chess
+- tenant: pacificsource
+  wd: wd5
+  site: pacificsource
+  name: pacificsource
+- tenant: topcon
+  wd: wd1
+  site: TopconPositioningCareers
+  name: Topcon Positioning
+  aliases:
+  - topcon
+- tenant: jdgroupnam
+  wd: wd1
+  site: JDFL_Corporate_Careers
+  name: JD Finish line
+  aliases:
+  - jdgroupnam
+- tenant: signetjewelers
+  wd: wd1
+  site: bluenile
+  name: Signet Jewelers
+  aliases:
+  - signetjewelers
+- tenant: bacardi
+  wd: wd3
+  site: Jobs_Bacardi
+  name: bacardi
+- tenant: mgmresorts
+  wd: wd5
+  site: MGMCareers
+  name: MGM Resorts International
+  aliases:
+  - mgmresorts
+- tenant: hoganas
+  wd: wd3
+  site: Careers
+  name: Höganäs
+  aliases:
+  - hoganas
+- tenant: madixinc
+  wd: wd12
+  site: Madix
+  name: Madix
+  aliases:
+  - madixinc
+- tenant: oxford
+  wd: wd5
+  site: SouthernTide
+  name: Southern Tide
+  aliases:
+  - oxford
+- tenant: archwellessentials
+  wd: wd1
+  site: modercareers
+  name: Moder
+  aliases:
+  - archwellessentials
+- tenant: massmutual
+  wd: wd1
+  site: MMCareers
+  name: MassMutual Ascend
+  aliases:
+  - massmutual
+- tenant: walmart
+  wd: wd504
+  site: Non-WorkdayInternal
+  name: walmart
+- tenant: mcw
+  wd: wd503
+  site: ExternalCareers
+  name: Medical College of Wisconsin
+  aliases:
+  - mcw
+- tenant: pmpediatrics
+  wd: wd5
+  site: PMPeds
+  name: PM Pediatric Care
+  aliases:
+  - pmpediatrics
+- tenant: gundersenhealth
+  wd: wd5
+  site: Gundersen
+  name: Gundersen Health System
+  aliases:
+  - gundersenhealth
+- tenant: kslaw
+  wd: wd1
+  site: careers
+  name: King & Spalding
+  aliases:
+  - kslaw
+- tenant: cornell
+  wd: wd1
+  site: cornellpositions
+  name: Cornell University
+  aliases:
+  - cornell
+- tenant: magellanhealth
+  wd: wd5
+  site: magellan_health_careers
+  name: Magellan Health
+  aliases:
+  - magellanhealth
+- tenant: fil
+  wd: wd3
+  site: '001'
+  name: Fidelity International
+  aliases:
+  - fil
+- tenant: ia
+  wd: wd3
+  site: Professional_US
+  name: iA American
+  aliases:
+  - ia
+- tenant: alkegen
+  wd: wd5
+  site: alkegen
+  name: alkegen
+- tenant: kemper
+  wd: wd5
+  site: kemper_careers
+  name: kemper
+- tenant: megger
+  wd: wd3
+  site: MeggerCareers
+  name: megger
+- tenant: r1rcm
+  wd: wd1
+  site: R1RCM
+  name: R1 RCM
+  aliases:
+  - r1rcm
+- tenant: relx
+  wd: wd3
+  site: ReedExhibitions
+  name: relx
+- tenant: westlake
+  wd: wd1
+  site: westlake
+  name: westlake
+- tenant: nabancard
+  wd: wd1
+  site: nab
+  name: nabancard
+- tenant: mtb
+  wd: wd5
+  site: wtexternal
+  name: M&T Bank
+  aliases:
+  - mtb
+- tenant: foxfactory
+  wd: wd1
+  site: FOX
+  name: FOX
+  aliases:
+  - foxfactory
+- tenant: pierrefabre
+  wd: wd3
+  site: External_Career_Site
+  name: Pierre Fabre
+  aliases:
+  - pierrefabre
+- tenant: strongtie
+  wd: wd1
+  site: External
+  name: Simpson Strong-Tie
+  aliases:
+  - strongtie
+- tenant: huntsman
+  wd: wd1
+  site: Huntsman
+  name: huntsman
+- tenant: stvinc
+  wd: wd5
+  site: stv
+  name: STV
+  aliases:
+  - stvinc
+- tenant: namsa
+  wd: wd5
+  site: NAMSA
+  name: namsa
+- tenant: owensminor
+  wd: wd1
+  site: OMCareers
+  name: Owens & Minor
+  aliases:
+  - owensminor
+- tenant: hec
+  wd: wd5
+  site: hilcorp_energy_company
+  name: Hilcorp
+  aliases:
+  - hec
+- tenant: eosenergystorage
+  wd: wd1
+  site: eos
+  name: Eos Energy Storage
+  aliases:
+  - eosenergystorage
+- tenant: msudenver
+  wd: wd1
+  site: MSUDenver
+  name: Metropolitan State University of Denver
+  aliases:
+  - msudenver
+- tenant: cdk
+  wd: wd1
+  site: CDK
+  name: CDK Global
+  aliases:
+  - cdk
+- tenant: atriumhospitality
+  wd: wd5
+  site: atriumhospitality
+  name: Atrium Hospitality
+  aliases:
+  - atriumhospitality
+- tenant: workday
+  wd: wd5
+  site: Workday_Jobs
+  name: workday
+- tenant: axalta
+  wd: wd1
+  site: axalta
+  name: axalta
+- tenant: litera
+  wd: wd12
+  site: Litera_Careers
+  name: litera
+- tenant: synechron
+  wd: wd1
+  site: SynechronCareers
+  name: synechron
+- tenant: southstatebank
+  wd: wd5
+  site: external
+  name: SouthState Bank
+  aliases:
+  - southstatebank
+- tenant: formulaone
+  wd: wd3
+  site: F1
+  name: Formula 1
+  aliases:
+  - formulaone
+- tenant: betmgminc
+  wd: wd5
+  site: BetMGM
+  name: BetMGM
+  aliases:
+  - betmgminc
+- tenant: capri
+  wd: wd1
+  site: jimmychoocareers
+  name: Jimmy Choo
+  aliases:
+  - capri
+- tenant: wiley
+  wd: wd1
+  site: wiley_careers
+  name: John Wiley & Sons
+  aliases:
+  - wiley
+- tenant: scottsmiraclegro
+  wd: wd5
+  site: smgexternal
+  name: Scotts Miracle-Gro
+  aliases:
+  - scottsmiraclegro
+- tenant: azenta
+  wd: wd1
+  site: AzentaJobs
+  name: azenta
+- tenant: silgancontainers
+  wd: wd1
+  site: silgan
+  name: Silgan
+  aliases:
+  - silgancontainers
+- tenant: nrf
+  wd: wd3
+  site: External
+  name: Norton Rose Fulbright
+  aliases:
+  - nrf
+- tenant: sonyglobal
+  wd: wd1
+  site: Sony_Europe_Careers
+  name: Sony
+  aliases:
+  - sonyglobal
+- tenant: mimecast
+  wd: wd5
+  site: Mimecast-Careers
+  name: mimecast
+- tenant: 23andme
+  wd: wd5
+  site: '23'
+  name: 23andme
+- tenant: procore
+  wd: wd12
+  site: Procore_External_Careers
+  name: Procore Technologies
+  aliases:
+  - procore
+- tenant: ontic
+  wd: wd103
+  site: OnticCareers
+  name: ontic
+- tenant: vibrant
+  wd: wd5
+  site: VEH_EXTERNAL_CAREER_SITE
+  name: Vibrant Emotional Health
+  aliases:
+  - vibrant
+- tenant: lyten
+  wd: wd503
+  site: Lyten_External_Career_Site
+  name: lyten
+- tenant: oumedicine
+  wd: wd5
+  site: OUHealthCareers
+  name: OU Health
+  aliases:
+  - oumedicine
+- tenant: umchealthsystem
+  wd: wd1
+  site: External
+  name: UMC Health System
+  aliases:
+  - umchealthsystem
+- tenant: powerdesigninc
+  wd: wd5
+  site: PDI
+  name: Power Design, Inc
+  aliases:
+  - powerdesigninc
+- tenant: riotinto
+  wd: wd3
+  site: riotinto_careers
+  name: Rio Tinto
+  aliases:
+  - riotinto
+- tenant: chenmed
+  wd: wd1
+  site: chenmed
+  name: chenmed
+- tenant: stjude
+  wd: wd1
+  site: stjude
+  name: St. Jude Children's Research Hospital
+  aliases:
+  - stjude
+- tenant: alwayscompassionate
+  wd: wd1
+  site: achomecare
+  name: Always Compassionate Home Care
+  aliases:
+  - alwayscompassionate
+- tenant: canvasinc
+  wd: wd108
+  site: Canvas
+  name: Canvas, Inc.
+  aliases:
+  - canvasinc
+- tenant: dealertire
+  wd: wd5
+  site: DealerTireLLC-Careers
+  name: Dent Wizard
+  aliases:
+  - dealertire
+- tenant: dalcourmaclaren
+  wd: wd3
+  site: Dalcour-Maclaren-Careers
+  name: Dalcour Maclaren
+  aliases:
+  - dalcourmaclaren
+- tenant: formfactor
+  wd: wd1
+  site: FFI-Careers
+  name: formfactor
+- tenant: spinmaster
+  wd: wd3
+  site: SpinMaster_Careers
+  name: Spin Master Corp.
+  aliases:
+  - spinmaster
+- tenant: tulsacounty
+  wd: wd1
+  site: tc
+  name: Tulsa County
+  aliases:
+  - tulsacounty
+- tenant: flsmidth
+  wd: wd3
+  site: FLS_Global
+  name: flsmidth
+- tenant: sralab
+  wd: wd1
+  site: SRAlabCareers
+  name: Shirley Ryan AbilityLab
+  aliases:
+  - sralab
+- tenant: gladstone
+  wd: wd503
+  site: careers
+  name: Gladstone Institutes
+  aliases:
+  - gladstone
+- tenant: triumf
+  wd: wd10
+  site: careers-at-triumf-job-postings
+  name: triumf
+- tenant: easternshipbuilding
+  wd: wd12
+  site: EasternShipbuildingGroupsystem
+  name: Eastern Shipbuilding Group
+  aliases:
+  - easternshipbuilding
+- tenant: huntelec
+  wd: wd501
+  site: HuntElectric_Careers
+  name: Hunt Electric
+  aliases:
+  - huntelec
+- tenant: equinor
+  wd: wd3
+  site: EQNR
+  name: equinor
+- tenant: conning
+  wd: wd503
+  site: conningcareers
+  name: conning
+- tenant: miele
+  wd: wd3
+  site: miele-jobs
+  name: miele
+- tenant: hpinc
+  wd: wd5
+  site: hpinc
+  name: Helmerich & Payne
+  aliases:
+  - hpinc
+- tenant: insitu
+  wd: wd1
+  site: careers
+  name: insitu
+- tenant: hubinternational
+  wd: wd1
+  site: hubinternational
+  name: hubinternational
+- tenant: seminolehardrock
+  wd: wd503
+  site: seminolehardrockcareers
+  name: Seminole Hard Rock
+  aliases:
+  - seminolehardrock
+- tenant: pjtpartners
+  wd: wd1
+  site: Careers
+  name: PJT Partners
+  aliases:
+  - pjtpartners
+- tenant: exelixis
+  wd: wd1
+  site: exel
+  name: exelixis
+- tenant: moffitt
+  wd: wd108
+  site: Moffitt
+  name: Moffitt Cancer Center
+  aliases:
+  - moffitt
+- tenant: associatedbank
+  wd: wd1
+  site: external_careers
+  name: Associated Bank
+  aliases:
+  - associatedbank
+- tenant: tamus
+  wd: wd1
+  site: TTI_External
+  name: tamus
+- tenant: dutchbros
+  wd: wd1
+  site: DBShops
+  name: Dutch Bros
+  aliases:
+  - dutchbros
+- tenant: csiweb
+  wd: wd1
+  site: CSI_Careers
+  name: CSI
+  aliases:
+  - csiweb
+- tenant: kauai
+  wd: wd1
+  site: Kauai_External_Career_Site
+  name: County of Kauai
+  aliases:
+  - kauai
+- tenant: healthresearch
+  wd: wd1
+  site: hri_careers
+  name: Health Research
+  aliases:
+  - healthresearch
+- tenant: repligen
+  wd: wd108
+  site: Repligen_Careers
+  name: repligen
+- tenant: oakgov
+  wd: wd5
+  site: careers
+  name: Oakland County, Michigan
+  aliases:
+  - oakgov
+- tenant: incora
+  wd: wd5
+  site: Incora
+  name: incora
+- tenant: encova
+  wd: wd1
+  site: Search
+  name: encova
+- tenant: lendingclub
+  wd: wd1
+  site: external
+  name: lendingclub
+- tenant: ohiohealth
+  wd: wd5
+  site: ohiohealthjobs
+  name: ohiohealth
+- tenant: agilitas
+  wd: wd503
+  site: LMC
+  name: Le Moyne College
+  aliases:
+  - agilitas
+- tenant: cecentertainment
+  wd: wd5
+  site: CEC_Careers
+  name: Chuck E. Cheese
+  aliases:
+  - cecentertainment
+- tenant: goodwillaz
+  wd: wd1
+  site: GoodwillAZ
+  name: Goodwill Industries International
+  aliases:
+  - goodwillaz
+- tenant: legalshieldcorp
+  wd: wd1
+  site: lsc
+  name: PPLSI
+  aliases:
+  - legalshieldcorp
+- tenant: alfa
+  wd: wd3
+  site: alfa
+  name: Alfa Financial Software
+  aliases:
+  - alfa
+- tenant: medable
+  wd: wd503
+  site: explore-career-opportunities
+  name: medable
+- tenant: echo
+  wd: wd1
+  site: Echo_Logistics
+  name: Echo Global Logistics
+  aliases:
+  - echo
+- tenant: tucsonaz
+  wd: wd1
+  site: Tucson_Talent
+  name: Tucson Talent
+  aliases:
+  - tucsonaz
+- tenant: econicpartners
+  wd: wd501
+  site: econicpartnerscareers
+  name: Econic Partners
+  aliases:
+  - econicpartners
+- tenant: restauranttechnologies
+  wd: wd5
+  site: RT
+  name: Restaurant Technologies
+  aliases:
+  - restauranttechnologies
+- tenant: daikinapplied
+  wd: wd1
+  site: Pre-Selected_Candidate_Site
+  name: Daikin Applied
+  aliases:
+  - daikinapplied
+- tenant: rit
+  wd: wd12
+  site: careers
+  name: Rochester Institute of Technology
+  aliases:
+  - rit
+- tenant: theclaremontcolleges
+  wd: wd1
+  site: CMC_Staff
+  name: Claremont McKenna College
+  aliases:
+  - theclaremontcolleges
+- tenant: jackson
+  wd: wd1
+  site: ppma_careers
+  name: jackson
+- tenant: abcsupply
+  wd: wd1
+  site: abcsupplycareers
+  name: ABC Supply
+  aliases:
+  - abcsupply
+- tenant: ufpi
+  wd: wd503
+  site: ufpi
+  name: UFP Industries
+  aliases:
+  - ufpi
+- tenant: verawholehealth
+  wd: wd1
+  site: MPG
+  name: Millennium Physician Group
+  aliases:
+  - verawholehealth
+- tenant: belron
+  wd: wd3
+  site: Safelite_Careers
+  name: Safelite
+  aliases:
+  - belron
+- tenant: carmax
+  wd: wd1
+  site: External
+  name: carmax
+- tenant: usicinc
+  wd: wd5
+  site: USICCareers
+  name: USIC
+  aliases:
+  - usicinc
+- tenant: dealertire
+  wd: wd5
+  site: '4710'
+  name: Dent Wizard
+  aliases:
+  - dealertire
+- tenant: sharpservices
+  wd: wd3
+  site: Sharp
+  name: Sharp Packaging Services
+  aliases:
+  - sharpservices
+- tenant: duboischemicals
+  wd: wd1
+  site: external
+  name: duboischemicals
+- tenant: bupa
+  wd: wd3
+  site: ext_career
+  name: bupa
+- tenant: tedsmontanagrill
+  wd: wd503
+  site: TMG_External_Career_Site
+  name: Ted's Montana Grill
+  aliases:
+  - tedsmontanagrill
+- tenant: mymvw
+  wd: wd5
+  site: hvocareers
+  name: Marriott Vacations Worldwide
+  aliases:
+  - mymvw
+- tenant: aspendental
+  wd: wd1
+  site: careers_aspen_dental
+  name: Aspen Dental
+  aliases:
+  - aspendental
+- tenant: wawa
+  wd: wd1
+  site: careers
+  name: wawa
+- tenant: cyrusone
+  wd: wd1
+  site: CyrusOneCareerPortal
+  name: cyrusone
+- tenant: pillsburylaw
+  wd: wd5
+  site: External
+  name: Pillsbury
+  aliases:
+  - pillsburylaw
+- tenant: montage
+  wd: wd1
+  site: Montage_International
+  name: Montage International
+  aliases:
+  - montage
+- tenant: barnard
+  wd: wd1
+  site: Staff
+  name: Barnard College
+  aliases:
+  - barnard
+- tenant: drivenbrands
+  wd: wd1
+  site: drivenbrandscareersite
+  name: Driven Brands
+  aliases:
+  - drivenbrands
+- tenant: connect
+  wd: wd1
+  site: ztsystemscareers
+  name: ZT Systems
+  aliases:
+  - connect
+- tenant: saintlukes
+  wd: wd1
+  site: saintlukeshealthcareers
+  name: Saint Luke's
+  aliases:
+  - saintlukes
+- tenant: encore
+  wd: wd1
+  site: confidential
+  name: Encore Capital Group
+  aliases:
+  - encore
+- tenant: hl
+  wd: wd1
+  site: Campus
+  name: Houlihan Lokey
+  aliases:
+  - hl
+- tenant: bhs
+  wd: wd1
+  site: careers
+  name: Baptist Health
+  aliases:
+  - bhs
+- tenant: topgolf
+  wd: wd501
+  site: TopgolfCareers
+  name: Topgolf International
+  aliases:
+  - topgolf
+- tenant: zrsmanagement
+  wd: wd5
+  site: zrs_careers
+  name: ZRS Management
+  aliases:
+  - zrsmanagement
+- tenant: point32health
+  wd: wd5
+  site: THP
+  name: point32health
+- tenant: sci
+  wd: wd5
+  site: sci
+  name: Service Corporation International
+  aliases:
+  - sci
+- tenant: johngore
+  wd: wd1
+  site: Careers
+  name: John Gore Organization
+  aliases:
+  - johngore
+- tenant: cdpq
+  wd: wd10
+  site: CDPQ
+  name: cdpq
+- tenant: msiexpress
+  wd: wd5
+  site: MSI_Express_External_Careers
+  name: MSI Express
+  aliases:
+  - msiexpress
+- tenant: biamp
+  wd: wd12
+  site: Biamp
+  name: biamp
+- tenant: essex
+  wd: wd5
+  site: essexcareers
+  name: essex
+- tenant: isc
+  wd: wd10
+  site: ISC
+  name: Information Services Corporation
+  aliases:
+  - isc
+- tenant: humana
+  wd: wd5
+  site: Humana_External_Career_Site
+  name: humana
+- tenant: medtronic
+  wd: wd1
+  site: medtroniccareers
+  name: medtronic
+- tenant: icf
+  wd: wd5
+  site: ICFExternal_Career_Site
+  name: ICF International
+  aliases:
+  - icf
+- tenant: bloomenergy
+  wd: wd1
+  site: BloomEnergyCareers
+  name: Bloom Energy
+  aliases:
+  - bloomenergy

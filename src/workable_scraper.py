@@ -9,12 +9,13 @@ Paginated via an opaque nextPage token; total gives the stop condition.
 
 from __future__ import annotations
 
+import threading
 import time
-from dataclasses import dataclass, field
 
 import requests
 
 from . import http_pool
+from .posting import JobPosting
 
 _HEADERS = {
     "User-Agent": "Mozilla/5.0 (job-tracker)",
@@ -24,15 +25,6 @@ _SESSION = http_pool.make_session(_HEADERS)
 _MAX_PAGES = 200   # v3 returns 10 per page
 
 
-@dataclass(frozen=True)
-class JobPosting:
-    job_id: str
-    company: str
-    title: str
-    apply_url: str
-    location: str
-    posted_on: str
-    source: str = field(default="workable")
 
 
 def _format_location(job: dict) -> str:
@@ -44,7 +36,12 @@ def _format_location(job: dict) -> str:
     return ", ".join(p for p in parts if p)
 
 
-def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
+# apply.workable.com rate-limits per IP and answers 429 with Retry-After of up
+# to a day. Once tripped, hammering the remaining boards only extends the ban.
+_rate_limited = threading.Event()
+
+
+def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
     slug = company["slug"]
     name = company.get("name", slug)
     url = f"https://apply.workable.com/api/v3/accounts/{slug}/jobs"
@@ -53,6 +50,8 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
 
     out, token = [], None
     for _ in range(_MAX_PAGES):
+        if _rate_limited.is_set():
+            return out, False
         payload = {"query": ""}
         if token:
             payload["token"] = token
@@ -60,12 +59,19 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
             resp = _SESSION.post(url, json=payload, timeout=timeout)
             if resp.status_code == 404:
                 print(f"  ! {name}: account '{slug}' not found (404)")
-                return out
+                return out, True
+            if resp.status_code == 429:
+                if not _rate_limited.is_set():
+                    _rate_limited.set()
+                    print(f"  ! Workable rate limit hit (Retry-After "
+                          f"{resp.headers.get('Retry-After', '?')}s); skipping "
+                          "remaining Workable boards this run")
+                return out, False
             resp.raise_for_status()
             data = resp.json()
         except (requests.RequestException, ValueError) as exc:
             print(f"  ! {name}: {exc}")
-            return out
+            return out, False
 
         results = data.get("results", [])
         for job in results:
@@ -80,6 +86,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
                 apply_url=f"https://apply.workable.com/{slug}/j/{shortcode}/",
                 location=_format_location(job),
                 posted_on=raw_date[:10],
+                source="workable",
             ))
 
         token = data.get("nextPage")
@@ -88,4 +95,4 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
         time.sleep(delay)
 
     time.sleep(delay)
-    return out
+    return out, True

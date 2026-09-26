@@ -12,12 +12,29 @@ search_terms:
 
 # Pagination
 page_limit: 20          # Workday caps at ~20 per request
-max_pages_per_term: 50  # safety cap: 50 * 20 = 1000 jobs per term
+# Hard cap per search term (Workday search is relevance-ranked; see below).
+max_pages_per_term: 25
+# Workday: keep paging a term only while a page has at least this many
+# intern/new-grad titles.
+workday_min_relevant_per_page: 2
+
+# Boards that have ever listed an intern/new-grad job are scraped every run;
+# the rest of a source's boards are split into N slices, one slice per run
+# (so each is still checked every N hours). Keeps CI under its 30-min limit.
+long_tail_rotation:
+  workday: 6
+  workable: 6       # also keeps us under Workable's per-IP rate limit
 
 # Politeness
 request_timeout: 30     # seconds
 delay_between_requests: 0.5  # seconds, to avoid hammering a tenant
 scrape_workers: 8       # companies scraped concurrently (different hosts)
+# Workday tenants are separate hosts ({tenant}.wdN.myworkdayjobs.com), so they
+# can go wide; Ashby/Greenhouse/Lever each share one API host and stay at the default.
+scrape_workers_by_source:
+  workday: 32
+  smartrecruiters: 16
+  workable: 3         # apply.workable.com returns 429s above ~3 concurrent
 
 # Classification: keyword pass is always on. The zero-shot fallback (facebook/bart-large-mnli)
 # only runs for ambiguous titles when this is true. Model downloads ~1.6GB on first use.
@@ -31,16 +48,56 @@ use_llm_fallback: false
 # sponsorship (no/yes), security clearance, graduation-year window. Flags show
 # up in the Discord embed, the Google Sheet, and the DB.
 enrich_descriptions: true
+# Cap on per-run detail fetches (~0.5s each) so a burst can't hit the CI timeout.
+enrich_max_per_run: 400
 # When true, jobs whose description explicitly rules out visa sponsorship
 # (or requires US citizenship) are dropped from Discord/Sheets announcements.
 exclude_no_sponsorship: false
 
-# External job board scraping via JobSpy (Indeed, Glassdoor, ZipRecruiter).
-# LinkedIn is intentionally excluded — it blocks datacenter IPs (GitHub Actions).
+# Only announce jobs in these functions (classify.categorize / curated-list
+# category). Remove the key to announce every function (sales, legal, ...).
+announce_categories: [software, data_ml, hardware, quant, product]
+
+# Repost / stale-listing detection (src/repost.py).
+reposts:
+  announce: annotate        # annotate = tag in Discord; suppress = don't announce
+  linkedin_min_age_days: 30 # LinkedIn id older than its post date by this much
+  stale_after_days: 30      # source post date this old when first seen
+
+# Aggregator rows (Indeed/LinkedIn/...) come from time-windowed searches, so
+# they expire after this many days unseen rather than on first absence.
+aggregator_ttl_days: 21
+# Every run deletes listings older than this many days, measured from the
+# source's post date (or latest repost date) when it has one, else from when
+# we first saw it. Deleted ids are remembered so a still-open old listing is
+# never re-announced; new postings already this old aren't stored at all.
+max_listing_age_days: 60
+
+# Roles persisted to jobs.db (and sent to the Google Sheet). Full-board ATS
+# APIs return every role; storing mid/senior from ~6,000 boards pushes the
+# committed DB past GitHub's 100 MB file limit. Remove the key to keep all.
+store_roles: [intern, new_grad]
+# Only used when store_roles is unset: removed mid/senior rows older than
+# this are deleted.
+prune_removed_after_days: 30
+
+# Community-curated early-career lists in SimplifyJobs' listings.json format.
+# The list's role (intern/new_grad) is trusted over the title's wording.
+curated_lists:
+  enabled: true
+  repos:
+    - {repo: SimplifyJobs/Summer2026-Internships, role: intern}
+    - {repo: SimplifyJobs/Summer2027-Internships, role: intern}
+    - {repo: SimplifyJobs/New-Grad-Positions, role: new_grad}
+    - {repo: vanshb03/Summer2026-Internships, role: intern}
+    - {repo: vanshb03/New-Grad-2026, role: new_grad}
+
+# External job board scraping via JobSpy (Indeed, LinkedIn, Glassdoor, ZipRecruiter).
 jobspy:
   enabled: true
   sites:
     - indeed
+    - linkedin      # guest API; uses JOBSPY_PROXY when set, else direct
     - glassdoor
     - zip_recruiter
   # glassdoor and zip_recruiter require a residential proxy from CI (set JOBSPY_PROXY secret).

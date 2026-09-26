@@ -31,8 +31,10 @@ config/*.yaml ──▶ scrapers ──▶ dedupe ──▶ classifier ──▶
 |---|---|---|
 | Scrape | [src/scraper.py](src/scraper.py) (Workday), [greenhouse_scraper.py](src/greenhouse_scraper.py), [lever_scraper.py](src/lever_scraper.py), [ashby_scraper.py](src/ashby_scraper.py), [smartrecruiters_scraper.py](src/smartrecruiters_scraper.py), [workable_scraper.py](src/workable_scraper.py) | One module per ATS, each hitting that platform's public jobs API. Companies are scraped concurrently (`scrape_workers` threads) over pooled HTTP connections ([src/http_pool.py](src/http_pool.py)) |
 | External boards | [src/jobspy_scraper.py](src/jobspy_scraper.py) | Indeed / Glassdoor / ZipRecruiter via JobSpy, scraped per-site and normalized into the same posting shape (descriptions kept for enrichment). Sites that block datacenter IPs go through `JOBSPY_PROXY` in CI; Indeed always goes direct |
-| Dedupe | [src/dedupe.py](src/dedupe.py) | Drops cross-source duplicates within a run (first-party ATS copy wins over aggregators) and suppresses re-announcing a job already tracked under another id/source, via a fuzzy (company, title, city) key |
-| Classify | [src/classify.py](src/classify.py) | Title → `intern \| new_grad \| mid \| senior`. Deterministic keyword/regex pass first; an optional local zero-shot model (`facebook/bart-large-mnli`) handles ambiguous titles when `use_llm_fallback` is on. Only genuinely new postings are classified, in one batched pass |
+| Curated lists | [src/simplify_scraper.py](src/simplify_scraper.py) | Ingests community-curated intern/new-grad lists (SimplifyJobs `listings.json` format; ~7.8k active postings incl. ATSes we don't scrape). Listings pointing at a supported ATS take that ATS's job id, so they collapse onto the first-party row |
+| Dedupe | [src/dedupe.py](src/dedupe.py) | Exact first: any apply URL (curated list, LinkedIn/Indeed direct link) is mapped to the job id our own ATS scraper would assign, so copies collapse precisely. Then fuzzy (company, title, city) across sources. First-party ATS copy wins |
+| Reposts | [src/repost.py](src/repost.py) | Tags announceable jobs as `relisted` (same role tracked before under another id), `linkedin` (LinkedIn ids are sequential, so an id far older than its post date means a bumped listing — the public API hides LinkedIn's own "Reposted" label), or `stale` (source post date ≥30 days old). Tagged in Discord; `reposts.announce: suppress` hides them. Separately, every run compares each tracked job's list date with the earliest one seen: the same id re-dated forward is a confirmed repost (LinkedIn's "Reposted", Indeed/Workday refreshes), recorded as `repost='bumped'`, `relisted_on`, `bump_count` |
+| Classify | [src/classify.py](src/classify.py) | Title → `intern \| new_grad \| mid \| senior`, plus a job function (`software`, `data_ml`, `hardware`, `quant`, `product`, `other`) used by `announce_categories`. Deterministic keyword/regex pass first; an optional local zero-shot model (`facebook/bart-large-mnli`) handles ambiguous titles when `use_llm_fallback` is on. Only genuinely new postings are classified, in one batched pass |
 | Persist | [src/db.py](src/db.py) | SQLite upsert keyed on job id; tracks `first_seen` / `last_seen` / `status` / `source` |
 | Enrich | [src/enrich.py](src/enrich.py) | Fetches the full description of each new intern/new_grad posting from the ATS's detail API and parses it into flags: visa sponsorship (`no`/`yes`), security clearance, graduation-year window. Flags land in the DB, the Discord embed, and the Sheet |
 | Notify | [src/notify.py](src/notify.py) | Posts `first_seen == this run` jobs to a Discord webhook — filtered to **intern/new_grad roles in the US** — each job announced once, with sponsorship/clearance/grad-year flags when found |
@@ -53,7 +55,9 @@ cp .env.example .env   # optional: add webhook URLs for local runs
 python -m src.main                    # scrape + classify + persist + announce
 python -m src.discover                # find new company boards (slow; run occasionally)
 python -m src.discover --seeds-only   # fast smoke test of discovery
+python -m src.names                   # give slug-named boards real company names
 python -m src.coverage --quick        # per-ATS config stats without re-harvesting
+python -m pytest -q tests             # parser / dedupe / repost / DB tests (also run in CI)
 ```
 
 Without `DISCORD_WEBHOOK_URL`, new jobs print to stdout instead of posting.
@@ -72,6 +76,16 @@ Without `GOOGLE_SHEETS_WEBHOOK_URL`, the sheet sync is skipped.
   JobSpy settings (sites, search terms, location, recency window), and the
   enrichment toggles (`enrich_descriptions`, plus `exclude_no_sponsorship` to
   drop jobs that explicitly rule out visa sponsorship from announcements).
+  Also: `announce_categories` (job functions to announce), `reposts`
+  (annotate vs suppress, thresholds), `curated_lists` (SimplifyJobs-format
+  repos), `scrape_workers_by_source`, `enrich_max_per_run`,
+  `aggregator_ttl_days`, `store_roles` (only intern/new_grad rows are kept by
+  default, which keeps the committed DB ~20 MB), and `long_tail_rotation`
+  (boards that have never listed an entry-level job are checked every Nth
+  run, keeping CI at ~15 min with ~6,000 boards).
+- **New boards are backfilled silently.** The first successful scrape of any
+  board (a newly discovered company, or a new source like LinkedIn) is stored
+  without announcing, so adding 1,000 boards doesn't post 10,000 old jobs.
 - **[config/seeds.txt](config/seeds.txt)** — hand-curated careers URLs for the
   discovery step.
 
@@ -106,15 +120,18 @@ To enable:
    Workflow permissions** allows read/write.
 
 **Known tradeoffs of this hosting choice:**
-- GitHub cron is best-effort; runs are often 5–30 min late.
+- GitHub cron is best-effort; runs are often late (the schedule uses minute
+  :23 because top-of-the-hour slots get dropped under load).
 - Scheduled workflows auto-disable after 60 days of no repo activity.
-- The DB is committed to git each run (binary diffs grow history).
+- The DB is committed to git each run, so every run adds a full binary copy to
+  history. `db.prune()` keeps the file small (long-removed mid/senior rows are
+  deleted), but history still grows; GitHub rejects files over 100 MB.
 
 ## Database schema
 
 ```sql
 CREATE TABLE jobs (
-    job_id      TEXT PRIMARY KEY,   -- ATS-native id, or a hash for external boards
+    job_id      TEXT PRIMARY KEY,   -- source-prefixed: gh_, lv_, ash_, sr_, wk_, wd_<tenant>_, li_, sim_, indeed_<hash>
     company     TEXT NOT NULL,
     title       TEXT NOT NULL,
     apply_url   TEXT NOT NULL,
@@ -127,6 +144,14 @@ CREATE TABLE jobs (
     grad_year   TEXT NOT NULL DEFAULT '',       -- e.g. '2026' or '2026, 2027'
     first_seen  TEXT NOT NULL,      -- ISO-8601, set once
     last_seen   TEXT NOT NULL,      -- bumped every run the job is still live
-    status      TEXT NOT NULL DEFAULT 'active'  -- 'removed' when it drops out
+    status      TEXT NOT NULL DEFAULT 'active', -- 'removed' when it drops out of a
+                                                --  successful scrape (aggregators: after 21 days unseen)
+    job_key     TEXT NOT NULL DEFAULT '',       -- fuzzy company|title|city identity
+    category    TEXT NOT NULL DEFAULT '',       -- software | data_ml | hardware | quant | product | other
+    repost      TEXT NOT NULL DEFAULT '',       -- '' | relisted | linkedin | stale
+    repost_of   TEXT NOT NULL DEFAULT '',       -- job_id of the earlier listing (relisted)
+    applicants  TEXT NOT NULL DEFAULT '',       -- LinkedIn applicant count text
+    relisted_on TEXT NOT NULL DEFAULT '',       -- latest date the source re-dated this same id
+    bump_count  INTEGER NOT NULL DEFAULT 0      -- how many times it was re-dated
 );
 ```

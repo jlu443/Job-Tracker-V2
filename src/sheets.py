@@ -20,7 +20,8 @@ import requests
 # columns existed keep their old header; add the three names manually.)
 _COLUMNS = ["first_seen", "company", "title", "role_type", "location",
             "posted_on", "source", "apply_url", "job_id",
-            "sponsorship", "clearance", "grad_year"]
+            "sponsorship", "clearance", "grad_year",
+            "category", "repost", "repost_detail", "applicants"]
 
 
 def _row(job: dict) -> list:

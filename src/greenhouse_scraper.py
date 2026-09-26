@@ -10,28 +10,19 @@ Returns all current openings in one call (no pagination needed).
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
 
 import requests
 
 from . import http_pool
+from .posting import JobPosting
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
 _SESSION = http_pool.make_session(_HEADERS)
 
 
-@dataclass(frozen=True)
-class JobPosting:
-    job_id: str
-    company: str
-    title: str
-    apply_url: str
-    location: str
-    posted_on: str
-    source: str = field(default="greenhouse")
 
 
-def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
+def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
     token = company["token"]
     name = company.get("name", token)
     url = f"https://boards-api.greenhouse.io/v1/boards/{token}/jobs"
@@ -41,12 +32,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
         resp = _SESSION.get(url, timeout=timeout)
         if resp.status_code == 404:
             print(f"  ! {name}: token '{token}' not found (404)")
-            return []
+            return [], True
         resp.raise_for_status()
         data = resp.json()
     except (requests.RequestException, ValueError) as exc:
         print(f"  ! {name}: {exc}")
-        return []
+        return [], False
 
     out = []
     for job in data.get("jobs", []):
@@ -54,8 +45,9 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
         if not jid:
             continue
         location = (job.get("location") or {}).get("name", "").strip()
-        raw_date = job.get("updated_at", "")
-        posted = raw_date[:10] if raw_date else ""
+        # updated_at moves on every edit; first_published is the real post date.
+        raw_date = job.get("first_published") or ""
+        posted = raw_date[:10]
         out.append(JobPosting(
             job_id=f"gh_{jid}",
             company=name,
@@ -63,7 +55,8 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
             apply_url=job.get("absolute_url", ""),
             location=location,
             posted_on=posted,
+            source="greenhouse",
         ))
 
     time.sleep(settings.get("delay_between_requests", 0.5))
-    return out
+    return out, True

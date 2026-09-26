@@ -54,15 +54,89 @@ def fuzzy_key(company: str, title: str, location: str) -> str | None:
     return f"{c}|{t}|{_norm_location(location or '')}"
 
 
-def dedupe_postings(postings: list) -> tuple[list, int]:
-    """Drop postings whose fuzzy key was already seen under a different source.
+def role_key(job_key: str) -> str:
+    """fuzzy_key minus the city: LinkedIn and Workday list one role once per
+    location ("5 Locations" vs "Hillsboro, OR"), but to a job seeker that's
+    one opening to hear about."""
+    return job_key.rsplit("|", 1)[0] if job_key else ""
+
+
+_RESHARE = re.compile(r"^(?P<title>.+?)\s*(?:\((?:open|closed)\))?\s+at\s+(?P<company>[^()]+?)\s*$",
+                      re.IGNORECASE)
+
+
+def unwrap_reshare(company: str, title: str) -> tuple[str, str]:
+    """'GE Vernova Co-op (Open) at GE Vernova', posted by a university's
+    LinkedIn page, is GE Vernova's job. Returns the real (company, title)."""
+    m = _RESHARE.match(title or "")
+    if not m or _norm_company(m["company"]) == _norm_company(company or ""):
+        return company, title
+    return m["company"].strip(), m["title"].strip()
+
+
+_URL_IDS: list[tuple[re.Pattern, str]] = [
+    (re.compile(r"greenhouse\.io/[\w-]+/jobs/(\d+)"), "gh_{0}"),
+    (re.compile(r"[?&]gh_jid=(\d+)"), "gh_{0}"),
+    (re.compile(r"jobs\.(?:eu\.)?lever\.co/[\w.-]+/([0-9a-f-]{36})"), "lv_{0}"),
+    (re.compile(r"jobs\.ashbyhq\.com/[^/]+/([0-9a-f-]{36})"), "ash_{0}"),
+    (re.compile(r"(?:jobs|careers)\.smartrecruiters\.com/[^/]+/(\d{6,})"), "sr_{0}"),
+    (re.compile(r"apply\.workable\.com/[\w-]+/j/([0-9A-F]{6,})", re.I), "wk_{0}"),
+    (re.compile(r"linkedin\.com/jobs/view/(?:[\w-]*-)?(\d{8,})"), "li_{0}"),
+]
+_WORKDAY = re.compile(
+    # Tail after the *last* underscore, as scraper.job_id_for() takes it.
+    r"https?://([\w-]+)\.wd\d+\.myworkdayjobs\.com/(?:[\w-]+/)*job/[^?#]*_([A-Za-z0-9-]+)"
+    r"(?:/apply(?:/[\w-]*)?)?/?(?:[?#]|$)")
+
+
+def canonical_job_id(url: str) -> str | None:
+    """The job_id our own scraper would assign to the posting behind `url`.
+
+    Lets an aggregator or curated-list copy of a job collapse onto the
+    first-party row exactly, instead of relying on fuzzy title matching.
+    """
+    if not url:
+        return None
+    m = _WORKDAY.search(url)
+    if m:
+        return f"wd_{m.group(1).lower()}_{m.group(2)}"
+    for pattern, fmt in _URL_IDS:
+        m = pattern.search(url)
+        if m:
+            return fmt.format(m.group(1))
+    return None
+
+
+def identity(p) -> str:
+    """Exact identity of a posting: the first-party id when we can derive it."""
+    return (canonical_job_id(getattr(p, "direct_url", ""))
+            or canonical_job_id(p.apply_url) or p.job_id)
+
+
+def dedupe_postings(postings: list, known_ids: set[str] = frozenset()) -> tuple[list, int]:
+    """Collapse postings that are the same job.
+
+    Two layers, first-listed posting wins (main.py orders first-party ATS
+    boards before curated lists before aggregators):
+      1. exact — the same first-party id, derived from the apply URL. An
+         aggregator copy of a job already stored under its ATS id
+         (`known_ids`) is dropped too: the ATS row already tracks it.
+      2. fuzzy — same company/title/city from a *different* source. Same-source
+         twins are kept; they're usually genuinely separate requisitions.
 
     Returns (kept postings in original order, number dropped).
     """
     kept: list = []
+    seen_identity: set[str] = set()
     first_source: dict[str, str] = {}
     dropped = 0
     for p in postings:
+        ident = identity(p)
+        if ident in seen_identity or (ident != p.job_id and ident in known_ids):
+            dropped += 1
+            continue
+        seen_identity.add(ident)
+
         key = fuzzy_key(p.company, p.title, p.location)
         if key is not None:
             source = getattr(p, "source", "workday")

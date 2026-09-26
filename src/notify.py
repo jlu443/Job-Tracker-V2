@@ -11,6 +11,8 @@ import time
 
 import requests
 
+from . import geo
+
 # Discord allows max 10 embeds per message.
 _MAX_EMBEDS = 10
 
@@ -26,6 +28,7 @@ def _embed(job: dict) -> dict:
     fields = [
         {"name": "Company", "value": job["company"] or "—", "inline": True},
         {"name": "Role", "value": job["role_type"], "inline": True},
+        {"name": "Source", "value": job.get("source", "—"), "inline": True},
         {"name": "Location", "value": job["location"] or "—", "inline": True},
     ]
     if job.get("posted_on"):
@@ -40,6 +43,11 @@ def _embed(job: dict) -> dict:
         fields.append({"name": "Clearance", "value": "🔒 Required", "inline": True})
     if job.get("grad_year"):
         fields.append({"name": "Grad year", "value": job["grad_year"], "inline": True})
+    if job.get("applicants"):
+        fields.append({"name": "Applicants", "value": job["applicants"], "inline": True})
+    if job.get("repost"):
+        fields.append({"name": _REPOST_LABEL.get(job["repost"], "♻️ Repost"),
+                       "value": job.get("repost_detail") or "—", "inline": False})
     return {
         "title": job["title"][:256],
         "url": job["apply_url"],
@@ -49,49 +57,21 @@ def _embed(job: dict) -> dict:
 
 
 _ANNOUNCE_ROLES = {"intern", "new_grad"}
-
-# US state abbreviations and country keywords used to detect non-US locations.
-_US_STATES = {
-    "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
-    "KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
-    "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT",
-    "VA","WA","WV","WI","WY","DC",
-}
-_NON_US_KEYWORDS = {
-    "canada","uk","united kingdom","germany","france","india","china","japan",
-    "australia","singapore","ireland","netherlands","spain","italy","poland",
-    "brazil","mexico","israel","sweden","switzerland","remote - non us",
-}
+_REPOST_LABEL = {"relisted": "♻️ Re-listed", "linkedin": "♻️ LinkedIn repost",
+                 "stale": "🕰️ Old posting"}
 
 
-def _is_us_location(location: str) -> bool:
-    """Return True if the location appears to be in the US or is unspecified."""
-    if not location:
-        return True  # no location info — let it through
-    loc = location.lower()
-    # Reject if a known non-US keyword appears
-    for kw in _NON_US_KEYWORDS:
-        if kw in loc:
-            return False
-    # Accept if a US state abbreviation appears (e.g. "Austin, TX" or "New York, NY")
-    parts = [p.strip().upper() for p in loc.replace(",", " ").split()]
-    if any(p in _US_STATES for p in parts):
-        return True
-    # Accept common US-only strings
-    if "united states" in loc or "usa" in loc or "u.s." in loc or "remote" in loc:
-        return True
-    # Ambiguous — let it through rather than silently drop
-    return True
+def announceable(jobs: list[dict], settings: dict) -> list[dict]:
+    """Jobs worth a notification: entry-level, US, in a wanted job function."""
+    categories = set(settings.get("announce_categories") or ())
+    return [j for j in jobs
+            if j.get("role_type") in _ANNOUNCE_ROLES
+            and geo.is_us(j.get("location", ""))
+            and not geo.title_names_foreign_place(j.get("title", ""))
+            and (not categories or j.get("category") in categories)]
 
 
-def post_new_jobs(new_jobs: list[dict]) -> None:
-    jobs_to_post = [
-        j for j in new_jobs
-        if j.get("role_type") in _ANNOUNCE_ROLES and _is_us_location(j.get("location", ""))
-    ]
-    skipped = len(new_jobs) - len(jobs_to_post)
-    if skipped:
-        print(f"Filtered out {skipped} non-intern/new_grad or non-US jobs from announcement.")
+def post_new_jobs(jobs_to_post: list[dict]) -> None:
     if not jobs_to_post:
         print("No new intern/new_grad US jobs to announce.")
         return

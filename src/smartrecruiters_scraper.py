@@ -10,11 +10,11 @@ Paginated via limit/offset; totalFound gives the stop condition.
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
 
 import requests
 
 from . import http_pool
+from .posting import JobPosting
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
 _SESSION = http_pool.make_session(_HEADERS)
@@ -22,15 +22,6 @@ _PAGE_SIZE = 100
 _MAX_PAGES = 50   # safety cap: 5000 postings per company
 
 
-@dataclass(frozen=True)
-class JobPosting:
-    job_id: str
-    company: str
-    title: str
-    apply_url: str
-    location: str
-    posted_on: str
-    source: str = field(default="smartrecruiters")
 
 
 def _format_location(loc: dict) -> str:
@@ -38,7 +29,7 @@ def _format_location(loc: dict) -> str:
     return ", ".join(p for p in parts if p)
 
 
-def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
+def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
     company_id = company["company"]
     name = company.get("name", company_id)
     base = f"https://api.smartrecruiters.com/v1/companies/{company_id}/postings"
@@ -52,12 +43,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
                                 timeout=timeout)
             if resp.status_code == 404:
                 print(f"  ! {name}: company '{company_id}' not found (404)")
-                return out
+                return out, True
             resp.raise_for_status()
             data = resp.json()
         except (requests.RequestException, ValueError) as exc:
             print(f"  ! {name}: {exc}")
-            return out
+            return out, False
 
         content = data.get("content", [])
         for p in content:
@@ -72,6 +63,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
                 apply_url=f"https://jobs.smartrecruiters.com/{company_id}/{pid}",
                 location=_format_location(p.get("location") or {}),
                 posted_on=raw_date[:10],
+                source="smartrecruiters",
             ))
 
         offset += len(content)
@@ -80,4 +72,4 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
         time.sleep(delay)
 
     time.sleep(delay)
-    return out
+    return out, True

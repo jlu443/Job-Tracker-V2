@@ -13,7 +13,7 @@ import requests
 def make_session(headers: dict) -> requests.Session:
     session = requests.Session()
     session.headers.update(headers)
-    adapter = requests.adapters.HTTPAdapter(pool_connections=32, pool_maxsize=32)
+    adapter = requests.adapters.HTTPAdapter(pool_connections=64, pool_maxsize=64)
     session.mount("https://", adapter)
     session.mount("http://", adapter)
     return session

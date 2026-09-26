@@ -10,29 +10,20 @@ Returns all current postings in one call (no pagination needed).
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
 import requests
 
 from . import http_pool
+from .posting import JobPosting
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
 _SESSION = http_pool.make_session(_HEADERS)
 
 
-@dataclass(frozen=True)
-class JobPosting:
-    job_id: str
-    company: str
-    title: str
-    apply_url: str
-    location: str
-    posted_on: str
-    source: str = field(default="lever")
 
 
-def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
+def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
     slug = company["slug"]
     name = company.get("name", slug)
     url = f"https://api.lever.co/v0/postings/{slug}?mode=json"
@@ -42,12 +33,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
         resp = _SESSION.get(url, timeout=timeout)
         if resp.status_code == 404:
             print(f"  ! {name}: slug '{slug}' not found (404)")
-            return []
+            return [], True
         resp.raise_for_status()
         postings = resp.json()
     except (requests.RequestException, ValueError) as exc:
         print(f"  ! {name}: {exc}")
-        return []
+        return [], False
 
     out = []
     for p in postings:
@@ -72,7 +63,8 @@ def fetch_company_jobs(company: dict, settings: dict) -> list[JobPosting]:
             apply_url=p.get("hostedUrl", ""),
             location=location,
             posted_on=posted,
+            source="lever",
         ))
 
     time.sleep(settings.get("delay_between_requests", 0.5))
-    return out
+    return out, True

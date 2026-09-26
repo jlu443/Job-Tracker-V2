@@ -25,3 +25,905 @@ companies:
   name: Chainalysis
 - slug: duolingo
   name: Duolingo
+- slug: vivenu
+  name: vivenu
+- slug: eqbank
+  name: eqbank
+- slug: pivotal
+  name: Pivotal Software
+  aliases:
+  - pivotal
+- slug: magnetforensics
+  name: Magnet Forensics
+  aliases:
+  - magnetforensics
+- slug: waabi
+  name: waabi
+- slug: spotify
+  name: spotify
+- slug: shopreli
+  name: Reli
+  aliases:
+  - shopreli
+- slug: tri
+  name: Toyota Research Institute
+  aliases:
+  - tri
+- slug: synthego
+  name: synthego
+- slug: anomali
+  name: anomali
+- slug: veeva
+  name: Veeva Systems
+  aliases:
+  - veeva
+- slug: skyways
+  name: skyways
+- slug: wadetrim
+  name: Wade Trim
+  aliases:
+  - wadetrim
+- slug: parallelwireless
+  name: Parallel Wireless
+  aliases:
+  - parallelwireless
+- slug: fullscript
+  name: fullscript
+- slug: field-ai
+  name: Field AI
+  aliases:
+  - field-ai
+- slug: woven-by-toyota
+  name: Woven
+  aliases:
+  - woven-by-toyota
+- slug: ideasunited
+  name: Ideas United
+  aliases:
+  - ideasunited
+- slug: appen-2
+  name: Appen
+  aliases:
+  - appen-2
+- slug: palantir
+  name: palantir
+- slug: standtogether
+  name: Stand Together
+  aliases:
+  - standtogether
+- slug: nobullproject
+  name: Nobull
+  aliases:
+  - nobullproject
+- slug: multiplylabs
+  name: Multiply Labs
+  aliases:
+  - multiplylabs
+- slug: ltaresearch
+  name: LTA Research
+  aliases:
+  - ltaresearch
+- slug: imo-online
+  name: IMO Health
+  aliases:
+  - imo-online
+- slug: kabam
+  name: kabam
+- slug: clovirtualfashion
+  name: CLO Virtual Fashion
+  aliases:
+  - clovirtualfashion
+- slug: rigetti
+  name: rigetti
+- slug: larian
+  name: Larian Studios
+  aliases:
+  - larian
+- slug: daniels-sharpsmart
+  name: Daniels Health
+  aliases:
+  - daniels-sharpsmart
+- slug: dodmg
+  name: HRL Laboratories
+  aliases:
+  - dodmg
+- slug: cirquedusoleil
+  name: Cirque du Soleil
+  aliases:
+  - cirquedusoleil
+- slug: sunwatercapital
+  name: Sunwater Capital
+  aliases:
+  - sunwatercapital
+- slug: theinformationlab
+  name: The Information Lab
+  aliases:
+  - theinformationlab
+- slug: telligen
+  name: telligen
+- slug: hermeus
+  name: hermeus
+- slug: vevo
+  name: vevo
+- slug: telesat
+  name: telesat
+- slug: zaimler
+  name: zaimler
+- slug: tekton
+  name: tekton
+- slug: teleo
+  name: teleo
+- slug: equativ
+  name: equativ
+- slug: hannaandersson
+  name: Hanna Andersson
+  aliases:
+  - hannaandersson
+- slug: bioagilytix
+  name: bioagilytix
+- slug: nextech
+  name: Nextech Systems
+  aliases:
+  - nextech
+- slug: neighbor
+  name: neighbor
+- slug: redwoodcu
+  name: Redwood Credit Union
+  aliases:
+  - redwoodcu
+- slug: tahoebio-ai
+  name: Tahoe Therapeutics
+  aliases:
+  - tahoebio-ai
+- slug: ibility
+  name: ibility
+- slug: drivemode
+  name: drivemode
+- slug: redhorsecorp
+  name: Redhorse
+  aliases:
+  - redhorsecorp
+- slug: intropic
+  name: intropic
+- slug: extremenetworks
+  name: Extreme Networks
+  aliases:
+  - extremenetworks
+- slug: alertus
+  name: Alertus Technologies
+  aliases:
+  - alertus
+- slug: aledade
+  name: aledade
+- slug: dga
+  name: Democratic Governors Association
+  aliases:
+  - dga
+- slug: penumbrainc
+  name: Penumbra Inc
+  aliases:
+  - penumbrainc
+- slug: brightmachines
+  name: Bright Machines
+  aliases:
+  - brightmachines
+- slug: openx
+  name: openx
+- slug: lendbuzz
+  name: lendbuzz
+- slug: shieldai
+  name: Shield AI
+  aliases:
+  - shieldai
+- slug: sambatv
+  name: Samba TV
+  aliases:
+  - sambatv
+- slug: levelai
+  name: Level AI
+  aliases:
+  - levelai
+- slug: brooksrunning
+  name: Brooks Running
+  aliases:
+  - brooksrunning
+- slug: octoenergy
+  name: Octopus Energy
+  aliases:
+  - octoenergy
+- slug: reply
+  name: reply
+- slug: greenlight
+  name: greenlight
+- slug: solopulseco
+  name: SoloPulse
+  aliases:
+  - solopulseco
+- slug: actian
+  name: actian
+- slug: alltrails
+  name: alltrails
+- slug: artera
+  name: ArteraAI
+  aliases:
+  - artera
+- slug: go-cloudforce
+  name: Cloudforce
+  aliases:
+  - go-cloudforce
+- slug: aquabyte
+  name: aquabyte
+- slug: firemon
+  name: firemon
+- slug: bhvr
+  name: Behaviour Interactive
+  aliases:
+  - bhvr
+- slug: gr0
+  name: gr0
+- slug: weride
+  name: weride
+- slug: lexeotx
+  name: Lexeo Therapeutics
+  aliases:
+  - lexeotx
+- slug: verygoodsecurity
+  name: Very Good Security
+  aliases:
+  - verygoodsecurity
+- slug: allegiantair
+  name: Allegiant Air
+  aliases:
+  - allegiantair
+- slug: thinkahead
+  name: AHEAD
+  aliases:
+  - thinkahead
+- slug: pivotenergy
+  name: Pivot Energy
+  aliases:
+  - pivotenergy
+- slug: altaml
+  name: altaml
+- slug: coupa
+  name: Coupa Software
+  aliases:
+  - coupa
+- slug: achievers
+  name: achievers
+- slug: sfgiants
+  name: SF Giants
+  aliases:
+  - sfgiants
+- slug: robust-ai
+  name: Robust.ai
+  aliases:
+  - robust-ai
+- slug: farfetch
+  name: farfetch
+- slug: make-rain
+  name: Rainmaker
+  aliases:
+  - make-rain
+- slug: zushealth
+  name: Zus Health
+  aliases:
+  - zushealth
+- slug: endpointclinical
+  name: Endpoint Clinical
+  aliases:
+  - endpointclinical
+- slug: acceldata
+  name: acceldata
+- slug: dnagenotek
+  name: OraSure Technologies
+  aliases:
+  - dnagenotek
+- slug: secureframe
+  name: secureframe
+- slug: plus-2
+  name: PlusAI
+  aliases:
+  - plus-2
+- slug: xsolla
+  name: xsolla
+- slug: sunsrce
+  name: SunSource
+  aliases:
+  - sunsrce
+- slug: syntax
+  name: syntax
+- slug: voltus
+  name: voltus
+- slug: genbio
+  name: GenBio AI
+  aliases:
+  - genbio
+- slug: prosper
+  name: Prosper Funding
+  aliases:
+  - prosper
+- slug: fluxergy-2
+  name: Fluxergy
+  aliases:
+  - fluxergy-2
+- slug: geocomply-2
+  name: GeoComply
+  aliases:
+  - geocomply-2
+- slug: quandri
+  name: quandri
+- slug: kepler
+  name: Kepler Communications
+  aliases:
+  - kepler
+- slug: ifm-us
+  name: Institute of Foundation Models
+  aliases:
+  - ifm-us
+- slug: diversified-automation
+  name: Diversified Automation
+  aliases:
+  - diversified-automation
+- slug: traackr
+  name: traackr
+- slug: kpler
+  name: kpler
+- slug: great-gray-group
+  name: Great Gray
+  aliases:
+  - great-gray-group
+- slug: exowatt
+  name: exowatt
+- slug: quantco-
+  name: QuantCo
+  aliases:
+  - quantco-
+- slug: nextgenfed
+  name: NextGen Federal Systems
+  aliases:
+  - nextgenfed
+- slug: ravl_io
+  name: RAVL
+  aliases:
+  - ravl_io
+- slug: shyftlabs
+  name: shyftlabs
+- slug: belvederetrading
+  name: Belvedere Trading
+  aliases:
+  - belvederetrading
+- slug: ekohealth
+  name: Eko Health
+  aliases:
+  - ekohealth
+- slug: analyticpartners
+  name: Analytic Partners
+  aliases:
+  - analyticpartners
+- slug: pentagrp
+  name: Penta Group
+  aliases:
+  - pentagrp
+- slug: pelmorex
+  name: pelmorex
+- slug: espace
+  name: E-Space
+  aliases:
+  - espace
+- slug: catalist
+  name: catalist
+- slug: evr
+  name: Elk Valley Resources
+  aliases:
+  - evr
+- slug: economicmodeling
+  name: Lightcast
+  aliases:
+  - economicmodeling
+- slug: anavationllc
+  name: AnaVation
+  aliases:
+  - anavationllc
+- slug: redsox
+  name: Major League Baseball
+  aliases:
+  - redsox
+- slug: mirego
+  name: mirego
+- slug: dynamiccatholic
+  name: Dynamic Catholic
+  aliases:
+  - dynamiccatholic
+- slug: ambirobotics
+  name: Ambi Robotics
+  aliases:
+  - ambirobotics
+- slug: westair
+  name: Western Aircraft
+  aliases:
+  - westair
+- slug: tutorintelligence
+  name: Tutor Intelligence
+  aliases:
+  - tutorintelligence
+- slug: salesdemo-jr
+  name: Parkdepot
+  aliases:
+  - salesdemo-jr
+- slug: protective
+  name: Protective Life
+  aliases:
+  - protective
+- slug: spawglass
+  name: spawglass
+- slug: gomaterials
+  name: gomaterials
+- slug: immuta
+  name: immuta
+- slug: crestoperations
+  name: Crest Industries
+  aliases:
+  - crestoperations
+- slug: cimgroup
+  name: CIM Group
+  aliases:
+  - cimgroup
+- slug: xcimer
+  name: Xcimer Energy
+  aliases:
+  - xcimer
+- slug: acronaviation
+  name: Acron Aviation
+  aliases:
+  - acronaviation
+- slug: sep
+  name: sep
+- slug: ekimetrics
+  name: ekimetrics
+- slug: kitware
+  name: kitware
+- slug: cscgeneration-2
+  name: CSC Generation
+  aliases:
+  - cscgeneration-2
+- slug: wyetechllc
+  name: Wyetech
+  aliases:
+  - wyetechllc
+- slug: appen
+  name: CrowdGen by Appen
+  aliases:
+  - appen
+- slug: matchgroup
+  name: Match Group
+  aliases:
+  - matchgroup
+- slug: revefi
+  name: revefi
+- slug: rws
+  name: rws
+- slug: truetandem
+  name: truetandem
+- slug: latitudeinc
+  name: Latitude
+  aliases:
+  - latitudeinc
+- slug: fiscalnote
+  name: fiscalnote
+- slug: sonarsource
+  name: Sonar
+  aliases:
+  - sonarsource
+- slug: picklerobot
+  name: Pickle Robot
+  aliases:
+  - picklerobot
+- slug: wintermute-trading
+  name: Wintermute
+  aliases:
+  - wintermute-trading
+- slug: ion
+  name: ION Group
+  aliases:
+  - ion
+- slug: saviynt
+  name: saviynt
+- slug: arrivelogistics
+  name: Arrive Logistics
+  aliases:
+  - arrivelogistics
+- slug: beghouconsulting
+  name: Beghou Consulting
+  aliases:
+  - beghouconsulting
+- slug: arable
+  name: arable
+- slug: masterycharter
+  name: Mastery Charter Schools
+  aliases:
+  - masterycharter
+- slug: cx2
+  name: cx2
+- slug: moonpig
+  name: moonpig
+- slug: sprypointservices
+  name: SpryPoint
+  aliases:
+  - sprypointservices
+- slug: theodo
+  name: theodo
+- slug: tangraminteriors
+  name: Tangram Interiors
+  aliases:
+  - tangraminteriors
+- slug: schmidt-entities
+  name: Schmidt Sciences
+  aliases:
+  - schmidt-entities
+- slug: lightship
+  name: Lightship RV
+  aliases:
+  - lightship
+- slug: pingwind
+  name: pingwind
+- slug: cascademgt
+  name: Cascade Asset Management Company
+  aliases:
+  - cascademgt
+- slug: glsllc
+  name: Global Lending Services
+  aliases:
+  - glsllc
+- slug: cgsfederal
+  name: CGS Federal (Contact Government Services)
+  aliases:
+  - cgsfederal
+- slug: wpromote
+  name: wpromote
+- slug: unisoninfra
+  name: Unison Infrastructure
+  aliases:
+  - unisoninfra
+- slug: jamcity
+  name: Jam City
+  aliases:
+  - jamcity
+- slug: simulmedia
+  name: simulmedia
+- slug: sqaservices
+  name: SQA Services
+  aliases:
+  - sqaservices
+- slug: hhaexchange
+  name: hhaexchange
+- slug: bellwetheram-2
+  name: Bellwether
+  aliases:
+  - bellwetheram-2
+- slug: life
+  name: Life.Church
+  aliases:
+  - life
+- slug: aeratechnology
+  name: Aera Technology
+  aliases:
+  - aeratechnology
+- slug: girlswhocode
+  name: Girls Who Code
+  aliases:
+  - girlswhocode
+- slug: datalabusa
+  name: Datalab USA
+  aliases:
+  - datalabusa
+- slug: versapay
+  name: versapay
+- slug: margo-group
+  name: MARGO
+  aliases:
+  - margo-group
+- slug: protolabs
+  name: protolabs
+- slug: bisnow
+  name: bisnow
+- slug: npowermedicine
+  name: N-Power Medicine
+  aliases:
+  - npowermedicine
+- slug: bellese
+  name: bellese
+- slug: sophos
+  name: sophos
+- slug: aircall
+  name: aircall
+- slug: synergyecp
+  name: Synergy ECP
+  aliases:
+  - synergyecp
+- slug: canvasww
+  name: Canvas Worldwide
+  aliases:
+  - canvasww
+- slug: olo
+  name: olo
+- slug: omnidesigntech
+  name: Omni Design Technologies
+  aliases:
+  - omnidesigntech
+- slug: tracktik
+  name: Trackforce
+  aliases:
+  - tracktik
+- slug: wachter
+  name: wachter
+- slug: scottlogic
+  name: Scott Logic
+  aliases:
+  - scottlogic
+- slug: filevine
+  name: filevine
+- slug: erg
+  name: Eastern Research Group
+  aliases:
+  - erg
+- slug: salvohealth
+  name: Salvo Health
+  aliases:
+  - salvohealth
+- slug: agile-defense
+  name: Agile Defense
+  aliases:
+  - agile-defense
+- slug: lumotive
+  name: lumotive
+- slug: metergysolutions
+  name: Metergy Solutions
+  aliases:
+  - metergysolutions
+- slug: lcbcchurch
+  name: LCBC Church
+  aliases:
+  - lcbcchurch
+- slug: tsmg
+  name: tsmg
+- slug: hive
+  name: hive
+- slug: colibrigroup
+  name: Colibri Group
+  aliases:
+  - colibrigroup
+- slug: h1
+  name: h1
+- slug: kgroupcompanies
+  name: K Group
+  aliases:
+  - kgroupcompanies
+- slug: gynger
+  name: gynger
+- slug: easystreetcap
+  name: Easy Street Capital
+  aliases:
+  - easystreetcap
+- slug: civitech
+  name: civitech
+- slug: getwingapp
+  name: Wing Assistant
+  aliases:
+  - getwingapp
+- slug: matillion
+  name: matillion
+- slug: trevipay
+  name: trevipay
+- slug: pigment
+  name: pigment
+- slug: seerinteractive
+  name: Seer Interactive
+  aliases:
+  - seerinteractive
+- slug: eliyan
+  name: eliyan
+- slug: dutch
+  name: dutch
+- slug: sprymethods
+  name: Spry Methods
+  aliases:
+  - sprymethods
+- slug: windfalldata
+  name: Windfall
+  aliases:
+  - windfalldata
+- slug: finquery
+  name: finquery
+- slug: crumbl
+  name: crumbl
+- slug: prizeout
+  name: prizeout
+- slug: mendix
+  name: mendix
+- slug: hatchit
+  name: Hatch IT
+  aliases:
+  - hatchit
+- slug: aviahealth
+  name: Avia Health
+  aliases:
+  - aviahealth
+- slug: weloglobal
+  name: Welo Global
+  aliases:
+  - weloglobal
+- slug: foth
+  name: foth
+- slug: revenueanalytics
+  name: Revenue Analytics
+  aliases:
+  - revenueanalytics
+- slug: thetrevorproject
+  name: The Trevor Project
+  aliases:
+  - thetrevorproject
+- slug: wwprosolutions
+  name: World Wide Professional Solutions
+  aliases:
+  - wwprosolutions
+- slug: trio
+  name: trio
+- slug: stradaeducation
+  name: Strada Education Foundation
+  aliases:
+  - stradaeducation
+- slug: tandh
+  name: Thomas & Hutton
+  aliases:
+  - tandh
+- slug: moo
+  name: moo
+- slug: nomihealth
+  name: Nomi Health
+  aliases:
+  - nomihealth
+- slug: until
+  name: UntilLabs
+  aliases:
+  - until
+- slug: grailbio
+  name: GRAIL
+  aliases:
+  - grailbio
+- slug: bosonai
+  name: Boson Ai
+  aliases:
+  - bosonai
+- slug: meds
+  name: meds
+- slug: employ
+  name: employ
+- slug: tevora
+  name: tevora
+- slug: planettechnologies
+  name: Planet Technologies
+  aliases:
+  - planettechnologies
+- slug: sugarcrm
+  name: sugarcrm
+- slug: artera-2
+  name: Artera
+  aliases:
+  - artera-2
+- slug: upscale-ai
+  name: Upscale AI
+  aliases:
+  - upscale-ai
+- slug: questanalytics
+  name: Quest Analytics
+  aliases:
+  - questanalytics
+- slug: agatesoftware
+  name: Agate Software
+  aliases:
+  - agatesoftware
+- slug: bluesight
+  name: bluesight
+- slug: wisecode
+  name: wisecode
+- slug: optionmetrics
+  name: optionmetrics
+- slug: level99
+  name: Level99 Entertainment
+  aliases:
+  - level99
+- slug: thrivecausemetics
+  name: Thrive Causemetics
+  aliases:
+  - thrivecausemetics
+- slug: mulliganfunding
+  name: Mulligan Funding
+  aliases:
+  - mulliganfunding
+- slug: cologix
+  name: cologix
+- slug: steerbridge
+  name: steerbridge
+- slug: hsag
+  name: Health Services Advisory Group
+  aliases:
+  - hsag
+- slug: casino-cash-trac
+  name: CCT
+  aliases:
+  - casino-cash-trac
+- slug: infraservices
+  name: infraservices
+- slug: gmo
+  name: gmo
+- slug: skillcloudhcm
+  name: Skillcloud HCM Solutions
+  aliases:
+  - skillcloudhcm
+- slug: zopa
+  name: zopa
+- slug: pointclickcare
+  name: pointclickcare
+- slug: hottopic
+  name: Hot Topic
+  aliases:
+  - hottopic
+- slug: wisdomtree
+  name: wisdomtree
+- slug: purvis
+  name: Purvis Systems
+  aliases:
+  - purvis
+- slug: humble-robotics
+  name: Humble Robotics
+  aliases:
+  - humble-robotics
+- slug: promiserobotics
+  name: Promise Robotics
+  aliases:
+  - promiserobotics
+- slug: pyka
+  name: pyka
+- slug: immiland-canada-inc
+  name: Immiland Canada
+  aliases:
+  - immiland-canada-inc
+- slug: trueplatform
+  name: True Platform
+  aliases:
+  - trueplatform
+- slug: zeneducate
+  name: Zen Educate
+  aliases:
+  - zeneducate
+- slug: sideinc
+  name: Side
+  aliases:
+  - sideinc
+- slug: nexuse-group
+  name: Nexus Engineering Group
+  aliases:
+  - nexuse-group
+- slug: commerce-undergraduate
+  name: Commerce Undergraduate Society
+  aliases:
+  - commerce-undergraduate
+- slug: demiurgestudios
+  name: Demiurge Studios
+  aliases:
+  - demiurgestudios
+- slug: vitana-pediatric
+  name: Vitana Pediatric & Orthodontic Partners
+  aliases:
+  - vitana-pediatric
+- slug: rover
+  name: rover
+- slug: callan
+  name: callan
+- slug: leantaas
+  name: leantaas
+- slug: galatea-associates
+  name: Galatea Associates
+  aliases:
+  - galatea-associates

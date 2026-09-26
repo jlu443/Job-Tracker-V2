@@ -95,20 +95,50 @@ def _fetch_ashby(job: dict) -> str:
     return ""
 
 
+_LI_DESC = re.compile(r'show-more-less-html__markup[^>]*>(.*?)</div>', re.S)
+_LI_APPLICANTS = re.compile(
+    r'num-applicants__(?:caption|figure)[^>]*>\s*(.*?)\s*<', re.S)
+_LI_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36"}
+
+
+def _fetch_linkedin(job: dict) -> str:
+    # Public (logged-out) job page; also yields the applicant count, a useful
+    # competitiveness signal that only LinkedIn exposes.
+    li_id = job["job_id"].removeprefix("li_")
+    resp = requests.get(
+        f"https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/{li_id}",
+        headers=_LI_HEADERS, timeout=_TIMEOUT)
+    resp.raise_for_status()
+    page = resp.text
+    m = _LI_APPLICANTS.search(page)
+    if m:
+        job["applicants"] = " ".join(m.group(1).split())
+    m = _LI_DESC.search(page)
+    return _strip_html(m.group(1)) if m else ""
+
+
 _FETCHERS = {
     "workday": _fetch_workday,
     "greenhouse": _fetch_greenhouse,
     "lever": _fetch_lever,
     "ashby": _fetch_ashby,
+    "linkedin": _fetch_linkedin,
 }
+_ID_PREFIX_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever",
+                     "ash": "ashby", "li": "linkedin"}
 
 
 def _description_for(job: dict) -> str:
-    if job.get("description"):  # captured at scrape time (JobSpy sources)
+    # LinkedIn's scrape-time description is usually empty; its page also
+    # carries the applicant count, so always visit it.
+    if job.get("description") and job.get("source") != "linkedin":
         return job["description"]
-    fetcher = _FETCHERS.get(job.get("source", ""))
+    # Curated-list rows carry their ATS's id, so the ATS fetcher applies.
+    source = _ID_PREFIX_SOURCE.get(job["job_id"].split("_", 1)[0], job.get("source", ""))
+    fetcher = _FETCHERS.get(source)
     if fetcher is None:  # smartrecruiters/workable etc. — flags stay unknown
-        return ""
+        return job.get("description", "")
     try:
         return fetcher(job)
     except (requests.RequestException, ValueError, KeyError, AttributeError) as exc:
@@ -197,7 +227,8 @@ def enrich_jobs(jobs: list[dict]) -> None:
     counts = {"sponsorship": 0, "clearance": 0, "grad_year": 0}
     for job in jobs:
         flags = parse_flags(_description_for(job))
-        job.update(flags)
+        # Never let "no mention found" erase a value the source supplied.
+        job.update({k: v for k, v in flags.items() if v or not job.get(k)})
         for key, value in flags.items():
             if value:
                 counts[key] += 1

@@ -1,4 +1,4 @@
-"""Scrape external job boards (Indeed, Glassdoor, ZipRecruiter) via JobSpy.
+"""Scrape external job boards (Indeed, LinkedIn, Glassdoor, ZipRecruiter) via JobSpy.
 
 Supplements the first-party ATS scrapers with broader coverage. Each posting
 is normalized into the same JobPosting shape so the rest of the pipeline
@@ -9,9 +9,12 @@ aggregator postings can't be re-fetched individually later.
 Sites are scraped one at a time so a blocked/rate-limited site can't take the
 others' results down with it, and so the proxy is only used where required:
 
-  * Glassdoor/ZipRecruiter/LinkedIn block datacenter IPs. In CI they're
-    skipped unless JOBSPY_PROXY (a residential proxy) is set; on a local
-    machine (residential IP) they're attempted directly.
+  * Glassdoor/ZipRecruiter block datacenter IPs. In CI they're skipped
+    unless JOBSPY_PROXY (a residential proxy) is set; on a local machine
+    (residential IP) they're attempted directly.
+  * LinkedIn's guest API tolerates low volume from anywhere and rate-limits
+    rather than hard-blocks, so it uses the proxy when one is configured and
+    otherwise tries directly; a 429 just yields fewer results.
   * Indeed works from anywhere and never goes through the proxy — that would
     just burn proxy bandwidth.
 """
@@ -20,7 +23,9 @@ from __future__ import annotations
 
 import hashlib
 import os
-from dataclasses import dataclass
+
+from . import dedupe, repost
+from .posting import JobPosting
 
 # Import here so the rest of the app works without jobspy installed.
 try:
@@ -30,24 +35,18 @@ except ImportError:
     _JOBSPY_AVAILABLE = False
 
 
-@dataclass(frozen=True)
-class JobPosting:
-    job_id: str
-    company: str
-    title: str
-    apply_url: str
-    location: str
-    posted_on: str
-    source: str
-    description: str = ""
 
 
 # Sites that block requests from datacenter IPs (GitHub Actions runners).
-_NEEDS_PROXY = {"glassdoor", "zip_recruiter", "linkedin"}
+_NEEDS_PROXY = {"glassdoor", "zip_recruiter"}
+_PROXY_IF_AVAILABLE = {"linkedin"}
 
 
 def _make_id(source: str, url: str) -> str:
-    """Stable ID from source + URL since external boards have no universal ID."""
+    """The board's own id when the URL carries one (LinkedIn), else a URL hash."""
+    li_id = repost.linkedin_numeric_id(url)
+    if source == "linkedin" and li_id:
+        return f"li_{li_id}"
     return f"{source}_{hashlib.sha1(url.encode()).hexdigest()[:12]}"
 
 
@@ -88,7 +87,9 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
     for site in sites:
         # jobspy expects proxies as list[str], e.g. ["user:pass@host:port"].
         proxies = None
-        if site in _NEEDS_PROXY:
+        if site in _PROXY_IF_AVAILABLE and proxy:
+            proxies = [proxy]
+        elif site in _NEEDS_PROXY:
             if proxy:
                 proxies = [proxy]
             elif in_ci:
@@ -126,15 +127,20 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
                 if job_id in seen:
                     continue
 
+                company, title = _cell(row, "company"), _cell(row, "title")
+                if source == "linkedin":
+                    # Universities/recruiters re-share others' jobs on LinkedIn.
+                    company, title = dedupe.unwrap_reshare(company, title)
                 seen[job_id] = JobPosting(
                     job_id=job_id,
-                    company=_cell(row, "company"),
-                    title=_cell(row, "title"),
+                    company=company,
+                    title=title,
                     apply_url=url,
                     location=_cell(row, "location"),
-                    posted_on=_cell(row, "date_posted"),
+                    posted_on=_cell(row, "date_posted")[:10],
                     source=source,
                     description=_cell(row, "description"),
+                    direct_url=_cell(row, "job_url_direct"),
                 )
 
     print(f"  [jobspy] {len(seen)} unique postings across all boards.")
