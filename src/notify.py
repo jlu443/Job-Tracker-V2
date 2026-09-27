@@ -71,6 +71,22 @@ def announceable(jobs: list[dict], settings: dict) -> list[dict]:
             and (not categories or j.get("category") in categories)]
 
 
+def post_alert(problems: list[str]) -> None:
+    """Pipeline-health alert. Goes to DISCORD_ALERT_WEBHOOK_URL when set (a
+    separate channel), else the jobs channel."""
+    if not problems:
+        return
+    text = "⚠️ **Job tracker health check**\n" + "\n".join(f"• {p}" for p in problems)
+    print(text)
+    webhook = os.environ.get("DISCORD_ALERT_WEBHOOK_URL") or os.environ.get("DISCORD_WEBHOOK_URL")
+    if not webhook:
+        return
+    try:
+        requests.post(webhook, json={"content": text[:2000]}, timeout=30).raise_for_status()
+    except requests.RequestException as exc:
+        print(f"  ! Discord alert failed: {exc}")
+
+
 def post_new_jobs(jobs_to_post: list[dict]) -> None:
     if not jobs_to_post:
         print("No new intern/new_grad US jobs to announce.")

@@ -14,7 +14,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 import yaml
 
-from . import (ashby_scraper, classify, db, dedupe, enrich, greenhouse_scraper,
+from . import (ashby_scraper, classify, db, dedupe, enrich, greenhouse_scraper, health,
                jobspy_scraper, lever_scraper, notify, repost, scraper, sheets,
                simplify_scraper, smartrecruiters_scraper, workable_scraper)
 
@@ -78,7 +78,10 @@ def _apply_config_renames(conn) -> None:
         print(f"Renamed {moved} stored rows to their boards' company names.")
 
 
-def _scrape_ats(settings: dict, postings: list, complete_scopes: set, conn) -> None:
+def _scrape_ats(settings: dict, postings: list, complete_scopes: set,
+                conn) -> dict[str, tuple[int, int]]:
+    """Scrape every ATS; returns source → (boards attempted, boards incomplete)."""
+    board_stats: dict[str, tuple[int, int]] = {}
     # Companies are scraped concurrently: discovery surfaces thousands of
     # boards, and one-at-a-time with a politeness sleep would take hours.
     rotation = settings.get("long_tail_rotation") or {}
@@ -112,9 +115,13 @@ def _scrape_ats(settings: dict, postings: list, complete_scopes: set, conn) -> N
                     failed += 1
         print(f"{source} total: {len(postings) - before} in {time.time() - t0:.0f}s"
               + (f" ({failed} boards incomplete)" if failed else ""))
+        board_stats[source] = (len(companies), failed)
+    return board_stats
 
 
 def main() -> int:
+    run_started = time.time()
+    run_at = db._now()
     settings = _load_yaml(_SETTINGS)
     os.makedirs(os.path.dirname(_DB_PATH), exist_ok=True)
     conn = db.connect(_DB_PATH)
@@ -126,7 +133,7 @@ def main() -> int:
     complete_sources: set[str] = set()
 
     _apply_config_renames(conn)
-    _scrape_ats(settings, all_postings, complete_scopes, conn)
+    board_stats = _scrape_ats(settings, all_postings, complete_scopes, conn)
 
     print("\n=== Curated lists (SimplifyJobs format) ===")
     curated, curated_ok = simplify_scraper.fetch_jobs(settings)
@@ -140,6 +147,7 @@ def main() -> int:
     print(f"External boards done in {time.time() - t0:.0f}s")
 
     print(f"\nTotal postings this run: {len(all_postings)}")
+    health.record(conn, run_at, dict(Counter(p.source for p in all_postings)), board_stats)
     known = db.existing_ids(conn)
     all_postings, dupes = dedupe.dedupe_postings(all_postings, known)
     if dupes:
@@ -230,6 +238,10 @@ def main() -> int:
     pruned = db.prune(conn, settings.get("prune_removed_after_days", 30), store_roles)
     if pruned:
         print(f"Pruned {pruned} rows that are no longer kept.")
+    problems = health.check(conn, run_at, time.time() - run_started, settings)
+    if problems:
+        print("Health check: " + "; ".join(problems))
+    notify.post_alert(health.due_alerts(conn, problems))
     conn.close()
     return 0
 

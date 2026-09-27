@@ -47,7 +47,11 @@ config/*.yaml ──▶ scrapers ──▶ dedupe ──▶ classifier ──▶
 ```bash
 pip install -r requirements.txt
 cp .env.example .env   # optional: add webhook URLs for local runs
+# The live DB is a release asset, not in git. Grab a copy to work with:
+gh release download db-latest -p jobs.db -D data --clobber
 ```
+
+Local runs write only to your local `data/jobs.db`; CI never reads it.
 
 ## Run locally
 
@@ -80,7 +84,7 @@ Without `GOOGLE_SHEETS_WEBHOOK_URL`, the sheet sync is skipped.
   (annotate vs suppress, thresholds), `curated_lists` (SimplifyJobs-format
   repos), `scrape_workers_by_source`, `enrich_max_per_run`,
   `aggregator_ttl_days`, `store_roles` (only intern/new_grad rows are kept by
-  default, which keeps the committed DB ~20 MB), and `long_tail_rotation`
+  default, which keeps the DB ~20 MB), and `long_tail_rotation`
   (boards that have never listed an entry-level job are checked every Nth
   run, keeping CI at ~15 min with ~6,000 boards).
 - **New boards are backfilled silently.** The first successful scrape of any
@@ -100,11 +104,23 @@ Inconclusive titles default to `mid`, which is never announced anyway.
 
 ## Scheduling (GitHub Actions, $0 hosting)
 
-[.github/workflows/scrape.yml](.github/workflows/scrape.yml) runs **hourly**,
-then commits the updated `data/jobs.db` back to the repo so state survives
-between runs on ephemeral runners. A concurrency group prevents two runs from
-racing on the committed DB, and the DB is committed even if a late step fails
-so postings aren't re-announced next run.
+[.github/workflows/scrape.yml](.github/workflows/scrape.yml) runs **hourly**.
+State survives between runs on ephemeral runners by keeping `jobs.db` as an
+asset on the `db-latest` GitHub release: each run downloads it, scrapes, runs
+an integrity check, and uploads it back (even if a late step failed, so
+postings aren't re-announced). A daily snapshot (`jobs-YYYY-MM-DD.db`, last 7
+kept) is uploaded alongside for rollback, and the download falls back to the
+newest snapshot if `jobs.db` is ever missing. A concurrency group prevents two
+runs from racing on the DB.
+
+**Health checks** ([src/health.py](src/health.py)): every run records postings
+per source. A source far below its recent median, more than half of a source's
+boards failing, or a run nearing the 30-minute CI limit sends a Discord alert
+(to `DISCORD_ALERT_WEBHOOK_URL` if set, else the jobs channel), at most once a
+day per problem.
+
+To restore an older DB: download a snapshot asset and re-upload it as
+`jobs.db` (`gh release upload db-latest <file> --clobber` after renaming).
 
 To enable:
 
@@ -113,19 +129,22 @@ To enable:
    - `DISCORD_WEBHOOK_URL` — for Discord announcements
    - `GOOGLE_SHEETS_WEBHOOK_URL` — for the Google Sheet sync (see
      [docs/apps_script.gs](docs/apps_script.gs) for the one-time setup)
-   - `JOBSPY_PROXY` — residential proxy; without it only Indeed works from
-     GitHub's datacenter IPs (Glassdoor/ZipRecruiter block them)
-3. The workflow needs write permission to push the DB; it's already declared
-   via `permissions: contents: write`. Confirm **Settings → Actions → General →
-   Workflow permissions** allows read/write.
+   - `DISCORD_ALERT_WEBHOOK_URL` — optional separate channel for health alerts
+   - `JOBSPY_PROXY` — residential proxy; without it Glassdoor/ZipRecruiter are
+     skipped in CI (they block GitHub's datacenter IPs). Indeed and LinkedIn
+     work without it.
+3. The workflow needs write permission to update the release asset; it's
+   already declared via `permissions: contents: write`. Confirm **Settings →
+   Actions → General → Workflow permissions** allows read/write.
 
 **Known tradeoffs of this hosting choice:**
 - GitHub cron is best-effort; runs are often late (the schedule uses minute
   :23 because top-of-the-hour slots get dropped under load).
-- Scheduled workflows auto-disable after 60 days of no repo activity.
-- The DB is committed to git each run, so every run adds a full binary copy to
-  history. `db.prune()` keeps the file small (long-removed mid/senior rows are
-  deleted), but history still grows; GitHub rejects files over 100 MB.
+- Scheduled workflows in public repos auto-disable after 60 days without
+  commits; the workflow pushes an empty keepalive commit if the last commit is
+  45+ days old.
+- The DB (and its snapshots) are public release assets, as the committed DB
+  was before.
 
 ## Database schema
 

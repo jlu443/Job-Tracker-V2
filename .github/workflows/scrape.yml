@@ -8,19 +8,25 @@ on:
     - cron: "23 * * * *"
   workflow_dispatch: {}   # allow manual runs from the Actions tab
 
-# Allow the job to push the updated DB back to the repo.
+# contents: write lets the job replace the DB asset on the release, and push
+# the rare keepalive commit.
 permissions:
   contents: write
 
-# Don't let two runs race on the committed DB.
+# Don't let two runs race on the DB.
 concurrency:
   group: scrape-jobs
   cancel-in-progress: false
 
+env:
+  GH_TOKEN: ${{ github.token }}
+  # jobs.db lives as an asset on this release instead of in git: committing a
+  # ~25 MB binary every hour grew the repo by hundreds of MB a day.
+  DB_RELEASE: db-latest
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    # Healthy runs finish in ~10-15 min; fail fast when something hangs.
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -32,34 +38,69 @@ jobs:
 
       - run: pip install -r requirements.txt pytest
 
-      # Guard the committed DB: a broken parser/migration must not run.
+      # A broken parser/migration must not touch the DB.
       - run: python -m pytest -q tests
 
-      # (HuggingFace model cache removed: use_llm_fallback is off in CI —
-      # bart-large-mnli on a CPU runner can't classify this volume in time.
-      # Restore an actions/cache step for ~/.cache/huggingface if re-enabled.)
+      - name: Download database
+        id: download
+        # Falls back to the newest daily snapshot if the main asset is missing
+        # (e.g. an upload died mid-way). Never starts from an empty DB: that
+        # would silently discard history.
+        run: |
+          mkdir -p data
+          if gh release download "$DB_RELEASE" -p jobs.db -D data --clobber; then
+            echo "Downloaded jobs.db"
+          else
+            snap=$(gh release view "$DB_RELEASE" --json assets --jq '.assets[].name' \
+                   | grep -E '^jobs-[0-9-]+\.db$' | sort | tail -n 1)
+            if [ -z "$snap" ]; then
+              echo "::error::No jobs.db or snapshot on release $DB_RELEASE"; exit 1
+            fi
+            echo "::warning::jobs.db missing; restoring snapshot $snap"
+            gh release download "$DB_RELEASE" -p "$snap" -D data --clobber
+            mv "data/$snap" data/jobs.db
+          fi
 
       - name: Run scraper
+        # Leaves headroom inside the job timeout for the upload step.
+        timeout-minutes: 26
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_ALERT_WEBHOOK_URL: ${{ secrets.DISCORD_ALERT_WEBHOOK_URL }}  # optional
           GOOGLE_SHEETS_WEBHOOK_URL: ${{ secrets.GOOGLE_SHEETS_WEBHOOK_URL }}
           JOBSPY_PROXY: ${{ secrets.JOBSPY_PROXY }}  # optional residential proxy
         run: python -m src.main
 
-      - name: Commit updated database
-        # Run even if the scraper step failed or timed out: the DB is synced
-        # before notify/sheets run, so a late failure must not throw away the
-        # run's postings (that's what caused every posting to look "new" again
-        # on the next run).
+      - name: Upload database
+        # Even if the scraper failed late: the DB is synced before notify
+        # runs, so throwing it away would make this run's postings look "new"
+        # (and be re-announced) next time.
+        if: always() && steps.download.outcome == 'success'
+        run: |
+          python - <<'EOF'
+          import sqlite3, sys
+          ok = sqlite3.connect("data/jobs.db").execute("PRAGMA integrity_check").fetchone()[0]
+          if ok != "ok":
+              sys.exit(f"jobs.db failed integrity check: {ok}")
+          EOF
+          gh release upload "$DB_RELEASE" data/jobs.db --clobber
+          # One snapshot per day, last 7 kept, for rollback.
+          snap="jobs-$(date -u +%F).db"
+          cp data/jobs.db "$snap"
+          gh release upload "$DB_RELEASE" "$snap" --clobber
+          gh release view "$DB_RELEASE" --json assets --jq '.assets[].name' \
+            | grep -E '^jobs-[0-9-]+\.db$' | sort | head -n -7 \
+            | xargs -r -n1 gh release delete-asset "$DB_RELEASE" -y
+
+      - name: Keep the schedule alive
+        # GitHub disables cron workflows in public repos after 60 days with no
+        # commits; hourly DB commits used to prevent that.
         if: always()
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f data/jobs.db
-          if git diff --staged --quiet; then
-            echo "No DB changes to commit."
-          else
-            git commit -m "chore: update jobs.db [skip ci]"
-            git pull --rebase origin main
+          age_days=$(( ( $(date +%s) - $(git log -1 --format=%ct) ) / 86400 ))
+          if [ "$age_days" -ge 45 ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "chore: keepalive [skip ci]"
             git push
           fi
