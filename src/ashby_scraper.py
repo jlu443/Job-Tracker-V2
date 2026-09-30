@@ -13,7 +13,7 @@ import time
 
 import requests
 
-from . import classify, http_pool
+from . import classify, http_pool, phd
 from .posting import JobPosting
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
@@ -44,6 +44,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
             continue
         raw_date = job.get("publishedAt") or ""
         title = (job.get("title") or "").strip()
+        description = job.get("descriptionPlain") or ""
         out.append(JobPosting(
             job_id=f"ash_{jid}",
             company=name,
@@ -52,8 +53,8 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
             location=(job.get("location") or "").strip(),
             posted_on=raw_date[:10],
             source="ashby",
-            role_hint=classify.role_hint_from_description(
-                title, job.get("descriptionPlain") or ""),
+            role_hint=classify.role_hint_from_description(title, description),
+            research_track=phd.track(title, description),
         ))
 
     time.sleep(settings.get("delay_between_requests", 0.5))

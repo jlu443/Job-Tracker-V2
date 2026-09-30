@@ -27,7 +27,11 @@ workday_min_relevant_per_page: 2
 # the rest of a source's boards are split into N slices, one slice per run
 # (so each is still checked every N hours). Keeps CI under its 30-min limit.
 long_tail_rotation:
-  workday: 6
+  # Boards with open entry-level jobs every 2nd run (postings stay open for
+  # weeks, so a 2-hour detection delay costs nothing); the rest every 6th.
+  # Measured 2026-09-30: every-run Workday took 19 min, iCIMS 13 min.
+  workday: {hot: 2, tail: 6}
+  icims: {hot: 2, tail: 4}
   workable: 6       # also keeps us under Workable's per-IP rate limit
 
 # Politeness

@@ -1,0 +1,94 @@
+# Research-strength tiers for ranking PhD / research-track internships
+# (src/phd.py). Names match a company's name or its start on a word boundary
+# ("Google" matches "Google LLC" and "Google DeepMind"). Edit freely; the
+# ranking picks changes up on the next run.
+#
+#   tier1  flagship industrial research labs and top quant research shops
+#   tier2  strong corporate research groups and major national/federal labs
+#   tier3  notable applied-research teams
+
+tiers:
+  tier1:
+    - Google
+    - Google DeepMind
+    - DeepMind
+    - OpenAI
+    - Anthropic
+    - Meta
+    - Microsoft Research
+    - Microsoft
+    - NVIDIA
+    - Apple
+    - Allen Institute for AI
+    - Jane Street
+    - Citadel
+    - Citadel Securities
+    - Two Sigma
+    - D. E. Shaw
+    - DE Shaw
+    - Hudson River Trading
+    - Jump Trading
+    - Renaissance Technologies
+  tier2:
+    - Amazon
+    - IBM
+    - Intel
+    - Adobe
+    - Samsung Research America
+    - Samsung
+    - Qualcomm
+    - Sony AI
+    - Toyota Research Institute
+    - Bosch
+    - Waymo
+    - Tesla
+    - ByteDance
+    - TikTok
+    - Salesforce
+    - Netflix
+    - Spotify
+    - Susquehanna International Group (SIG)
+    - Susquehanna
+    - Optiver
+    - Five Rings
+    - Tower Research Capital
+    - Millennium
+    - Sandia National Laboratories
+    - Los Alamos National Laboratory
+    - Lawrence Livermore National Laboratory
+    - Oak Ridge National Laboratory
+    - Argonne National Laboratory
+    - Pacific Northwest National Laboratory
+    - Johns Hopkins Applied Physics Laboratory
+    - Johns Hopkins University Applied Physics Laboratory
+    - MIT Lincoln Laboratory
+    - NASA
+    - Jet Propulsion Laboratory
+  tier3:
+    - Applied Materials
+    - Texas Instruments
+    - Marvell
+    - AMD
+    - Micron Technology
+    - Cisco
+    - Uber
+    - Lyft
+    - Snap
+    - Pinterest
+    - LinkedIn
+    - Databricks
+    - Scale AI
+    - Palantir
+    - Datadog
+    - Nokia
+    - Siemens
+    - GE Vernova
+    - GE HealthCare
+    - Honeywell
+    - Lockheed Martin
+    - Northrop Grumman
+    - RTX
+    - Boeing
+    - SRI International
+    - The Aerospace Corporation
+    - The Brattle Group

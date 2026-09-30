@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from urllib.parse import urlparse
 
-from . import classify, dates, dedupe, repost
+from . import classify, dates, dedupe, phd, repost
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS jobs (
@@ -64,6 +64,7 @@ _COLUMNS = {
     "relisted_on": "TEXT NOT NULL DEFAULT ''",
     "bump_count": "INTEGER NOT NULL DEFAULT 0",
     "announced_at": "TEXT NOT NULL DEFAULT ''",
+    "research_track": "TEXT NOT NULL DEFAULT ''",
 }
 
 # Aggregator searches are time-windowed (JobSpy hours_old), so a job missing
@@ -106,6 +107,13 @@ def connect(path: str) -> sqlite3.Connection:
     if _meta_get(conn, "schema_version") != "2":
         _migrate_v2(conn)
         _meta_set(conn, "schema_version", "2")
+    if _meta_get(conn, "research_track_backfill") != "1":
+        # Title-only tracks for rows stored before src/phd.py existed;
+        # description-based tracks arrive as boards are re-scraped/enriched.
+        rows = conn.execute("SELECT job_id, title FROM jobs WHERE research_track = ''").fetchall()
+        conn.executemany("UPDATE jobs SET research_track = ? WHERE job_id = ?",
+                         [(t, r[0]) for r in rows if (t := phd.track(r[1]))])
+        _meta_set(conn, "research_track_backfill", "1")
     conn.commit()
     return conn
 
@@ -237,9 +245,9 @@ def mark_announced(conn: sqlite3.Connection, job_ids: list[str]) -> None:
 
 
 def productive_boards(conn: sqlite3.Connection, source: str) -> set[str]:
-    """Companies on `source` that have ever listed an intern/new_grad job."""
+    """Companies on `source` with an open intern/new_grad job right now."""
     return {r[0] for r in conn.execute(
-        "SELECT DISTINCT company FROM jobs WHERE source = ? "
+        "SELECT DISTINCT company FROM jobs WHERE source = ? AND status = 'active' "
         "AND role_type IN ('intern', 'new_grad')", (source,))}
 
 
@@ -264,10 +272,10 @@ def update_enrichment(conn: sqlite3.Connection, jobs: list[dict]) -> None:
         return
     conn.executemany(
         "UPDATE jobs SET sponsorship = ?, clearance = ?, grad_year = ?, "
-        "applicants = ?, repost = ?, repost_of = ? WHERE job_id = ?",
+        "applicants = ?, repost = ?, repost_of = ?, research_track = ? WHERE job_id = ?",
         [(j.get("sponsorship", ""), j.get("clearance", ""), j.get("grad_year", ""),
           j.get("applicants", ""), j.get("repost", ""), j.get("repost_of", ""),
-          j["job_id"]) for j in jobs],
+          j.get("research_track", ""), j["job_id"]) for j in jobs],
     )
     conn.commit()
 
@@ -323,15 +331,16 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
                 # scrape-time description (aggregators) for the enrichment pass
                 "description": p.description,
                 "sponsorship": p.sponsorship, "clearance": "", "grad_year": "",
+                "research_track": p.research_track or phd.track(p.title),
             }
             conn.execute(
                 "INSERT INTO jobs (job_id, company, title, apply_url, location, "
                 "role_type, posted_on, source, sponsorship, first_seen, last_seen, "
-                "status, job_key, category) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,'active',?,?)",
+                "status, job_key, category, research_track) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,'active',?,?,?)",
                 (p.job_id, p.company, p.title, p.apply_url, p.location, role,
                  p.posted_on, p.source, p.sponsorship, now, now,
-                 job["job_key"], job["category"]),
+                 job["job_key"], job["category"], job["research_track"]),
             )
             new_jobs.append(job)
         else:
@@ -351,9 +360,13 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
                 "UPDATE jobs SET last_seen = ?, status = 'active', title = ?, "
                 "apply_url = COALESCE(NULLIF(?, ''), apply_url), location = ?, "
                 "posted_on = CASE WHEN posted_on = '' OR (? != '' AND ? < posted_on) "
-                "THEN ? ELSE posted_on END WHERE job_id = ?",
+                "THEN ? ELSE posted_on END, "
+                # a description-based track (scrape time) upgrades a title-only one
+                "research_track = CASE WHEN ? != '' THEN ? ELSE research_track END "
+                "WHERE job_id = ?",
                 (now, p.title, p.apply_url, p.location,
-                 p.posted_on, p.posted_on, p.posted_on, p.job_id),
+                 p.posted_on, p.posted_on, p.posted_on,
+                 p.research_track, p.research_track, p.job_id),
             )
             updated += 1
 

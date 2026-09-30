@@ -1,10 +1,11 @@
 """Publish the tracker to a Google Sheet as rebuilt tabs, via an Apps Script
 webhook (docs/apps_script.gs).
 
-    Today            announceable jobs first seen in the last 24 hours
+    Today            jobs announced in the last 24 hours
     This Week        the same, last 7 days
     All Open         every stored intern/new-grad job (the DB's 60-day window),
                      refreshed about once a day
+    PhD & Research   open PhD / research-track internships, ranked (src/phd.py)
     My Applications  owned by the sheet: rows the user gave a Status
 
 Tabs are rebuilt from the DB each run, so they can never drift from it; the
@@ -20,7 +21,7 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
-from . import db
+from . import db, phd
 
 COLUMNS = ["Apply", "Company", "Title", "Role", "Category", "Location", "Posted",
            "First seen", "Sponsorship", "Clearance", "Grad year", "Applicants",
@@ -66,6 +67,17 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
     return tabs
 
 
+PHD_TAB = "PhD & Research"
+PHD_COLUMNS = ["Score", "Why", "Track"] + COLUMNS
+_TRACK = {"phd": "PhD", "research_ms": "Research (MS/PhD)"}
+
+
+def build_phd_tab(conn: sqlite3.Connection, settings: dict) -> list[list]:
+    """Ranked PhD / research-track internships (src/phd.py), best first."""
+    return [[j["score"], j["why"], _TRACK.get(j["research_track"], "")] + _row(j)
+            for j in phd.ranked(conn, settings)]
+
+
 def _post(webhook: str, payload: dict) -> dict:
     resp = requests.post(webhook, json=payload, timeout=300)
     resp.raise_for_status()
@@ -96,10 +108,14 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
     include_all = (not last or datetime.fromisoformat(last)
                    < datetime.now(timezone.utc) - timedelta(hours=refresh_hours))
 
-    for tab, rows in build_tabs(conn, include_all).items():
+    tabs = [(tab, COLUMNS, rows) for tab, rows in build_tabs(conn, include_all).items()]
+    if settings.get("phd", {}).get("enabled", True):
+        tabs.append((PHD_TAB, PHD_COLUMNS, build_phd_tab(conn, settings)))
+
+    for tab, columns, rows in tabs:
         try:
             result = _post(webhook, {"action": "replace_tab", "tab": tab,
-                                     "columns": COLUMNS, "rows": rows})
+                                     "columns": columns, "rows": rows})
         except requests.RequestException as exc:
             print(f"  ! Google Sheets tab {tab!r} failed: {exc}")
             continue

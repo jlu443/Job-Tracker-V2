@@ -20,7 +20,7 @@ from urllib.parse import urlparse
 
 import requests
 
-from . import http_pool, icims_scraper
+from . import http_pool, icims_scraper, phd
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)", "Accept": "application/json"}
 _SESSION = http_pool.make_session(_HEADERS)
@@ -252,9 +252,14 @@ def enrich_jobs(jobs: list[dict]) -> None:
     print(f"Enriching {len(jobs)} announceable postings ...")
     counts = {"sponsorship": 0, "clearance": 0, "grad_year": 0}
     for job in jobs:
-        flags = parse_flags(_description_for(job))
+        text = _description_for(job)
+        flags = parse_flags(text)
         # Never let "no mention found" erase a value the source supplied.
         job.update({k: v for k, v in flags.items() if v or not job.get(k)})
+        # The description can reveal a PhD/research track the title hides.
+        track = phd.track(job.get("title", ""), text)
+        if track and job.get("research_track") != "phd":
+            job["research_track"] = track
         for key, value in flags.items():
             if value:
                 counts[key] += 1

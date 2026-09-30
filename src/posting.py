@@ -19,6 +19,7 @@ class JobPosting:
     category: str = ""        # job function, when the source already knows it
     sponsorship: str = ""     # 'yes' | 'no' | '' when the source already knows it
     role_hint: str = ""       # role_type asserted by a curated source; beats the title
+    research_track: str = ""  # 'phd' | 'research_ms' | '' (src/phd.py)
 
     def __post_init__(self):
         # Sources embed newlines/tabs in titles ("Intern\nTorrance, CA").

@@ -59,15 +59,15 @@ def _company_name(company: dict) -> str:
 
 
 def _due_this_run(companies: list[dict], productive: set[str], every: int,
-                  slot: int) -> list[dict]:
-    """Boards that have produced entry-level jobs run every time; the long
-    tail is split into `every` stable slices, one slice per run. A board that
-    isn't scraped keeps its rows untouched (it's not in complete_scopes)."""
-    if every <= 1:
-        return companies
+                  slot: int, hot_every: int = 1) -> list[dict]:
+    """Boards with open entry-level jobs run every `hot_every` runs; the long
+    tail every `every` runs. Each group is split into stable slices by a hash
+    of the board name, one slice per run. A board that isn't scraped keeps
+    its rows untouched (it's not in complete_scopes)."""
+    def due(c, n):
+        return n <= 1 or zlib.crc32(_company_name(c).encode()) % n == slot % n
     return [c for c in companies
-            if _company_name(c) in productive
-            or zlib.crc32(_company_name(c).encode()) % every == slot % every]
+            if due(c, hot_every if _company_name(c) in productive else every)]
 
 
 def _apply_config_renames(conn) -> None:
@@ -127,13 +127,17 @@ def _scrape_ats(settings: dict, postings: list, complete_scopes: set,
     for source, config_file, module in _ATS_SCRAPERS:
         companies = _load_yaml(os.path.join(_CONFIG_DIR, config_file)) \
             .get("companies", []) or []
-        every = rotation.get(source, 1)
+        # int = tail every N runs (productive boards every run);
+        # {tail: N, hot: M} = productive boards every M runs too.
+        cfg = rotation.get(source, 1)
+        every, hot = (cfg.get("tail", 1), cfg.get("hot", 1)) if isinstance(cfg, dict) else (cfg, 1)
         total = len(companies)
-        if every > 1:   # db lookups stay on this thread (sqlite connection)
+        if every > 1 or hot > 1:   # db lookups stay on this thread (sqlite)
             companies = _due_this_run(companies, db.productive_boards(conn, source),
-                                      every, slot)
+                                      every, slot, hot)
         print(f"  {source}: {len(companies)} of {total} boards due"
-              + (f" (long tail rotates 1/{every})" if every > 1 else ""))
+              + (f" (open-job boards every {hot}, others every {every} runs)"
+                 if every > 1 or hot > 1 else ""))
         plan.append((source, module, companies))
 
     print(f"\n=== ATS boards ({len(plan)} sources in parallel) ===")

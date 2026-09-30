@@ -41,6 +41,7 @@ config/*.yaml ──▶ scrapers ──▶ dedupe ──▶ classifier ──▶
 | Enrich | [src/enrich.py](src/enrich.py) | Fetches the full description of each new intern/new_grad posting from the ATS's detail API and parses it into flags: visa sponsorship (`no`/`yes`), security clearance, graduation-year window. Flags land in the DB, the Discord embed, and the Sheet |
 | Notify | [src/notify.py](src/notify.py) | Posts each run's new **intern/new_grad US** jobs to Discord as one compact list per job category: one line per job with company, linked title, location, age and flags (visa, clearance, applicants, repost). ⭐ marks jobs posted in the last 2 days that aren't reposts and aren't swamped with applicants. Once a day, a one-line digest links to the Sheet's Today tab (`GOOGLE_SHEET_URL`) |
 | Sheet | [src/sheets.py](src/sheets.py) | Publishes rebuilt tabs via an Apps Script webhook ([docs/apps_script.gs](docs/apps_script.gs)): **Today** (24 h), **This Week**, **All Open** (every stored intern/new-grad job in the 60-day window, refreshed daily). A **Status** dropdown on every tab copies the job into **My Applications**, which is never trimmed; statuses survive every rebuild |
+| PhD & Research | [src/phd.py](src/phd.py), [config/research_orgs.yaml](config/research_orgs.yaml) | A separate component reading the same DB: tags internships as `phd` (PhD in the title, or the description asks for PhD students) or `research_ms` (research-type title, or "MS or PhD" in the description), then ranks open US ones 0–100: research strength (org tier from `research_orgs.yaml` + how research-heavy the title is, up to 60) plus freshness & competition (days since posted, applicant count, reposts penalized, up to 40). Published as the Sheet's **PhD & Research** tab with a Score, a plain-English *Why*, and the usual Status dropdown. Doesn't change what's announced |
 | Accuracy | [src/accuracy.py](src/accuracy.py) | Scores the pipeline against the curated lists (hand-labeled intern/new-grad jobs): coverage per ATS with each miss attributed (scraper missed / title rules / board not scraped yet / board not configured / older than retention), role and category accuracy, post-date accuracy. Runs daily inside the pipeline (history in `accuracy_history`); `python -m src.accuracy` for a full report |
 | Discover | [src/discover.py](src/discover.py) | Harvests careers URLs from seeds, GitHub job lists, JobSpy postings, and the Common Crawl URL index; every source feeds every ATS. Candidates are validated against each ATS's public API and merged into the per-ATS config files |
 | Coverage | [src/coverage.py](src/coverage.py) | Reports the discovery funnel per ATS (candidates surfaced → validated into config) to answer "are we missing companies?" |
@@ -90,7 +91,8 @@ Without `GOOGLE_SHEETS_WEBHOOK_URL`, the sheet sync is skipped.
   `aggregator_ttl_days`, `store_roles` (only intern/new_grad rows are kept by
   default, which keeps the DB ~20 MB), and `long_tail_rotation`
   (boards that have never listed an entry-level job are checked every Nth
-  run, keeping CI at ~15 min with ~6,000 boards).
+  run; boards with open entry-level jobs can also be set to every Nth run,
+  e.g. `workday: {hot: 2, tail: 6}`, keeping CI at ~15 min with ~6,500 boards).
 - **New boards are backfilled silently.** The first successful scrape of any
   board (a newly discovered company, or a new source like LinkedIn) is stored
   without announcing, so adding 1,000 boards doesn't post 10,000 old jobs.

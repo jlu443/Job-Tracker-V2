@@ -1,3 +1,4 @@
+import collections
 import sqlite3
 from datetime import date, datetime, timedelta, timezone
 
@@ -312,3 +313,15 @@ def test_greenhouse_null_location_name(monkeypatch):
     monkeypatch.setattr(greenhouse_scraper._SESSION, "get", lambda *a, **k: Resp())
     posts, ok = greenhouse_scraper.fetch_company_jobs({"token": "t"}, {"delay_between_requests": 0})
     assert ok and posts[0].location == "" and posts[0].posted_on == ""
+
+
+def test_rotation_hot_boards_every_other_run():
+    from src import main
+    boards = [{"tenant": f"co{i}"} for i in range(60)]
+    hot = {f"co{i}" for i in range(20)}
+    seen = collections.Counter()
+    for slot in range(6):
+        for b in main._due_this_run(boards, hot, 6, slot, hot_every=2):
+            seen[b["tenant"]] += 1
+    assert all(seen[f"co{i}"] == 3 for i in range(20))        # hot: every 2nd run
+    assert all(seen[f"co{i}"] == 1 for i in range(20, 60))    # tail: every 6th run
