@@ -47,7 +47,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
         jid = job.get("id")
         if not jid:
             continue
-        location = (job.get("location") or {}).get("name", "").strip()
+        location = ((job.get("location") or {}).get("name") or "").strip()
         # updated_at moves on every edit; first_published is the real post date.
         raw_date = job.get("first_published") or ""
         posted = raw_date[:10]

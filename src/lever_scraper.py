@@ -41,12 +41,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
 
     out = []
     for p in postings:
-        uid = p.get("id", "").strip()
+        uid = (p.get("id") or "").strip()
         if not uid:
             continue
         categories = p.get("categories") or {}
         all_locs = categories.get("allLocations") or []
-        location = (all_locs[0] if all_locs else categories.get("location", "")).strip()
+        location = ((all_locs[0] if all_locs else categories.get("location")) or "").strip()
         posted = ""
         created_ms = p.get("createdAt")
         if created_ms:

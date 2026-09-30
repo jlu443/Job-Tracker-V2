@@ -83,13 +83,24 @@ def _apply_config_renames(conn) -> None:
         print(f"Renamed {moved} stored rows to their boards' company names.")
 
 
+def _fetch_one(source: str, module, company: dict, settings: dict):
+    """One board. An unexpected error (a malformed record, an API change) is
+    that board's problem: it's reported and counted incomplete, so its jobs
+    aren't marked removed and the other ~6,000 boards still get scraped."""
+    try:
+        return module.fetch_company_jobs(company, settings)
+    except Exception as exc:
+        print(f"  ! {source} {_company_name(company)}: {type(exc).__name__}: {exc}")
+        return [], False
+
+
 def _scrape_source(source: str, module, companies: list[dict], settings: dict):
     """One ATS's boards, concurrently. Returns (postings, complete scopes, failed)."""
     workers = (settings.get("scrape_workers_by_source") or {}).get(
         source, settings.get("scrape_workers", 8))
     postings, scopes, failed, t0 = [], set(), 0, time.time()
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        results = pool.map(lambda c: module.fetch_company_jobs(c, settings), companies)
+        results = pool.map(lambda c: _fetch_one(source, module, c, settings), companies)
         for company, (found, complete) in zip(companies, results):
             postings.extend(found)
             if complete:

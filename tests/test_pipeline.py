@@ -281,3 +281,34 @@ def test_triage_silences_reclassified_backlog_but_not_fresh_posts():
                                       db.AGGREGATOR_SOURCES, reclassified=True)
     assert [j["job_id"] for j in cands] == ["gh_2"]
     assert skipped == {"reclassified_backlog": 1}
+
+
+def test_one_broken_board_does_not_abort_the_source():
+    from src import main
+
+    class Flaky:
+        @staticmethod
+        def fetch_company_jobs(company, settings):
+            if company["token"] == "bad":
+                raise AttributeError("'NoneType' object has no attribute 'strip'")
+            return [_p(f"gh_{company['token']}", company=company["token"])], True
+
+    boards = [{"token": "a"}, {"token": "bad"}, {"token": "b"}]
+    posts, scopes, failed = main._scrape_source("greenhouse", Flaky, boards, {})
+    assert sorted(p.job_id for p in posts) == ["gh_a", "gh_b"]
+    assert scopes == {("greenhouse", "a"), ("greenhouse", "b")} and failed == 1
+
+
+def test_greenhouse_null_location_name(monkeypatch):
+    from src import greenhouse_scraper
+
+    class Resp:
+        status_code = 200
+        def raise_for_status(self): pass
+        def json(self):
+            return {"jobs": [{"id": 1, "title": "SWE Intern", "location": {"name": None},
+                              "absolute_url": "https://x", "first_published": None}]}
+
+    monkeypatch.setattr(greenhouse_scraper._SESSION, "get", lambda *a, **k: Resp())
+    posts, ok = greenhouse_scraper.fetch_company_jobs({"token": "t"}, {"delay_between_requests": 0})
+    assert ok and posts[0].location == "" and posts[0].posted_on == ""

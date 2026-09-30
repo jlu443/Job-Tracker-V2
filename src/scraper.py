@@ -95,9 +95,9 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
                 seen[job_id] = JobPosting(
                     job_id=job_id,
                     company=name,
-                    title=p.get("title", "").strip(),
+                    title=(p.get("title") or "").strip(),
                     apply_url=f"{base}/{site}{ext}",
-                    location=p.get("locationsText", "").strip(),
+                    location=(p.get("locationsText") or "").strip(),
                     posted_on=dates.relative_to_iso(p.get("postedOn", ""), anchor),
                     source="workday",
                 )
