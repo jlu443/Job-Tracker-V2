@@ -35,8 +35,6 @@ except ImportError:
     _JOBSPY_AVAILABLE = False
 
 
-
-
 # Sites that block requests from datacenter IPs (GitHub Actions runners).
 _NEEDS_PROXY = {"glassdoor", "zip_recruiter"}
 _PROXY_IF_AVAILABLE = {"linkedin"}

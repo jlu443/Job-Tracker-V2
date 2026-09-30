@@ -9,6 +9,11 @@ search_terms:
   - university
   - early career
   - entry level
+  - junior
+  - graduate
+  # Replaced with next year at run time ("Summer 2027 Intern"). Measured with
+  # src/accuracy.py: finds Workday roles none of the words above match.
+  - "{next_year}"
 
 # Pagination
 page_limit: 20          # Workday caps at ~20 per request
@@ -35,6 +40,8 @@ scrape_workers_by_source:
   workday: 32
   smartrecruiters: 16
   workable: 3         # apply.workable.com returns 429s above ~3 concurrent
+  oracle: 16          # each tenant is its own host
+  icims: 2            # one shared edge; requests are also globally spaced
 
 # Classification: keyword pass is always on. The zero-shot fallback (facebook/bart-large-mnli)
 # only runs for ambiguous titles when this is true. Model downloads ~1.6GB on first use.

@@ -22,8 +22,6 @@ _PAGE_SIZE = 100
 _MAX_PAGES = 50   # safety cap: 5000 postings per company
 
 
-
-
 def _format_location(loc: dict) -> str:
     parts = [loc.get("city"), loc.get("region"), (loc.get("country") or "").upper()]
     return ", ".join(p for p in parts if p)

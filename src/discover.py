@@ -90,6 +90,21 @@ _WD_RE = re.compile(
     re.IGNORECASE,
 )
 _WD_BAD_SITES = {"wday", "cxs", "assets", "static", "login", "fonts"}
+# Workday's alternate host puts the tenant in the path; the same tenant/site
+# is served by the regular {tenant}.{wd}.myworkdayjobs.com API.
+_WD_SITE_RE = re.compile(
+    r"https?://(?P<wd>wd\d+)\.myworkdaysite\.com/(?:[a-z]{2}-[A-Z]{2}/)?recruiting/"
+    r"(?P<tenant>[a-z0-9-]+)/(?P<site>[A-Za-z0-9_-]+)",
+    re.IGNORECASE,
+)
+
+_ORACLE_RE = re.compile(
+    r"https?://(?P<host>[a-z0-9-]+\.fa\.[a-z0-9-]+\.oraclecloud\.com)"
+    r"/hcmUI/CandidateExperience/[a-z-]+/sites/(?P<site>[A-Za-z0-9_-]+)",
+    re.IGNORECASE,
+)
+_ICIMS_RE = re.compile(r"https?://(?P<host>[a-z0-9-]+\.icims\.com)/jobs", re.IGNORECASE)
+_ICIMS_BAD = {"www", "api", "developer", "community", "care", "status"}
 
 _GH_RES = [
     re.compile(r"boards(?:-api)?\.greenhouse\.io(?:/v1/boards)?/([a-z0-9_-]+)", re.I),
@@ -115,7 +130,7 @@ _WK_BAD = {"api", "j", "jobs", "assets"}
 
 def _extract_workday(text: str) -> list[dict]:
     out = []
-    for m in _WD_RE.finditer(text):
+    for m in list(_WD_RE.finditer(text)) + list(_WD_SITE_RE.finditer(text)):
         site = m.group("site")
         if site.lower() in _WD_BAD_SITES:
             continue
@@ -167,6 +182,41 @@ def _extract_workable(text: str) -> list[dict]:
             continue
         out.append({"slug": slug, "name": slug})
     return out
+
+
+def _extract_oracle(text: str) -> list[dict]:
+    return [{"host": m.group("host").lower(), "site": m.group("site"),
+             "name": m.group("host").split(".")[0].lower()}
+            for m in _ORACLE_RE.finditer(text)]
+
+
+def _extract_icims(text: str) -> list[dict]:
+    out = []
+    for m in _ICIMS_RE.finditer(text):
+        host = m.group("host").lower()
+        if host.split(".")[0] not in _ICIMS_BAD:
+            out.append({"host": host, "name": host.split(".")[0]})
+    return out
+
+
+def _validate_oracle(c: dict) -> bool:
+    url = (f"https://{c['host']}/hcmRestApi/resources/latest/recruitingCEJobRequisitions"
+           f"?onlyData=true&finder=findReqs;siteNumber={c['site']},limit=1")
+    data = _request_json("GET", url)
+    items = (data or {}).get("items") or [{}]
+    return bool(items[0].get("TotalJobsCount"))
+
+
+def _validate_icims(c: dict) -> bool:
+    # No JSON API: a portal is valid if its listing page renders job links.
+    try:
+        resp = requests.get(f"https://{c['host']}/jobs/search",
+                            params={"ss": 1, "in_iframe": 1},
+                            headers=_HEADERS, timeout=25)
+    except requests.RequestException:
+        return False
+    time.sleep(1)       # iCIMS challenges bursts from one IP
+    return resp.status_code == 200 and "iCIMS_Anchor" in resp.text
 
 
 def _validate_workday(c: dict) -> bool:
@@ -241,6 +291,12 @@ ATS_SPECS: list[ATSSpec] = [
     ATSSpec("workable", "workable.yaml", _extract_workable, _validate_workable,
             lambda c: c["slug"],
             ("apply.workable.com/*",)),
+    ATSSpec("oracle", "oracle.yaml", _extract_oracle, _validate_oracle,
+            lambda c: (c["host"], c["site"]),
+            ("*.oraclecloud.com/hcmUI/CandidateExperience/*",)),
+    ATSSpec("icims", "icims.yaml", _extract_icims, _validate_icims,
+            lambda c: c["host"],
+            ("*.icims.com/jobs/*",)),
 ]
 
 

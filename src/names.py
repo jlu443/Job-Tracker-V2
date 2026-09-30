@@ -27,7 +27,8 @@ import requests
 from . import discover, simplify_scraper
 
 _ID_FIELD = {"workday": "tenant", "greenhouse": "token", "lever": "slug",
-             "ashby": "slug", "smartrecruiters": "company", "workable": "slug"}
+             "ashby": "slug", "smartrecruiters": "company", "workable": "slug",
+             "oracle": "host", "icims": "host"}
 _SESSION = requests.Session()
 _SESSION.headers["User-Agent"] = "Mozilla/5.0 (job-tracker-names)"
 
@@ -37,8 +38,10 @@ def board_id(source: str, company: dict) -> str:
 
 
 def is_slug_name(source: str, company: dict) -> bool:
-    name = (company.get("name") or "").strip()
-    return not name or name.lower() == board_id(source, company)
+    name = (company.get("name") or "").strip().lower()
+    bid = board_id(source, company)
+    # Host-keyed boards (Oracle, iCIMS) get the host's first label as a name.
+    return not name or name in (bid, bid.split(".")[0])
 
 
 def _curated_names(settings: dict) -> dict[tuple[str, str], str]:

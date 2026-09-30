@@ -1,0 +1,888 @@
+companies:
+- host: fa-erjf-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Strathcona County
+  aliases:
+  - fa-erjf-saasfaprod1
+- host: fa-eygo-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Worthington Enterprises
+  aliases:
+  - fa-eygo-saasfaprod1
+- host: fa-evmr-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Nokia
+  aliases:
+  - fa-evmr-saasfaprod1
+- host: hdjq.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Emerson Electric
+  aliases:
+  - hdjq
+- host: hctz.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: onsemi
+  aliases:
+  - hctz
+- host: eedu.fa.em3.oraclecloud.com
+  site: CX_1003
+  name: WTW
+  aliases:
+  - eedu
+- host: hdde.fa.us2.oraclecloud.com
+  site: CX
+  name: Rheem
+  aliases:
+  - hdde
+- host: emit.fa.ca3.oraclecloud.com
+  site: CX_2001
+  name: WSP
+  aliases:
+  - emit
+- host: eeho.fa.us2.oraclecloud.com
+  site: CX_45001
+  name: Oracle
+  aliases:
+  - eeho
+- host: ekcf.fa.us6.oraclecloud.com
+  site: CX_1
+  name: Powell
+  aliases:
+  - ekcf
+- host: ewvl.fa.us8.oraclecloud.com
+  site: CX_1
+  name: Savannah River National Laboratory
+  aliases:
+  - ewvl
+- host: efds.fa.em5.oraclecloud.com
+  site: CX_1
+  name: Ford Motor Company
+  aliases:
+  - efds
+- host: hdhl.fa.us6.oraclecloud.com
+  site: CX_1
+  name: Stantec
+  aliases:
+  - hdhl
+- host: ibqbjb.fa.ocs.oraclecloud.com
+  site: Honeywell
+  name: Honeywell
+  aliases:
+  - ibqbjb
+- host: ejrz.fa.us2.oraclecloud.com
+  site: CX_5001
+  name: VITAS Healthcare
+  aliases:
+  - ejrz
+- host: hcor.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Midmark
+  aliases:
+  - hcor
+- host: fa-esgu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Montenson
+  aliases:
+  - fa-esgu-saasfaprod1
+- host: hckz.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Seaspan
+  aliases:
+  - hckz
+- host: fa-eqcd-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Hunt Oil Company
+  aliases:
+  - fa-eqcd-saasfaprod1
+- host: fa-eqpz-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Polk County
+  aliases:
+  - fa-eqpz-saasfaprod1
+- host: ebcs.fa.em2.oraclecloud.com
+  site: CX_1
+  name: Arcadis
+  aliases:
+  - ebcs
+- host: fa-essf-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Berkshire Hathaway Energy
+  aliases:
+  - fa-essf-saasfaprod1
+- host: ehzq.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Grant Thornton
+  aliases:
+  - ehzq
+- host: ebgj.fa.us2.oraclecloud.com
+  site: CX_1
+  name: ebgj
+- host: ejhp.fa.us6.oraclecloud.com
+  site: CX_2
+  name: Sherwin-Williams
+  aliases:
+  - ejhp
+- host: egup.fa.us2.oraclecloud.com
+  site: CX
+  name: Vertiv
+  aliases:
+  - egup
+- host: fa-exki-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fanatics
+  aliases:
+  - fa-exki-saasfaprod1
+- host: ejko.fa.us2.oraclecloud.com
+  site: CX_3
+  name: Blue Cross Blue Shield of Michigan
+  aliases:
+  - ejko
+- host: fa-ewgu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Chubb
+  aliases:
+  - fa-ewgu-saasfaprod1
+- host: fa-espx-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Cummins
+  aliases:
+  - fa-espx-saasfaprod1
+- host: fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: EXL
+  aliases:
+  - fa-ewjt-saasfaprod1
+- host: hdnn.fa.us6.oraclecloud.com
+  site: CX
+  name: Arconic
+  aliases:
+  - hdnn
+- host: fa-extu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Akamai Technologies
+  aliases:
+  - fa-extu-saasfaprod1
+- host: hbbq.fa.us2.oraclecloud.com
+  site: CX_1
+  name: American Bureau of Shipping
+  aliases:
+  - hbbq
+- host: erqh.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: Atlantic Health System
+  aliases:
+  - erqh
+- host: eevd.fa.us6.oraclecloud.com
+  site: CX_1
+  name: Hearst
+  aliases:
+  - eevd
+- host: ebwg.fa.us2.oraclecloud.com
+  site: CX
+  name: ACI Worldwide
+  aliases:
+  - ebwg
+- host: fa-euxc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Citco
+  aliases:
+  - fa-euxc-saasfaprod1
+- host: fa-exty-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Howmet Aerospace
+  aliases:
+  - fa-exty-saasfaprod1
+- host: eeik.fa.us2.oraclecloud.com
+  site: CX_1
+  name: University of Wyoming
+  aliases:
+  - eeik
+- host: edyy.fa.us2.oraclecloud.com
+  site: CX_2002
+  name: Sinclair
+  aliases:
+  - edyy
+- host: hccz.fa.em3.oraclecloud.com
+  site: CX_2
+  name: Pearson
+  aliases:
+  - hccz
+- host: ebwb.fa.us2.oraclecloud.com
+  site: CX
+  name: Hologic
+  aliases:
+  - ebwb
+- host: hcwp.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Coherent
+  aliases:
+  - hcwp
+- host: elcn.fa.us2.oraclecloud.com
+  site: CX
+  name: EXP
+  aliases:
+  - elcn
+- host: ejia.fa.us6.oraclecloud.com
+  site: CX_1001
+  name: S&C Electric Company
+  aliases:
+  - ejia
+- host: eewl.fa.us6.oraclecloud.com
+  site: CX
+  name: Sundt
+  aliases:
+  - eewl
+- host: hdks.fa.ca2.oraclecloud.com
+  site: CX_1
+  name: Definity Financial
+  aliases:
+  - hdks
+- host: ebxr.fa.us2.oraclecloud.com
+  site: CX_1
+  name: DTCC
+  aliases:
+  - ebxr
+- host: edel.fa.us2.oraclecloud.com
+  site: CX_2001
+  name: Fortinet
+  aliases:
+  - edel
+- host: hcjy.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Cooper Companies
+  aliases:
+  - hcjy
+- host: fa-errt-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: SCOR
+  aliases:
+  - fa-errt-saasfaprod1
+- host: elvp.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: City of Greeley
+  aliases:
+  - elvp
+- host: ecyq.fa.em2.oraclecloud.com
+  site: CX_1
+  name: DNV
+  aliases:
+  - ecyq
+- host: hdsn.fa.us6.oraclecloud.com
+  site: CX_1
+  name: American Tower
+  aliases:
+  - hdsn
+- host: ehpv.fa.em2.oraclecloud.com
+  site: CX_1
+  name: DP World
+  aliases:
+  - ehpv
+- host: ehth.fa.em2.oraclecloud.com
+  site: CX_2001
+  name: Garrett Motion
+  aliases:
+  - ehth
+- host: ehtc.fa.ca2.oraclecloud.com
+  site: CX_1
+  name: Metrolinx
+  aliases:
+  - ehtc
+- host: edxn.fa.us2.oraclecloud.com
+  site: CX_5001
+  name: Boston Properties
+  aliases:
+  - edxn
+- host: ekgn.fa.us6.oraclecloud.com
+  site: CX_2001
+  name: Myriad Genetics
+  aliases:
+  - ekgn
+- host: hcbo.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Cohu
+  aliases:
+  - hcbo
+- host: fa-etqo-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: HEXAWARE
+  aliases:
+  - fa-etqo-saasfaprod1
+- host: hdow.fa.us6.oraclecloud.com
+  site: CX_1001
+  name: Newmark Group
+  aliases:
+  - hdow
+- host: hcxs.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Kroll
+  aliases:
+  - hcxs
+- host: ekaw.fa.us2.oraclecloud.com
+  site: CX
+  name: Securitas
+  aliases:
+  - ekaw
+- host: ejta.fa.us6.oraclecloud.com
+  site: CX_2001
+  name: Fortive
+  aliases:
+  - ejta
+- host: hcgn.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Citizens Financial Group
+  aliases:
+  - hcgn
+- host: ecnf.fa.us2.oraclecloud.com
+  site: CX
+  name: Tradeweb
+  aliases:
+  - ecnf
+- host: egay.fa.us6.oraclecloud.com
+  site: CX_4001
+  name: NOV
+  aliases:
+  - egay
+- host: hcog.fa.em2.oraclecloud.com
+  site: CX_1
+  name: Intertek
+  aliases:
+  - hcog
+- host: ejov.fa.ca2.oraclecloud.com
+  site: CX
+  name: GHD
+  aliases:
+  - ejov
+- host: eppr.fa.us2.oraclecloud.com
+  site: CX_2
+  name: Northwell Health
+  aliases:
+  - eppr
+- host: emqz.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Wayne County
+  aliases:
+  - emqz
+- host: fa-etvl-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Zensar
+  aliases:
+  - fa-etvl-saasfaprod1
+- host: ebxs.fa.us2.oraclecloud.com
+  site: CX_2
+  name: Michael Baker International
+  aliases:
+  - ebxs
+- host: fa-exkk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Arlington County VA
+  aliases:
+  - fa-exkk-saasfaprod1
+- host: eoce.fa.em3.oraclecloud.com
+  site: CX_1004
+  name: Suffolk County
+  aliases:
+  - eoce
+- host: hdep.fa.us2.oraclecloud.com
+  site: CX
+  name: Digital Realty
+  aliases:
+  - hdep
+- host: eezy.fa.ca2.oraclecloud.com
+  site: CX
+  name: ATCO
+  aliases:
+  - eezy
+- host: fa-ertb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: Photon
+  aliases:
+  - fa-ertb-saasfaprod1
+- host: emje.fa.us6.oraclecloud.com
+  site: CX_1001
+  name: Southern Company
+  aliases:
+  - emje
+- host: eoje.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: Black Box
+  aliases:
+  - eoje
+- host: ekkf.fa.em2.oraclecloud.com
+  site: CX
+  name: Samsonite
+  aliases:
+  - ekkf
+- host: fa-exby-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1013
+  name: BC Pensions
+  aliases:
+  - fa-exby-saasfaprod1
+- host: fa-exjq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: SHEIN
+  name: SHEIN
+  aliases:
+  - fa-exjq-saasfaprod1
+- host: fa-epzg-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Brent Council
+  aliases:
+  - fa-epzg-saasfaprod1
+- host: ekmu.fa.em3.oraclecloud.com
+  site: CX_6009
+  name: Fife Council
+  aliases:
+  - ekmu
+- host: fa-eups-saasfaprod1.fa.ocs.oraclecloud.com
+  site: ULSolutionsCareers
+  name: UL Solutions
+  aliases:
+  - fa-eups-saasfaprod1
+- host: edbz.fa.us2.oraclecloud.com
+  site: CX
+  name: Texas Instruments
+  aliases:
+  - edbz
+- host: ibwujb.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Ralliant
+  aliases:
+  - ibwujb
+- host: elxw.fa.em3.oraclecloud.com
+  site: CX_1001
+  name: The University of Edinburgh
+  aliases:
+  - elxw
+- host: fa-ewub-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_26
+  name: Duracell
+  aliases:
+  - fa-ewub-saasfaprod1
+- host: fa-etbx-saasfaprod1.fa.ocs.oraclecloud.com
+  site: nfcu
+  name: Navy Federal
+  aliases:
+  - fa-etbx-saasfaprod1
+- host: etyy.fa.ap2.oraclecloud.com
+  site: CX_1
+  name: Kulicke & Soffa
+  aliases:
+  - etyy
+- host: egug.fa.us2.oraclecloud.com
+  site: CX_1
+  name: American Express
+  aliases:
+  - egug
+- host: edqv.fa.us2.oraclecloud.com
+  site: CX
+  name: GCI
+  aliases:
+  - edqv
+- host: fa-etum-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: GuideWell Mutual
+  aliases:
+  - fa-etum-saasfaprod1
+- host: efet.fa.us2.oraclecloud.com
+  site: CX_1009
+  name: Hilton Worldwide
+  aliases:
+  - efet
+- host: ecge.fa.us2.oraclecloud.com
+  site: CX_1003
+  name: Blue Shield of California
+  aliases:
+  - ecge
+- host: efsp.fa.us6.oraclecloud.com
+  site: CX
+  name: Hoffman Construction
+  aliases:
+  - efsp
+- host: eofe.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: BNY
+  aliases:
+  - eofe
+- host: fa-ewmy-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Verisk
+  aliases:
+  - fa-ewmy-saasfaprod1
+- host: egua.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Conduent
+  aliases:
+  - egua
+- host: fa-eowa-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CSXCareers
+  name: CSX
+  aliases:
+  - fa-eowa-saasfaprod1
+- host: ekbq.fa.em2.oraclecloud.com
+  site: CX_2
+  name: Schroders
+  aliases:
+  - ekbq
+- host: ekkh.fa.us2.oraclecloud.com
+  site: CX_2002
+  name: Hormel Foods
+  aliases:
+  - ekkh
+- host: ehac.fa.us6.oraclecloud.com
+  site: CX_1
+  name: Williams-Sonoma
+  aliases:
+  - ehac
+- host: ekiz.fa.em2.oraclecloud.com
+  site: CX
+  name: Carmeuse
+  aliases:
+  - ekiz
+- host: iawmqy.fa.ocs.oraclecloud.com
+  site: careers
+  name: Dell Technologies
+  aliases:
+  - iawmqy
+- host: fa-exvu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: GM financial
+  aliases:
+  - fa-exvu-saasfaprod1
+- host: eexs.fa.us2.oraclecloud.com
+  site: GreenwoodVillageSouth
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: elyq.fa.em3.oraclecloud.com
+  site: CX
+  name: Newham
+  aliases:
+  - elyq
+- host: icbpjb.fa.ocs.oraclecloud.com
+  site: LazardProfessionalCareers
+  name: Lazard
+  aliases:
+  - icbpjb
+- host: fa-evcg-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: BGIS
+  aliases:
+  - fa-evcg-saasfaprod1
+- host: egud.fa.us2.oraclecloud.com
+  site: CX_1
+  name: AutoZone
+  aliases:
+  - egud
+- host: hdhe.fa.em3.oraclecloud.com
+  site: CX
+  name: Sainsbury's
+  aliases:
+  - hdhe
+- host: ejcu.fa.us6.oraclecloud.com
+  site: CX_1033
+  name: Consolidated Edison
+  aliases:
+  - ejcu
+- host: edmn.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Caesars Entertainment
+  aliases:
+  - edmn
+- host: hdid.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Jefferies
+  aliases:
+  - hdid
+- host: ecsr.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Vanderbilt University
+  aliases:
+  - ecsr
+- host: ebwh.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: Macy's
+  aliases:
+  - ebwh
+- host: fa-evxo-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Community Health Systems
+  aliases:
+  - fa-evxo-saasfaprod1
+- host: fa-etyr-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: City of Oklahoma City
+  aliases:
+  - fa-etyr-saasfaprod1
+- host: eeug.fa.us6.oraclecloud.com
+  site: CX
+  name: Diebold Nixdorf
+  aliases:
+  - eeug
+- host: fa-etnb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Northumbria University
+  aliases:
+  - fa-etnb-saasfaprod1
+- host: ewij.fa.us8.oraclecloud.com
+  site: CX_2
+  name: ewij
+- host: hcwt.fa.us2.oraclecloud.com
+  site: CX
+  name: Denso
+  aliases:
+  - hcwt
+- host: ehtv.fa.em2.oraclecloud.com
+  site: CX_1
+  name: Mycronic
+  aliases:
+  - ehtv
+- host: fa-emkq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Ascot
+  aliases:
+  - fa-emkq-saasfaprod1
+- host: etgi.fa.us8.oraclecloud.com
+  site: CX_4005
+  name: Virginia Department of Transportation
+  aliases:
+  - etgi
+- host: hckd.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Molina Healthcare
+  aliases:
+  - hckd
+- host: fa-eqto-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: City Of Chattanooga
+  aliases:
+  - fa-eqto-saasfaprod1
+- host: fa-erqb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: ADT
+  aliases:
+  - fa-erqb-saasfaprod1
+- host: hczw.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: CSC
+  aliases:
+  - hczw
+- host: emdz.fa.us2.oraclecloud.com
+  site: CX_2001
+  name: Rice University
+  aliases:
+  - emdz
+- host: ebhu.fa.us2.oraclecloud.com
+  site: CX
+  name: Cetera Financial Group
+  aliases:
+  - ebhu
+- host: ibnjjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Lifepoint Health
+  aliases:
+  - ibnjjb
+- host: ehtl.fa.us6.oraclecloud.com
+  site: CX_2
+  name: ehtl
+- host: fa-eomf-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1002
+  name: UTHealth Houston
+  aliases:
+  - fa-eomf-saasfaprod1
+- host: cva.fa.us1.oraclecloud.com
+  site: CX_3
+  name: Standard Aero
+  aliases:
+  - cva
+- host: ecvz.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Adventist Health
+  aliases:
+  - ecvz
+- host: eofd.fa.us6.oraclecloud.com
+  site: CX_1001
+  name: Albertsons
+  aliases:
+  - eofd
+- host: fa-ewca-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: University of Maine System
+  aliases:
+  - fa-ewca-saasfaprod1
+- host: eimy.fa.us6.oraclecloud.com
+  site: CX_1
+  name: UW Health
+  aliases:
+  - eimy
+- host: fa-elzs-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Manhattan District Attorney's Office
+  aliases:
+  - fa-elzs-saasfaprod1
+- host: hdpc.fa.us2.oraclecloud.com
+  site: LateralHiring
+  name: Goldman Sachs
+  aliases:
+  - hdpc
+- host: hcal.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: Subaru
+  aliases:
+  - hcal
+- host: fa-evdq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Computershare
+  aliases:
+  - fa-evdq-saasfaprod1
+- host: ertr.fa.us2.oraclecloud.com
+  site: CX_3001
+  name: INTEGRIS Health
+  aliases:
+  - ertr
+- host: fa-exew-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Ritchie Bros.
+  aliases:
+  - fa-exew-saasfaprod1
+- host: fa-emxf-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Tauck
+  aliases:
+  - fa-emxf-saasfaprod1
+- host: hdow.fa.us6.oraclecloud.com
+  site: CX_1003
+  name: Newmark Group
+  aliases:
+  - hdow
+- host: ejko.fa.us2.oraclecloud.com
+  site: CX_5
+  name: Blue Cross Blue Shield of Michigan
+  aliases:
+  - ejko
+- host: fa-enor-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Phoenix Group
+  aliases:
+  - fa-enor-saasfaprod1
+- host: elar.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Inova
+  aliases:
+  - elar
+- host: eczy.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Acosta Group
+  aliases:
+  - eczy
+- host: ehif.fa.em2.oraclecloud.com
+  site: CX_1
+  name: Wood
+  aliases:
+  - ehif
+- host: hdpn.fa.us6.oraclecloud.com
+  site: CX_1
+  name: Mauser Packaging Solutions
+  aliases:
+  - hdpn
+- host: ejwl.fa.us2.oraclecloud.com
+  site: CX
+  name: Marriott International
+  aliases:
+  - ejwl
+- host: tulane-ibqejb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Tulane University
+  aliases:
+  - tulane-ibqejb
+- host: emcm.fa.us2.oraclecloud.com
+  site: WMCareers
+  name: Waste Management
+  aliases:
+  - emcm
+- host: encd.fa.em3.oraclecloud.com
+  site: CX_6005
+  name: Heathrow
+  aliases:
+  - encd
+- host: epyc.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: Clean Harbors
+  aliases:
+  - epyc
+- host: fa-etjd-saasfaprod1.fa.ocs.oraclecloud.com
+  site: FirstEnergyCareers
+  name: FirstEnergy
+  aliases:
+  - fa-etjd-saasfaprod1
+- host: gka.fa.us1.oraclecloud.com
+  site: CX
+  name: Eastern Bank
+  aliases:
+  - gka
+- host: fa-epmd-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_3001
+  name: Linamar
+  aliases:
+  - fa-epmd-saasfaprod1
+- host: fa-exhh-saasfaprod1.fa.ocs.oraclecloud.com
+  site: StaplesInc
+  name: Staples
+  aliases:
+  - fa-exhh-saasfaprod1
+- host: fa-etvc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Dallas County
+  aliases:
+  - fa-etvc-saasfaprod1
+- host: hcqq.fa.us2.oraclecloud.com
+  site: CX_5004
+  name: RH
+  aliases:
+  - hcqq
+- host: elrj.fa.us2.oraclecloud.com
+  site: CX_9001
+  name: Omnicell
+  aliases:
+  - elrj
+- host: ehtl.fa.us6.oraclecloud.com
+  site: CX
+  name: ehtl
+- host: fa-exmi-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Weatherford
+  aliases:
+  - fa-exmi-saasfaprod1
+- host: eodq.fa.us6.oraclecloud.com
+  site: CX
+  name: Skidmore College
+  aliases:
+  - eodq
+- host: egcu.fa.us6.oraclecloud.com
+  site: CX
+  name: Masimo
+  aliases:
+  - egcu
+- host: fa-evfm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1029
+  name: Zachry Group
+  aliases:
+  - fa-evfm-saasfaprod1
+- host: ertd.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: DeKalb County
+  aliases:
+  - ertd
+- host: hcmn.fa.ap1.oraclecloud.com
+  site: CX_1001
+  name: MUFG
+  aliases:
+  - hcmn
+- host: iaxmqy.fa.ocs.oraclecloud.com
+  site: Wingstop-GSC
+  name: Wingstop Restaurants
+  aliases:
+  - iaxmqy
+- host: eeho.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: Oracle
+  aliases:
+  - eeho

@@ -76,7 +76,8 @@ def is_bump(old: str, new: str, min_days: int = 3) -> bool:
 
 
 def triage(new_jobs: list[dict], history: dict, new_boards: set[tuple[str, str]],
-           board_of, aggregator_sources: set[str], recent_days: int = 60
+           board_of, aggregator_sources: set[str], recent_days: int = 60,
+           reclassified: bool = False, fresh_days: int = 3
            ) -> tuple[list[dict], dict[str, tuple[str, str]], Counter]:
     """Decide which of this run's new rows are news.
 
@@ -85,6 +86,8 @@ def triage(new_jobs: list[dict], history: dict, new_boards: set[tuple[str, str]]
                        backlog arrives at once and would flood the channel
       same_run_twin    one role listed per city; merged into the first copy's
                        location instead of announced N times
+      reclassified_backlog  first run after a classifier change: jobs it now
+                       recognizes that weren't freshly posted
       already_tracked  the role is live under another id, or an aggregator
                        listed it recently (we announced it then; aggregator
                        rows were historically expired unreliably)
@@ -101,6 +104,13 @@ def triage(new_jobs: list[dict], history: dict, new_boards: set[tuple[str, str]]
         if board_of(j) in new_boards:
             skipped["bootstrap"] += 1
             continue
+        if reclassified:
+            # Classifier rules changed: rows it now recognizes on known boards
+            # are mostly old postings. Only freshly posted ones are news.
+            age = dates.age_days(j.get("posted_on") or "")
+            if age is None or age > fresh_days:
+                skipped["reclassified_backlog"] += 1
+                continue
         rk = dedupe.role_key(j.get("job_key", ""))
         twin = first_of_role.get(rk) if rk else None
         if twin is not None:

@@ -269,3 +269,15 @@ def test_sync_skips_new_postings_older_than_max_age():
     res = db.sync(conn, [JobPosting("sim_1", "Acme", "Intern", "https://x", "", old, "simplify")],
                   lambda p: "intern", set(), set(), max_age_days=60)
     assert res.new_jobs == [] and conn.execute("SELECT COUNT(*) FROM jobs").fetchone()[0] == 0
+
+
+def test_triage_silences_reclassified_backlog_but_not_fresh_posts():
+    fresh = date.today().isoformat()
+    jobs = [{"job_id": "gh_1", "source": "greenhouse", "job_key": "a|x|", "location": "",
+             "posted_on": "2026-01-01"},
+            {"job_id": "gh_2", "source": "greenhouse", "job_key": "b|y|", "location": "",
+             "posted_on": fresh}]
+    cands, _, skipped = repost.triage(jobs, {}, set(), lambda j: ("greenhouse", "A"),
+                                      db.AGGREGATOR_SOURCES, reclassified=True)
+    assert [j["job_id"] for j in cands] == ["gh_2"]
+    assert skipped == {"reclassified_backlog": 1}

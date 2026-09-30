@@ -28,7 +28,9 @@ companies:
 - slug: vivenu
   name: vivenu
 - slug: eqbank
-  name: eqbank
+  name: Equitable Bank
+  aliases:
+  - eqbank
 - slug: pivotal
   name: Pivotal Software
   aliases:

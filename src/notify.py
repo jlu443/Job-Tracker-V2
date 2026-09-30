@@ -7,53 +7,90 @@ Set DISCORD_WEBHOOK_URL to enable; if unset, this is a no-op (prints instead).
 from __future__ import annotations
 
 import os
+import re
 import time
 
 import requests
 
-from . import geo
+from . import dates, geo
 
-# Discord allows max 10 embeds per message.
+# Discord limits: 10 embeds per message, 4096 characters per embed description.
 _MAX_EMBEDS = 10
+_MAX_DESC = 4000
 
-_ROLE_COLORS = {
-    "intern": 0x2ECC71,    # green
-    "new_grad": 0x3498DB,  # blue
-    "mid": 0xF1C40F,       # yellow
-    "senior": 0xE74C3C,    # red
+_CATEGORY_HEADINGS = {
+    "software": ("💻 Software", 0x3498DB),
+    "data_ml": ("📊 Data / ML", 0x9B59B6),
+    "hardware": ("🔧 Hardware", 0xE67E22),
+    "quant": ("📈 Quant", 0x2ECC71),
+    "product": ("🧭 Product", 0x1ABC9C),
 }
+_FLAG = {"relisted": "♻️ re-listed", "linkedin": "♻️ LinkedIn repost",
+         "stale": "🕰️ old post", "bumped": "♻️ re-dated"}
 
 
-def _embed(job: dict) -> dict:
-    fields = [
-        {"name": "Company", "value": job["company"] or "—", "inline": True},
-        {"name": "Role", "value": job["role_type"], "inline": True},
-        {"name": "Source", "value": job.get("source", "—"), "inline": True},
-        {"name": "Location", "value": job["location"] or "—", "inline": True},
-    ]
-    if job.get("posted_on"):
-        fields.append({"name": "Posted", "value": job["posted_on"], "inline": True})
-    # Flags parsed from the job description by enrich.py.
-    sponsorship = job.get("sponsorship")
-    if sponsorship == "no":
-        fields.append({"name": "Sponsorship", "value": "❌ Not offered", "inline": True})
-    elif sponsorship == "yes":
-        fields.append({"name": "Sponsorship", "value": "✅ Offered", "inline": True})
+def is_hot(job: dict) -> bool:
+    """Worth applying to first: posted in the last 2 days, not a repost, and
+    not already swamped (where the source reports applicants)."""
+    age = dates.age_days(job.get("posted_on") or "")
+    if age is None or age > 2 or job.get("repost"):
+        return False
+    applicants = job.get("applicants") or ""
+    count = re.search(r"\d+", applicants.replace(",", ""))
+    return not count or "first" in applicants.lower() or int(count.group()) < 50
+
+
+def _line(job: dict) -> str:
+    title = job["title"] if len(job["title"]) <= 90 else job["title"][:87] + "…"
+    bits = [f"{'⭐ ' if is_hot(job) else ''}**{job['company'] or '—'}** · "
+            f"[{title}]({job['apply_url']})"]
+    if job.get("location"):
+        bits.append(job["location"][:40])
+    age = dates.age_days(job.get("posted_on") or "")
+    if age is not None:
+        bits.append("today" if age <= 0 else f"{age}d ago")
+    if job["role_type"] == "new_grad":
+        bits.append("new grad")
+    if job.get("sponsorship") == "no":
+        bits.append("❌ no visa")
+    elif job.get("sponsorship") == "yes":
+        bits.append("✅ visa")
     if job.get("clearance"):
-        fields.append({"name": "Clearance", "value": "🔒 Required", "inline": True})
-    if job.get("grad_year"):
-        fields.append({"name": "Grad year", "value": job["grad_year"], "inline": True})
+        bits.append("🔒 clearance")
     if job.get("applicants"):
-        fields.append({"name": "Applicants", "value": job["applicants"], "inline": True})
+        bits.append(job["applicants"])
     if job.get("repost"):
-        fields.append({"name": _REPOST_LABEL.get(job["repost"], "♻️ Repost"),
-                       "value": job.get("repost_detail") or "—", "inline": False})
-    return {
-        "title": job["title"][:256],
-        "url": job["apply_url"],
-        "color": _ROLE_COLORS.get(job["role_type"], 0x95A5A6),
-        "fields": fields,
-    }
+        bits.append(_FLAG.get(job["repost"], "♻️ repost"))
+    return " · ".join(bits)
+
+
+def _embeds(jobs: list[dict]) -> list[dict]:
+    """One embed per category (split when long); hot jobs listed first."""
+    out = []
+    for category, (heading, color) in _CATEGORY_HEADINGS.items():
+        group = sorted((j for j in jobs if j.get("category") == category),
+                       key=lambda j: j.get("posted_on") or "", reverse=True)
+        group.sort(key=lambda j: not is_hot(j))     # stable: hot first, newest within
+        lines, part = [], 1
+        for line in [_line(j) for j in group] + [None]:
+            if line is None or sum(len(x) + 1 for x in lines) + len(line) > _MAX_DESC:
+                if lines:
+                    title = f"{heading} ({len(group)})" + (f" · {part}" if part > 1 else "")
+                    out.append({"title": title, "description": "\n".join(lines),
+                                "color": color})
+                    part += 1
+                lines = []
+            if line is not None:
+                lines.append(line)
+    return out
+
+
+def _send(webhook: str, payload: dict) -> None:
+    resp = requests.post(webhook, json=payload, timeout=30)
+    if resp.status_code == 429:       # rate limited: Discord says how long to wait
+        time.sleep(float(resp.json().get("retry_after", 1)) + 0.5)
+        resp = requests.post(webhook, json=payload, timeout=30)
+    resp.raise_for_status()
 
 
 _ANNOUNCE_ROLES = {"intern", "new_grad"}
@@ -91,28 +128,39 @@ def post_new_jobs(jobs_to_post: list[dict]) -> None:
     if not jobs_to_post:
         print("No new intern/new_grad US jobs to announce.")
         return
-
     webhook = os.environ.get("DISCORD_WEBHOOK_URL")
     if not webhook:
         print(f"DISCORD_WEBHOOK_URL not set — would announce {len(jobs_to_post)} jobs:")
         for j in jobs_to_post:
             print(f"  [{j['role_type']}] {j['company']}: {j['title']}")
         return
-
-    for i in range(0, len(jobs_to_post), _MAX_EMBEDS):
-        batch = jobs_to_post[i:i + _MAX_EMBEDS]
-        payload = {"embeds": [_embed(j) for j in batch]}
+    embeds = _embeds(jobs_to_post)
+    for i in range(0, len(embeds), _MAX_EMBEDS):
         try:
-            resp = requests.post(webhook, json=payload, timeout=30)
-            # Discord returns 429 with retry_after when rate limited.
-            if resp.status_code == 429:
-                retry = resp.json().get("retry_after", 1)
-                time.sleep(float(retry) + 0.5)
-                requests.post(webhook, json=payload, timeout=30).raise_for_status()
-            else:
-                resp.raise_for_status()
+            _send(webhook, {"embeds": embeds[i:i + _MAX_EMBEDS]})
         except requests.RequestException as exc:
             print(f"  ! Discord post failed: {exc}")
-        time.sleep(0.5)  # stay under the webhook rate limit
-
+        time.sleep(0.5)
     print(f"Announced {len(jobs_to_post)} new jobs to Discord.")
+
+
+def post_daily_summary(jobs_last_24h: list[dict], sheet_url: str = "") -> None:
+    """One line a day: what came in, by category, and where to see it all."""
+    webhook = os.environ.get("DISCORD_WEBHOOK_URL")
+    counts = {}
+    for j in jobs_last_24h:
+        counts[j.get("category")] = counts.get(j.get("category"), 0) + 1
+    parts = [f"{n} {_CATEGORY_HEADINGS[c][0].split(' ', 1)[1].lower()}"
+             for c, n in sorted(counts.items(), key=lambda kv: -kv[1])
+             if c in _CATEGORY_HEADINGS]
+    hot = sum(is_hot(j) for j in jobs_last_24h)
+    text = (f"📬 **Last 24 hours: {len(jobs_last_24h)} new intern/new-grad jobs**"
+            + (f" ({', '.join(parts)})" if parts else "")
+            + (f" · ⭐ {hot} fresh with few applicants" if hot else "")
+            + (f"\nFull list with status tracking: {sheet_url}" if sheet_url else ""))
+    print(text)
+    if webhook:
+        try:
+            _send(webhook, {"content": text[:2000]})
+        except requests.RequestException as exc:
+            print(f"  ! Discord summary failed: {exc}")

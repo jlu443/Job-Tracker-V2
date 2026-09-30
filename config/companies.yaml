@@ -9059,3 +9059,135 @@ companies:
   name: Bloom Energy
   aliases:
   - bloomenergy
+- tenant: parexel
+  wd: wd1
+  site: Parexel_External_Careers
+  name: parexel
+- tenant: microchiphr
+  wd: wd5
+  site: External
+  name: Microchip Technology
+  aliases:
+  - microchiphr
+- tenant: westernalliancebank
+  wd: wd5
+  site: WAB
+  name: Western Alliance
+  aliases:
+  - westernalliancebank
+- tenant: mdlz
+  wd: wd3
+  site: External
+  name: Mondelez International
+  aliases:
+  - mdlz
+- tenant: clorox
+  wd: wd1
+  site: Clorox
+  name: clorox
+- tenant: cityofburlington
+  wd: wd10
+  site: cob
+  name: City of Burlington
+  aliases:
+  - cityofburlington
+- tenant: snapchat
+  wd: wd1
+  site: snap
+  name: Snap
+  aliases:
+  - snapchat
+- tenant: tjx
+  wd: wd1
+  site: TJX_EXTERNAL
+  name: tjx
+- tenant: ssctech
+  wd: wd1
+  site: SSCTechnologies
+  name: SS&C
+  aliases:
+  - ssctech
+- tenant: cart
+  wd: wd1
+  site: Cart
+  name: Cart.com
+  aliases:
+  - cart
+- tenant: wf
+  wd: wd1
+  site: WellsFargoJobs
+  name: Wells Fargo
+  aliases:
+  - wf
+- tenant: upenn
+  wd: wd1
+  site: Wharton
+  name: University of Pennsylvania
+  aliases:
+  - upenn
+- tenant: rlicorp
+  wd: wd1
+  site: RLI_Corp_Careers
+  name: RLI
+  aliases:
+  - rlicorp
+- tenant: sysco
+  wd: wd5
+  site: syscocareers
+  name: sysco
+- tenant: devonenergy
+  wd: wd5
+  site: Careers
+  name: Devon Energy
+  aliases:
+  - devonenergy
+- tenant: imeg
+  wd: wd1
+  site: Imeg_Careers
+  name: imeg
+- tenant: brevanhoward
+  wd: wd3
+  site: BH_ExternalCareers
+  name: Brevan Howard
+  aliases:
+  - brevanhoward
+- tenant: vbgov
+  wd: wd5
+  site: City_Of_Virginia_Beach_Careers
+  name: City of Virginia Beach
+  aliases:
+  - vbgov
+- tenant: carislifesciences
+  wd: wd12
+  site: CLS
+  name: Caris
+  aliases:
+  - carislifesciences
+- tenant: rrts
+  wd: wd1
+  site: careers
+  name: Road Runner
+  aliases:
+  - rrts
+- tenant: angc
+  wd: wd5
+  site: ANGC
+  name: Augusta National Golf Club
+  aliases:
+  - angc
+- tenant: gflenv
+  wd: wd3
+  site: Careers
+  name: GFL
+  aliases:
+  - gflenv
+- tenant: hcahealthcare
+  wd: wd3
+  site: hcacareers
+  name: HCA Healthcare UK
+  aliases:
+  - hcahealthcare
+- tenant: chewy
+  wd: wd5
+  site: External
+  name: chewy

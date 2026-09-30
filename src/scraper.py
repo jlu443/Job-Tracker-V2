@@ -46,7 +46,9 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
     """
     tenant, wd, site = company["tenant"], company["wd"], company["site"]
     name = company.get("name", tenant)
-    terms = company.get("search_terms", settings["search_terms"])
+    next_year = str(dates.today().year + 1)
+    terms = [t.replace("{next_year}", next_year)
+             for t in company.get("search_terms", settings["search_terms"])]
 
     endpoint = _jobs_endpoint(tenant, wd, site)
     base = _base_url(tenant, wd)

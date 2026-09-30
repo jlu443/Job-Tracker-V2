@@ -1,48 +1,112 @@
-"""Append newly-discovered jobs to a Google Sheet via an Apps Script webhook.
+"""Publish the tracker to a Google Sheet as rebuilt tabs, via an Apps Script
+webhook (docs/apps_script.gs).
 
-Setup (one time):
-  1. Open your Google Sheet → Extensions → Apps Script.
-  2. Paste the script in docs/apps_script.gs and Deploy → New deployment →
-     type "Web app" → execute as "Me", access "Anyone".
-  3. Copy the /exec URL and set it as GOOGLE_SHEETS_WEBHOOK_URL (env var / secret).
+    Today            announceable jobs first seen in the last 24 hours
+    This Week        the same, last 7 days
+    All Open         every stored intern/new-grad job (the DB's 60-day window),
+                     refreshed about once a day
+    My Applications  owned by the sheet: rows the user gave a Status
 
-If the env var is unset this is a no-op, so local runs without it are fine.
+Tabs are rebuilt from the DB each run, so they can never drift from it; the
+Apps Script re-applies the user's Status marks by job_id. Set
+GOOGLE_SHEETS_WEBHOOK_URL to enable; without it this is a no-op.
 """
 
 from __future__ import annotations
 
 import os
+import sqlite3
+from datetime import datetime, timedelta, timezone
 
 import requests
 
-# The columns we send, in order. The Apps Script writes these as a header row
-# once and appends a row per job. (Sheets created before the enrichment
-# columns existed keep their old header; add the three names manually.)
-_COLUMNS = ["first_seen", "company", "title", "role_type", "location",
-            "posted_on", "source", "apply_url", "job_id",
-            "sponsorship", "clearance", "grad_year",
-            "category", "repost", "repost_detail", "applicants"]
+from . import db
+
+COLUMNS = ["Apply", "Company", "Title", "Role", "Category", "Location", "Posted",
+           "First seen", "Sponsorship", "Clearance", "Grad year", "Applicants",
+           "Repost", "Source", "Listing", "job_id"]
+_REPOST = {"relisted": "re-listed", "linkedin": "LinkedIn repost", "stale": "old posting",
+           "bumped": "re-dated"}
+_SCRIPT_VERSION = 2
 
 
-def _row(job: dict) -> list:
-    return [job.get(c, "") for c in _COLUMNS]
+def _apply_cell(url: str) -> str:
+    return f'=HYPERLINK("{url.replace(chr(34), "%22")}", "Apply")' if url else ""
 
 
-def post_new_jobs(new_jobs: list[dict]) -> None:
-    if not new_jobs:
-        return
+def _row(j: dict) -> list:
+    return [
+        _apply_cell(j["apply_url"]), j["company"], j["title"], j["role_type"],
+        j.get("category") or "", j.get("location") or "", j.get("posted_on") or "",
+        (j.get("first_seen") or "")[:16].replace("T", " "),
+        j.get("sponsorship") or "", "yes" if j.get("clearance") else "",
+        j.get("grad_year") or "", j.get("applicants") or "",
+        _REPOST.get(j.get("repost") or "", j.get("repost") or ""), j["source"],
+        "open" if j.get("status") == "active" else "closed", j["job_id"],
+    ]
 
+
+def build_tabs(conn: sqlite3.Connection, include_all: bool,
+               now: datetime | None = None) -> dict[str, list[list]]:
+    now = now or datetime.now(timezone.utc)
+    conn.row_factory = sqlite3.Row
+    jobs = [dict(r) for r in conn.execute(
+        "SELECT * FROM jobs WHERE role_type IN ('intern', 'new_grad') "
+        "ORDER BY announced_at DESC, first_seen DESC, role_type")]
+    # Today / This Week list what was announced, not everything first seen:
+    # a newly added board's silently stored backlog isn't news.
+    announced = [j for j in jobs if j["status"] == "active" and j.get("announced_at")]
+    since = lambda h: (now - timedelta(hours=h)).isoformat(timespec="seconds")
+    tabs = {
+        "Today": [_row(j) for j in announced if j["announced_at"] >= since(24)],
+        "This Week": [_row(j) for j in announced if j["announced_at"] >= since(24 * 7)],
+    }
+    if include_all:
+        tabs["All Open"] = [_row(j) for j in jobs]
+    return tabs
+
+
+def _post(webhook: str, payload: dict) -> dict:
+    resp = requests.post(webhook, json=payload, timeout=300)
+    resp.raise_for_status()
+    try:
+        return resp.json()
+    except ValueError:
+        return {}
+
+
+def publish(conn: sqlite3.Connection, settings: dict) -> None:
     webhook = os.environ.get("GOOGLE_SHEETS_WEBHOOK_URL")
     if not webhook:
         print("GOOGLE_SHEETS_WEBHOOK_URL not set — skipping Google Sheets.")
         return
-
-    payload = {"columns": _COLUMNS, "rows": [_row(j) for j in new_jobs]}
     try:
-        resp = requests.post(webhook, json=payload, timeout=30)
-        resp.raise_for_status()
+        version = _post(webhook, {"action": "ping"}).get("version")
     except requests.RequestException as exc:
-        print(f"  ! Google Sheets post failed: {exc}")
+        print(f"  ! Google Sheets unreachable: {exc}")
+        return
+    if version != _SCRIPT_VERSION:
+        # An old deployment would append these rows into the wrong layout.
+        print("  ! Google Sheets script is out of date: paste docs/apps_script.gs into "
+              "the sheet's Apps Script and deploy a new version. Skipping the sheet.")
         return
 
-    print(f"Appended {len(new_jobs)} jobs to Google Sheet.")
+    refresh_hours = settings.get("sheets", {}).get("all_open_refresh_hours", 24)
+    last = db._meta_get(conn, "sheets_all_open_at")
+    include_all = (not last or datetime.fromisoformat(last)
+                   < datetime.now(timezone.utc) - timedelta(hours=refresh_hours))
+
+    for tab, rows in build_tabs(conn, include_all).items():
+        try:
+            result = _post(webhook, {"action": "replace_tab", "tab": tab,
+                                     "columns": COLUMNS, "rows": rows})
+        except requests.RequestException as exc:
+            print(f"  ! Google Sheets tab {tab!r} failed: {exc}")
+            continue
+        if not result.get("ok"):
+            print(f"  ! Google Sheets tab {tab!r}: {result.get('error')}")
+            continue
+        print(f"Sheet tab {tab!r}: {len(rows)} rows")
+        if tab == "All Open":
+            db._meta_set(conn, "sheets_all_open_at", db._now())
+            conn.commit()

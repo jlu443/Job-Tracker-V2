@@ -1,13 +1,15 @@
 # Job Tracker V2
 
-Tracks intern / new-grad tech roles across **~2,800 company job boards** spanning
-six applicant-tracking systems — **Workday, Greenhouse, Lever, Ashby,
-SmartRecruiters, Workable** — plus external job boards (**Indeed, Glassdoor,
-ZipRecruiter** via JobSpy), and announces newly-posted intern/new-grad US jobs
-to a **Discord channel** and a **Google Sheet**.
+Tracks intern / new-grad tech roles across **~6,500 company job boards** spanning
+eight applicant-tracking systems — **Workday, Greenhouse, Lever, Ashby,
+SmartRecruiters, Workable, Oracle Recruiting Cloud, iCIMS** — plus curated
+lists (SimplifyJobs format) and external job boards (**LinkedIn, Indeed**, and
+Glassdoor/ZipRecruiter with a proxy, via JobSpy). New intern/new-grad US jobs
+are announced to a **Discord channel** and published to a **Google Sheet**.
 
-Every ATS scraper calls that platform's own public JSON API directly — no
-browser, no DOM scraping. For example, every Workday career site exposes:
+Every ATS scraper calls that platform's own public endpoint directly — no
+browser. iCIMS, which has no JSON API, is read from its server-rendered
+listing page. For example, every Workday career site exposes:
 
 ```
 POST https://{tenant}.{wd}.myworkdayjobs.com/wday/cxs/{tenant}/{site}/jobs
@@ -29,7 +31,7 @@ config/*.yaml ──▶ scrapers ──▶ dedupe ──▶ classifier ──▶
 
 | Step | File | What it does |
 |---|---|---|
-| Scrape | [src/scraper.py](src/scraper.py) (Workday), [greenhouse_scraper.py](src/greenhouse_scraper.py), [lever_scraper.py](src/lever_scraper.py), [ashby_scraper.py](src/ashby_scraper.py), [smartrecruiters_scraper.py](src/smartrecruiters_scraper.py), [workable_scraper.py](src/workable_scraper.py) | One module per ATS, each hitting that platform's public jobs API. Companies are scraped concurrently (`scrape_workers` threads) over pooled HTTP connections ([src/http_pool.py](src/http_pool.py)) |
+| Scrape | [src/scraper.py](src/scraper.py) (Workday), [greenhouse_scraper.py](src/greenhouse_scraper.py), [lever_scraper.py](src/lever_scraper.py), [ashby_scraper.py](src/ashby_scraper.py), [smartrecruiters_scraper.py](src/smartrecruiters_scraper.py), [workable_scraper.py](src/workable_scraper.py), [oracle_scraper.py](src/oracle_scraper.py), [icims_scraper.py](src/icims_scraper.py) | One module per ATS, each hitting that platform's public jobs endpoint. All ATS sources run **in parallel** (each is its own set of hosts with its own politeness limits), and each source's boards are scraped concurrently (`scrape_workers_by_source`). Greenhouse, Lever and Ashby also read job descriptions, so plain-titled new-grad roles ("Software Engineer" with "recent graduates, 0–2 years") are recognized. iCIMS requests are globally spaced and back off on its bot challenge |
 | External boards | [src/jobspy_scraper.py](src/jobspy_scraper.py) | Indeed / Glassdoor / ZipRecruiter via JobSpy, scraped per-site and normalized into the same posting shape (descriptions kept for enrichment). Sites that block datacenter IPs go through `JOBSPY_PROXY` in CI; Indeed always goes direct |
 | Curated lists | [src/simplify_scraper.py](src/simplify_scraper.py) | Ingests community-curated intern/new-grad lists (SimplifyJobs `listings.json` format; ~7.8k active postings incl. ATSes we don't scrape). Listings pointing at a supported ATS take that ATS's job id, so they collapse onto the first-party row |
 | Dedupe | [src/dedupe.py](src/dedupe.py) | Exact first: any apply URL (curated list, LinkedIn/Indeed direct link) is mapped to the job id our own ATS scraper would assign, so copies collapse precisely. Then fuzzy (company, title, city) across sources. First-party ATS copy wins |
@@ -37,8 +39,9 @@ config/*.yaml ──▶ scrapers ──▶ dedupe ──▶ classifier ──▶
 | Classify | [src/classify.py](src/classify.py) | Title → `intern \| new_grad \| mid \| senior`, plus a job function (`software`, `data_ml`, `hardware`, `quant`, `product`, `other`) used by `announce_categories`. Deterministic keyword/regex pass first; an optional local zero-shot model (`facebook/bart-large-mnli`) handles ambiguous titles when `use_llm_fallback` is on. Only genuinely new postings are classified, in one batched pass |
 | Persist | [src/db.py](src/db.py) | SQLite upsert keyed on job id; tracks `first_seen` / `last_seen` / `status` / `source` |
 | Enrich | [src/enrich.py](src/enrich.py) | Fetches the full description of each new intern/new_grad posting from the ATS's detail API and parses it into flags: visa sponsorship (`no`/`yes`), security clearance, graduation-year window. Flags land in the DB, the Discord embed, and the Sheet |
-| Notify | [src/notify.py](src/notify.py) | Posts `first_seen == this run` jobs to a Discord webhook — filtered to **intern/new_grad roles in the US** — each job announced once, with sponsorship/clearance/grad-year flags when found |
-| Sheet sync | [src/sheets.py](src/sheets.py) | Appends the same new jobs to a Google Sheet via an Apps Script webhook ([docs/apps_script.gs](docs/apps_script.gs)) |
+| Notify | [src/notify.py](src/notify.py) | Posts each run's new **intern/new_grad US** jobs to Discord as one compact list per job category: one line per job with company, linked title, location, age and flags (visa, clearance, applicants, repost). ⭐ marks jobs posted in the last 2 days that aren't reposts and aren't swamped with applicants. Once a day, a one-line digest links to the Sheet's Today tab (`GOOGLE_SHEET_URL`) |
+| Sheet | [src/sheets.py](src/sheets.py) | Publishes rebuilt tabs via an Apps Script webhook ([docs/apps_script.gs](docs/apps_script.gs)): **Today** (24 h), **This Week**, **All Open** (every stored intern/new-grad job in the 60-day window, refreshed daily). A **Status** dropdown on every tab copies the job into **My Applications**, which is never trimmed; statuses survive every rebuild |
+| Accuracy | [src/accuracy.py](src/accuracy.py) | Scores the pipeline against the curated lists (hand-labeled intern/new-grad jobs): coverage per ATS with each miss attributed (scraper missed / title rules / board not scraped yet / board not configured / older than retention), role and category accuracy, post-date accuracy. Runs daily inside the pipeline (history in `accuracy_history`); `python -m src.accuracy` for a full report |
 | Discover | [src/discover.py](src/discover.py) | Harvests careers URLs from seeds, GitHub job lists, JobSpy postings, and the Common Crawl URL index; every source feeds every ATS. Candidates are validated against each ATS's public API and merged into the per-ATS config files |
 | Coverage | [src/coverage.py](src/coverage.py) | Reports the discovery funnel per ATS (candidates surfaced → validated into config) to answer "are we missing companies?" |
 
@@ -60,6 +63,7 @@ python -m src.main                    # scrape + classify + persist + announce
 python -m src.discover                # find new company boards (slow; run occasionally)
 python -m src.discover --seeds-only   # fast smoke test of discovery
 python -m src.names                   # give slug-named boards real company names
+python -m src.accuracy                # score coverage/classification vs curated lists
 python -m src.coverage --quick        # per-ATS config stats without re-harvesting
 python -m pytest -q tests             # parser / dedupe / repost / DB tests (also run in CI)
 ```
@@ -127,8 +131,12 @@ To enable:
 1. Push this repo to GitHub.
 2. In **Settings → Secrets and variables → Actions**, add (all optional):
    - `DISCORD_WEBHOOK_URL` — for Discord announcements
-   - `GOOGLE_SHEETS_WEBHOOK_URL` — for the Google Sheet sync (see
-     [docs/apps_script.gs](docs/apps_script.gs) for the one-time setup)
+   - `GOOGLE_SHEETS_WEBHOOK_URL` — the Apps Script web-app URL (see
+     [docs/apps_script.gs](docs/apps_script.gs) for setup). The scraper checks
+     the script's version first and skips the sheet, with a warning, until
+     the v2 script is deployed.
+   - `GOOGLE_SHEET_URL` — the sheet's normal browser link, for the daily
+     Discord digest
    - `DISCORD_ALERT_WEBHOOK_URL` — optional separate channel for health alerts
    - `JOBSPY_PROXY` — residential proxy; without it Glassdoor/ZipRecruiter are
      skipped in CI (they block GitHub's datacenter IPs). Indeed and LinkedIn

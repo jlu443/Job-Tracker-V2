@@ -77,6 +77,7 @@ def unwrap_reshare(company: str, title: str) -> tuple[str, str]:
 _URL_IDS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"greenhouse\.io/[\w-]+/jobs/(\d+)"), "gh_{0}"),
     (re.compile(r"[?&]gh_jid=(\d+)"), "gh_{0}"),
+    (re.compile(r"greenhouse\.io/embed/job_app\?(?:[^#]*&)?token=(\d+)"), "gh_{0}"),
     (re.compile(r"jobs\.(?:eu\.)?lever\.co/[\w.-]+/([0-9a-f-]{36})"), "lv_{0}"),
     (re.compile(r"jobs\.ashbyhq\.com/[^/]+/([0-9a-f-]{36})"), "ash_{0}"),
     (re.compile(r"(?:jobs|careers)\.smartrecruiters\.com/[^/]+/(\d{6,})"), "sr_{0}"),
@@ -89,6 +90,16 @@ _WORKDAY = re.compile(
     r"(?:/apply(?:/[\w-]*)?)?/?(?:[?#]|$)")
 
 
+# Workday's alternate host puts the tenant in the path.
+_WORKDAY_SITE = re.compile(
+    r"https?://wd\d+\.myworkdaysite\.com/(?:[\w-]+/)?recruiting/([\w-]+)/[\w-]+/job/"
+    r"[^?#]*_([A-Za-z0-9-]+)(?:/apply(?:/[\w-]*)?)?/?(?:[?#]|$)")
+_ORACLE = re.compile(
+    r"https?://([a-z0-9-]+)\.fa\.[a-z0-9-]+\.oraclecloud\.com/hcmUI/CandidateExperience/"
+    r"[\w-]+/sites/[\w-]+/(?:job|requisitions/preview)/(\d+)", re.I)
+_ICIMS = re.compile(r"https?://([a-z0-9-]+)\.icims\.com/jobs/(\d+)", re.I)
+
+
 def canonical_job_id(url: str) -> str | None:
     """The job_id our own scraper would assign to the posting behind `url`.
 
@@ -97,9 +108,15 @@ def canonical_job_id(url: str) -> str | None:
     """
     if not url:
         return None
-    m = _WORKDAY.search(url)
+    m = _WORKDAY.search(url) or _WORKDAY_SITE.search(url)
     if m:
         return f"wd_{m.group(1).lower()}_{m.group(2)}"
+    m = _ORACLE.search(url)
+    if m:
+        return f"orc_{m.group(1).lower()}_{m.group(2)}"
+    m = _ICIMS.search(url)
+    if m:
+        return f"icims_{m.group(1).lower()}_{m.group(2)}"
     for pattern, fmt in _URL_IDS:
         m = pattern.search(url)
         if m:

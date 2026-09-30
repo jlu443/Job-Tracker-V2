@@ -25,8 +25,6 @@ _SESSION = http_pool.make_session(_HEADERS)
 _MAX_PAGES = 200   # v3 returns 10 per page
 
 
-
-
 def _format_location(job: dict) -> str:
     loc = job.get("location") or {}
     display = loc.get("display")

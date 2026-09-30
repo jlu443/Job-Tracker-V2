@@ -9,18 +9,17 @@ Returns all current postings in one call (no pagination needed).
 
 from __future__ import annotations
 
+import re
 import time
 from datetime import datetime, timezone
 
 import requests
 
-from . import http_pool
+from . import classify, http_pool
 from .posting import JobPosting
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
 _SESSION = http_pool.make_session(_HEADERS)
-
-
 
 
 def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
@@ -56,14 +55,19 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
                 posted = dt.strftime("%Y-%m-%d")
             except (OSError, ValueError):
                 pass
+        title = (p.get("text") or "").strip()
+        # Requirement bullets live in lists[], not descriptionPlain.
+        description = " ".join([p.get("descriptionPlain") or ""] + [
+            re.sub(r"<[^>]+>", " ", item.get("content") or "") for item in p.get("lists") or []])
         out.append(JobPosting(
             job_id=f"lv_{uid}",
             company=name,
-            title=(p.get("text") or "").strip(),
+            title=title,
             apply_url=p.get("hostedUrl", ""),
             location=location,
             posted_on=posted,
             source="lever",
+            role_hint=classify.role_hint_from_description(title, description),
         ))
 
     time.sleep(settings.get("delay_between_requests", 0.5))

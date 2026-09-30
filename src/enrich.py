@@ -20,7 +20,7 @@ from urllib.parse import urlparse
 
 import requests
 
-from . import http_pool
+from . import http_pool, icims_scraper
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)", "Accept": "application/json"}
 _SESSION = http_pool.make_session(_HEADERS)
@@ -118,15 +118,39 @@ def _fetch_linkedin(job: dict) -> str:
     return _strip_html(m.group(1)) if m else ""
 
 
+_ORACLE_URL = re.compile(r"https://([^/]+)/hcmUI/CandidateExperience/[\w-]+/sites/([\w-]+)/job/(\d+)")
+
+
+def _fetch_oracle(job: dict) -> str:
+    m = _ORACLE_URL.search(job["apply_url"])
+    if not m:
+        return ""
+    host, site, req_id = m.groups()
+    url = (f"https://{host}/hcmRestApi/resources/latest/recruitingCEJobRequisitionDetails"
+           f"?expand=all&onlyData=true&finder=ById;Id=%22{req_id}%22,siteNumber={site}")
+    items = _SESSION.get(url, timeout=_TIMEOUT).json().get("items") or [{}]
+    d = items[0]
+    return "\n".join(_strip_html(d.get(k) or "") for k in (
+        "ExternalDescriptionStr", "ExternalResponsibilitiesStr",
+        "ExternalQualificationsStr", "CorporateDescriptionStr"))
+
+
+def _fetch_icims(job: dict) -> str:
+    m = re.search(r"https://([^/]+)/jobs/(\d+)", job["apply_url"])
+    return icims_scraper.fetch_description(*m.groups()) if m else ""
+
+
 _FETCHERS = {
     "workday": _fetch_workday,
     "greenhouse": _fetch_greenhouse,
     "lever": _fetch_lever,
     "ashby": _fetch_ashby,
     "linkedin": _fetch_linkedin,
+    "oracle": _fetch_oracle,
+    "icims": _fetch_icims,
 }
 _ID_PREFIX_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever",
-                     "ash": "ashby", "li": "linkedin"}
+                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims"}
 
 
 def _description_for(job: dict) -> str:
@@ -159,6 +183,8 @@ _NO_SPONSOR = [re.compile(p) for p in (
     r"not (?:offer|provide|be able)[^.]{0,30}sponsor",
     r"(?:u\.?s\.?|united states) citizen(?:ship)?(?: is)? required",
     r"must be (?:a )?(?:u\.?s\.?|united states) citizen",
+    # A bare requirement bullet: "Required Qualifications: ... US Citizenship."
+    r"(?:^|[.:] )(?:u\.?s\.?|united states) citizenship(?: required| is required)?(?:\.|$)",
 )]
 
 _YES_SPONSOR = [re.compile(p) for p in (

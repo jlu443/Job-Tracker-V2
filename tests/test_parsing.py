@@ -109,3 +109,57 @@ def test_canonical_job_id(url, job_id):
 ])
 def test_title_names_foreign_place(title, foreign):
     assert geo.title_names_foreign_place(title) is foreign
+
+
+@pytest.mark.parametrize("text,sponsorship", [
+    ("Required Qualifications:\nHS Diploma.\nUS Citizenship.\nProgress toward a degree.", "no"),
+    ("Must be a U.S. citizen.", "no"),
+    ("We hire regardless of US citizenship status.", ""),
+    ("Visa sponsorship is available for this role.", "yes"),
+])
+def test_sponsorship_flags(text, sponsorship):
+    from src import enrich
+    assert enrich.parse_flags(text)["sponsorship"] == sponsorship
+
+
+def test_icims_location_normalization():
+    from src import icims_scraper
+    assert icims_scraper.normalize_location("US-VA-Herndon") == "Herndon, VA, US"
+    assert icims_scraper.normalize_location("US-MD-Silver Spring | US-NJ-Basking Ridge") == \
+        "Silver Spring, MD, US; Basking Ridge, NJ, US"
+    assert geo.is_us("Bangalore, KA, IN") is False
+
+
+@pytest.mark.parametrize("url,job_id", [
+    ("https://ibqbjb.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/Honeywell/job/137946",
+     "orc_ibqbjb_137946"),
+    ("https://careers-gdms.icims.com/jobs/71647/junior-full-stack-engineer/job", "icims_careers-gdms_71647"),
+    ("https://wd5.myworkdaysite.com/recruiting/microchiphr/External/job/CA---Santa-Rosa/Engineer-I---Software_R2844-26",
+     "wd_microchiphr_R2844-26"),
+    ("https://boards.greenhouse.io/embed/job_app?token=7669159003", "gh_7669159003"),
+])
+def test_new_canonical_ids(url, job_id):
+    assert dedupe.canonical_job_id(url) == job_id
+
+
+@pytest.mark.parametrize("title,desc,hint", [
+    ("Software Engineer", "Open to recent graduates. 0-2 years of experience.", "new_grad"),
+    ("Software Engineer", "Class of 2026 graduates welcome.", "new_grad"),
+    ("Software Engineer", "0-2 years preferred, but 5+ years of experience required.", ""),
+    ("Software Engineer", "We build great products.", ""),
+    ("Senior Software Engineer", "Recent graduates mentor program.", ""),   # title decides
+    ("Software Engineering Intern", "Recent graduates welcome.", ""),        # title decides
+])
+def test_role_hint_from_description(title, desc, hint):
+    assert classify.role_hint_from_description(title, desc) == hint
+
+
+@pytest.mark.parametrize("title,role", [
+    ("Graduate Performance Engineer", "new_grad"),
+    ("Quantitative Developer, Graduate", "new_grad"),
+    ("Software Engineer (Grad)", "new_grad"),
+    ("Graduate Research Assistant", "intern"),
+    ("Graduate Student Intern", "intern"),
+])
+def test_graduate_titles(title, role):
+    assert classify.classify_by_keyword(title) == role

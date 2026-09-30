@@ -6,16 +6,19 @@
 from __future__ import annotations
 
 import os
+import sqlite3
 import sys
 import time
 import zlib
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta, timezone
 
 import yaml
 
-from . import (ashby_scraper, classify, db, dedupe, enrich, greenhouse_scraper, health,
-               jobspy_scraper, lever_scraper, notify, repost, scraper, sheets,
+from . import (accuracy, ashby_scraper, classify, db, dedupe, enrich, greenhouse_scraper, health,
+               icims_scraper, jobspy_scraper, lever_scraper, notify, oracle_scraper,
+               repost, scraper, sheets,
                simplify_scraper, smartrecruiters_scraper, workable_scraper)
 
 # Windows consoles default to cp1252; job titles are frequently Unicode.
@@ -38,6 +41,8 @@ _ATS_SCRAPERS = [
     ("ashby",           "ashby.yaml",            ashby_scraper),
     ("smartrecruiters", "smartrecruiters.yaml",  smartrecruiters_scraper),
     ("workable",        "workable.yaml",         workable_scraper),
+    ("oracle",          "oracle.yaml",           oracle_scraper),
+    ("icims",           "icims.yaml",            icims_scraper),
 ]
 
 
@@ -78,44 +83,59 @@ def _apply_config_renames(conn) -> None:
         print(f"Renamed {moved} stored rows to their boards' company names.")
 
 
+def _scrape_source(source: str, module, companies: list[dict], settings: dict):
+    """One ATS's boards, concurrently. Returns (postings, complete scopes, failed)."""
+    workers = (settings.get("scrape_workers_by_source") or {}).get(
+        source, settings.get("scrape_workers", 8))
+    postings, scopes, failed, t0 = [], set(), 0, time.time()
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        results = pool.map(lambda c: module.fetch_company_jobs(c, settings), companies)
+        for company, (found, complete) in zip(companies, results):
+            postings.extend(found)
+            if complete:
+                # Keyed by the company name the postings carry (= db rows).
+                scopes.add((source, _company_name(company)))
+            else:
+                failed += 1
+    print(f"{source}: {len(postings)} postings from {len(companies)} boards "
+          f"in {time.time() - t0:.0f}s" + (f" ({failed} incomplete)" if failed else ""))
+    return postings, scopes, failed
+
+
 def _scrape_ats(settings: dict, postings: list, complete_scopes: set,
                 conn) -> dict[str, tuple[int, int]]:
-    """Scrape every ATS; returns source → (boards attempted, boards incomplete)."""
-    board_stats: dict[str, tuple[int, int]] = {}
-    # Companies are scraped concurrently: discovery surfaces thousands of
-    # boards, and one-at-a-time with a politeness sleep would take hours.
+    """Scrape every ATS; returns source → (boards attempted, boards incomplete).
+
+    Sources run in parallel: each is a different set of hosts with its own
+    politeness limits (iCIMS, the slowest, is throttled at its own edge), so
+    wall time is the slowest source rather than the sum of all of them.
+    """
     rotation = settings.get("long_tail_rotation") or {}
     slot = int(time.time() // 3600)   # advances once per hourly run
+    plan = []
     for source, config_file, module in _ATS_SCRAPERS:
-        workers = (settings.get("scrape_workers_by_source") or {}).get(
-            source, settings.get("scrape_workers", 8))
         companies = _load_yaml(os.path.join(_CONFIG_DIR, config_file)) \
             .get("companies", []) or []
         every = rotation.get(source, 1)
-        if every > 1:
-            total = len(companies)
+        total = len(companies)
+        if every > 1:   # db lookups stay on this thread (sqlite connection)
             companies = _due_this_run(companies, db.productive_boards(conn, source),
                                       every, slot)
-            print(f"\n=== {source} ({len(companies)} of {total} companies; "
-                  f"long tail rotates 1/{every} per run) ===")
-        else:
-            print(f"\n=== {source} ({len(companies)} companies) ===")
-        before, t0, failed = len(postings), time.time(), 0
-        with ThreadPoolExecutor(max_workers=workers) as pool:
-            results = pool.map(lambda c: module.fetch_company_jobs(c, settings), companies)
-            for company, (found, complete) in zip(companies, results):
-                if found:
-                    print(f"  {_company_name(company)}: {len(found)} postings")
-                postings.extend(found)
-                if complete:
-                    # Keyed by the company name the postings carry, which is
-                    # what db rows store.
-                    complete_scopes.add((source, _company_name(company)))
-                else:
-                    failed += 1
-        print(f"{source} total: {len(postings) - before} in {time.time() - t0:.0f}s"
-              + (f" ({failed} boards incomplete)" if failed else ""))
-        board_stats[source] = (len(companies), failed)
+        print(f"  {source}: {len(companies)} of {total} boards due"
+              + (f" (long tail rotates 1/{every})" if every > 1 else ""))
+        plan.append((source, module, companies))
+
+    print(f"\n=== ATS boards ({len(plan)} sources in parallel) ===")
+    board_stats: dict[str, tuple[int, int]] = {}
+    with ThreadPoolExecutor(max_workers=len(plan)) as pool:
+        futures = [pool.submit(_scrape_source, src, mod, cos, settings)
+                   for src, mod, cos in plan]
+        # Collected in _ATS_SCRAPERS order so dedupe precedence is stable.
+        for (source, _, companies), fut in zip(plan, futures):
+            found, scopes, failed = fut.result()
+            postings.extend(found)
+            complete_scopes |= scopes
+            board_stats[source] = (len(companies), failed)
     return board_stats
 
 
@@ -133,18 +153,20 @@ def main() -> int:
     complete_sources: set[str] = set()
 
     _apply_config_renames(conn)
-    board_stats = _scrape_ats(settings, all_postings, complete_scopes, conn)
 
-    print("\n=== Curated lists (SimplifyJobs format) ===")
-    curated, curated_ok = simplify_scraper.fetch_jobs(settings)
+    # Curated lists and aggregators are other hosts and never touch the DB,
+    # so they run alongside the ATS scrape; results are appended afterwards
+    # in precedence order.
+    with ThreadPoolExecutor(max_workers=2) as side:
+        curated_f = side.submit(simplify_scraper.fetch_jobs, settings)
+        external_f = side.submit(jobspy_scraper.fetch_jobs, settings)
+        board_stats = _scrape_ats(settings, all_postings, complete_scopes, conn)
+        curated, curated_ok = curated_f.result()
+        external = external_f.result()
     all_postings.extend(curated)
     if curated_ok:
         complete_sources.add("simplify")
-
-    print("\n=== External job boards ===")
-    t0 = time.time()
-    all_postings.extend(jobspy_scraper.fetch_jobs(settings))
-    print(f"External boards done in {time.time() - t0:.0f}s")
+    all_postings.extend(external)
 
     print(f"\nTotal postings this run: {len(all_postings)}")
     health.record(conn, run_at, dict(Counter(p.source for p in all_postings)), board_stats)
@@ -189,8 +211,13 @@ def main() -> int:
     scraped = complete_scopes | {(src, "*") for src in complete_sources}
     scraped |= {(p.source, "*") for p in all_postings if p.source in db.AGGREGATOR_SOURCES}
     new_boards = db.register_boards(conn, scraped)
+    reclassified = db._meta_get(conn, "classifier_version") != str(classify.VERSION)
     fresh, relisted_from, skipped = repost.triage(
-        result.new_jobs, history, new_boards, db.board_of, db.AGGREGATOR_SOURCES)
+        result.new_jobs, history, new_boards, db.board_of, db.AGGREGATOR_SOURCES,
+        reclassified=reclassified)
+    if reclassified:
+        db._meta_set(conn, "classifier_version", str(classify.VERSION))
+        conn.commit()
     if skipped:
         print("Not announced: " + ", ".join(f"{n} {why}" for why, n in skipped.items())
               + ("  (bootstrap = first scrape of a new board; backlog stored silently)"
@@ -228,7 +255,20 @@ def main() -> int:
             print(f"Excluded {before - len(targets)} no-sponsorship jobs.")
 
     notify.post_new_jobs(targets)
-    sheets.post_new_jobs(fresh)
+    db.mark_announced(conn, [j["job_id"] for j in targets])
+    sheets.publish(conn, settings)
+
+    # Once a day, a one-line digest pointing at the sheet's Today tab.
+    last_digest = db._meta_get(conn, "discord_digest_at")
+    if not last_digest or last_digest < (datetime.now(timezone.utc)
+                                         - timedelta(hours=23)).isoformat(timespec="seconds"):
+        day_ago = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat(timespec="seconds")
+        conn.row_factory = sqlite3.Row
+        recent = [dict(r) for r in conn.execute(
+            "SELECT * FROM jobs WHERE announced_at >= ?", (day_ago,))]
+        notify.post_daily_summary(recent, os.environ.get("GOOGLE_SHEET_URL", ""))
+        db._meta_set(conn, "discord_digest_at", db._now())
+        conn.commit()
 
     if settings.get("max_listing_age_days"):
         purged = db.purge_old(conn, settings["max_listing_age_days"])
@@ -238,6 +278,13 @@ def main() -> int:
     pruned = db.prune(conn, settings.get("prune_removed_after_days", 30), store_roles)
     if pruned:
         print(f"Pruned {pruned} rows that are no longer kept.")
+    try:
+        report = accuracy.record_daily(conn, settings)
+        if report:
+            accuracy._print(report)
+    except Exception as exc:          # a measurement problem must not fail the run
+        print(f"  ! accuracy measurement failed: {exc}")
+
     problems = health.check(conn, run_at, time.time() - run_started, settings)
     if problems:
         print("Health check: " + "; ".join(problems))

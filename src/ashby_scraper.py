@@ -13,13 +13,11 @@ import time
 
 import requests
 
-from . import http_pool
+from . import classify, http_pool
 from .posting import JobPosting
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
 _SESSION = http_pool.make_session(_HEADERS)
-
-
 
 
 def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
@@ -45,14 +43,17 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
         if not jid:
             continue
         raw_date = job.get("publishedAt") or ""
+        title = (job.get("title") or "").strip()
         out.append(JobPosting(
             job_id=f"ash_{jid}",
             company=name,
-            title=(job.get("title") or "").strip(),
+            title=title,
             apply_url=job.get("jobUrl") or f"https://jobs.ashbyhq.com/{slug}/{jid}",
             location=(job.get("location") or "").strip(),
             posted_on=raw_date[:10],
-                source="ashby",
+            source="ashby",
+            role_hint=classify.role_hint_from_description(
+                title, job.get("descriptionPlain") or ""),
         ))
 
     time.sleep(settings.get("delay_between_requests", 0.5))

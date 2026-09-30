@@ -63,6 +63,7 @@ _COLUMNS = {
     "applicants": "TEXT NOT NULL DEFAULT ''",
     "relisted_on": "TEXT NOT NULL DEFAULT ''",
     "bump_count": "INTEGER NOT NULL DEFAULT 0",
+    "announced_at": "TEXT NOT NULL DEFAULT ''",
 }
 
 # Aggregator searches are time-windowed (JobSpy hours_old), so a job missing
@@ -224,6 +225,15 @@ def apply_renames(conn: sqlite3.Connection, renames: dict[tuple[str, str], str])
         moved += len(rows)
     conn.commit()
     return moved
+
+
+def mark_announced(conn: sqlite3.Connection, job_ids: list[str]) -> None:
+    """The Sheet's Today/This Week tabs and the daily digest are built from
+    announced_at, so silently backfilled rows never show up as 'new'."""
+    now = _now()
+    conn.executemany("UPDATE jobs SET announced_at = ? WHERE job_id = ?",
+                     [(now, jid) for jid in job_ids])
+    conn.commit()
 
 
 def productive_boards(conn: sqlite3.Connection, source: str) -> set[str]:
