@@ -31,6 +31,22 @@ var APP_COLUMNS = ["Status", "Apply", "Company", "Title", "Role", "Location",
                    "Posted", "First marked", "Updated", "job_id"];
 var ROLE_COLORS = { "intern": "#E3F4E8", "new_grad": "#E3EEFA" };
 
+// Column widths in pixels, by header. Columns are first auto-sized to their
+// content, then clamped to [min, max] so a 200-character title can't push
+// everything off screen. Columns listed in WRAP show long text on several
+// lines instead of being cut off.
+var WIDTHS = {
+  "Status": [110, 120], "Apply": [60, 70], "Score": [55, 60], "Why": [220, 340],
+  "Track": [110, 140], "Company": [120, 200], "Title": [220, 360], "Role": [70, 90],
+  "Category": [75, 95], "Location": [130, 240], "Posted": [90, 100],
+  "First seen": [120, 135], "First marked": [120, 150], "Updated": [120, 150],
+  "Visa sponsorship": [110, 130], "US citizenship": [100, 120], "Clearance": [95, 115],
+  "Grad year": [75, 100], "Applicants": [90, 170], "Repost": [85, 130],
+  "Source": [80, 120], "Listing": [60, 75]
+};
+var DEFAULT_WIDTH = [70, 220];
+var WRAP = { "Title": true, "Why": true, "Location": true, "Company": true };
+
 function doPost(e) {
   var lock = LockService.getScriptLock();
   lock.waitLock(30000);
@@ -100,7 +116,47 @@ function replaceTab_(name, columns, rows) {
   }
   var idIndex = header.indexOf("job_id");
   if (idIndex >= 0) sheet.hideColumns(idIndex + 1);
+  formatColumns_(sheet, header, rows.length);
   return { ok: true, tab: name, rows: rows.length };
+}
+
+/** Readable widths, wrapping for long text, top-aligned rows. */
+function formatColumns_(sheet, header, numRows) {
+  var lastRow = Math.max(numRows + 1, 1);
+  sheet.getRange(1, 1, 1, header.length)
+       .setWrapStrategy(SpreadsheetApp.WrapStrategy.WRAP)
+       .setVerticalAlignment("middle");
+  if (numRows > 0) {
+    sheet.getRange(2, 1, numRows, header.length)
+         .setVerticalAlignment("top")
+         .setWrapStrategy(SpreadsheetApp.WrapStrategy.CLIP);
+  }
+  sheet.autoResizeColumns(1, header.length);
+  for (var c = 0; c < header.length; c++) {
+    var name = header[c];
+    if (name === "job_id") continue;
+    var bounds = WIDTHS[name] || DEFAULT_WIDTH;
+    var width = sheet.getColumnWidth(c + 1);
+    if (width < bounds[0]) sheet.setColumnWidth(c + 1, bounds[0]);
+    if (width > bounds[1]) sheet.setColumnWidth(c + 1, bounds[1]);
+    if (WRAP[name] && numRows > 0) {
+      sheet.getRange(2, c + 1, numRows, 1)
+           .setWrapStrategy(SpreadsheetApp.WrapStrategy.WRAP);
+    }
+  }
+  sheet.setRowHeight(1, 36);
+}
+
+/** Run once by hand (Run ▶ in the Apps Script editor) to format existing tabs
+ *  without waiting for the next tracker run. */
+function formatAllTabs() {
+  var sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets();
+  for (var i = 0; i < sheets.length; i++) {
+    var sheet = sheets[i];
+    if (sheet.getLastColumn() < 1) continue;
+    var header = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    formatColumns_(sheet, header, Math.max(sheet.getLastRow() - 1, 0));
+  }
 }
 
 /** Simple trigger: a Status edit on a rebuilt tab is copied to My Applications. */
@@ -129,6 +185,7 @@ function upsertApplication_(rec, status) {
     apps.getRange(1, 1, 1, APP_COLUMNS.length).setValues([APP_COLUMNS]);
     styleHeader_(apps, APP_COLUMNS.length);
     apps.setFrozenRows(1);
+    formatColumns_(apps, APP_COLUMNS, 0);
   }
   var existing = readApplications_();
   var now = new Date();
@@ -149,7 +206,14 @@ function upsertApplication_(rec, status) {
     return rec[c] !== undefined ? rec[c] : "";
   });
   apps.appendRow(out);
-  apps.getRange(apps.getLastRow(), 1).setDataValidation(statusRule_());
+  var last = apps.getLastRow();
+  apps.getRange(last, 1).setDataValidation(statusRule_());
+  apps.getRange(last, 1, 1, APP_COLUMNS.length).setVerticalAlignment("top");
+  for (var c = 0; c < APP_COLUMNS.length; c++) {
+    if (WRAP[APP_COLUMNS[c]]) {
+      apps.getRange(last, c + 1).setWrapStrategy(SpreadsheetApp.WrapStrategy.WRAP);
+    }
+  }
 }
 
 /** job_id -> {status, row} from My Applications. */
