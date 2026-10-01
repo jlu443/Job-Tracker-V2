@@ -26,6 +26,14 @@ workday_min_relevant_per_page: 2
 # Boards that have ever listed an intern/new-grad job are scraped every run;
 # the rest of a source's boards are split into N slices, one slice per run
 # (so each is still checked every N hours). Keeps CI under its 30-min limit.
+# Every run, every board of these sources gets a cheap "what's new?" check:
+# newest postings (any title, classified locally) until a page holds nothing
+# posted in the last window_days. Finds new jobs within the hour; the full
+# keyword sweep then only needs to run on the rotation above.
+recency_check:
+  workday: {window_days: 2, max_pages: 8}
+  icims: {window_days: 2, max_pages: 5}
+
 # ATS sources to skip entirely. Workable blocks GitHub Actions' shared IPs
 # outright (a 15-hour Retry-After on the first request, 2026-10-01); its
 # intern listings still arrive through the curated lists.
@@ -35,8 +43,10 @@ long_tail_rotation:
   # Boards with open entry-level jobs every 2nd run (postings stay open for
   # weeks, so a 2-hour detection delay costs nothing); the rest every 6th.
   # Measured 2026-09-30: every-run Workday took 19 min, iCIMS 13 min.
-  workday: {hot: 2, tail: 6}
-  icims: {hot: 2, tail: 4}
+  # Workday / iCIMS: this is the *full sweep* cadence; every board also gets
+  # the recency check below on every run.
+  workday: {hot: 6, tail: 6}
+  icims: {hot: 4, tail: 4}
   workable: 6       # also keeps us under Workable's per-IP rate limit
 
 # Politeness
@@ -46,7 +56,7 @@ scrape_workers: 8       # companies scraped concurrently (different hosts)
 # Workday tenants are separate hosts ({tenant}.wdN.myworkdayjobs.com), so they
 # can go wide; Ashby/Greenhouse/Lever each share one API host and stay at the default.
 scrape_workers_by_source:
-  workday: 32
+  workday: 32        # Workday rate-limits per client IP (429s at 64)
   smartrecruiters: 16
   workable: 3         # apply.workable.com returns 429s above ~3 concurrent
   oracle: 16          # each tenant is its own host
@@ -68,8 +78,9 @@ enrich_descriptions: true
 enrich_max_per_run: 400
 # Each run also reads this many never-read descriptions of open jobs, so the
 # Sheet's sponsorship / citizenship / clearance columns fill in (PhD and
-# research internships first). ~0.25s each with 8 parallel fetches.
-enrich_backlog_per_run: 300
+# research internships first). ~0.25s each with 8 parallel fetches, so
+# ~4 min for 1000; the backlog is cleared in about a day.
+enrich_backlog_per_run: 1000
 # When true, jobs whose description explicitly rules out visa sponsorship
 # (or requires US citizenship) are dropped from Discord/Sheets announcements.
 exclude_no_sponsorship: false

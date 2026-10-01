@@ -106,7 +106,7 @@ def _scrape_source(source: str, module, companies: list[dict], settings: dict):
             if complete:
                 # Keyed by the company name the postings carry (= db rows).
                 scopes.add((source, _company_name(company)))
-            else:
+            elif complete is False:      # None = recent-only by design, not a failure
                 failed += 1
     print(f"{source}: {len(postings)} postings from {len(companies)} boards "
           f"in {time.time() - t0:.0f}s" + (f" ({failed} incomplete)" if failed else ""))
@@ -136,12 +136,24 @@ def _scrape_ats(settings: dict, postings: list, complete_scopes: set,
         cfg = rotation.get(source, 1)
         every, hot = (cfg.get("tail", 1), cfg.get("hot", 1)) if isinstance(cfg, dict) else (cfg, 1)
         total = len(companies)
+        due = companies
         if every > 1 or hot > 1:   # db lookups stay on this thread (sqlite)
-            companies = _due_this_run(companies, db.productive_boards(conn, source),
-                                      every, slot, hot)
-        print(f"  {source}: {len(companies)} of {total} boards due"
-              + (f" (open-job boards every {hot}, others every {every} runs)"
-                 if every > 1 or hot > 1 else ""))
+            due = _due_this_run(companies, db.productive_boards(conn, source),
+                                every, slot, hot)
+        if source in (settings.get("recency_check") or {}):
+            # Every board gets a cheap newest-postings check each run; boards
+            # due in the rotation also get the full sweep (which is what
+            # detects closed listings).
+            due_names = {_company_name(c) for c in due}
+            companies = [{**c, "_mode": "recent+sweep" if _company_name(c) in due_names
+                          else "recent"} for c in companies]
+            print(f"  {source}: all {total} boards checked for new postings; "
+                  f"{len(due)} also fully swept")
+        else:
+            companies = due
+            print(f"  {source}: {len(companies)} of {total} boards due"
+                  + (f" (open-job boards every {hot}, others every {every} runs)"
+                     if every > 1 or hot > 1 else ""))
         plan.append((source, module, companies))
 
     print(f"\n=== ATS boards ({len(plan)} sources in parallel) ===")

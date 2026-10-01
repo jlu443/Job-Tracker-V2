@@ -26,7 +26,7 @@ from datetime import datetime
 
 import requests
 
-from . import classify, http_pool
+from . import classify, dates, http_pool
 from .posting import JobPosting
 
 # An honest client id. iCIMS's edge challenges a full Chrome user-agent
@@ -135,37 +135,69 @@ def parse_listing(page: str, host: str, name: str) -> list[JobPosting]:
     return out
 
 
-def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
+def _crawl(host: str, name: str, keyword: str, max_pages: int, timeout: int,
+           seen: dict, stop) -> str:
+    """Page one listing ('' = all jobs, newest first) until stop(rows).
+    Returns 'ok', 'missing' (404), 'failed' or 'challenged'."""
+    previous: list[str] = []
+    params = {"ss": 1, "in_iframe": 1}
+    if keyword:
+        params["searchKeyword"] = keyword
+    for page_no in range(max_pages):
+        try:
+            resp = _get(host, {**params, "pr": page_no}, timeout)
+            if resp.status_code == 404:
+                print(f"  ! {name}: portal not found (404)")
+                return "missing"
+            resp.raise_for_status()
+        except _Challenged:
+            return "challenged"
+        except requests.RequestException as exc:
+            print(f"  ! {name} keyword={keyword!r} page={page_no}: {exc}")
+            return "failed"
+        rows = parse_listing(resp.text, host, name)
+        ids = [p.job_id for p in rows]
+        if not rows or ids == previous:     # past the last page, iCIMS repeats it
+            return "ok"
+        previous = ids
+        for p in rows:
+            seen.setdefault(p.job_id, p)
+        if stop(rows):
+            return "ok"
+    return "ok"
+
+
+def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool | None]:
+    """One iCIMS portal. company["_mode"] (set by main.py): 'recent' = newest
+    listings until a page has nothing from the last window_days (cheap, every
+    run); 'sweep' = the keyword searches (complete; default); 'recent+sweep'.
+    Returns (postings, complete) with complete None for recent-only."""
     host = company["host"]
     name = company.get("name", host)
     timeout = settings.get("request_timeout", 30)
-    max_pages = min(settings.get("max_pages_per_term", 25), 10)
-
+    mode = company.get("_mode", "sweep")
     seen: dict[str, JobPosting] = {}
+
+    if mode.startswith("recent"):
+        cfg = (settings.get("recency_check") or {}).get("icims") or {}
+        window = cfg.get("window_days", 2)
+        recent = lambda rows: not any(
+            (a := dates.age_days(r.posted_on)) is not None and a <= window for r in rows)
+        status = _crawl(host, name, "", cfg.get("max_pages", 5), timeout, seen, recent)
+        if status == "missing":
+            return [], True
+        if status != "ok" or not mode.endswith("sweep"):
+            return list(seen.values()), (None if status == "ok" else False)
+
+    max_pages = min(settings.get("max_pages_per_term", 25), 10)
+    not_entry = lambda rows: not any(classify.is_entry_level(p.title) for p in rows)
     complete = True
     for term in company.get("search_terms", _TERMS):
-        previous: list[str] = []
-        for page_no in range(max_pages):
-            try:
-                resp = _get(host, {"ss": 1, "searchKeyword": term, "in_iframe": 1,
-                                   "pr": page_no}, timeout)
-                if resp.status_code == 404:
-                    print(f"  ! {name}: portal not found (404)")
-                    return [], True
-                resp.raise_for_status()
-            except _Challenged:
-                return list(seen.values()), False
-            except requests.RequestException as exc:
-                print(f"  ! {name} term={term!r} page={page_no}: {exc}")
-                complete = False
-                break
-            rows = parse_listing(resp.text, host, name)
-            ids = [p.job_id for p in rows]
-            if not rows or ids == previous:     # past the last page, iCIMS repeats it
-                break
-            previous = ids
-            for p in rows:
-                seen.setdefault(p.job_id, p)
-            if not any(classify.is_entry_level(p.title) for p in rows):
-                break
+        status = _crawl(host, name, term, max_pages, timeout, seen, not_entry)
+        if status == "missing":
+            return [], True
+        if status == "challenged":
+            return list(seen.values()), False
+        if status == "failed":
+            complete = False
     return list(seen.values()), complete
