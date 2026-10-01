@@ -164,3 +164,25 @@ def dedupe_postings(postings: list, known_ids: set[str] = frozenset()) -> tuple[
             first_source.setdefault(key, source)
         kept.append(p)
     return kept, dropped
+
+
+def collapse_roles(jobs: list[dict], max_locations: int = 4) -> list[dict]:
+    """One row per role: copies of the same job (company + title) listed per
+    city or per source collapse onto the first one, which callers sort to be
+    the newest. Locations are merged, capped with "+N more"."""
+    kept: dict[str, dict] = {}
+    places: dict[str, list[str]] = {}
+    for j in jobs:
+        key = role_key(j.get("job_key") or "") or j["job_id"]
+        if key not in kept:
+            kept[key] = dict(j)
+            places[key] = []
+        for loc in (j.get("location") or "").split("; "):
+            if loc and loc not in places[key]:
+                places[key].append(loc)
+    for key, job in kept.items():
+        locs = places[key]
+        extra = len(locs) - max_locations
+        job["location"] = "; ".join(locs[:max_locations]) + (f" +{extra} more" if extra > 0 else "")
+    return list(kept.values())
+

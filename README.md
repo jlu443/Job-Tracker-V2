@@ -112,6 +112,12 @@ Inconclusive titles default to `mid`, which is never announced anyway.
 ## Scheduling (GitHub Actions, $0 hosting)
 
 [.github/workflows/scrape.yml](.github/workflows/scrape.yml) runs **hourly**.
+Each run has two stages: three **scrape** jobs in parallel (Workday split in
+two halves, plus everything else; separate machines, so separate IPs for
+Workday's per-IP rate limit), each saving its postings as an artifact; then
+one **process** job merges them (`python -m src.main --from-parts parts`) and
+does classification, the DB sync, enrichment, Discord and the Sheet. Locally,
+`python -m src.main` still does everything in one process.
 State survives between runs on ephemeral runners by keeping `jobs.db` as an
 asset on the `db-latest` GitHub release: each run downloads it, scrapes, runs
 an integrity check, and uploads it back (even if a late step failed, so

@@ -34,6 +34,12 @@ recency_check:
   workday: {window_days: 2, max_pages: 8}
   icims: {window_days: 2, max_pages: 5}
 
+# Sources split across parallel CI scrape jobs (.github/workflows/scrape.yml
+# matrix: one "SOURCE:k/n" part per shard, plus "rest" for everything else).
+# Workday rate-limits per client IP, so two machines ~halve its time.
+ci_shards:
+  workday: 2
+
 # ATS sources to skip entirely. Workable blocks GitHub Actions' shared IPs
 # outright (a 15-hour Retry-After on the first request, 2026-10-01); its
 # intern listings still arrive through the curated lists.

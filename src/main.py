@@ -1,10 +1,21 @@
 """Entry point: scrape every source, classify, persist, detect reposts, announce.
 
-    python -m src.main          # from the repo root
+    python -m src.main                                  # everything, one process
+    python -m src.main --scrape-part workday:0/2 --out p0.json.gz
+    python -m src.main --scrape-part rest --out p2.json.gz
+    python -m src.main --from-parts DIR                 # merge parts, then process
+
+CI runs the scrape parts as parallel jobs (separate machines, so separate
+IPs for Workday's per-IP rate limit) and one final job merges and processes.
 """
 
 from __future__ import annotations
 
+import argparse
+import dataclasses
+import glob
+import gzip
+import json
 import os
 import sqlite3
 import sys
@@ -20,6 +31,7 @@ from . import (accuracy, ashby_scraper, classify, db, dedupe, enrich, greenhouse
                icims_scraper, jobspy_scraper, lever_scraper, notify, oracle_scraper, profile,
                repost, scraper, sheets,
                simplify_scraper, smartrecruiters_scraper, workable_scraper)
+from .posting import JobPosting
 
 # Windows consoles default to cp1252; job titles are frequently Unicode.
 # Never let a print() kill the run after the DB has already synced.
@@ -113,8 +125,15 @@ def _scrape_source(source: str, module, companies: list[dict], settings: dict):
     return postings, scopes, failed
 
 
-def _scrape_ats(settings: dict, postings: list, complete_scopes: set,
-                conn) -> dict[str, tuple[int, int]]:
+def _shard_of(company: dict, n: int) -> int:
+    """Stable shard for a board; one tenant's sites stay together."""
+    key = company.get("tenant") or company.get("host") or _company_name(company)
+    return zlib.crc32(f"shard:{key}".encode()) % n
+
+
+def _scrape_ats(settings: dict, postings: list, complete_scopes: set, conn,
+                only: set | None = None, exclude: set = frozenset(),
+                shard: tuple[int, int] | None = None) -> dict[str, tuple[int, int]]:
     """Scrape every ATS; returns source → (boards attempted, boards incomplete).
 
     Sources run in parallel: each is a different set of hosts with its own
@@ -129,8 +148,12 @@ def _scrape_ats(settings: dict, postings: list, complete_scopes: set,
         if source in disabled:
             print(f"  {source}: disabled (settings.disabled_sources)")
             continue
+        if (only is not None and source not in only) or source in exclude:
+            continue
         companies = _load_yaml(os.path.join(_CONFIG_DIR, config_file)) \
             .get("companies", []) or []
+        if shard:
+            companies = [c for c in companies if _shard_of(c, shard[1]) == shard[0]]
         # int = tail every N runs (productive boards every run);
         # {tail: N, hot: M} = productive boards every M runs too.
         cfg = rotation.get(source, 1)
@@ -158,6 +181,8 @@ def _scrape_ats(settings: dict, postings: list, complete_scopes: set,
 
     print(f"\n=== ATS boards ({len(plan)} sources in parallel) ===")
     board_stats: dict[str, tuple[int, int]] = {}
+    if not plan:
+        return board_stats
     with ThreadPoolExecutor(max_workers=len(plan)) as pool:
         futures = [pool.submit(_scrape_source, src, mod, cos, settings)
                    for src, mod, cos in plan]
@@ -170,34 +195,87 @@ def _scrape_ats(settings: dict, postings: list, complete_scopes: set,
     return board_stats
 
 
-def main() -> int:
-    run_started = time.time()
-    run_at = db._now()
-    settings = _load_yaml(_SETTINGS)
-    os.makedirs(os.path.dirname(_DB_PATH), exist_ok=True)
-    conn = db.connect(_DB_PATH)
+# -- collect: scraping, all of it or one part -------------------------------
 
-    # Order matters: dedupe keeps the first copy of a job, so first-party ATS
-    # boards come before curated lists, which come before aggregators.
-    all_postings: list = []
-    complete_scopes: set[tuple[str, str]] = set()
-    complete_sources: set[str] = set()
+@dataclasses.dataclass
+class Collected:
+    postings: list
+    complete_scopes: set
+    complete_sources: set
+    board_stats: dict
 
-    _apply_config_renames(conn)
 
+def collect(settings: dict, conn, part: str | None = None) -> Collected:
+    """Scrape everything, or one part:
+         "SOURCE:k/n"  shard k of n of one ATS source's boards
+         "rest"        every source not split into shards (settings.ci_shards),
+                       plus the curated lists and aggregators
+    """
+    only, exclude, shard, side = None, set(), None, True
+    if part and part != "rest":
+        source, _, frac = part.partition(":")
+        k, _, n = frac.partition("/")
+        only, shard, side = {source}, (int(k), int(n)), False
+    elif part == "rest":
+        exclude = set((settings.get("ci_shards") or {}).keys())
+
+    postings: list = []
+    scopes: set = set()
+    sources: set = set()
     # Curated lists and aggregators are other hosts and never touch the DB,
     # so they run alongside the ATS scrape; results are appended afterwards
     # in precedence order.
-    with ThreadPoolExecutor(max_workers=2) as side:
-        curated_f = side.submit(simplify_scraper.fetch_jobs, settings)
-        external_f = side.submit(jobspy_scraper.fetch_jobs, settings)
-        board_stats = _scrape_ats(settings, all_postings, complete_scopes, conn)
-        curated, curated_ok = curated_f.result()
-        external = external_f.result()
-    all_postings.extend(curated)
-    if curated_ok:
-        complete_sources.add("simplify")
-    all_postings.extend(external)
+    with ThreadPoolExecutor(max_workers=2) as side_pool:
+        curated_f = side_pool.submit(simplify_scraper.fetch_jobs, settings) if side else None
+        external_f = side_pool.submit(jobspy_scraper.fetch_jobs, settings) if side else None
+        board_stats = _scrape_ats(settings, postings, scopes, conn, only, exclude, shard)
+        if side:
+            curated, curated_ok = curated_f.result()
+            postings.extend(curated)
+            if curated_ok:
+                sources.add("simplify")
+            postings.extend(external_f.result())
+    return Collected(postings, scopes, sources, board_stats)
+
+
+def save_part(path: str, c: Collected) -> None:
+    with gzip.open(path, "wt", encoding="utf-8") as fh:
+        json.dump({"postings": [dataclasses.asdict(p) for p in c.postings],
+                   "complete_scopes": sorted(c.complete_scopes),
+                   "complete_sources": sorted(c.complete_sources),
+                   "board_stats": c.board_stats}, fh)
+
+
+def _precedence(source: str) -> int:
+    """Dedupe keeps the first copy of a job: first-party ATS boards, then
+    curated lists, then aggregators."""
+    order = [s for s, _, _ in _ATS_SCRAPERS] + ["simplify"]
+    return order.index(source) if source in order else len(order)
+
+
+def load_parts(paths: list) -> Collected:
+    merged = Collected([], set(), set(), {})
+    for path in sorted(paths):
+        with gzip.open(path, "rt", encoding="utf-8") as fh:
+            d = json.load(fh)
+        merged.postings += [JobPosting(**p) for p in d["postings"]]
+        merged.complete_scopes |= {tuple(x) for x in d["complete_scopes"]}
+        merged.complete_sources |= set(d["complete_sources"])
+        for src, (attempted, failed) in d["board_stats"].items():
+            a0, f0 = merged.board_stats.get(src, (0, 0))
+            merged.board_stats[src] = (a0 + attempted, f0 + failed)
+    merged.postings.sort(key=lambda p: _precedence(p.source))   # stable
+    return merged
+
+
+# -- process: everything after scraping --------------------------------------
+
+def process(conn, settings: dict, collected: Collected, run_at: str,
+            run_started: float) -> None:
+    all_postings = collected.postings
+    complete_scopes = collected.complete_scopes
+    complete_sources = collected.complete_sources
+    board_stats = collected.board_stats
 
     print(f"\nTotal postings this run: {len(all_postings)}")
     health.record(conn, run_at, dict(Counter(p.source for p in all_postings)), board_stats)
@@ -341,6 +419,44 @@ def main() -> int:
     if problems:
         print("Health check: " + "; ".join(problems))
     notify.post_alert(health.due_alerts(conn, problems))
+
+
+def main(argv: list | None = None) -> int:
+    ap = argparse.ArgumentParser(description="Job tracker run")
+    ap.add_argument("--scrape-part", help='scrape only this part ("workday:0/2", "rest") '
+                                          "and save it with --out; the DB isn't changed")
+    ap.add_argument("--out", help="where --scrape-part writes its results (.json.gz)")
+    ap.add_argument("--from-parts", help="directory of saved parts: merge them instead of "
+                                         "scraping, then run the rest of the pipeline")
+    args = ap.parse_args(argv)
+
+    run_started = time.time()
+    run_at = db._now()
+    settings = _load_yaml(_SETTINGS)
+    os.makedirs(os.path.dirname(_DB_PATH), exist_ok=True)
+    conn = db.connect(_DB_PATH)
+    _apply_config_renames(conn)
+
+    if args.scrape_part:
+        if not args.out:
+            ap.error("--scrape-part needs --out")
+        collected = collect(settings, conn, args.scrape_part)
+        save_part(args.out, collected)
+        print(f"Saved {len(collected.postings)} postings for part {args.scrape_part!r}")
+        conn.close()
+        return 0
+
+    if args.from_parts:
+        paths = glob.glob(os.path.join(args.from_parts, "**", "*.json.gz"), recursive=True)
+        if not paths:
+            print(f"No scrape parts found in {args.from_parts}")
+            return 1
+        print(f"Merging {len(paths)} scrape parts")
+        collected = load_parts(paths)
+    else:
+        collected = collect(settings, conn)
+
+    process(conn, settings, collected, run_at, run_started)
     conn.close()
     return 0
 

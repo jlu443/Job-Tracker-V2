@@ -21,7 +21,7 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
-from . import db, phd
+from . import db, dedupe, phd
 
 COLUMNS = ["Apply", "Company", "Title", "Role", "Category", "Location", "Posted",
            "Days ago", "First seen", "Visa sponsorship", "US citizenship", "Clearance",
@@ -77,9 +77,12 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
     # a newly added board's silently stored backlog isn't news.
     announced = [j for j in jobs if j["status"] == "active" and j.get("announced_at")]
     since = lambda h: (now - timedelta(hours=h)).isoformat(timespec="seconds")
+    # One row per role on the short lists: a job posted in 12 cities is one
+    # opening to apply to, with its locations merged.
+    collapse = lambda js: [_row(j) for j in dedupe.collapse_roles(js)]
     tabs = {
-        "Today": [_row(j) for j in announced if j["announced_at"] >= since(24)],
-        "This Week": [_row(j) for j in announced if j["announced_at"] >= since(24 * 7)],
+        "Today": collapse([j for j in announced if j["announced_at"] >= since(24)]),
+        "This Week": collapse([j for j in announced if j["announced_at"] >= since(24 * 7)]),
     }
     if include_all:
         # Open listings only: closed rows stay in the DB for repost history,

@@ -69,14 +69,4 @@ def open_internships(conn: sqlite3.Connection, settings: dict) -> list[dict]:
             continue
         out.append(j)
     out.sort(key=posted_sort_key, reverse=True)
-    # One row per role: the same internship listed per city (or per source)
-    # collapses onto its newest copy, with the locations merged.
-    best: dict[str, dict] = {}
-    for j in out:
-        key = dedupe.role_key(j.get("job_key") or "") or j["job_id"]
-        if key not in best:
-            best[key] = j
-        elif j.get("location") and j["location"] not in (best[key].get("location") or ""):
-            best[key]["location"] = "; ".join(filter(None, [best[key].get("location"),
-                                                            j["location"]]))
-    return list(best.values())
+    return dedupe.collapse_roles(out)

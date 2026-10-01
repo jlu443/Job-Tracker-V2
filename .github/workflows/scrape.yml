@@ -3,10 +3,10 @@ name: scrape-jobs
 on:
   schedule:
     # Fallback only. The hourly trigger is external: cron-job.org POSTs to
-    # .../actions/workflows/scrape.yml/dispatches at :05 each hour (a
-    # fine-grained token with Actions read/write on this repo), because
-    # GitHub's own scheduler delivered hourly runs only every 4-7 hours.
-    # If that trigger stops (e.g. the token expires), this keeps runs going.
+    # .../actions/workflows/scrape.yml/dispatches each hour (a fine-grained
+    # token with Actions read/write on this repo), because GitHub's own
+    # scheduler delivered hourly runs only every 4-7 hours. If that trigger
+    # stops (e.g. the token expires), this keeps runs going.
     - cron: "37 */3 * * *"
   workflow_dispatch: {}   # the external hourly trigger, and manual runs
 
@@ -27,9 +27,53 @@ env:
   DB_RELEASE: db-latest
 
 jobs:
+  # Stage 1: scrape in parallel. Each part runs on its own machine, so the
+  # two Workday halves get separate IPs (Workday rate-limits per client IP).
+  # Parts only read a copy of the DB (board rotation); nothing is uploaded.
+  # Keep the workday parts in line with settings.yaml -> ci_shards.
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        part: ["workday:0/2", "workday:1/2", "rest"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Download database (read-only copy)
+        run: bash .github/scripts/download_db.sh
+
+      - name: Scrape ${{ matrix.part }}
+        env:
+          JOBSPY_PROXY: ${{ secrets.JOBSPY_PROXY }}  # optional residential proxy
+        run: |
+          mkdir -p parts
+          python -m src.main --scrape-part "${{ matrix.part }}" \
+            --out "parts/part-${{ strategy.job-index }}.json.gz"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: part-${{ strategy.job-index }}
+          path: parts/
+          retention-days: 1
+
+  # Stage 2: merge the parts and run everything else (classify, sync,
+  # enrich, Discord, Sheet), then save the DB. Runs even if a part failed:
+  # that part's boards simply aren't "complete", so nothing is wrongly
+  # marked removed, and the next run picks them up.
+  process:
+    needs: scrape
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
 
@@ -43,39 +87,27 @@ jobs:
       # A broken parser/migration must not touch the DB.
       - run: python -m pytest -q tests
 
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: part-*
+          path: parts
+
       - name: Download database
         id: download
-        # Falls back to the newest daily snapshot if the main asset is missing
-        # (e.g. an upload died mid-way). Never starts from an empty DB: that
-        # would silently discard history.
-        run: |
-          mkdir -p data
-          if gh release download "$DB_RELEASE" -p jobs.db -D data --clobber; then
-            echo "Downloaded jobs.db"
-          else
-            snap=$(gh release view "$DB_RELEASE" --json assets --jq '.assets[].name' \
-                   | grep -E '^jobs-[0-9-]+\.db$' | sort | tail -n 1)
-            if [ -z "$snap" ]; then
-              echo "::error::No jobs.db or snapshot on release $DB_RELEASE"; exit 1
-            fi
-            echo "::warning::jobs.db missing; restoring snapshot $snap"
-            gh release download "$DB_RELEASE" -p "$snap" -D data --clobber
-            mv "data/$snap" data/jobs.db
-          fi
+        run: bash .github/scripts/download_db.sh
 
-      - name: Run scraper
+      - name: Process
         # Leaves headroom inside the job timeout for the upload step.
-        timeout-minutes: 26
+        timeout-minutes: 21
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DISCORD_ALERT_WEBHOOK_URL: ${{ secrets.DISCORD_ALERT_WEBHOOK_URL }}  # optional
           GOOGLE_SHEETS_WEBHOOK_URL: ${{ secrets.GOOGLE_SHEETS_WEBHOOK_URL }}
           GOOGLE_SHEET_URL: ${{ secrets.GOOGLE_SHEET_URL }}  # optional, for the daily digest link
-          JOBSPY_PROXY: ${{ secrets.JOBSPY_PROXY }}  # optional residential proxy
-        run: python -m src.main
+        run: python -m src.main --from-parts parts
 
       - name: Upload database
-        # Even if the scraper failed late: the DB is synced before notify
+        # Even if processing failed late: the DB is synced before notify
         # runs, so throwing it away would make this run's postings look "new"
         # (and be re-announced) next time.
         if: always() && steps.download.outcome == 'success'
