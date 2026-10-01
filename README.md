@@ -148,8 +148,13 @@ To enable:
    Actions → General → Workflow permissions** allows read/write.
 
 **Known tradeoffs of this hosting choice:**
-- GitHub cron is best-effort; runs are often late (the schedule uses minute
-  :23 because top-of-the-hour slots get dropped under load).
+- GitHub's own cron is best-effort (hourly runs arrived every 4–7 hours), so
+  the hourly trigger is external: a cron-job.org job POSTs to
+  `https://api.github.com/repos/<owner>/<repo>/actions/workflows/scrape.yml/dispatches`
+  at :05 with headers `Authorization: Bearer <fine-grained token, Actions:
+  read/write on this repo only>`, `Accept: application/vnd.github+json`, and
+  body `{"ref":"main"}` (expects 204). The workflow's own schedule remains as
+  an every-3-hours fallback. **Renew the token before it expires.**
 - Scheduled workflows in public repos auto-disable after 60 days without
   commits; the workflow pushes an empty keepalive commit if the last commit is
   45+ days old.

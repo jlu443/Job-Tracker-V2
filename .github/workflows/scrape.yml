@@ -2,11 +2,13 @@ name: scrape-jobs
 
 on:
   schedule:
-    # Every hour, at an off-peak minute: GitHub drops/delays scheduled runs
-    # when the top of the hour is congested (":00" was yielding a run only
-    # every 3-5 hours).
-    - cron: "23 * * * *"
-  workflow_dispatch: {}   # allow manual runs from the Actions tab
+    # Fallback only. The hourly trigger is external: cron-job.org POSTs to
+    # .../actions/workflows/scrape.yml/dispatches at :05 each hour (a
+    # fine-grained token with Actions read/write on this repo), because
+    # GitHub's own scheduler delivered hourly runs only every 4-7 hours.
+    # If that trigger stops (e.g. the token expires), this keeps runs going.
+    - cron: "37 */3 * * *"
+  workflow_dispatch: {}   # the external hourly trigger, and manual runs
 
 # contents: write lets the job replace the DB asset on the release, and push
 # the rare keepalive commit.
