@@ -63,8 +63,9 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
     now = now or datetime.now(timezone.utc)
     conn.row_factory = sqlite3.Row
     jobs = [dict(r) for r in conn.execute(
-        "SELECT * FROM jobs WHERE role_type IN ('intern', 'new_grad') "
-        "ORDER BY announced_at DESC, first_seen DESC, role_type")]
+        "SELECT * FROM jobs WHERE role_type IN ('intern', 'new_grad')")]
+    # Every tab: most recently posted at the top.
+    jobs.sort(key=phd.posted_sort_key, reverse=True)
     # Today / This Week list what was announced, not everything first seen:
     # a newly added board's silently stored backlog isn't news.
     announced = [j for j in jobs if j["status"] == "active" and j.get("announced_at")]
@@ -81,14 +82,14 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
 
 
 PHD_TAB = "PhD & Research"
-PHD_COLUMNS = ["Score", "Why", "Track"] + COLUMNS
+PHD_COLUMNS = ["Track"] + COLUMNS
 _TRACK = {"phd": "PhD", "research_ms": "Research (MS/PhD)"}
 
 
 def build_phd_tab(conn: sqlite3.Connection, settings: dict) -> list[list]:
-    """Ranked PhD / research-track internships (src/phd.py), best first."""
-    return [[j["score"], j["why"], _TRACK.get(j["research_track"], "")] + _row(j)
-            for j in phd.ranked(conn, settings)]
+    """Open PhD / research-track internships (src/phd.py), newest-posted first."""
+    return [[_TRACK.get(j["research_track"], "")] + _row(j)
+            for j in phd.open_internships(conn, settings)]
 
 
 def _post(webhook: str, payload: dict) -> dict:
