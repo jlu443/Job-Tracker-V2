@@ -51,11 +51,13 @@ def _line(job: dict) -> str:
         bits.append("today" if age <= 0 else f"{age}d ago")
     if job["role_type"] == "new_grad":
         bits.append("new grad")
-    if job.get("sponsorship") == "no":
+    if job.get("citizenship") == "required":
+        bits.append("🇺🇸 US citizens only")
+    elif job.get("sponsorship") == "no":
         bits.append("❌ no visa")
     elif job.get("sponsorship") == "yes":
         bits.append("✅ visa")
-    if job.get("clearance"):
+    if job.get("clearance") == "yes":
         bits.append("🔒 clearance")
     if job.get("applicants"):
         bits.append(job["applicants"])

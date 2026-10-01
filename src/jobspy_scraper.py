@@ -24,7 +24,7 @@ from __future__ import annotations
 import hashlib
 import os
 
-from . import dedupe, repost
+from . import dedupe, enrich, repost
 from .posting import JobPosting
 
 # Import here so the rest of the app works without jobspy installed.
@@ -129,6 +129,8 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
                 if source == "linkedin":
                     # Universities/recruiters re-share others' jobs on LinkedIn.
                     company, title = dedupe.unwrap_reshare(company, title)
+                description = _cell(row, "description")
+                flags = enrich.scrape_time_flags(title, description)
                 seen[job_id] = JobPosting(
                     job_id=job_id,
                     company=company,
@@ -137,8 +139,9 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
                     location=_cell(row, "location"),
                     posted_on=_cell(row, "date_posted")[:10],
                     source=source,
-                    description=_cell(row, "description"),
+                    description=description,
                     direct_url=_cell(row, "job_url_direct"),
+                    **flags,
                 )
 
     print(f"  [jobspy] {len(seen)} unique postings across all boards.")

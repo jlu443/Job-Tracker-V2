@@ -16,11 +16,14 @@ from __future__ import annotations
 import html
 import re
 import time
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
 from urllib.parse import urlparse
 
 import requests
 
-from . import http_pool, icims_scraper, phd
+from . import classify, http_pool, icims_scraper, phd
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)", "Accept": "application/json"}
 _SESSION = http_pool.make_session(_HEADERS)
@@ -140,6 +143,17 @@ def _fetch_icims(job: dict) -> str:
     return icims_scraper.fetch_description(*m.groups()) if m else ""
 
 
+def _fetch_smartrecruiters(job: dict) -> str:
+    m = re.search(r"smartrecruiters\.com/([^/]+)/(\d+)", job["apply_url"])
+    if not m:
+        return ""
+    company, pid = m.groups()
+    d = _SESSION.get(f"https://api.smartrecruiters.com/v1/companies/{company}/postings/{pid}",
+                     timeout=_TIMEOUT).json()
+    sections = ((d.get("jobAd") or {}).get("sections") or {}).values()
+    return "\n".join(_strip_html(s.get("text") or "") for s in sections if isinstance(s, dict))
+
+
 _FETCHERS = {
     "workday": _fetch_workday,
     "greenhouse": _fetch_greenhouse,
@@ -148,9 +162,17 @@ _FETCHERS = {
     "linkedin": _fetch_linkedin,
     "oracle": _fetch_oracle,
     "icims": _fetch_icims,
+    "smartrecruiters": _fetch_smartrecruiters,
 }
 _ID_PREFIX_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever",
-                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims"}
+                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims",
+                     "sr": "smartrecruiters"}
+
+
+def fetchable(job: dict) -> bool:
+    """Whether some fetcher can read this job's description."""
+    source = _ID_PREFIX_SOURCE.get(job["job_id"].split("_", 1)[0], job.get("source", ""))
+    return source in _FETCHERS
 
 
 def _description_for(job: dict) -> str:
@@ -181,8 +203,16 @@ _NO_SPONSOR = [re.compile(p) for p in (
     r"sponsorship (?:is )?(?:not (?:available|offered|provided)|unavailable)",
     r"without (?:visa |employer |the need for )?sponsorship",
     r"not (?:offer|provide|be able)[^.]{0,30}sponsor",
+)]
+
+# US citizenship required. Kept apart from "no sponsorship": a green-card
+# holder qualifies for the latter but not the former. Citizenship-only roles
+# also count as sponsorship "no".
+_CITIZEN = [re.compile(p) for p in (
     r"(?:u\.?s\.?|united states) citizen(?:ship)?(?: is)? required",
     r"must be (?:a )?(?:u\.?s\.?|united states) citizen",
+    r"(?:requires?|requiring) (?:u\.?s\.?|united states) citizenship",
+    r"only (?:u\.?s\.?|united states) citizens",
     # A bare requirement bullet: "Required Qualifications: ... US Citizenship."
     r"(?:^|[.:] )(?:u\.?s\.?|united states) citizenship(?: required| is required)?(?:\.|$)",
 )]
@@ -224,7 +254,10 @@ def _grad_years(t: str) -> str:
 
 
 def parse_flags(text: str) -> dict:
-    flags = {"sponsorship": "", "clearance": "", "grad_year": ""}
+    """sponsorship: 'yes' | 'no' | ''   citizenship: 'required' | ''
+    clearance: 'yes' (required/mentioned) | 'none' (explicitly not required) | ''
+    grad_year: '2026' | '2026, 2027' | ''"""
+    flags = {"sponsorship": "", "citizenship": "", "clearance": "", "grad_year": ""}
     if not text:
         return flags
     # Newlines become sentence boundaries so bullet-list items don't bleed
@@ -232,37 +265,69 @@ def parse_flags(text: str) -> dict:
     t = re.sub(r"\s*\n+\s*", ". ", text.lower())
     t = " ".join(t.split())
 
-    if any(p.search(t) for p in _NO_SPONSOR):
+    if any(p.search(t) for p in _CITIZEN):
+        flags["citizenship"] = "required"
+    if flags["citizenship"] or any(p.search(t) for p in _NO_SPONSOR):
         flags["sponsorship"] = "no"
     elif any(p.search(t) for p in _YES_SPONSOR):
         flags["sponsorship"] = "yes"
 
-    if (not any(p.search(t) for p in _NO_CLEARANCE)
-            and any(p.search(t) for p in _CLEARANCE)):
+    if any(p.search(t) for p in _NO_CLEARANCE):
+        flags["clearance"] = "none"
+    elif any(p.search(t) for p in _CLEARANCE):
         flags["clearance"] = "yes"
 
     flags["grad_year"] = _grad_years(t)
     return flags
 
 
-def enrich_jobs(jobs: list[dict]) -> None:
-    """Fetch + parse each job's description; mutates the dicts in place."""
+def scrape_time_flags(title: str, description: str, role_hint: str = "",
+                      research_track: str = "") -> dict:
+    """Flags for a posting whose description came with the listing (Greenhouse,
+    Lever, Ashby, aggregators): no extra request. Only for jobs we'd keep, to
+    spare the regex work on ~100k senior postings a run. Returns JobPosting
+    keyword arguments, or {} when not applicable."""
+    if not description or not (role_hint or research_track
+                                or classify.is_entry_level(title)):
+        return {}
+    return {**parse_flags(description), "checked": True}
+
+
+def described_fields(title: str, description: str) -> dict:
+    """Everything a listing's own description tells us, as JobPosting kwargs:
+    new-grad hint, PhD/research track, and sponsorship/clearance flags."""
+    hint = classify.role_hint_from_description(title, description)
+    track = phd.track(title, description)
+    return {"role_hint": hint, "research_track": track,
+            **scrape_time_flags(title, description, hint, track)}
+
+
+def _enrich_one(job: dict) -> dict:
+    text = _description_for(job)
+    flags = parse_flags(text)
+    if text:   # read, even if it mentions none of the flags
+        job["checked_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    # Never let "no mention found" erase a value the source supplied.
+    job.update({k: v for k, v in flags.items() if v or not job.get(k)})
+    # The description can reveal a PhD/research track the title hides.
+    track = phd.track(job.get("title", ""), text)
+    if track and job.get("research_track") != "phd":
+        job["research_track"] = track
+    time.sleep(_DELAY)
+    return flags
+
+
+def enrich_jobs(jobs: list[dict], label: str = "announceable postings",
+                workers: int = 8) -> None:
+    """Fetch + parse each job's description; mutates the dicts in place.
+    Jobs span many hosts, so a small thread pool keeps this quick."""
     if not jobs:
         return
-    print(f"Enriching {len(jobs)} announceable postings ...")
-    counts = {"sponsorship": 0, "clearance": 0, "grad_year": 0}
-    for job in jobs:
-        text = _description_for(job)
-        flags = parse_flags(text)
-        # Never let "no mention found" erase a value the source supplied.
-        job.update({k: v for k, v in flags.items() if v or not job.get(k)})
-        # The description can reveal a PhD/research track the title hides.
-        track = phd.track(job.get("title", ""), text)
-        if track and job.get("research_track") != "phd":
-            job["research_track"] = track
-        for key, value in flags.items():
-            if value:
-                counts[key] += 1
-        time.sleep(_DELAY)
-    print(f"  flags set — sponsorship: {counts['sponsorship']}, "
-          f"clearance: {counts['clearance']}, grad year: {counts['grad_year']}")
+    print(f"Enriching {len(jobs)} {label} ...")
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        results = list(pool.map(_enrich_one, jobs))
+    counts = Counter(k for flags in results for k, v in flags.items() if v)
+    read = sum(1 for j in jobs if j.get("checked_at"))
+    print(f"  read {read}/{len(jobs)} descriptions — sponsorship: {counts['sponsorship']}, "
+          f"citizenship: {counts['citizenship']}, clearance: {counts['clearance']}, "
+          f"grad year: {counts['grad_year']}")

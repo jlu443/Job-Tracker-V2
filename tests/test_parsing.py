@@ -163,3 +163,26 @@ def test_role_hint_from_description(title, desc, hint):
 ])
 def test_graduate_titles(title, role):
     assert classify.classify_by_keyword(title) == role
+
+
+@pytest.mark.parametrize("text,expected", [
+    ("Must be a U.S. citizen. Active Secret clearance required.",
+     {"sponsorship": "no", "citizenship": "required", "clearance": "yes"}),
+    ("We are unable to sponsor visas. No security clearance required.",
+     {"sponsorship": "no", "citizenship": "", "clearance": "none"}),
+    ("H-1B sponsorship is available for this role.",
+     {"sponsorship": "yes", "citizenship": "", "clearance": ""}),
+    ("Build great software with us.", {"sponsorship": "", "citizenship": "", "clearance": ""}),
+])
+def test_flags_separate_citizenship_and_explicit_no_clearance(text, expected):
+    from src import enrich
+    flags = enrich.parse_flags(text)
+    assert {k: flags[k] for k in expected} == expected
+
+
+def test_scrape_time_flags_only_for_entry_level():
+    from src import enrich
+    desc = "Must be a US citizen."
+    assert enrich.scrape_time_flags("Senior Engineer", desc) == {}
+    flags = enrich.scrape_time_flags("Software Engineer Intern", desc)
+    assert flags["citizenship"] == "required" and flags["checked"] is True

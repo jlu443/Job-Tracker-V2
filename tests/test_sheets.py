@@ -52,3 +52,31 @@ def test_discord_grouping_and_hot_flag():
     first, second = embeds[0]["description"].split("\n")
     assert first.startswith("⭐ **Acme**") and not second.startswith("⭐")   # 212 applicants
     assert "🕰️ old post" in embeds[1]["description"]
+
+
+def test_flag_columns_distinguish_unchecked_from_not_mentioned():
+    base = {"apply_url": "https://x", "company": "A", "title": "T", "role_type": "intern",
+            "source": "greenhouse", "status": "active", "job_id": "gh_1"}
+    col = lambda name: sheets.COLUMNS.index(name)
+    unchecked = sheets._row({**base})
+    read_nothing = sheets._row({**base, "checked_at": "2026-10-01T00:00:00+00:00"})
+    flagged = sheets._row({**base, "checked_at": "x", "sponsorship": "no",
+                           "citizenship": "required", "clearance": "none"})
+    assert unchecked[col("Visa sponsorship")] == ""
+    assert read_nothing[col("Visa sponsorship")] == "Not mentioned"
+    assert [flagged[col(c)] for c in ("Visa sponsorship", "US citizenship", "Clearance")] == \
+        ["Not offered", "Required", "Not required"]
+
+
+def test_sync_stores_scrape_time_flags_and_backfills_unchecked_rows():
+    conn = db.connect(":memory:")
+    plain = _job("gh_1", "Software Engineer Intern", "Austin, TX")
+    db.sync(conn, [plain], lambda p: "intern", set(), set())
+    assert conn.execute("SELECT checked_at FROM jobs").fetchone()[0] == ""
+    from dataclasses import replace
+    described = replace(plain, sponsorship="no", citizenship="required", clearance="yes",
+                        checked=True)
+    db.sync(conn, [described], lambda p: "intern", set(), set())
+    row = conn.execute("SELECT sponsorship, citizenship, clearance, checked_at FROM jobs").fetchone()
+    assert tuple(row)[:3] == ("no", "required", "yes") and row[3]
+    assert [j["job_id"] for j in db.unchecked_open(conn, 10)] == []

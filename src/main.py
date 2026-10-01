@@ -258,11 +258,25 @@ def main() -> int:
         # Detail fetches are ~0.5s each; cap them so a burst of new postings
         # can't push the run past the CI timeout. Newest-posted first.
         cap = settings.get("enrich_max_per_run", 400)
-        by_recency = sorted(targets, key=lambda j: j.get("posted_on") or "", reverse=True)
-        enrich.enrich_jobs(by_recency[:cap])
-        if len(targets) > cap:
-            print(f"  enrichment capped at {cap}; {len(targets) - cap} left unenriched")
+        # Descriptions already read at scrape time aren't fetched again
+        # (LinkedIn's page is, for its applicant count).
+        to_fetch = [j for j in targets if not j.get("checked_at") or j["source"] == "linkedin"]
+        to_fetch.sort(key=lambda j: j.get("posted_on") or "", reverse=True)
+        enrich.enrich_jobs(to_fetch[:cap])
+        if len(to_fetch) > cap:
+            print(f"  enrichment capped at {cap}; {len(to_fetch) - cap} left for the backlog")
     db.update_enrichment(conn, targets)
+
+    # Work through open jobs whose description was never read, so the Sheet's
+    # sponsorship / citizenship / clearance columns fill in over a few runs.
+    # PhD & research internships first, then announced jobs, then newest.
+    backlog_n = settings.get("enrich_backlog_per_run", 300)
+    if settings.get("enrich_descriptions", True) and backlog_n:
+        backlog = [j for j in db.unchecked_open(conn, backlog_n * 3) if enrich.fetchable(j)]
+        linkedin = [j for j in backlog if j["source"] == "linkedin"][:30]   # rate-limited host
+        backlog = [j for j in backlog if j["source"] != "linkedin"][:backlog_n - len(linkedin)]
+        enrich.enrich_jobs(backlog + linkedin, label="unchecked open jobs (backlog)")
+        db.update_enrichment(conn, backlog + linkedin)
 
     policy = settings.get("reposts", {}).get("announce", "annotate")
     if policy == "suppress":

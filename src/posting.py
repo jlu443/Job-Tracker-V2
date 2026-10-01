@@ -20,6 +20,12 @@ class JobPosting:
     sponsorship: str = ""     # 'yes' | 'no' | '' when the source already knows it
     role_hint: str = ""       # role_type asserted by a curated source; beats the title
     research_track: str = ""  # 'phd' | 'research_ms' | '' (src/phd.py)
+    # Description flags (enrich.parse_flags) when the source hands over the
+    # description; checked=True means it was read, even if nothing was found.
+    clearance: str = ""
+    citizenship: str = ""
+    grad_year: str = ""
+    checked: bool = False
 
     def __post_init__(self):
         # Sources embed newlines/tabs in titles ("Intern\nTorrance, CA").

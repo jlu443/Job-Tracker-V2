@@ -66,6 +66,10 @@ use_llm_fallback: false
 enrich_descriptions: true
 # Cap on per-run detail fetches (~0.5s each) so a burst can't hit the CI timeout.
 enrich_max_per_run: 400
+# Each run also reads this many never-read descriptions of open jobs, so the
+# Sheet's sponsorship / citizenship / clearance columns fill in (PhD and
+# research internships first). ~0.25s each with 8 parallel fetches.
+enrich_backlog_per_run: 300
 # When true, jobs whose description explicitly rules out visa sponsorship
 # (or requires US citizenship) are dropped from Discord/Sheets announcements.
 exclude_no_sponsorship: false

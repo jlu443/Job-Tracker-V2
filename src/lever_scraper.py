@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 
 import requests
 
-from . import classify, http_pool, phd
+from . import enrich, http_pool
 from .posting import JobPosting
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
@@ -67,8 +67,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
             location=location,
             posted_on=posted,
             source="lever",
-            role_hint=classify.role_hint_from_description(title, description),
-            research_track=phd.track(title, description),
+            **enrich.described_fields(title, description),
         ))
 
     time.sleep(settings.get("delay_between_requests", 0.5))

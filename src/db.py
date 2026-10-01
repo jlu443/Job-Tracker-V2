@@ -65,6 +65,10 @@ _COLUMNS = {
     "bump_count": "INTEGER NOT NULL DEFAULT 0",
     "announced_at": "TEXT NOT NULL DEFAULT ''",
     "research_track": "TEXT NOT NULL DEFAULT ''",
+    "citizenship": "TEXT NOT NULL DEFAULT ''",
+    # When the description was read; '' = never read (flags unknown), set
+    # with all flags '' = read but nothing mentioned.
+    "checked_at": "TEXT NOT NULL DEFAULT ''",
 }
 
 # Aggregator searches are time-windowed (JobSpy hours_old), so a job missing
@@ -235,6 +239,18 @@ def apply_renames(conn: sqlite3.Connection, renames: dict[tuple[str, str], str])
     return moved
 
 
+def unchecked_open(conn: sqlite3.Connection, limit: int) -> list[dict]:
+    """Open intern/new-grad rows whose description was never read, in the
+    order the Sheet most needs them: PhD/research internships, announced
+    jobs, then newest."""
+    conn.row_factory = sqlite3.Row
+    return [dict(r) for r in conn.execute(
+        "SELECT * FROM jobs WHERE status = 'active' AND checked_at = '' "
+        "AND role_type IN ('intern', 'new_grad') "
+        "ORDER BY (role_type = 'intern' AND research_track != '') DESC, "
+        "(announced_at != '') DESC, first_seen DESC LIMIT ?", (limit,))]
+
+
 def mark_announced(conn: sqlite3.Connection, job_ids: list[str]) -> None:
     """The Sheet's Today/This Week tabs and the daily digest are built from
     announced_at, so silently backfilled rows never show up as 'new'."""
@@ -271,11 +287,13 @@ def update_enrichment(conn: sqlite3.Connection, jobs: list[dict]) -> None:
     if not jobs:
         return
     conn.executemany(
-        "UPDATE jobs SET sponsorship = ?, clearance = ?, grad_year = ?, "
-        "applicants = ?, repost = ?, repost_of = ?, research_track = ? WHERE job_id = ?",
+        "UPDATE jobs SET sponsorship = ?, clearance = ?, grad_year = ?, citizenship = ?, "
+        "applicants = ?, repost = ?, repost_of = ?, research_track = ?, "
+        "checked_at = COALESCE(NULLIF(?, ''), checked_at) WHERE job_id = ?",
         [(j.get("sponsorship", ""), j.get("clearance", ""), j.get("grad_year", ""),
-          j.get("applicants", ""), j.get("repost", ""), j.get("repost_of", ""),
-          j.get("research_track", ""), j["job_id"]) for j in jobs],
+          j.get("citizenship", ""), j.get("applicants", ""), j.get("repost", ""),
+          j.get("repost_of", ""), j.get("research_track", ""), j.get("checked_at", ""),
+          j["job_id"]) for j in jobs],
     )
     conn.commit()
 
@@ -330,16 +348,20 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
                 "category": p.category or classify.categorize(p.title),
                 # scrape-time description (aggregators) for the enrichment pass
                 "description": p.description,
-                "sponsorship": p.sponsorship, "clearance": "", "grad_year": "",
+                "sponsorship": p.sponsorship, "clearance": p.clearance,
+                "citizenship": p.citizenship, "grad_year": p.grad_year,
+                "checked_at": now if p.checked else "",
                 "research_track": p.research_track or phd.track(p.title),
             }
             conn.execute(
                 "INSERT INTO jobs (job_id, company, title, apply_url, location, "
-                "role_type, posted_on, source, sponsorship, first_seen, last_seen, "
+                "role_type, posted_on, source, sponsorship, clearance, citizenship, "
+                "grad_year, checked_at, first_seen, last_seen, "
                 "status, job_key, category, research_track) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,'active',?,?,?)",
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'active',?,?,?)",
                 (p.job_id, p.company, p.title, p.apply_url, p.location, role,
-                 p.posted_on, p.source, p.sponsorship, now, now,
+                 p.posted_on, p.source, p.sponsorship, p.clearance, p.citizenship,
+                 p.grad_year, job["checked_at"], now, now,
                  job["job_key"], job["category"], job["research_track"]),
             )
             new_jobs.append(job)
@@ -362,11 +384,21 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
                 "posted_on = CASE WHEN posted_on = '' OR (? != '' AND ? < posted_on) "
                 "THEN ? ELSE posted_on END, "
                 # a description-based track (scrape time) upgrades a title-only one
-                "research_track = CASE WHEN ? != '' THEN ? ELSE research_track END "
+                "research_track = CASE WHEN ? != '' THEN ? ELSE research_track END, "
+                # Scrape-time description flags fill rows never checked before
+                # (e.g. stored before this existed); they never overwrite.
+                "sponsorship = CASE WHEN checked_at = '' AND ? THEN ? ELSE sponsorship END, "
+                "clearance = CASE WHEN checked_at = '' AND ? THEN ? ELSE clearance END, "
+                "citizenship = CASE WHEN checked_at = '' AND ? THEN ? ELSE citizenship END, "
+                "grad_year = CASE WHEN checked_at = '' AND ? THEN ? ELSE grad_year END, "
+                "checked_at = CASE WHEN checked_at = '' AND ? THEN ? ELSE checked_at END "
                 "WHERE job_id = ?",
                 (now, p.title, p.apply_url, p.location,
                  p.posted_on, p.posted_on, p.posted_on,
-                 p.research_track, p.research_track, p.job_id),
+                 p.research_track, p.research_track,
+                 p.checked, p.sponsorship or "", p.checked, p.clearance,
+                 p.checked, p.citizenship, p.checked, p.grad_year, p.checked, now,
+                 p.job_id),
             )
             updated += 1
 

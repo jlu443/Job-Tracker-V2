@@ -24,8 +24,16 @@ import requests
 from . import db, phd
 
 COLUMNS = ["Apply", "Company", "Title", "Role", "Category", "Location", "Posted",
-           "First seen", "Sponsorship", "Clearance", "Grad year", "Applicants",
-           "Repost", "Source", "Listing", "job_id"]
+           "First seen", "Visa sponsorship", "US citizenship", "Clearance", "Grad year",
+           "Applicants", "Repost", "Source", "Listing", "job_id"]
+
+# Blank = description not read yet; "Not mentioned" = read, says nothing.
+_SPONSORSHIP = {"yes": "Offered", "no": "Not offered"}
+_CLEARANCE = {"yes": "Required", "none": "Not required"}
+
+
+def _flag(value: str, labels: dict, checked: bool) -> str:
+    return labels.get(value, value) if value else ("Not mentioned" if checked else "")
 _REPOST = {"relisted": "re-listed", "linkedin": "LinkedIn repost", "stale": "old posting",
            "bumped": "re-dated"}
 _SCRIPT_VERSION = 2
@@ -36,11 +44,14 @@ def _apply_cell(url: str) -> str:
 
 
 def _row(j: dict) -> list:
+    checked = bool(j.get("checked_at"))
     return [
         _apply_cell(j["apply_url"]), j["company"], j["title"], j["role_type"],
         j.get("category") or "", j.get("location") or "", j.get("posted_on") or "",
         (j.get("first_seen") or "")[:16].replace("T", " "),
-        j.get("sponsorship") or "", "yes" if j.get("clearance") else "",
+        _flag(j.get("sponsorship") or "", _SPONSORSHIP, checked),
+        _flag(j.get("citizenship") or "", {"required": "Required"}, checked),
+        _flag(j.get("clearance") or "", _CLEARANCE, checked),
         j.get("grad_year") or "", j.get("applicants") or "",
         _REPOST.get(j.get("repost") or "", j.get("repost") or ""), j["source"],
         "open" if j.get("status") == "active" else "closed", j["job_id"],
