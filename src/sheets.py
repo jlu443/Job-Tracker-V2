@@ -63,7 +63,9 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
         "This Week": [_row(j) for j in announced if j["announced_at"] >= since(24 * 7)],
     }
     if include_all:
-        tabs["All Open"] = [_row(j) for j in jobs]
+        # Open listings only: closed rows stay in the DB for repost history,
+        # but would bury the open ones (57k rows vs ~25k open on 2026-10-01).
+        tabs["All Open"] = [_row(j) for j in jobs if j["status"] == "active"]
     return tabs
 
 
@@ -104,7 +106,7 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
         return
 
     refresh_hours = settings.get("sheets", {}).get("all_open_refresh_hours", 24)
-    last = db._meta_get(conn, "sheets_all_open_at")
+    last = db._meta_get(conn, "sheets_all_open_at_v2")
     include_all = (not last or datetime.fromisoformat(last)
                    < datetime.now(timezone.utc) - timedelta(hours=refresh_hours))
 
@@ -124,5 +126,5 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
             continue
         print(f"Sheet tab {tab!r}: {len(rows)} rows")
         if tab == "All Open":
-            db._meta_set(conn, "sheets_all_open_at", db._now())
+            db._meta_set(conn, "sheets_all_open_at_v2", db._now())
             conn.commit()

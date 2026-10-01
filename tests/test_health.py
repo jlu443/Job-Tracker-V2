@@ -33,3 +33,10 @@ def test_slow_run_and_alert_cooldown():
     assert problems == ["run took 27 min (CI kills it at 30)"]
     assert health.due_alerts(conn, problems) == problems
     assert health.due_alerts(conn, problems) == []      # once a day
+
+
+def test_disabled_source_is_not_flagged():
+    conn = sqlite3.connect(":memory:")
+    _runs(conn, [1400, 1390, 1380], {}, {"greenhouse": (0, 0)})
+    assert health.check(conn, "2026-09-29T00:00:00+00:00", 600,
+                        {"disabled_sources": ["greenhouse"]}) == []

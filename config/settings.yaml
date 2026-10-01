@@ -26,6 +26,11 @@ workday_min_relevant_per_page: 2
 # Boards that have ever listed an intern/new-grad job are scraped every run;
 # the rest of a source's boards are split into N slices, one slice per run
 # (so each is still checked every N hours). Keeps CI under its 30-min limit.
+# ATS sources to skip entirely. Workable blocks GitHub Actions' shared IPs
+# outright (a 15-hour Retry-After on the first request, 2026-10-01); its
+# intern listings still arrive through the curated lists.
+disabled_sources: [workable]
+
 long_tail_rotation:
   # Boards with open entry-level jobs every 2nd run (postings stay open for
   # weeks, so a 2-hour detection delay costs nothing); the rest every 6th.

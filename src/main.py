@@ -124,7 +124,11 @@ def _scrape_ats(settings: dict, postings: list, complete_scopes: set,
     rotation = settings.get("long_tail_rotation") or {}
     slot = int(time.time() // 3600)   # advances once per hourly run
     plan = []
+    disabled = set(settings.get("disabled_sources") or ())
     for source, config_file, module in _ATS_SCRAPERS:
+        if source in disabled:
+            print(f"  {source}: disabled (settings.disabled_sources)")
+            continue
         companies = _load_yaml(os.path.join(_CONFIG_DIR, config_file)) \
             .get("companies", []) or []
         # int = tail every N runs (productive boards every run);

@@ -18,6 +18,7 @@ def test_build_tabs_uses_announcements_and_keeps_all_stored():
     db.sync(conn, posts, lambda p: roles.get(p.job_id, "intern"), set(), set(),
             store_roles=frozenset({"intern", "new_grad"}))
     db.mark_announced(conn, ["gh_1", "gh_4"])
+    conn.execute("UPDATE jobs SET status = 'removed' WHERE job_id = 'gh_2'")
     old = (datetime.now(timezone.utc) - timedelta(days=3)).isoformat(timespec="seconds")
     conn.execute("UPDATE jobs SET announced_at = ? WHERE job_id = 'gh_4'", (old,))
 
@@ -25,7 +26,7 @@ def test_build_tabs_uses_announcements_and_keeps_all_stored():
     ids = lambda tab: sorted(r[-1] for r in tabs[tab])
     assert ids("Today") == ["gh_1"]
     assert ids("This Week") == ["gh_1", "gh_4"]
-    assert ids("All Open") == ["gh_1", "gh_2", "gh_4"]
+    assert ids("All Open") == ["gh_1", "gh_4"]                        # closed gh_2 left out
     today = tabs["Today"][0]
     assert today[0] == '=HYPERLINK("https://x/gh_1", "Apply")' and len(today) == len(sheets.COLUMNS)
     assert "All Open" not in sheets.build_tabs(conn, include_all=False)

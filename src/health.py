@@ -54,6 +54,7 @@ def check(conn: sqlite3.Connection, run_at: str, elapsed_s: float,
     current = {r[0]: (r[1], r[2], r[3]) for r in conn.execute(
         "SELECT source, postings, boards, incomplete FROM runs WHERE run_at = ?", (run_at,))}
     sources = {r[0] for r in conn.execute("SELECT DISTINCT source FROM runs")}
+    sources -= set(settings.get("disabled_sources") or ())   # off on purpose
     for src in sorted(sources):
         history = [r[0] for r in conn.execute(
             "SELECT postings FROM runs WHERE source = ? AND run_at < ? "
