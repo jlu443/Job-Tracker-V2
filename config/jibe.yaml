@@ -1,0 +1,339 @@
+companies:
+- host: jobs.keysight.com
+  name: Keysight Technologies
+  aliases:
+  - jobs.keysight.com
+- host: careers.akima.com
+  name: Akima
+  aliases:
+  - careers.akima.com
+- host: careers.rivian.com
+  name: Rivian
+  aliases:
+  - careers.rivian.com
+- host: githubinc.jibeapply.com
+  name: GitHub
+  aliases:
+  - githubinc.jibeapply.com
+- host: careers.medpace.com
+  name: Medpace
+  aliases:
+  - careers.medpace.com
+- host: careers.amd.com
+  name: AMD
+  aliases:
+  - careers.amd.com
+- host: careers.clydeinc.com
+  name: Clyde Companies
+  aliases:
+  - careers.clydeinc.com
+- host: careers.pplweb.com
+  name: PPL
+  aliases:
+  - careers.pplweb.com
+- host: careers.garmin.com
+  name: Garmin
+  aliases:
+  - careers.garmin.com
+- host: spa.jibeapply.com
+  name: spa.jibeapply.com
+- host: careers.noblis.org
+  name: Noblis
+  aliases:
+  - careers.noblis.org
+- host: joinus.ies-co.com
+  name: IES Holdings
+  aliases:
+  - joinus.ies-co.com
+- host: careers.kpmg.ca
+  name: KPMG
+  aliases:
+  - careers.kpmg.ca
+- host: jobportal.reyesbeveragegroup.com
+  name: Reyes Beverage Group
+  aliases:
+  - jobportal.reyesbeveragegroup.com
+- host: careers.msasafety.com
+  name: MSA Safety
+  aliases:
+  - careers.msasafety.com
+- host: careers.fastenterprises.com
+  name: FAST Enterprises
+  aliases:
+  - careers.fastenterprises.com
+- host: careers.sam.biz
+  name: SAM
+  aliases:
+  - careers.sam.biz
+- host: careers.aarp.org
+  name: AARP
+  aliases:
+  - careers.aarp.org
+- host: careers.pnnl.gov
+  name: Pacific Northwest National Laboratory
+  aliases:
+  - careers.pnnl.gov
+- host: jobs.ajg.com
+  name: Arthur J. Gallagher & Co.
+  aliases:
+  - jobs.ajg.com
+- host: careers.foundationfinance.com
+  name: Foundation Finance
+  aliases:
+  - careers.foundationfinance.com
+- host: careers.chick-fil-a.com
+  name: Chick-fil-A
+  aliases:
+  - careers.chick-fil-a.com
+- host: careers.jhuapl.edu
+  name: Johns Hopkins Applied Physics Laboratory
+  aliases:
+  - careers.jhuapl.edu
+- host: careers.sabresystems.com
+  name: Sabre Systems
+  aliases:
+  - careers.sabresystems.com
+- host: careers.comed.com
+  name: Exelon
+  aliases:
+  - careers.comed.com
+- host: jobs.statefarm.com
+  name: State Farm
+  aliases:
+  - jobs.statefarm.com
+- host: careers.astrion.us
+  name: Astrion
+  aliases:
+  - careers.astrion.us
+- host: careers.na.panasonic.com
+  name: Panasonic Holdings
+  aliases:
+  - careers.na.panasonic.com
+- host: careers.cvent.com
+  name: Cvent
+  aliases:
+  - careers.cvent.com
+- host: jobs.stryten.com
+  name: Stryten
+  aliases:
+  - jobs.stryten.com
+- host: jobs.zs.com
+  name: ZS
+  aliases:
+  - jobs.zs.com
+- host: jobs.postholdings.com
+  name: Post Holdings
+  aliases:
+  - jobs.postholdings.com
+- host: careers.kindermorgan.com
+  name: Kinder Morgan
+  aliases:
+  - careers.kindermorgan.com
+- host: jobs.uhsinc.com
+  name: Universal Health Services
+  aliases:
+  - jobs.uhsinc.com
+- host: careers.gov2x.com
+  name: V2X
+  aliases:
+  - careers.gov2x.com
+- host: careers.mcdean.com
+  name: M.C. Dean
+  aliases:
+  - careers.mcdean.com
+- host: careers.principal.com
+  name: Principal Financial Group
+  aliases:
+  - careers.principal.com
+- host: careers.cdmsmith.com
+  name: CDM Smith
+  aliases:
+  - careers.cdmsmith.com
+- host: jobs.bjc.org
+  name: BJC HealthCare
+  aliases:
+  - jobs.bjc.org
+- host: careers.spiritaero.com
+  name: Spirit AeroSystems
+  aliases:
+  - careers.spiritaero.com
+- host: careers.publicisgroupe.com
+  name: Publicis Groupe
+  aliases:
+  - careers.publicisgroupe.com
+- host: careers.herzog.com
+  name: Herzog Railroad Services
+  aliases:
+  - careers.herzog.com
+- host: jobs.constellationenergy.com
+  name: Constellation Energy
+  aliases:
+  - jobs.constellationenergy.com
+- host: careers.planview.com
+  name: Planview
+  aliases:
+  - careers.planview.com
+- host: careers.ulta.com
+  name: Ulta Beauty
+  aliases:
+  - careers.ulta.com
+- host: simventions.jibeapply.com
+  name: SimVentions
+  aliases:
+  - simventions.jibeapply.com
+- host: careers.trccompanies.com
+  name: TRC Companies
+  aliases:
+  - careers.trccompanies.com
+- host: careers.cobank.com
+  name: CoBank
+  aliases:
+  - careers.cobank.com
+- host: firstcitizens.jibeapply.com
+  name: First Citizens BancShares
+  aliases:
+  - firstcitizens.jibeapply.com
+- host: jobs.incommpayments.com
+  name: InComm Payments
+  aliases:
+  - jobs.incommpayments.com
+- host: xanterra.jibeapply.com
+  name: Windstar Cruises
+  aliases:
+  - xanterra.jibeapply.com
+- host: careers.usoncology.com
+  name: The US Oncology Network
+  aliases:
+  - careers.usoncology.com
+- host: careers.lutron.com
+  name: Lutron Electronics
+  aliases:
+  - careers.lutron.com
+- host: careers.pdf.com
+  name: PDF Solutions
+  aliases:
+  - careers.pdf.com
+- host: careers.footlocker.com
+  name: Foot Locker
+  aliases:
+  - careers.footlocker.com
+- host: www.towercareers.org
+  name: Tower Health
+  aliases:
+  - www.towercareers.org
+- host: careers.siriusxm.com
+  name: Sirius XM Radio
+  aliases:
+  - careers.siriusxm.com
+- host: careers.bowman.com
+  name: Bowman Consulting Group
+  aliases:
+  - careers.bowman.com
+- host: careers.mastec.com
+  name: MasTec
+  aliases:
+  - careers.mastec.com
+- host: careers.bigbear.ai
+  name: Bigbear.ai
+  aliases:
+  - careers.bigbear.ai
+- host: careers.reliance.com
+  name: Reliance
+  aliases:
+  - careers.reliance.com
+- host: careers.tracesystems.com
+  name: Trace Systems
+  aliases:
+  - careers.tracesystems.com
+- host: careers.navistar.com
+  name: International Motors, LLC
+  aliases:
+  - careers.navistar.com
+- host: careers.vtgdefense.com
+  name: VTG
+  aliases:
+  - careers.vtgdefense.com
+- host: careers.arcfield.com
+  name: Arcfield
+  aliases:
+  - careers.arcfield.com
+- host: careers.ctg.com
+  name: CTG
+  aliases:
+  - careers.ctg.com
+- host: careers.eagleview.com
+  name: EagleView
+  aliases:
+  - careers.eagleview.com
+- host: careers.chenega.com
+  name: Chenega Corporation
+  aliases:
+  - careers.chenega.com
+- host: careers.avispl.com
+  name: AVI-SPL
+  aliases:
+  - careers.avispl.com
+- host: careers.shearers.com
+  name: Shearers Foods
+  aliases:
+  - careers.shearers.com
+- host: careers.andersen.com
+  name: Andersen
+  aliases:
+  - careers.andersen.com
+- host: jobs.aon.com
+  name: Aon
+  aliases:
+  - jobs.aon.com
+- host: careers.leviton.com
+  name: Leviton
+  aliases:
+  - careers.leviton.com
+- host: careers.viasat.com
+  name: ViaSat
+  aliases:
+  - careers.viasat.com
+- host: careers.heb.com
+  name: H-E-B
+  aliases:
+  - careers.heb.com
+- host: careers.pennymac.com
+  name: Pennymac
+  aliases:
+  - careers.pennymac.com
+- host: explore.enercon.com
+  name: Enercon Services
+  aliases:
+  - explore.enercon.com
+- host: careers.pmgroup-global.com
+  name: PM Group
+  aliases:
+  - careers.pmgroup-global.com
+- host: careers.div.energy
+  name: Diversified Energy
+  aliases:
+  - careers.div.energy
+- host: careers.sca.health
+  name: SCA Health
+  aliases:
+  - careers.sca.health
+- host: www.cakecareers.com
+  name: The Cheesecake Factory
+  aliases:
+  - www.cakecareers.com
+- host: careers.aptean.com
+  name: Aptean
+  aliases:
+  - careers.aptean.com
+- host: careers.govcio.com
+  name: GovCIO
+  aliases:
+  - careers.govcio.com
+- host: talent.goldbelt.com
+  name: Goldbelt
+  aliases:
+  - talent.goldbelt.com
+- host: careers.international.com
+  name: International
+  aliases:
+  - careers.international.com

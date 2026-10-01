@@ -1,0 +1,3 @@
+# Single-company career site (src/bigtech_scrapers.py).
+companies:
+  - name: TikTok

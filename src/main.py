@@ -32,6 +32,13 @@ from . import (accuracy, ashby_scraper, classify, db, dedupe, enrich, greenhouse
                repost, scraper, sheets,
                simplify_scraper, smartrecruiters_scraper, workable_scraper)
 from .posting import JobPosting
+from . import bigtech_scrapers, jibe_scraper, rippling_scraper
+
+
+class _One:
+    """Adapter: a single-company fetch function as a scraper module."""
+    def __init__(self, fn):
+        self.fetch_company_jobs = fn
 
 # Windows consoles default to cp1252; job titles are frequently Unicode.
 # Never let a print() kill the run after the DB has already synced.
@@ -55,6 +62,11 @@ _ATS_SCRAPERS = [
     ("workable",        "workable.yaml",         workable_scraper),
     ("oracle",          "oracle.yaml",           oracle_scraper),
     ("icims",           "icims.yaml",            icims_scraper),
+    ("jibe",            "jibe.yaml",             jibe_scraper),
+    ("rippling",        "rippling.yaml",         rippling_scraper),
+    ("tiktok",          "tiktok.yaml",           _One(bigtech_scrapers.fetch_tiktok)),
+    ("amazon",          "amazon.yaml",           _One(bigtech_scrapers.fetch_amazon)),
+    ("apple",           "apple.yaml",            _One(bigtech_scrapers.fetch_apple)),
 ]
 
 

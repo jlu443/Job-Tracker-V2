@@ -28,7 +28,7 @@ from . import discover, simplify_scraper
 
 _ID_FIELD = {"workday": "tenant", "greenhouse": "token", "lever": "slug",
              "ashby": "slug", "smartrecruiters": "company", "workable": "slug",
-             "oracle": "host", "icims": "host"}
+             "oracle": "host", "icims": "host", "jibe": "host", "rippling": "slug"}
 _SESSION = requests.Session()
 _SESSION.headers["User-Agent"] = "Mozilla/5.0 (job-tracker-names)"
 

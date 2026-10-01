@@ -1,0 +1,495 @@
+companies:
+- slug: mikata
+  name: Mikata Health
+  aliases:
+  - mikata
+- slug: journaltech
+  name: Journal Technologies
+  aliases:
+  - journaltech
+- slug: mytra
+  name: mytra
+- slug: open-roles
+  name: Tidal Financial Group
+  aliases:
+  - open-roles
+- slug: pathos
+  name: pathos
+- slug: foundation-robotics
+  name: Foundation
+  aliases:
+  - foundation-robotics
+- slug: usare
+  name: American Rare Earths
+  aliases:
+  - usare
+- slug: cloud-synapps-inc
+  name: Cloud SynApps
+  aliases:
+  - cloud-synapps-inc
+- slug: omnis-corporation
+  name: Omnis
+  aliases:
+  - omnis-corporation
+- slug: netwrix-corporation
+  name: Netwrix
+  aliases:
+  - netwrix-corporation
+- slug: apexanalytix-careers
+  name: APEX Analytix
+  aliases:
+  - apexanalytix-careers
+- slug: conceptplus
+  name: Concept Plus
+  aliases:
+  - conceptplus
+- slug: amika-careers
+  name: amika
+  aliases:
+  - amika-careers
+- slug: nerdio-careers
+  name: Nerdio
+  aliases:
+  - nerdio-careers
+- slug: veryable-careers
+  name: Veryable
+  aliases:
+  - veryable-careers
+- slug: energycap-external-career-page
+  name: EnergyCap
+  aliases:
+  - energycap-external-career-page
+- slug: theguarantors-open-positions
+  name: TheGuarantors
+  aliases:
+  - theguarantors-open-positions
+- slug: camlin-careers
+  name: Camlin
+  aliases:
+  - camlin-careers
+- slug: rippling
+  name: rippling
+- slug: denari
+  name: denari
+- slug: duku-ai
+  name: Duku AI
+  aliases:
+  - duku-ai
+- slug: neosigma
+  name: neosigma
+- slug: spreeai
+  name: spreeai
+- slug: fluidai-medical-careers
+  name: NERv Technology Inc. D.B.A. FluidAI Medical
+  aliases:
+  - fluidai-medical-careers
+- slug: pendulum-intelligence-jobs
+  name: Pendulum Intelligence
+  aliases:
+  - pendulum-intelligence-jobs
+- slug: moon
+  name: moon
+- slug: greengas
+  name: Mobius Renewables
+  aliases:
+  - greengas
+- slug: lightguide
+  name: LightGuide, Inc.
+  aliases:
+  - lightguide
+- slug: blue-robotics
+  name: Blue Robotics
+  aliases:
+  - blue-robotics
+- slug: democratic-national-committee
+  name: Democratic National Committee
+  aliases:
+  - democratic-national-committee
+- slug: ampliwork-inc
+  name: Ampliwork, Inc
+  aliases:
+  - ampliwork-inc
+- slug: north-cloud
+  name: North Cloud
+  aliases:
+  - north-cloud
+- slug: colheli
+  name: Columbia Helicopters
+  aliases:
+  - colheli
+- slug: msm
+  name: MSM Inc.
+  aliases:
+  - msm
+- slug: loop-careers
+  name: Loop
+  aliases:
+  - loop-careers
+- slug: naxo
+  name: naxo
+- slug: citylogix
+  name: citylogix
+- slug: zededa
+  name: zededa
+- slug: aapd-jobs
+  name: American Association of People With Disabilities
+  aliases:
+  - aapd-jobs
+- slug: briowt
+  name: Brio Water Technology
+  aliases:
+  - briowt
+- slug: studyfetch
+  name: studyfetch
+- slug: eridu-ai
+  name: Eridu AI
+  aliases:
+  - eridu-ai
+- slug: boom-supersonic
+  name: Boom Supersonic
+  aliases:
+  - boom-supersonic
+- slug: zuckerman-investment-group
+  name: Zuckerman Investment Group
+  aliases:
+  - zuckerman-investment-group
+- slug: ampersand-biomedicines
+  name: Ampersand
+  aliases:
+  - ampersand-biomedicines
+- slug: capacity
+  name: capacity
+- slug: stag-careers
+  name: STAG
+  aliases:
+  - stag-careers
+- slug: collieraerospace
+  name: Collier Aerospace
+  aliases:
+  - collieraerospace
+- slug: cozey-internships
+  name: Cozey
+  aliases:
+  - cozey-internships
+- slug: dialogue-fr
+  name: Dialogue
+  aliases:
+  - dialogue-fr
+- slug: dialogue-en
+  name: Dialogue Health Technologies
+  aliases:
+  - dialogue-en
+- slug: tive-careers
+  name: Tive
+  aliases:
+  - tive-careers
+- slug: intelliguard
+  name: intelliguard
+- slug: 4ag
+  name: 4AG Robotics
+  aliases:
+  - 4ag
+- slug: rev-robotics
+  name: REV Robotics
+  aliases:
+  - rev-robotics
+- slug: momentumcareers
+  name: Momentum Engineering
+  aliases:
+  - momentumcareers
+- slug: riot-platforms-careers
+  name: Riot Platforms
+  aliases:
+  - riot-platforms-careers
+- slug: power-takeoff-careers
+  name: Power TakeOff
+  aliases:
+  - power-takeoff-careers
+- slug: perle
+  name: perle
+- slug: patientnow
+  name: patientnow
+- slug: flexai
+  name: flexai
+- slug: external-job-board
+  name: FlexGen
+  aliases:
+  - external-job-board
+- slug: intersection
+  name: intersection
+- slug: adelaide
+  name: Adelaide Metrics
+  aliases:
+  - adelaide
+- slug: memryx
+  name: memryx
+- slug: legitscript-careers
+  name: Legit Script
+  aliases:
+  - legitscript-careers
+- slug: kraken-robotics-inc
+  name: Kraken Robotics
+  aliases:
+  - kraken-robotics-inc
+- slug: edgehog-trading
+  name: Edgehog Trading
+  aliases:
+  - edgehog-trading
+- slug: buxtoncocareers
+  name: Buxton
+  aliases:
+  - buxtoncocareers
+- slug: talent-101-inc
+  name: Talent 101 Inc
+  aliases:
+  - talent-101-inc
+- slug: truepointcareers
+  name: Truepoint Wealth Counsel
+  aliases:
+  - truepointcareers
+- slug: ega-job-board
+  name: Eastern Glass and Aluminum
+  aliases:
+  - ega-job-board
+- slug: wdscareers
+  name: Wildfire Defense Systems, Inc.
+  aliases:
+  - wdscareers
+- slug: supper
+  name: supper
+- slug: critical-response-group
+  name: Critical Response Group
+  aliases:
+  - critical-response-group
+- slug: dlsengineering
+  name: DLS Engineering Associates, Inc.
+  aliases:
+  - dlsengineering
+- slug: lynx-software-technologies
+  name: Lynx Software Technologies, Inc.
+  aliases:
+  - lynx-software-technologies
+- slug: agilitypr
+  name: Agility PR Solutions
+  aliases:
+  - agilitypr
+- slug: supernova-technology
+  name: Supernova Technology
+  aliases:
+  - supernova-technology
+- slug: whc
+  name: whc
+- slug: les-olson-it
+  name: Les Olson IT
+  aliases:
+  - les-olson-it
+- slug: vortex-companies-llc
+  name: Vortex Companies, LLC
+  aliases:
+  - vortex-companies-llc
+- slug: noviam
+  name: Noviam Inc.
+  aliases:
+  - noviam
+- slug: glass-roots-construction-llc
+  name: Glass Roots Construction Llc
+  aliases:
+  - glass-roots-construction-llc
+- slug: jobs-at-tuesday-health
+  name: Tuesday Health
+  aliases:
+  - jobs-at-tuesday-health
+- slug: proper-voltage
+  name: Proper Voltage
+  aliases:
+  - proper-voltage
+- slug: tavernresearch
+  name: Tavern Research
+  aliases:
+  - tavernresearch
+- slug: peakhealth-ai
+  name: Peakhealth AI Inc
+  aliases:
+  - peakhealth-ai
+- slug: bloomgrowth
+  name: Bloom Growth
+  aliases:
+  - bloomgrowth
+- slug: orderco
+  name: Order.co
+  aliases:
+  - orderco
+- slug: free-market-health
+  name: Free Market Health
+  aliases:
+  - free-market-health
+- slug: encore-auctions
+  name: Encore Auctions
+  aliases:
+  - encore-auctions
+- slug: skytrac
+  name: skytrac
+- slug: genlogs-corporation
+  name: GenLogs
+  aliases:
+  - genlogs-corporation
+- slug: gofishdigital
+  name: Go Fish Digital
+  aliases:
+  - gofishdigital
+- slug: kielo
+  name: Kielo Research
+  aliases:
+  - kielo
+- slug: closinglock
+  name: closinglock
+- slug: rugsusa
+  name: rugsusa
+- slug: mei-employment
+  name: Middle East Institute
+  aliases:
+  - mei-employment
+- slug: electrosonic-careers
+  name: Electrosonic
+  aliases:
+  - electrosonic-careers
+- slug: ascentt
+  name: ascentt
+- slug: nws
+  name: National Water Services
+  aliases:
+  - nws
+- slug: core-sound-imaging
+  name: Studycast
+  aliases:
+  - core-sound-imaging
+- slug: longevity-holdings
+  name: Longevity Holdings
+  aliases:
+  - longevity-holdings
+- slug: redesigncareers
+  name: The Redesign Group
+  aliases:
+  - redesigncareers
+- slug: gaiias-open-positions
+  name: Gaiia
+  aliases:
+  - gaiias-open-positions
+- slug: facereality
+  name: Face Reality
+  aliases:
+  - facereality
+- slug: dgrsystems
+  name: DGR Systems
+  aliases:
+  - dgrsystems
+- slug: routeware-careers
+  name: Routeware
+  aliases:
+  - routeware-careers
+- slug: topdoglaw
+  name: TopDog Law
+  aliases:
+  - topdoglaw
+- slug: pcmi
+  name: pcmi
+- slug: nesto
+  name: nesto
+- slug: mile-marker
+  name: MILE MARKER
+  aliases:
+  - mile-marker
+- slug: logicbroker-inc
+  name: Logicbroker, Inc.
+  aliases:
+  - logicbroker-inc
+- slug: door
+  name: door
+- slug: advocate-technologies-inc
+  name: Advocate Technologies Inc.
+  aliases:
+  - advocate-technologies-inc
+- slug: nestocloud
+  name: Nesto Cloud
+  aliases:
+  - nestocloud
+- slug: reverb-careers
+  name: Reverb
+  aliases:
+  - reverb-careers
+- slug: cruiseplanners
+  name: Cruise Planners
+  aliases:
+  - cruiseplanners
+- slug: purefacts_jobs
+  name: PureFacts Financial Solutions
+  aliases:
+  - purefacts_jobs
+- slug: cardamom
+  name: Cardamom Health
+  aliases:
+  - cardamom
+- slug: door-controls-usa
+  name: Door Controls
+  aliases:
+  - door-controls-usa
+- slug: fragile
+  name: fragile
+- slug: d-wave-quantum
+  name: D-Wave Quantum
+  aliases:
+  - d-wave-quantum
+- slug: hunterstrategy
+  name: Hunter Strategy
+  aliases:
+  - hunterstrategy
+- slug: nucleus-biologics-careers
+  name: Nucleus Biologics
+  aliases:
+  - nucleus-biologics-careers
+- slug: dlb-associates
+  name: DLB Associates
+  aliases:
+  - dlb-associates
+- slug: hearth-careers
+  name: GetHearth.com
+  aliases:
+  - hearth-careers
+- slug: lyte
+  name: Lyte AI
+  aliases:
+  - lyte
+- slug: opiniion
+  name: opiniion
+- slug: aalyria-careers
+  name: Aalyria
+  aliases:
+  - aalyria-careers
+- slug: analog-bits-inc
+  name: Analog Bits
+  aliases:
+  - analog-bits-inc
+- slug: ozmocareers
+  name: Ozmo
+  aliases:
+  - ozmocareers
+- slug: popstroke-job-board-1924
+  name: PopStroke Holdings LLC
+  aliases:
+  - popstroke-job-board-1924
+- slug: ip-house
+  name: IP House
+  aliases:
+  - ip-house
+- slug: fieldpulse
+  name: fieldpulse
+- slug: cintal
+  name: cintal
+- slug: atlas-data-storage
+  name: Atlas Data Storage
+  aliases:
+  - atlas-data-storage
+- slug: positron
+  name: positron
+- slug: torus
+  name: torus

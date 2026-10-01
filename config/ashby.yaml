@@ -960,7 +960,9 @@ companies:
 - slug: ClassDojo
   name: ClassDojo
 - slug: claylabs
-  name: claylabs
+  name: Clay
+  aliases:
+  - claylabs
 - slug: clearbank
   name: clearbank
 - slug: clearco
@@ -3654,7 +3656,9 @@ companies:
 - slug: plinth
   name: plinth
 - slug: plot
-  name: plot
+  name: Plot Technologies
+  aliases:
+  - plot
 - slug: plumerai
   name: plumerai
 - slug: pluralis-research

@@ -83,7 +83,13 @@ _URL_IDS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"(?:jobs|careers)\.smartrecruiters\.com/[^/]+/(\d{6,})"), "sr_{0}"),
     (re.compile(r"apply\.workable\.com/[\w-]+/j/([0-9A-F]{6,})", re.I), "wk_{0}"),
     (re.compile(r"linkedin\.com/jobs/view/(?:[\w-]*-)?(\d{8,})"), "li_{0}"),
+    (re.compile(r"lifeattiktok\.com/(?:[\w-]+/)*(?:search|position)/(\d{12,})"), "tt_{0}"),
+    (re.compile(r"amazon\.jobs/(?:[\w-]+/)?jobs/(\d+)"), "amzn_{0}"),
+    (re.compile(r"jobs\.apple\.com/[\w-]+/details/(\d+)"), "apple_{0}"),
+    (re.compile(r"ats\.rippling\.com/[\w-]+/jobs/([0-9a-f-]{36})"), "rip_{0}"),
 ]
+# Jibe career sites (careers.X.com): curated lists cite them with ?icims=1.
+_JIBE = re.compile(r"https?://((?:[\w-]+\.)+[a-z]{2,})/jobs/(\d+)/?\?(?:[^#]*&)?icims=1", re.I)
 _WORKDAY = re.compile(
     # Tail after the *last* underscore, as scraper.job_id_for() takes it.
     r"https?://([\w-]+)\.wd\d+\.myworkdayjobs\.com/(?:[\w-]+/)*job/[^?#]*_([A-Za-z0-9-]+)"
@@ -95,7 +101,7 @@ _WORKDAY_SITE = re.compile(
     r"https?://wd\d+\.myworkdaysite\.com/(?:[\w-]+/)?recruiting/([\w-]+)/[\w-]+/job/"
     r"[^?#]*_([A-Za-z0-9-]+)(?:/apply(?:/[\w-]*)?)?/?(?:[?#]|$)")
 _ORACLE = re.compile(
-    r"https?://([a-z0-9-]+)\.fa\.[a-z0-9-]+\.oraclecloud\.com/hcmUI/CandidateExperience/"
+    r"https?://([a-z0-9-]+)\.fa(?:\.[a-z0-9-]+)?\.oraclecloud\.com/hcmUI/CandidateExperience/"
     r"[\w-]+/sites/[\w-]+/(?:job|requisitions/preview)/(\d+)", re.I)
 _ICIMS = re.compile(r"https?://([a-z0-9-]+)\.icims\.com/jobs/(\d+)", re.I)
 
@@ -117,6 +123,9 @@ def canonical_job_id(url: str) -> str | None:
     m = _ICIMS.search(url)
     if m:
         return f"icims_{m.group(1).lower()}_{m.group(2)}"
+    m = _JIBE.search(url)
+    if m:
+        return f"jibe_{m.group(1).lower()}_{m.group(2)}"
     for pattern, fmt in _URL_IDS:
         m = pattern.search(url)
         if m:

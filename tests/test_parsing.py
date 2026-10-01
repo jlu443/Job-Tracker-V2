@@ -200,3 +200,9 @@ def test_scrape_time_flags_only_for_entry_level():
 def test_parse_pay(text, pay):
     from src import enrich
     assert enrich.parse_pay(text) == pay
+
+
+@pytest.mark.parametrize("title", ["Software PhD Internships", "Summer 2027 Internships",
+                                   "Hardware Undergrad Engineering Internships"])
+def test_plural_internships(title):
+    assert classify.classify_by_keyword(title) == "intern"

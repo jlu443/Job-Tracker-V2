@@ -886,3 +886,13 @@ companies:
   name: Oracle
   aliases:
   - eeho
+- host: jpmc.fa.oraclecloud.com
+  site: CX_1001
+  name: JP Morgan Chase
+  aliases:
+  - jpmc
+- host: fa-emqh-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Kent
+  aliases:
+  - fa-emqh-saasfaprod1

@@ -1644,7 +1644,9 @@ companies:
 - tenant: aaaie
   wd: wd1
   site: csaacareers
-  name: aaaie
+  name: CSAA Insurance Group
+  aliases:
+  - aaaie
 - tenant: draftkings
   wd: wd1
   site: Employee_Referral_Portal
@@ -1996,7 +1998,9 @@ companies:
 - tenant: aaaie
   wd: wd1
   site: CSAACareers2
-  name: aaaie
+  name: CSAA Insurance Group
+  aliases:
+  - aaaie
 - tenant: orthofix
   wd: wd1
   site: external_careers

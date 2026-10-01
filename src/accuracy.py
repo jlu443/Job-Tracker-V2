@@ -36,7 +36,9 @@ from . import classify, dates, dedupe, discover, simplify_scraper
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _ID_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever", "ash": "ashby",
-              "sr": "smartrecruiters", "wk": "workable", "orc": "oracle", "icims": "icims"}
+              "sr": "smartrecruiters", "wk": "workable", "orc": "oracle", "icims": "icims",
+              "jibe": "jibe", "rip": "rippling", "tt": "tiktok", "amzn": "amazon",
+              "apple": "apple"}
 
 
 def load_truth(settings: dict) -> list[dict]:

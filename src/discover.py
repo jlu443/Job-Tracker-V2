@@ -99,11 +99,14 @@ _WD_SITE_RE = re.compile(
 )
 
 _ORACLE_RE = re.compile(
-    r"https?://(?P<host>[a-z0-9-]+\.fa\.[a-z0-9-]+\.oraclecloud\.com)"
+    r"https?://(?P<host>[a-z0-9-]+\.fa(?:\.[a-z0-9-]+)?\.oraclecloud\.com)"
     r"/hcmUI/CandidateExperience/[a-z-]+/sites/(?P<site>[A-Za-z0-9_-]+)",
     re.IGNORECASE,
 )
 _ICIMS_RE = re.compile(r"https?://(?P<host>[a-z0-9-]+\.icims\.com)/jobs", re.IGNORECASE)
+_JIBE_RE = re.compile(r"https?://(?P<host>(?:[\w-]+\.)+[a-z]{2,})/jobs/\d+/?\?(?:[^#\s]*&)?icims=1",
+                      re.IGNORECASE)
+_RIPPLING_RE = re.compile(r"ats\.rippling\.com/(?P<slug>[\w-]+)/jobs", re.IGNORECASE)
 _ICIMS_BAD = {"www", "api", "developer", "community", "care", "status"}
 
 _GH_RES = [
@@ -197,6 +200,30 @@ def _extract_icims(text: str) -> list[dict]:
         if host.split(".")[0] not in _ICIMS_BAD:
             out.append({"host": host, "name": host.split(".")[0]})
     return out
+
+
+def _extract_jibe(text: str) -> list[dict]:
+    out = []
+    for m in _JIBE_RE.finditer(text):
+        host = m.group("host").lower()
+        if not host.endswith(".icims.com"):
+            out.append({"host": host, "name": host})
+    return out
+
+
+def _extract_rippling(text: str) -> list[dict]:
+    return [{"slug": m.group("slug").lower(), "name": m.group("slug").lower()}
+            for m in _RIPPLING_RE.finditer(text)]
+
+
+def _validate_jibe(c: dict) -> bool:
+    data = _request_json("GET", f"https://{c['host']}/api/jobs", params={"limit": 1})
+    return bool(data and data.get("totalCount"))
+
+
+def _validate_rippling(c: dict) -> bool:
+    data = _request_json("GET", f"https://ats.rippling.com/api/v2/board/{c['slug']}/jobs")
+    return bool(data and data.get("totalItems"))
 
 
 def _validate_oracle(c: dict) -> bool:
@@ -294,6 +321,12 @@ ATS_SPECS: list[ATSSpec] = [
     ATSSpec("oracle", "oracle.yaml", _extract_oracle, _validate_oracle,
             lambda c: (c["host"], c["site"]),
             ("*.oraclecloud.com/hcmUI/CandidateExperience/*",)),
+    ATSSpec("jibe", "jibe.yaml", _extract_jibe, _validate_jibe,
+            lambda c: c["host"],
+            ()),
+    ATSSpec("rippling", "rippling.yaml", _extract_rippling, _validate_rippling,
+            lambda c: c["slug"],
+            ("ats.rippling.com/*",)),
     ATSSpec("icims", "icims.yaml", _extract_icims, _validate_icims,
             lambda c: c["host"],
             ("*.icims.com/jobs/*",)),

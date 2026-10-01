@@ -15,11 +15,11 @@ ROLE_TYPES = ("intern", "new_grad", "mid", "senior")
 # Bump whenever the rules change what counts as intern/new_grad. The first run
 # on a new version stores jobs it newly recognizes on already-known boards
 # silently (unless freshly posted) instead of announcing weeks-old postings.
-VERSION = 3
+VERSION = 4
 
 # Ordered most-specific first. First matching pattern wins.
 _RULES: list[tuple[str, str]] = [
-    (r"\b(intern|interns|internship|co-?op|summer\s+(?:analyst|associate)|"
+    (r"\b(intern|interns|internships?|co-?op|summer\s+(?:analyst|associate)|"
      r"working\s+student|student|apprentice(?:ship)?|fellowship|externship|"
      r"graduate\s+(?:research\s+)?assistant)\b",
      "intern"),
