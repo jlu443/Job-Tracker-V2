@@ -80,3 +80,22 @@ def test_sync_stores_scrape_time_flags_and_backfills_unchecked_rows():
     row = conn.execute("SELECT sponsorship, citizenship, clearance, checked_at FROM jobs").fetchone()
     assert tuple(row)[:3] == ("no", "required", "yes") and row[3]
     assert [j["job_id"] for j in db.unchecked_open(conn, 10)] == []
+
+
+def test_closed_among_saved_jobs():
+    conn = db.connect(":memory:")
+    db.sync(conn, [_job("gh_1", "SWE Intern", "Austin, TX"), _job("gh_2", "SWE Intern 2", "Austin, TX")],
+            lambda p: "intern", set(), set())
+    conn.execute("UPDATE jobs SET status = 'removed' WHERE job_id = 'gh_2'")
+    assert sheets.closed_among(conn, ["gh_1", "gh_2", "gh_gone"]) == ["gh_2", "gh_gone"]
+
+
+def test_row_has_days_ago_formula_pay_and_direct_link():
+    base = {"apply_url": "https://agg/1", "direct_url": "https://co/apply", "company": "A",
+            "title": "T", "role_type": "intern", "source": "indeed", "status": "active",
+            "job_id": "indeed_1", "pay": "$45–55/hr"}
+    row = sheets._row(base)
+    col = lambda name: row[sheets.COLUMNS.index(name)]
+    assert col("Apply") == '=HYPERLINK("https://co/apply", "Apply")'
+    assert col("Days ago").startswith("=LET(") and col("Pay") == "$45–55/hr"
+    assert len(row) == len(sheets.COLUMNS)

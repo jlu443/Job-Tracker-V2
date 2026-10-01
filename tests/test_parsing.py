@@ -186,3 +186,17 @@ def test_scrape_time_flags_only_for_entry_level():
     assert enrich.scrape_time_flags("Senior Engineer", desc) == {}
     flags = enrich.scrape_time_flags("Software Engineer Intern", desc)
     assert flags["citizenship"] == "required" and flags["checked"] is True
+
+
+@pytest.mark.parametrize("text,pay", [
+    ("Base Pay Range: $141,773.00 - $162,000.00 per year", "$142k–162k/yr"),
+    ("the US: $95,698.00-95,702.00 USD (Hourly Role)", "$96k/yr"),
+    ("$45/hr - $55/hr", "$45–55/hr"),
+    ("pay $25 to $32 per hour", "$25–32/hr"),
+    ("$257K - $335K", "$257k–335k/yr"),
+    ("raised $10 to $20 million in funding", ""),
+    ("We match your 401k", ""),
+])
+def test_parse_pay(text, pay):
+    from src import enrich
+    assert enrich.parse_pay(text) == pay

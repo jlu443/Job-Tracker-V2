@@ -239,6 +239,38 @@ _CLEARANCE = [re.compile(p) for p in (
     r"able to obtain[^.]{0,30}clearance",
 )]
 
+_MONEY = r"\$\s?(\d[\d,]*(?:\.\d+)?)\s?(k)?"
+_UNIT = r"(?:\s*(?:/\s?h(?:ou)?r\b|per hour|an hour|/\s?y(?:ea)?r\b|per year|annually))?"
+_PAY_RANGE = re.compile(_MONEY + _UNIT + r"\s*(?:usd\s*)?(?:-|–|—|to)\s*(?:usd\s*)?\$?\s?"
+                        r"(\d[\d,]*(?:\.\d+)?)\s?(k)?(?P<after>[^.]{0,40})", re.I)
+_NOT_PAY = re.compile(r"^\s*(?:million|billion|mm|bn|m\b|b\b)", re.I)
+
+
+def _amount(number: str, k: str) -> float:
+    return float(number.replace(",", "")) * (1000 if k else 1)
+
+
+def parse_pay(text: str) -> str:
+    """First plausible pay range in the text, normalized: '$45–55/hr',
+    '$120k–150k/yr', or one figure when both ends match. '' if none."""
+    for m in _PAY_RANGE.finditer(text or ""):
+        low, high = _amount(m.group(1), m.group(2)), _amount(m.group(3), m.group(4))
+        if high < low or _NOT_PAY.match(m.group("after") or ""):   # "$5 to $10 million"
+            continue
+        # Annualized figures for hourly roles ("$95,698 USD (Hourly Role)")
+        # are still yearly amounts; anything under $500 is an hourly rate.
+        hourly = high < 500
+        if hourly and 7 <= low <= 500:
+            fmt = lambda v: f"{v:.0f}" if v == int(v) else f"{v:.2f}"
+            span = fmt(low) if round(low) == round(high) else f"{fmt(low)}–{fmt(high)}"
+            return f"${span}/hr"
+        if not hourly and 15_000 <= low <= 2_000_000:
+            k = lambda v: f"{v / 1000:.0f}k" if v >= 10_000 else f"{v:.0f}"
+            span = k(low) if k(low) == k(high) else f"{k(low)}–{k(high)}"
+            return f"${span}/yr"
+    return ""
+
+
 _GRAD_WORDS = re.compile(r"graduat\w*|class of|degree completion")
 _YEAR = re.compile(r"\b(20\d{2})\b")
 
@@ -256,8 +288,9 @@ def _grad_years(t: str) -> str:
 def parse_flags(text: str) -> dict:
     """sponsorship: 'yes' | 'no' | ''   citizenship: 'required' | ''
     clearance: 'yes' (required/mentioned) | 'none' (explicitly not required) | ''
-    grad_year: '2026' | '2026, 2027' | ''"""
-    flags = {"sponsorship": "", "citizenship": "", "clearance": "", "grad_year": ""}
+    grad_year: '2026' | '2026, 2027' | ''      pay: '$45–55/hr' | '$120k–150k/yr' | ''"""
+    flags = {"sponsorship": "", "citizenship": "", "clearance": "", "grad_year": "",
+             "pay": ""}
     if not text:
         return flags
     # Newlines become sentence boundaries so bullet-list items don't bleed
@@ -278,6 +311,7 @@ def parse_flags(text: str) -> dict:
         flags["clearance"] = "yes"
 
     flags["grad_year"] = _grad_years(t)
+    flags["pay"] = parse_pay(text)
     return flags
 
 

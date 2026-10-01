@@ -24,11 +24,13 @@
  *      GOOGLE_SHEETS_WEBHOOK_URL secret.
  */
 
-var VERSION = 2;
+var VERSION = 3;
 var APPLICATIONS = "My Applications";
 var STATUSES = ["Interested", "Applied", "Interviewing", "Offer", "Rejected", "Skip"];
+// New columns are only ever appended at the end, so a My Applications tab
+// created by an older version keeps lining up (ensureAppColumns_ adds them).
 var APP_COLUMNS = ["Status", "Apply", "Company", "Title", "Role", "Location",
-                   "Posted", "First marked", "Updated", "job_id"];
+                   "Posted", "First marked", "Updated", "job_id", "Listing", "Pay"];
 var ROLE_COLORS = { "intern": "#E3F4E8", "new_grad": "#E3EEFA" };
 
 // Column widths in pixels, by header. Columns are first auto-sized to their
@@ -42,7 +44,7 @@ var WIDTHS = {
   "First seen": [120, 135], "First marked": [120, 150], "Updated": [120, 150],
   "Visa sponsorship": [110, 130], "US citizenship": [100, 120], "Clearance": [95, 115],
   "Grad year": [75, 100], "Applicants": [90, 170], "Repost": [85, 130],
-  "Source": [80, 120], "Listing": [60, 75]
+  "Source": [80, 120], "Listing": [60, 75], "Days ago": [60, 75], "Pay": [100, 150]
 };
 var DEFAULT_WIDTH = [70, 220];
 var WRAP = { "Title": true, "Why": true, "Location": true, "Company": true };
@@ -55,6 +57,10 @@ function doPost(e) {
     var result;
     if (body.action === "ping") {
       result = { ok: true, version: VERSION };
+    } else if (body.action === "list_applications") {
+      result = { ok: true, ids: Object.keys(readApplications_()) };
+    } else if (body.action === "listing_status") {
+      result = markListings_(body.closed || []);
     } else if (body.action === "replace_tab") {
       result = replaceTab_(body.tab, body.columns || [], body.rows || []);
     } else {
@@ -226,6 +232,7 @@ function upsertApplication_(rec, status) {
     apps.setFrozenRows(1);
     formatColumns_(apps, APP_COLUMNS, 0);
   }
+  ensureAppColumns_(apps);
   var existing = readApplications_();
   var now = new Date();
   var hit = existing[rec["job_id"]];
@@ -251,6 +258,41 @@ function upsertApplication_(rec, status) {
   for (var c = 0; c < APP_COLUMNS.length; c++) {
     if (WRAP[APP_COLUMNS[c]]) {
       apps.getRange(last, c + 1).setWrapStrategy(SpreadsheetApp.WrapStrategy.WRAP);
+    }
+  }
+}
+
+/** Mark each My Applications row open / closed: `closed` lists the job ids
+ *  the tracker saw taken down (or expired out of its 60-day window). */
+function markListings_(closedIds) {
+  var apps = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(APPLICATIONS);
+  if (!apps || apps.getLastRow() < 2) return { ok: true, marked: 0 };
+  ensureAppColumns_(apps);
+  var header = apps.getRange(1, 1, 1, apps.getLastColumn()).getValues()[0];
+  var id = header.indexOf("job_id"), listing = header.indexOf("Listing");
+  var closed = {};
+  for (var i = 0; i < closedIds.length; i++) closed[closedIds[i]] = true;
+  var ids = apps.getRange(2, id + 1, apps.getLastRow() - 1, 1).getValues();
+  var out = ids.map(function (r) { return [r[0] ? (closed[r[0]] ? "closed" : "open") : ""]; });
+  var range = apps.getRange(2, listing + 1, out.length, 1);
+  range.setValues(out);
+  var rules = [SpreadsheetApp.newConditionalFormatRule()
+    .whenFormulaSatisfied("=$" + colLetter_(listing + 1) + "2=\"closed\"")
+    .setFontColor("#999999").setStrikethrough(true)
+    .setRanges([apps.getRange(2, 1, out.length, header.length)]).build()];
+  apps.setConditionalFormatRules(rules);
+  var n = out.filter(function (r) { return r[0] === "closed"; }).length;
+  return { ok: true, marked: n };
+}
+
+/** Append any APP_COLUMNS header cells an older version didn't have. */
+function ensureAppColumns_(apps) {
+  var header = apps.getRange(1, 1, 1, Math.max(apps.getLastColumn(), 1)).getValues()[0];
+  for (var c = 0; c < APP_COLUMNS.length; c++) {
+    if (header.indexOf(APP_COLUMNS[c]) < 0) {
+      apps.getRange(1, apps.getLastColumn() + 1).setValue(APP_COLUMNS[c]);
+      styleHeader_(apps, apps.getLastColumn());
+      header.push(APP_COLUMNS[c]);
     }
   }
 }

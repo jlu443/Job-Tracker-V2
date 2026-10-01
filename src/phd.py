@@ -18,7 +18,7 @@ from __future__ import annotations
 import re
 import sqlite3
 
-from . import dedupe, geo
+from . import dedupe, geo, profile
 
 _PHD_TITLE = re.compile(r"\bph\.?\s?d\b|\bdoctoral\b|\bdoctorate\b", re.I)
 _PHD_DESC = re.compile(
@@ -64,6 +64,8 @@ def open_internships(conn: sqlite3.Connection, settings: dict) -> list[dict]:
         if not geo.is_us(j.get("location") or "") or geo.title_names_foreign_place(j["title"]):
             continue
         if categories and j.get("category") not in categories:
+            continue
+        if not profile.fits(j, settings):
             continue
         out.append(j)
     out.sort(key=posted_sort_key, reverse=True)

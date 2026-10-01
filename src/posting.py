@@ -25,6 +25,7 @@ class JobPosting:
     clearance: str = ""
     citizenship: str = ""
     grad_year: str = ""
+    pay: str = ""             # "$45–55/hr" | "$120k–150k/yr"
     checked: bool = False
 
     def __post_init__(self):

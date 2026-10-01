@@ -24,8 +24,13 @@ import requests
 from . import db, phd
 
 COLUMNS = ["Apply", "Company", "Title", "Role", "Category", "Location", "Posted",
-           "First seen", "Visa sponsorship", "US citizenship", "Clearance", "Grad year",
-           "Applicants", "Repost", "Source", "Listing", "job_id"]
+           "Days ago", "First seen", "Visa sponsorship", "US citizenship", "Clearance",
+           "Pay", "Grad year", "Applicants", "Repost", "Source", "Listing", "job_id"]
+
+# Live "days since posted", computed by Sheets from the Posted cell to its
+# left (any tab layout, any row), so it stays right between rebuilds.
+_DAYS_AGO = ('=LET(p, INDIRECT("RC[-1]", FALSE), '
+             'IF(p = "", "", TODAY() - IFERROR(DATEVALUE(p), p)))')
 
 # Blank = description not read yet; "Not mentioned" = read, says nothing.
 _SPONSORSHIP = {"yes": "Offered", "no": "Not offered"}
@@ -36,7 +41,7 @@ def _flag(value: str, labels: dict, checked: bool) -> str:
     return labels.get(value, value) if value else ("Not mentioned" if checked else "")
 _REPOST = {"relisted": "re-listed", "linkedin": "LinkedIn repost", "stale": "old posting",
            "bumped": "re-dated"}
-_SCRIPT_VERSION = 2
+_SCRIPT_VERSION = 3
 
 
 def _apply_cell(url: str) -> str:
@@ -46,13 +51,15 @@ def _apply_cell(url: str) -> str:
 def _row(j: dict) -> list:
     checked = bool(j.get("checked_at"))
     return [
-        _apply_cell(j["apply_url"]), j["company"], j["title"], j["role_type"],
-        j.get("category") or "", j.get("location") or "", j.get("posted_on") or "",
+        # The employer's own page when an aggregator revealed it.
+        _apply_cell(j.get("direct_url") or j["apply_url"]), j["company"], j["title"],
+        j["role_type"], j.get("category") or "", j.get("location") or "",
+        j.get("posted_on") or "", _DAYS_AGO,
         (j.get("first_seen") or "")[:16].replace("T", " "),
         _flag(j.get("sponsorship") or "", _SPONSORSHIP, checked),
         _flag(j.get("citizenship") or "", {"required": "Required"}, checked),
         _flag(j.get("clearance") or "", _CLEARANCE, checked),
-        j.get("grad_year") or "", j.get("applicants") or "",
+        j.get("pay") or "", j.get("grad_year") or "", j.get("applicants") or "",
         _REPOST.get(j.get("repost") or "", j.get("repost") or ""), j["source"],
         "open" if j.get("status") == "active" else "closed", j["job_id"],
     ]
@@ -111,14 +118,17 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
     except requests.RequestException as exc:
         print(f"  ! Google Sheets unreachable: {exc}")
         return
-    if version != _SCRIPT_VERSION:
-        # An old deployment would append these rows into the wrong layout.
+    if not isinstance(version, int) or version < 2:
+        # A v1 deployment would append these rows into the wrong layout.
         print("  ! Google Sheets script is out of date: paste docs/apps_script.gs into "
               "the sheet's Apps Script and deploy a new version. Skipping the sheet.")
         return
+    if version < _SCRIPT_VERSION:
+        print(f"  ! Google Sheets script is v{version}; deploy docs/apps_script.gs "
+              f"(v{_SCRIPT_VERSION}) to get closed-listing marks in My Applications.")
 
     refresh_hours = settings.get("sheets", {}).get("all_open_refresh_hours", 24)
-    last = db._meta_get(conn, "sheets_all_open_at_v2")
+    last = db._meta_get(conn, "sheets_all_open_at_v3")
     include_all = (not last or datetime.fromisoformat(last)
                    < datetime.now(timezone.utc) - timedelta(hours=refresh_hours))
 
@@ -138,5 +148,28 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
             continue
         print(f"Sheet tab {tab!r}: {len(rows)} rows")
         if tab == "All Open":
-            db._meta_set(conn, "sheets_all_open_at_v2", db._now())
+            db._meta_set(conn, "sheets_all_open_at_v3", db._now())
             conn.commit()
+
+    if version >= 3:
+        # Jobs taken down, or aged out of the DB's window, get marked closed
+        # in My Applications so a saved application never silently goes stale.
+        try:
+            saved = _post(webhook, {"action": "list_applications"}).get("ids") or []
+            closed = closed_among(conn, saved)
+            result = _post(webhook, {"action": "listing_status", "closed": closed})
+            print(f"My Applications: {result.get('marked', 0)} saved jobs marked closed")
+        except requests.RequestException as exc:
+            print(f"  ! Google Sheets listing status failed: {exc}")
+
+
+def closed_among(conn: sqlite3.Connection, job_ids: list[str]) -> list[str]:
+    """The given saved jobs that are no longer open: taken down, expired out
+    of the DB's window, or unknown to it."""
+    open_ids = set()
+    for i in range(0, len(job_ids), 500):
+        chunk = job_ids[i:i + 500]
+        open_ids |= {r[0] for r in conn.execute(
+            f"SELECT job_id FROM jobs WHERE status = 'active' AND job_id IN "
+            f"({','.join('?' * len(chunk))})", chunk)}
+    return [j for j in job_ids if j not in open_ids]

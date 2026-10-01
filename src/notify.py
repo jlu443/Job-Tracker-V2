@@ -43,7 +43,7 @@ def is_hot(job: dict) -> bool:
 def _line(job: dict) -> str:
     title = job["title"] if len(job["title"]) <= 90 else job["title"][:87] + "…"
     bits = [f"{'⭐ ' if is_hot(job) else ''}**{job['company'] or '—'}** · "
-            f"[{title}]({job['apply_url']})"]
+            f"[{title}]({job.get('direct_url') or job['apply_url']})"]
     if job.get("location"):
         bits.append(job["location"][:40])
     age = dates.age_days(job.get("posted_on") or "")
@@ -59,6 +59,8 @@ def _line(job: dict) -> str:
         bits.append("✅ visa")
     if job.get("clearance") == "yes":
         bits.append("🔒 clearance")
+    if job.get("pay"):
+        bits.append(f"💵 {job['pay']}")
     if job.get("applicants"):
         bits.append(job["applicants"])
     if job.get("repost"):

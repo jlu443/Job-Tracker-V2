@@ -17,7 +17,7 @@ from datetime import datetime, timedelta, timezone
 import yaml
 
 from . import (accuracy, ashby_scraper, classify, db, dedupe, enrich, greenhouse_scraper, health,
-               icims_scraper, jobspy_scraper, lever_scraper, notify, oracle_scraper,
+               icims_scraper, jobspy_scraper, lever_scraper, notify, oracle_scraper, profile,
                repost, scraper, sheets,
                simplify_scraper, smartrecruiters_scraper, workable_scraper)
 
@@ -298,6 +298,13 @@ def main() -> int:
         targets = [j for j in targets if j.get("sponsorship") != "no"]
         if len(targets) != before:
             print(f"Excluded {before - len(targets)} no-sponsorship jobs.")
+    # Personal filters (settings.profile), after enrichment so visa /
+    # citizenship / grad-year flags are known.
+    skipped_profile = Counter(r for j in targets
+                              for r in profile.reasons_to_skip(j, settings.get("profile") or {}))
+    targets = [j for j in targets if profile.fits(j, settings)]
+    if skipped_profile:
+        print("Profile filtered: " + ", ".join(f"{n} {r}" for r, n in skipped_profile.items()))
 
     notify.post_new_jobs(targets)
     db.mark_announced(conn, [j["job_id"] for j in targets])

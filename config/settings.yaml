@@ -85,6 +85,15 @@ enrich_backlog_per_run: 1000
 # (or requires US citizenship) are dropped from Discord/Sheets announcements.
 exclude_no_sponsorship: false
 
+# Personal filters (src/profile.py) for Discord, the Today / This Week tabs
+# and the PhD tab; All Open stays unfiltered. Unknown values never filter.
+profile:
+  enabled: false
+  grad_year:               # e.g. 2027: hide jobs that name only other grad years
+  needs_sponsorship: false # true: hide "no sponsorship" / US-citizens-only jobs
+  us_citizen: true         # false: hide citizenship- or clearance-required jobs
+  locations: []            # e.g. [CA, WA, New York, Remote]; empty = anywhere in the US
+
 # Only announce jobs in these functions (classify.categorize / curated-list
 # category). Remove the key to announce every function (sales, legal, ...).
 announce_categories: [software, data_ml, hardware, quant, product]

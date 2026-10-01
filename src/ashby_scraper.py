@@ -27,7 +27,8 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
     timeout = settings.get("request_timeout", 30)
 
     try:
-        resp = _SESSION.get(url, timeout=timeout)
+        # includeCompensation adds structured pay ("$257K - $335K") to every job.
+        resp = _SESSION.get(url, params={"includeCompensation": "true"}, timeout=timeout)
         if resp.status_code == 404:
             print(f"  ! {name}: slug '{slug}' not found (404)")
             return [], True
@@ -45,6 +46,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
         raw_date = job.get("publishedAt") or ""
         title = (job.get("title") or "").strip()
         description = job.get("descriptionPlain") or ""
+        fields = enrich.described_fields(title, description)
+        comp = job.get("compensation") or {}
+        pay = enrich.parse_pay(comp.get("scrapeableCompensationSalarySummary")
+                               or comp.get("compensationTierSummary") or "")
+        if pay:
+            fields["pay"] = pay
         out.append(JobPosting(
             job_id=f"ash_{jid}",
             company=name,
@@ -53,7 +60,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
             location=(job.get("location") or "").strip(),
             posted_on=raw_date[:10],
             source="ashby",
-            **enrich.described_fields(title, description),
+            **fields,
         ))
 
     time.sleep(settings.get("delay_between_requests", 0.5))

@@ -66,6 +66,9 @@ _COLUMNS = {
     "announced_at": "TEXT NOT NULL DEFAULT ''",
     "research_track": "TEXT NOT NULL DEFAULT ''",
     "citizenship": "TEXT NOT NULL DEFAULT ''",
+    "pay": "TEXT NOT NULL DEFAULT ''",
+    # The employer's own apply link when an aggregator (Indeed) reveals it.
+    "direct_url": "TEXT NOT NULL DEFAULT ''",
     # When the description was read; '' = never read (flags unknown), set
     # with all flags '' = read but nothing mentioned.
     "checked_at": "TEXT NOT NULL DEFAULT ''",
@@ -288,10 +291,11 @@ def update_enrichment(conn: sqlite3.Connection, jobs: list[dict]) -> None:
         return
     conn.executemany(
         "UPDATE jobs SET sponsorship = ?, clearance = ?, grad_year = ?, citizenship = ?, "
+        "pay = COALESCE(NULLIF(?, ''), pay), "
         "applicants = ?, repost = ?, repost_of = ?, research_track = ?, "
         "checked_at = COALESCE(NULLIF(?, ''), checked_at) WHERE job_id = ?",
         [(j.get("sponsorship", ""), j.get("clearance", ""), j.get("grad_year", ""),
-          j.get("citizenship", ""), j.get("applicants", ""), j.get("repost", ""),
+          j.get("citizenship", ""), j.get("pay", ""), j.get("applicants", ""), j.get("repost", ""),
           j.get("repost_of", ""), j.get("research_track", ""), j.get("checked_at", ""),
           j["job_id"]) for j in jobs],
     )
@@ -349,19 +353,20 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
                 # scrape-time description (aggregators) for the enrichment pass
                 "description": p.description,
                 "sponsorship": p.sponsorship, "clearance": p.clearance,
-                "citizenship": p.citizenship, "grad_year": p.grad_year,
+                "citizenship": p.citizenship, "grad_year": p.grad_year, "pay": p.pay,
+                "direct_url": p.direct_url,
                 "checked_at": now if p.checked else "",
                 "research_track": p.research_track or phd.track(p.title),
             }
             conn.execute(
                 "INSERT INTO jobs (job_id, company, title, apply_url, location, "
                 "role_type, posted_on, source, sponsorship, clearance, citizenship, "
-                "grad_year, checked_at, first_seen, last_seen, "
+                "grad_year, pay, direct_url, checked_at, first_seen, last_seen, "
                 "status, job_key, category, research_track) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'active',?,?,?)",
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'active',?,?,?)",
                 (p.job_id, p.company, p.title, p.apply_url, p.location, role,
                  p.posted_on, p.source, p.sponsorship, p.clearance, p.citizenship,
-                 p.grad_year, job["checked_at"], now, now,
+                 p.grad_year, p.pay, p.direct_url, job["checked_at"], now, now,
                  job["job_key"], job["category"], job["research_track"]),
             )
             new_jobs.append(job)
@@ -391,13 +396,17 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
                 "clearance = CASE WHEN checked_at = '' AND ? THEN ? ELSE clearance END, "
                 "citizenship = CASE WHEN checked_at = '' AND ? THEN ? ELSE citizenship END, "
                 "grad_year = CASE WHEN checked_at = '' AND ? THEN ? ELSE grad_year END, "
+                # pay / direct link: fill whenever the source provides one
+                "pay = CASE WHEN ? != '' THEN ? ELSE pay END, "
+                "direct_url = CASE WHEN ? != '' THEN ? ELSE direct_url END, "
                 "checked_at = CASE WHEN checked_at = '' AND ? THEN ? ELSE checked_at END "
                 "WHERE job_id = ?",
                 (now, p.title, p.apply_url, p.location,
                  p.posted_on, p.posted_on, p.posted_on,
                  p.research_track, p.research_track,
                  p.checked, p.sponsorship or "", p.checked, p.clearance,
-                 p.checked, p.citizenship, p.checked, p.grad_year, p.checked, now,
+                 p.checked, p.citizenship, p.checked, p.grad_year,
+                 p.pay, p.pay, p.direct_url, p.direct_url, p.checked, now,
                  p.job_id),
             )
             updated += 1

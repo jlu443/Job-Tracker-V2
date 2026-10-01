@@ -59,6 +59,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
         # Requirement bullets live in lists[], not descriptionPlain.
         description = " ".join([p.get("descriptionPlain") or ""] + [
             re.sub(r"<[^>]+>", " ", item.get("content") or "") for item in p.get("lists") or []])
+        fields = enrich.described_fields(title, description)
+        salary = p.get("salaryRange") or {}
+        if salary.get("min") and (salary.get("currency") or "USD") == "USD":
+            unit = "per hour" if "hour" in (salary.get("interval") or "") else ""
+            fields["pay"] = (enrich.parse_pay(f"${salary['min']} - ${salary.get('max') or salary['min']} {unit}")
+                             or fields.get("pay", ""))
         out.append(JobPosting(
             job_id=f"lv_{uid}",
             company=name,
@@ -67,7 +73,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
             location=location,
             posted_on=posted,
             source="lever",
-            **enrich.described_fields(title, description),
+            **fields,
         ))
 
     time.sleep(settings.get("delay_between_requests", 0.5))
