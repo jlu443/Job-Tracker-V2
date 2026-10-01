@@ -73,7 +73,6 @@ function replaceTab_(name, columns, rows) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(name) || ss.insertSheet(name);
   var idCol = columns.indexOf("job_id");
-  var roleCol = columns.indexOf("Role");
 
   // Status comes from My Applications first, then whatever is on this tab
   // (covers an edit whose onEdit copy failed).
@@ -101,23 +100,60 @@ function replaceTab_(name, columns, rows) {
     var statusRange = sheet.getRange(2, 1, rows.length, 1);
     statusRange.setDataValidation(statusRule_());
     sheet.getRange(1, 1, rows.length + 1, header.length).createFilter();
-    if (roleCol >= 0) {
-      var roleLetter = colLetter_(roleCol + 2);   // +1 for Status, +1 for 1-based
-      var rules = [];
-      for (var role in ROLE_COLORS) {
-        rules.push(SpreadsheetApp.newConditionalFormatRule()
-          .whenFormulaSatisfied("=$" + roleLetter + "2=\"" + role + "\"")
-          .setBackground(ROLE_COLORS[role])
-          .setRanges([sheet.getRange(2, 1, rows.length, header.length)])
-          .build());
-      }
-      sheet.setConditionalFormatRules(rules);
-    }
+    sheet.setConditionalFormatRules(freshnessRules_(sheet, header, rows.length)
+                                    .concat(roleRules_(sheet, header, rows.length)));
   }
   var idIndex = header.indexOf("job_id");
   if (idIndex >= 0) sheet.hideColumns(idIndex + 1);
   formatColumns_(sheet, header, rows.length);
   return { ok: true, tab: name, rows: rows.length };
+}
+
+// Recently posted rows. Evaluated against TODAY() by Sheets itself, so the
+// highlight stays correct between rebuilds. First matching rule wins.
+var FRESH = [
+  { days: 2, color: "#FFE68A", bold: true },    // posted in the last 2 days
+  { days: 7, color: "#FFF7D1", bold: false }    // posted in the last week
+];
+
+function freshnessRules_(sheet, header, numRows) {
+  var posted = header.indexOf("Posted");
+  if (posted < 0 || numRows < 1) return [];
+  var cell = "$" + colLetter_(posted + 1) + "2";
+  var rows = sheet.getRange(2, 1, numRows, header.length);
+  var postedCells = sheet.getRange(2, posted + 1, numRows, 1);
+  sheet.getRange(1, posted + 1).setNote(
+    "Highlighted rows: bright yellow = posted in the last 2 days, " +
+    "light yellow = posted in the last 7 days. Updates daily on its own.");
+  var rules = [];
+  for (var i = 0; i < FRESH.length; i++) {
+    // Posted may be stored as text ("2026-09-25") or as a real date.
+    var f = "=AND(" + cell + "<>\"\", IFERROR(DATEVALUE(" + cell + "), " + cell + ")>=TODAY()-"
+            + FRESH[i].days + ")";
+    if (FRESH[i].bold) {   // bold date first: rules on the same cell stop at the first match
+      rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(f)
+        .setBackground(FRESH[i].color).setBold(true).setRanges([postedCells]).build());
+    }
+    rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(f)
+      .setBackground(FRESH[i].color).setRanges([rows]).build());
+  }
+  return rules;
+}
+
+/** Intern / new-grad tint on the Role cell only, so it can't hide the
+ *  freshness highlight. */
+function roleRules_(sheet, header, numRows) {
+  var role = header.indexOf("Role");
+  if (role < 0 || numRows < 1) return [];
+  var cell = "$" + colLetter_(role + 1) + "2";
+  var range = sheet.getRange(2, role + 1, numRows, 1);
+  var rules = [];
+  for (var r in ROLE_COLORS) {
+    rules.push(SpreadsheetApp.newConditionalFormatRule()
+      .whenFormulaSatisfied("=" + cell + "=\"" + r + "\"")
+      .setBackground(ROLE_COLORS[r]).setRanges([range]).build());
+  }
+  return rules;
 }
 
 /** Readable widths, wrapping for long text, top-aligned rows. */
@@ -155,7 +191,10 @@ function formatAllTabs() {
     var sheet = sheets[i];
     if (sheet.getLastColumn() < 1) continue;
     var header = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
-    formatColumns_(sheet, header, Math.max(sheet.getLastRow() - 1, 0));
+    var n = Math.max(sheet.getLastRow() - 1, 0);
+    formatColumns_(sheet, header, n);
+    sheet.setConditionalFormatRules(freshnessRules_(sheet, header, n)
+                                    .concat(roleRules_(sheet, header, n)));
   }
 }
 
