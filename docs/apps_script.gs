@@ -1,14 +1,18 @@
 /**
- * Google Apps Script webhook for Job-Tracker-V2 (v2: rebuilt tabs).
+ * Google Apps Script webhook for Job-Tracker-V2 (v4).
  *
  * Tabs (created automatically):
- *   Today            announceable jobs first seen in the last 24 hours
- *   This Week        the same, last 7 days
- *   All Open         every tracked intern/new-grad job in the 60-day window
- *   My Applications  every job you give a Status; never trimmed
+ *   Key                         what each colour, column and tab means
+ *   Internships · Today         internships announced in the last 24 hours
+ *   Internships · This Week     the same, last 7 days
+ *   Internships · All Open      every open internship (60-day window), daily
+ *   New Grad · Today / This Week / All Open   the same for new-grad roles
+ *   PhD & Research              open PhD / research-track internships
+ *   Visa Sponsors               companies' H-1B record and posting stances
+ *   My Applications             every job you give a Status; never trimmed
  *
- * Today / This Week / All Open are rebuilt from the tracker's database on
- * each run. Set a job's Status (dropdown, first column) on any tab: the row
+ * All tabs except Key and My Applications are rebuilt from the tracker's
+ * database on each run. Set a job's Status (dropdown, first column) on any tab: the row
  * is copied to My Applications immediately, and your Status is re-applied
  * whenever the tabs are rebuilt. Clearing a Status removes it from My
  * Applications. My Applications itself is never rebuilt or trimmed.
