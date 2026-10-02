@@ -78,6 +78,8 @@ _COLUMNS = {
 # from one run's results hasn't been taken down; it has just aged out of the
 # search. These rows expire by age instead of by absence.
 AGGREGATOR_SOURCES = {"indeed", "linkedin", "glassdoor", "zip_recruiter", "google"}
+# Sources that only relay other sites' jobs; a first-party scrape supersedes them.
+_SECONDHAND = {"simplify"} | AGGREGATOR_SOURCES
 
 
 @dataclass
@@ -409,6 +411,18 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
                  p.pay, p.pay, p.direct_url, p.direct_url, p.checked, now,
                  p.job_id),
             )
+            # A job first stored from a curated list or aggregator under its
+            # ATS id, now confirmed by that ATS's own scraper: take on the
+            # first-party source and company name. Removal is scoped by
+            # (source, company), so without this a closed listing would only
+            # ever be retired when the curated list noticed.
+            if p.source not in _SECONDHAND:
+                conn.execute(
+                    f"UPDATE jobs SET source = ?, company = ?, job_key = ? WHERE job_id = ? "
+                    f"AND source IN ({','.join('?' * len(_SECONDHAND))})",
+                    (p.source, p.company,
+                     dedupe.fuzzy_key(p.company, p.title, p.location) or "", p.job_id,
+                     *sorted(_SECONDHAND)))
             updated += 1
 
     ttl_cutoff = (datetime.now(timezone.utc)

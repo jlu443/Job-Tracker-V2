@@ -325,3 +325,23 @@ def test_rotation_hot_boards_every_other_run():
             seen[b["tenant"]] += 1
     assert all(seen[f"co{i}"] == 3 for i in range(20))        # hot: every 2nd run
     assert all(seen[f"co{i}"] == 1 for i in range(20, 60))    # tail: every 6th run
+
+
+def test_first_party_scrape_takes_over_curated_row():
+    conn = _mem()
+    sim = _p("wd_ng_R1", company="Northrop Grumman", source="simplify")
+    db.sync(conn, [sim], lambda p: "intern", set(), {"simplify"})
+    wd = _p("wd_ng_R1", company="Northrop Grumman Corp", source="workday")
+    db.sync(conn, [wd], lambda p: "intern", {("workday", "Northrop Grumman Corp")}, set())
+    row = conn.execute("SELECT source, company FROM jobs").fetchone()
+    assert tuple(row) == ("workday", "Northrop Grumman Corp")
+    # ...and Workday's own "gone" now retires it
+    db.sync(conn, [], lambda p: "intern", {("workday", "Northrop Grumman Corp")}, set())
+    assert conn.execute("SELECT status FROM jobs").fetchone()[0] == "removed"
+
+
+def test_curated_copy_never_downgrades_first_party_row():
+    conn = _mem()
+    db.sync(conn, [_p("gh_1", source="greenhouse")], lambda p: "intern", set(), set())
+    db.sync(conn, [_p("gh_1", source="simplify")], lambda p: "intern", set(), set())
+    assert conn.execute("SELECT source FROM jobs").fetchone()[0] == "greenhouse"
