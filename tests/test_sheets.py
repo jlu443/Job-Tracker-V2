@@ -26,7 +26,7 @@ def test_build_tabs_uses_announcements_and_keeps_all_stored():
     tabs = sheets.build_tabs(conn, include_all=True)
     ids = lambda tab: sorted(r[-1] for r in tabs[tab])
     assert ids("Internships · Today") == ["gh_1"]
-    assert ids("Internships · This Week") == ["gh_1", "gh_4"]
+    assert ids("Internships · This Week") == ["gh_4"]                 # not today's gh_1
     assert ids("Internships · All Open") == ["gh_1", "gh_4"]          # closed gh_2 left out
     assert ids("New Grad · This Week") == []
     today = tabs["Internships · Today"][0]

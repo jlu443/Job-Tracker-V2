@@ -81,8 +81,9 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
     for role, label in ROLE_TABS:
         mine = [j for j in announced if j["role_type"] == role]
         tabs[f"{label} · Today"] = collapse([j for j in mine if j["announced_at"] >= since(24)])
+        # This Week = the 6 days before Today, so no job shows on both tabs.
         tabs[f"{label} · This Week"] = collapse(
-            [j for j in mine if j["announced_at"] >= since(24 * 7)])
+            [j for j in mine if since(24 * 7) <= j["announced_at"] < since(24)])
     if include_all:
         # Open listings only: closed rows stay in the DB for repost history,
         # but would bury the open ones (57k rows vs ~25k open on 2026-10-01).
@@ -119,7 +120,8 @@ KEY_ROWS = [
      "the job isn't as new as it looks.", "", ""],
     ["Tabs", "Internships / New Grad · Today", "Jobs announced in the last 24 hours, "
      "one row per role (cities merged).", "", ""],
-    ["Tabs", "Internships / New Grad · This Week", "The same for 7 days.", "", ""],
+    ["Tabs", "Internships / New Grad · This Week", "Jobs announced 1-7 days ago (today's "
+     "are only on Today).", "", ""],
     ["Tabs", "Internships / New Grad · All Open", "Every open job (60-day window), "
      "refreshed once a day.", "", ""],
     ["Tabs", "PhD & Research", "Open PhD and research-track (MS/PhD) internships.", "", ""],
