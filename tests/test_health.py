@@ -40,3 +40,10 @@ def test_disabled_source_is_not_flagged():
     _runs(conn, [1400, 1390, 1380], {}, {"greenhouse": (0, 0)})
     assert health.check(conn, "2026-09-29T00:00:00+00:00", 600,
                         {"disabled_sources": ["greenhouse"]}) == []
+
+
+def test_removed_source_is_not_flagged():
+    conn = sqlite3.connect(":memory:")
+    _runs(conn, [1400, 1390, 1380], {}, {})
+    assert health.check(conn, "2026-09-29T00:00:00+00:00", 600, {}, expected={"lever"}) == []
+    assert health.check(conn, "2026-09-29T00:00:00+00:00", 600, {}, expected={"greenhouse"})

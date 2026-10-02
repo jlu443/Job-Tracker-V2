@@ -42,8 +42,12 @@ def record(conn: sqlite3.Connection, run_at: str, counts: dict[str, int],
 
 
 def check(conn: sqlite3.Connection, run_at: str, elapsed_s: float,
-          settings: dict) -> list[str]:
-    """Problems with this run, compared to each source's own recent history."""
+          settings: dict, expected: set | None = None) -> list[str]:
+    """Problems with this run, compared to each source's own recent history.
+
+    expected: the sources this run should have produced; others (a source
+    that was removed or disabled) are ignored rather than reported as broken.
+    """
     cfg = settings.get("health", {})
     window = cfg.get("history_runs", 12)
     drop_ratio = cfg.get("drop_ratio", 0.3)
@@ -54,6 +58,8 @@ def check(conn: sqlite3.Connection, run_at: str, elapsed_s: float,
     current = {r[0]: (r[1], r[2], r[3]) for r in conn.execute(
         "SELECT source, postings, boards, incomplete FROM runs WHERE run_at = ?", (run_at,))}
     sources = {r[0] for r in conn.execute("SELECT DISTINCT source FROM runs")}
+    if expected is not None:
+        sources &= expected
     sources -= set(settings.get("disabled_sources") or ())   # off on purpose
     for src in sorted(sources):
         history = [r[0] for r in conn.execute(

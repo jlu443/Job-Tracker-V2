@@ -429,7 +429,10 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     except Exception as exc:          # a measurement problem must not fail the run
         print(f"  ! accuracy measurement failed: {exc}")
 
-    problems = health.check(conn, run_at, time.time() - run_started, settings)
+    disabled = set(settings.get("disabled_sources") or ())
+    expected = ({s for s, _, _ in _ATS_SCRAPERS if s not in disabled}
+                | {"simplify"} | set((settings.get("jobspy") or {}).get("sites") or ()))
+    problems = health.check(conn, run_at, time.time() - run_started, settings, expected)
     if problems:
         print("Health check: " + "; ".join(problems))
     notify.post_alert(health.due_alerts(conn, problems))
