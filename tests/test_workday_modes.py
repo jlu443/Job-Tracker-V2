@@ -52,3 +52,26 @@ def test_recent_plus_sweep_is_complete_and_unions(monkeypatch):
 def test_failed_request_is_incomplete(monkeypatch):
     monkeypatch.setattr(scraper, "_page", lambda *a: None)
     assert scraper.fetch_company_jobs({**BOARD, "_mode": "recent"}, SETTINGS) == ([], False)
+
+
+def test_page_cap_with_results_remaining_is_incomplete(monkeypatch):
+    pages = {"intern": [[_p(i * 2, "Posted Today", "Pharmacy Intern"),
+                         _p(i * 2 + 1, "Posted Today", "Pharmacy Intern")] for i in range(50)]}
+    monkeypatch.setattr(scraper, "_page", _fake_pages(pages))
+    posts, complete = scraper.fetch_company_jobs({**BOARD, "_mode": "sweep"}, SETTINGS)
+    assert len(posts) == 10 and complete is False        # 5 pages x 2, cap reached
+
+
+def test_same_name_boards_complete_only_together():
+    from src import main
+
+    class Mod:
+        @staticmethod
+        def fetch_company_jobs(c, settings):
+            return [], c["site"] != "private"     # one CVS board fails
+
+    boards = [{"tenant": "cvs", "site": "main", "name": "CVS Health"},
+              {"tenant": "cvs", "site": "private", "name": "CVS Health"},
+              {"tenant": "acme", "site": "x", "name": "Acme"}]
+    _, scopes, failed = main._scrape_source("workday", Mod, boards, {})
+    assert scopes == {("workday", "Acme")} and failed == 1

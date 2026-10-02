@@ -97,7 +97,7 @@ def test_row_has_days_ago_formula_pay_and_direct_link():
     row = sheets._row(base)
     col = lambda name: row[sheets.COLUMNS.index(name)]
     assert col("Apply") == '=HYPERLINK("https://co/apply", "Apply")'
-    assert col("Days ago").startswith("=LET(") and col("Pay") == "$45–55/hr"
+    assert "Days ago" not in sheets.COLUMNS and col("Pay") == "$45–55/hr"
     assert len(row) == len(sheets.COLUMNS)
 
 

@@ -145,6 +145,11 @@ def _sweep(company: dict, settings: dict, seen: dict) -> bool:
             if offset >= total or relevant < min_relevant:
                 break
             time.sleep(settings["delay_between_requests"])
+        else:
+            # Page cap reached with entry-level results still coming (CVS:
+            # 4,000+ "intern" results): the rest weren't seen, so absence
+            # proves nothing. Otherwise they'd all be marked closed.
+            complete = False
     return complete
 
 

@@ -24,13 +24,9 @@ import requests
 from . import db, dedupe, h1b, phd
 
 COLUMNS = ["Apply", "Company", "Title", "Role", "Category", "Location", "Posted",
-           "Days ago", "First seen", "Visa sponsorship", "US citizenship", "Clearance",
+           "First seen", "Visa sponsorship", "US citizenship", "Clearance",
            "Pay", "Grad year", "Applicants", "Repost", "Source", "Listing", "job_id"]
 
-# Live "days since posted", computed by Sheets from the Posted cell to its
-# left (any tab layout, any row), so it stays right between rebuilds.
-_DAYS_AGO = ('=LET(p, INDIRECT("RC[-1]", FALSE), '
-             'IF(p = "", "", TODAY() - IFERROR(DATEVALUE(p), p)))')
 
 # Blank = description not read yet; "Not mentioned" = read, says nothing.
 _SPONSORSHIP = {"yes": "Offered", "no": "Not offered"}
@@ -54,7 +50,7 @@ def _row(j: dict) -> list:
         # The employer's own page when an aggregator revealed it.
         _apply_cell(j.get("direct_url") or j["apply_url"]), j["company"], j["title"],
         j["role_type"], j.get("category") or "", j.get("location") or "",
-        j.get("posted_on") or "", _DAYS_AGO,
+        j.get("posted_on") or "",
         (j.get("first_seen") or "")[:16].replace("T", " "),
         _flag(j.get("sponsorship") or "", _SPONSORSHIP, checked),
         _flag(j.get("citizenship") or "", {"required": "Required"}, checked),
@@ -92,39 +88,64 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
 
 
 PHD_TAB = "PhD & Research"
-PHD_COLUMNS = ["Track", "Visa outlook", "H-1B history", "OPT/CPT"] + COLUMNS
+PHD_COLUMNS = ["Track"] + COLUMNS
 _TRACK = {"phd": "PhD", "research_ms": "Research (MS/PhD)"}
-_OPT = {"yes": "Accepted (per posting)", "no": "Not accepted (per posting)"}
 
 
-def visa_outlook(job: dict, h1b_approvals: int | None) -> str:
-    """One-glance verdict for an F-1 student. What the posting says always
-    wins; otherwise the company's H-1B record (USCIS) is the best predictor,
-    since companies that file H-1Bs routinely hire on OPT / STEM OPT."""
-    if job.get("citizenship") == "required" or job.get("clearance") == "yes":
+def build_phd_tab(conn: sqlite3.Connection, settings: dict) -> list[list]:
+    """Open PhD / research-track internships (src/phd.py), newest-posted first."""
+    return [[_TRACK.get(j["research_track"], "")] + _row(j)
+            for j in phd.open_internships(conn, settings)]
+
+
+# One row per company with open PhD / research internships: its visa
+# sponsorship record, kept off the PhD tab so that stays lean.
+SPONSOR_TAB = "Visa Sponsors"
+
+
+def sponsor_columns() -> list[str]:
+    return ["Company", "Visa outlook", f"H-1B approvals ({h1b.years_label() or 'USCIS'})",
+            "Open PhD/research roles", "Postings offering sponsorship/OPT",
+            "Postings ruling it out", "US citizens/clearance only"]
+
+
+def company_outlook(c: dict, approvals: int | None) -> str:
+    """One-glance verdict for an F-1 student. What postings say wins over
+    the H-1B record; companies that file H-1Bs routinely hire on OPT."""
+    if c["citizens"] and c["citizens"] == c["roles"]:
         return "🇺🇸 US citizens / clearance only"
-    if job.get("sponsorship") == "no" or job.get("opt_cpt") == "no":
-        return "❌ Posting rules out sponsorship"
-    if job.get("sponsorship") == "yes" or job.get("opt_cpt") == "yes":
-        return "✅ Posting offers sponsorship / OPT"
-    if h1b_approvals is None:
+    if c["offers"]:
+        return "✅ Postings offer sponsorship / OPT"
+    if c["rules_out"] and c["rules_out"] + c["citizens"] == c["roles"]:
+        return "❌ Postings rule out sponsorship"
+    if approvals is None:
         return "⚪ Unknown"
-    if h1b_approvals >= 50:
+    if approvals >= 50:
         return "🟢 Likely: sponsors H-1Bs regularly"
-    if h1b_approvals >= 1:
+    if approvals >= 1:
         return "🟡 Some H-1B history"
     return "⚪ No H-1B record"
 
 
-def build_phd_tab(conn: sqlite3.Connection, settings: dict) -> list[list]:
-    """Open PhD / research-track internships (src/phd.py), newest-posted
-    first, with the company's H-1B record and the posting's OPT/CPT stance."""
-    rows = []
+def build_sponsor_tab(conn: sqlite3.Connection, settings: dict) -> list[list]:
+    companies: dict[str, dict] = {}
     for j in phd.open_internships(conn, settings):
-        n = h1b.approvals(j["company"])
-        rows.append([_TRACK.get(j["research_track"], ""), visa_outlook(j, n),
-                     h1b.label(j["company"]), _OPT.get(j.get("opt_cpt") or "", "")]
-                    + _row(j))
+        c = companies.setdefault(j["company"], {"roles": 0, "offers": 0, "rules_out": 0,
+                                                "citizens": 0})
+        c["roles"] += 1
+        if j.get("citizenship") == "required" or j.get("clearance") == "yes":
+            c["citizens"] += 1
+        elif j.get("sponsorship") == "no" or j.get("opt_cpt") == "no":
+            c["rules_out"] += 1
+        elif j.get("sponsorship") == "yes" or j.get("opt_cpt") == "yes":
+            c["offers"] += 1
+    rows = []
+    for name, c in companies.items():
+        n = h1b.approvals(name)
+        rows.append([name, company_outlook(c, n), "" if n is None else n, c["roles"],
+                     c["offers"], c["rules_out"], c["citizens"]])
+    # Strongest H-1B record first; unknown companies last.
+    rows.sort(key=lambda r: (r[2] == "", -(r[2] or 0), r[0].lower()))
     return rows
 
 
@@ -164,6 +185,7 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
     tabs = [(tab, COLUMNS, rows) for tab, rows in build_tabs(conn, include_all).items()]
     if settings.get("phd", {}).get("enabled", True):
         tabs.append((PHD_TAB, PHD_COLUMNS, build_phd_tab(conn, settings)))
+        tabs.append((SPONSOR_TAB, sponsor_columns(), build_sponsor_tab(conn, settings)))
 
     for tab, columns, rows in tabs:
         try:

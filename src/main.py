@@ -121,24 +121,30 @@ def _scrape_source(source: str, module, companies: list[dict], settings: dict):
     """One ATS's boards, concurrently. Returns (postings, complete scopes, failed)."""
     workers = (settings.get("scrape_workers_by_source") or {}).get(
         source, settings.get("scrape_workers", 8))
-    postings, scopes, failed, t0 = [], set(), 0, time.time()
+    postings, failed, t0 = [], 0, time.time()
+    # Removal is scoped by company name (what db rows carry), and one company
+    # can have several boards (CVS Health has two Workday sites). A name only
+    # counts as complete when every one of its boards completed this run.
+    complete_by_name: dict[str, bool] = {}
     with ThreadPoolExecutor(max_workers=workers) as pool:
         results = pool.map(lambda c: _fetch_one(source, module, c, settings), companies)
         for company, (found, complete) in zip(companies, results):
             postings.extend(found)
-            if complete:
-                # Keyed by the company name the postings carry (= db rows).
-                scopes.add((source, _company_name(company)))
-            elif complete is False:      # None = recent-only by design, not a failure
+            name = _company_name(company)
+            complete_by_name[name] = complete_by_name.get(name, True) and bool(complete)
+            if complete is False:        # None = recent-only by design, not a failure
                 failed += 1
+    scopes = {(source, name) for name, ok in complete_by_name.items() if ok}
     print(f"{source}: {len(postings)} postings from {len(companies)} boards "
           f"in {time.time() - t0:.0f}s" + (f" ({failed} incomplete)" if failed else ""))
     return postings, scopes, failed
 
 
 def _shard_of(company: dict, n: int) -> int:
-    """Stable shard for a board; one tenant's sites stay together."""
-    key = company.get("tenant") or company.get("host") or _company_name(company)
+    """Stable shard for a board. Keyed by company name, so all of one
+    company's boards land in the same shard (closed-job detection needs every
+    board of a name to be scraped in the same job)."""
+    key = _company_name(company)
     return zlib.crc32(f"shard:{key}".encode()) % n
 
 

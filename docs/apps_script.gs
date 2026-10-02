@@ -39,12 +39,14 @@ var ROLE_COLORS = { "intern": "#E3F4E8", "new_grad": "#E3EEFA" };
 // lines instead of being cut off.
 var WIDTHS = {
   "Status": [110, 120], "Apply": [60, 70], "Score": [55, 60], "Why": [220, 340],
-  "Track": [110, 140], "Visa outlook": [170, 230], "H-1B history": [130, 170], "OPT/CPT": [110, 170], "Company": [120, 200], "Title": [220, 360], "Role": [70, 90],
+  "Track": [110, 140], "Visa outlook": [170, 240], "Open PhD/research roles": [90, 110],
+  "Postings offering sponsorship/OPT": [100, 130], "Postings ruling it out": [90, 110],
+  "US citizens/clearance only": [90, 110], "Company": [120, 200], "Title": [220, 360], "Role": [70, 90],
   "Category": [75, 95], "Location": [130, 240], "Posted": [90, 100],
   "First seen": [120, 135], "First marked": [120, 150], "Updated": [120, 150],
   "Visa sponsorship": [110, 130], "US citizenship": [100, 120], "Clearance": [95, 115],
   "Grad year": [75, 100], "Applicants": [90, 170], "Repost": [85, 130],
-  "Source": [80, 120], "Listing": [60, 75], "Days ago": [60, 75], "Pay": [100, 150]
+  "Source": [80, 120], "Listing": [60, 75], "Pay": [100, 150]
 };
 var DEFAULT_WIDTH = [70, 220];
 var WRAP = { "Title": true, "Why": true, "Location": true, "Company": true };
@@ -112,7 +114,22 @@ function replaceTab_(name, columns, rows) {
   var idIndex = header.indexOf("job_id");
   if (idIndex >= 0) sheet.hideColumns(idIndex + 1);
   formatColumns_(sheet, header, rows.length);
+  trimGrid_(sheet, values.length, header.length);
   return { ok: true, tab: name, rows: rows.length };
+}
+
+// Tabs above this many rows (All Open, ~40k) get the light treatment: the
+// freshness highlight on the Posted cell only, no wrapping, fixed widths.
+// Whole-row rules and wrapped text on 800k cells are what made it sluggish.
+var BIG_TAB_ROWS = 5000;
+
+/** Delete empty rows/columns left over from a bigger previous rebuild:
+ *  every cell in the grid counts toward recalculation and the 10M cap. */
+function trimGrid_(sheet, usedRows, usedCols) {
+  var extraRows = sheet.getMaxRows() - Math.max(usedRows, 2);
+  if (extraRows > 0) sheet.deleteRows(Math.max(usedRows, 2) + 1, extraRows);
+  var extraCols = sheet.getMaxColumns() - usedCols;
+  if (extraCols > 0) sheet.deleteColumns(usedCols + 1, extraCols);
 }
 
 // Recently posted rows. Evaluated against TODAY() by Sheets itself, so the
@@ -140,8 +157,13 @@ function freshnessRules_(sheet, header, numRows) {
       rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(f)
         .setBackground(FRESH[i].color).setBold(true).setRanges([postedCells]).build());
     }
-    rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(f)
-      .setBackground(FRESH[i].color).setRanges([rows]).build());
+    if (numRows <= BIG_TAB_ROWS) {
+      rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(f)
+        .setBackground(FRESH[i].color).setRanges([rows]).build());
+    } else if (!FRESH[i].bold) {   // big tab: tint the Posted cell only
+      rules.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(f)
+        .setBackground(FRESH[i].color).setRanges([postedCells]).build());
+    }
   }
   return rules;
 }
@@ -173,11 +195,17 @@ function formatColumns_(sheet, header, numRows) {
          .setVerticalAlignment("top")
          .setWrapStrategy(SpreadsheetApp.WrapStrategy.CLIP);
   }
-  sheet.autoResizeColumns(1, header.length);
+  var big = numRows > BIG_TAB_ROWS;
+  // Auto-sizing scans every row; on a big tab, use the upper width bound.
+  if (!big) sheet.autoResizeColumns(1, header.length);
   for (var c = 0; c < header.length; c++) {
     var name = header[c];
     if (name === "job_id") continue;
     var bounds = WIDTHS[name] || DEFAULT_WIDTH;
+    if (big) {
+      sheet.setColumnWidth(c + 1, bounds[1]);
+      continue;   // no wrapping: single-line rows scroll fast
+    }
     var width = sheet.getColumnWidth(c + 1);
     if (width < bounds[0]) sheet.setColumnWidth(c + 1, bounds[0]);
     if (width > bounds[1]) sheet.setColumnWidth(c + 1, bounds[1]);
