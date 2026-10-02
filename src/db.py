@@ -308,7 +308,8 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
          complete_scopes: set[tuple[str, str]], complete_sources: set[str],
          aggregator_ttl_days: int = 21,
          store_roles: frozenset[str] | None = None,
-         max_age_days: int | None = None) -> UpsertResult:
+         max_age_days: int | None = None,
+         age_exempt: frozenset = frozenset()) -> UpsertResult:
     """Reconcile this run's postings against the DB.
 
     A job is only marked removed when the scrape that should have returned it
@@ -340,7 +341,8 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
             continue
         if p.job_id not in known:
             age = dates.age_days(p.posted_on)
-            if max_age_days is not None and age is not None and age > max_age_days:
+            if (max_age_days is not None and age is not None and age > max_age_days
+                    and p.source not in age_exempt):
                 continue
             role = role_for(p)
             if store_roles is not None and role not in store_roles:
@@ -448,20 +450,28 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
 
 
 def purge_old(conn: sqlite3.Connection, max_age_days: int,
-              tombstone_days: int = 365) -> int:
+              tombstone_days: int = 365, exempt_sources: frozenset = frozenset(),
+              exempt_unseen_days: int = 14) -> int:
     """Delete listings older than max_age_days, whatever their status.
 
     Age is measured from the post date when the source gave one (the latest
     re-listing date if it was reposted), otherwise from when we first saw it.
-    Deleted ids go into `purged` so a still-open listing isn't re-announced;
-    tombstones themselves expire after tombstone_days.
+    Sources in exempt_sources keep long-running postings (Apple's internship
+    programs stay open for months) and are deleted instead once unseen for
+    exempt_unseen_days. Deleted ids go into `purged` so a still-open listing
+    isn't re-announced; tombstones themselves expire after tombstone_days.
     """
     cutoff = (dates.today() - timedelta(days=max_age_days)).isoformat()
+    unseen = (datetime.now(timezone.utc)
+              - timedelta(days=exempt_unseen_days)).isoformat(timespec="seconds")
     now = _now()
+    ex = sorted(exempt_sources) or [""]
+    marks = ",".join("?" * len(ex))
     rows = conn.execute(
-        "SELECT job_id FROM jobs WHERE "
-        "CASE WHEN posted_on != '' THEN MAX(posted_on, relisted_on) "
-        "ELSE substr(first_seen, 1, 10) END < ?", (cutoff,)).fetchall()
+        f"SELECT job_id FROM jobs WHERE "
+        f"(source NOT IN ({marks}) AND CASE WHEN posted_on != '' THEN MAX(posted_on, relisted_on) "
+        f"ELSE substr(first_seen, 1, 10) END < ?) "
+        f"OR (source IN ({marks}) AND last_seen < ?)", (*ex, cutoff, *ex, unseen)).fetchall()
     ids = [r[0] for r in rows]
     conn.executemany("INSERT OR REPLACE INTO purged (job_id, purged_on) VALUES (?, ?)",
                      [(i, now) for i in ids])

@@ -127,8 +127,6 @@ _SR_RE = re.compile(
 )
 _SR_BAD = {"sitemap", "favicon"}
 
-_WK_RE = re.compile(r"apply\.workable\.com/([a-z0-9-]+)", re.I)
-_WK_BAD = {"api", "j", "jobs", "assets"}
 
 
 def _extract_workday(text: str) -> list[dict]:
@@ -177,14 +175,6 @@ def _extract_smartrecruiters(text: str) -> list[dict]:
     return out
 
 
-def _extract_workable(text: str) -> list[dict]:
-    out = []
-    for m in _WK_RE.finditer(text):
-        slug = m.group(1).lower()
-        if slug in _WK_BAD:
-            continue
-        out.append({"slug": slug, "name": slug})
-    return out
 
 
 def _extract_oracle(text: str) -> list[dict]:
@@ -278,10 +268,6 @@ def _validate_smartrecruiters(c: dict) -> bool:
     return bool(data and data.get("totalFound"))
 
 
-def _validate_workable(c: dict) -> bool:
-    url = f"https://apply.workable.com/api/v3/accounts/{c['slug']}/jobs"
-    data = _request_json("POST", url, payload={"query": ""})
-    return bool(data and data.get("total"))
 
 
 @dataclass(frozen=True)
@@ -315,9 +301,6 @@ ATS_SPECS: list[ATSSpec] = [
             _validate_smartrecruiters,
             lambda c: c["company"].lower(),
             ("jobs.smartrecruiters.com/*", "careers.smartrecruiters.com/*")),
-    ATSSpec("workable", "workable.yaml", _extract_workable, _validate_workable,
-            lambda c: c["slug"],
-            ("apply.workable.com/*",)),
     ATSSpec("oracle", "oracle.yaml", _extract_oracle, _validate_oracle,
             lambda c: (c["host"], c["site"]),
             ("*.oraclecloud.com/hcmUI/CandidateExperience/*",)),

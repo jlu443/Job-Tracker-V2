@@ -30,7 +30,7 @@ import yaml
 from . import (accuracy, ashby_scraper, classify, db, dedupe, enrich, greenhouse_scraper, health,
                icims_scraper, jobspy_scraper, lever_scraper, notify, oracle_scraper, profile,
                repost, scraper, sheets,
-               simplify_scraper, smartrecruiters_scraper, workable_scraper)
+               simplify_scraper, smartrecruiters_scraper)
 from .posting import JobPosting
 from . import bigtech_scrapers, jibe_scraper, rippling_scraper
 
@@ -59,7 +59,6 @@ _ATS_SCRAPERS = [
     ("lever",           "lever.yaml",            lever_scraper),
     ("ashby",           "ashby.yaml",            ashby_scraper),
     ("smartrecruiters", "smartrecruiters.yaml",  smartrecruiters_scraper),
-    ("workable",        "workable.yaml",         workable_scraper),
     ("oracle",          "oracle.yaml",           oracle_scraper),
     ("icims",           "icims.yaml",            icims_scraper),
     ("jibe",            "jibe.yaml",             jibe_scraper),
@@ -321,7 +320,8 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     result = db.sync(conn, all_postings, role_for, complete_scopes, complete_sources,
                      aggregator_ttl_days=settings.get("aggregator_ttl_days", 21),
                      store_roles=store_roles,
-                     max_age_days=settings.get("max_listing_age_days"))
+                     max_age_days=settings.get("max_listing_age_days"),
+                     age_exempt=frozenset(settings.get("age_limit_exempt_sources") or ()))
     print(f"New: {len(result.new_jobs)}  Updated: {result.updated}  "
           f"Removed: {result.removed}")
     if result.bumped:
@@ -413,7 +413,9 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         conn.commit()
 
     if settings.get("max_listing_age_days"):
-        purged = db.purge_old(conn, settings["max_listing_age_days"])
+        purged = db.purge_old(
+            conn, settings["max_listing_age_days"],
+            exempt_sources=frozenset(settings.get("age_limit_exempt_sources") or ()))
         if purged:
             print(f"Purged {purged} listings older than "
                   f"{settings['max_listing_age_days']} days.")

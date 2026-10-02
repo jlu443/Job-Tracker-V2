@@ -37,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        part: ["workday:0/2", "workday:1/2", "rest"]
+        part: ["workday:0/2", "workday:1/2", "icims:0/1", "rest"]
     steps:
       - uses: actions/checkout@v4
 

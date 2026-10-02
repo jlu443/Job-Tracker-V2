@@ -39,11 +39,10 @@ recency_check:
 # Workday rate-limits per client IP, so two machines ~halve its time.
 ci_shards:
   workday: 2
+  icims: 1         # its own job: the slowest source (globally spaced requests)
 
-# ATS sources to skip entirely. Workable blocks GitHub Actions' shared IPs
-# outright (a 15-hour Retry-After on the first request, 2026-10-01); its
-# intern listings still arrive through the curated lists.
-disabled_sources: [workable]
+# ATS sources to skip entirely (e.g. while a site is blocking us).
+disabled_sources: []
 
 long_tail_rotation:
   # Boards with open entry-level jobs every 2nd run (postings stay open for
@@ -53,7 +52,6 @@ long_tail_rotation:
   # the recency check below on every run.
   workday: {hot: 6, tail: 6}
   icims: {hot: 4, tail: 4}
-  workable: 6       # also keeps us under Workable's per-IP rate limit
 
 # Politeness
 request_timeout: 30     # seconds
@@ -64,7 +62,6 @@ scrape_workers: 8       # companies scraped concurrently (different hosts)
 scrape_workers_by_source:
   workday: 32        # Workday rate-limits per client IP (429s at 64)
   smartrecruiters: 16
-  workable: 3         # apply.workable.com returns 429s above ~3 concurrent
   oracle: 16          # each tenant is its own host
   icims: 2            # one shared edge; requests are also globally spaced
 
@@ -118,6 +115,11 @@ aggregator_ttl_days: 21
 # we first saw it. Deleted ids are remembered so a still-open old listing is
 # never re-announced; new postings already this old aren't stored at all.
 max_listing_age_days: 60
+# Sources whose postings legitimately stay open for months (Apple lists its
+# internship programs from spring). They're kept regardless of post date and
+# deleted instead once unseen for 14 days. Don't add sources with years-old
+# "always open" listings (e.g. SmartRecruiters ads dated 2015).
+age_limit_exempt_sources: [apple]
 
 # Roles persisted to jobs.db (and sent to the Google Sheet). Full-board ATS
 # APIs return every role; storing mid/senior from ~6,000 boards pushes the

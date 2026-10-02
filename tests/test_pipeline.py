@@ -345,3 +345,17 @@ def test_curated_copy_never_downgrades_first_party_row():
     db.sync(conn, [_p("gh_1", source="greenhouse")], lambda p: "intern", set(), set())
     db.sync(conn, [_p("gh_1", source="simplify")], lambda p: "intern", set(), set())
     assert conn.execute("SELECT source FROM jobs").fetchone()[0] == "greenhouse"
+
+
+def test_age_exempt_source_kept_while_listed_then_purged_when_unseen():
+    conn = _mem()
+    old = (date.today() - timedelta(days=150)).isoformat()
+    mk = lambda jid, src: JobPosting(jid, "Apple", f"Intern {jid}", f"https://x/{jid}",
+                                     "Cupertino, CA", old, src)
+    res = db.sync(conn, [mk("apple_1", "apple"), mk("gh_1", "greenhouse")], lambda p: "intern",
+                  set(), set(), max_age_days=60, age_exempt=frozenset({"apple"}))
+    assert [j["job_id"] for j in res.new_jobs] == ["apple_1"]
+    assert db.purge_old(conn, 60, exempt_sources=frozenset({"apple"})) == 0
+    stale = (datetime.now(timezone.utc) - timedelta(days=20)).isoformat(timespec="seconds")
+    conn.execute("UPDATE jobs SET last_seen = ?", (stale,))
+    assert db.purge_old(conn, 60, exempt_sources=frozenset({"apple"})) == 1

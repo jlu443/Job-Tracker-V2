@@ -81,6 +81,8 @@ _URL_IDS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"jobs\.(?:eu\.)?lever\.co/[\w.-]+/([0-9a-f-]{36})"), "lv_{0}"),
     (re.compile(r"jobs\.ashbyhq\.com/[^/]+/([0-9a-f-]{36})"), "ash_{0}"),
     (re.compile(r"(?:jobs|careers)\.smartrecruiters\.com/[^/]+/(\d{6,})"), "sr_{0}"),
+    # Workable isn't scraped any more (it blocks CI IPs), but curated-list rows
+    # already carry these ids; changing them would re-announce those jobs.
     (re.compile(r"apply\.workable\.com/[\w-]+/j/([0-9A-F]{6,})", re.I), "wk_{0}"),
     (re.compile(r"linkedin\.com/jobs/view/(?:[\w-]*-)?(\d{8,})"), "li_{0}"),
     (re.compile(r"lifeattiktok\.com/(?:[\w-]+/)*(?:search|position)/(\d{12,})"), "tt_{0}"),

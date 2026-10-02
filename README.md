@@ -2,7 +2,7 @@
 
 Tracks intern / new-grad tech roles across **~6,500 company job boards** spanning
 eight applicant-tracking systems — **Workday, Greenhouse, Lever, Ashby,
-SmartRecruiters, Workable, Oracle Recruiting Cloud, iCIMS** — plus curated
+SmartRecruiters, Oracle Recruiting Cloud, iCIMS** — plus curated
 lists (SimplifyJobs format) and external job boards (**LinkedIn, Indeed**, and
 Glassdoor/ZipRecruiter with a proxy, via JobSpy). New intern/new-grad US jobs
 are announced to a **Discord channel** and published to a **Google Sheet**.
@@ -16,7 +16,7 @@ POST https://{tenant}.{wd}.myworkdayjobs.com/wday/cxs/{tenant}/{site}/jobs
 ```
 
 which returns structured job rows (title, location, apply path, stable job id).
-Greenhouse, Lever, Ashby, SmartRecruiters, and Workable have equivalent public
+Greenhouse, Lever, Ashby and SmartRecruiters have equivalent public
 endpoints.
 
 ## How it works
@@ -31,7 +31,7 @@ config/*.yaml ──▶ scrapers ──▶ dedupe ──▶ classifier ──▶
 
 | Step | File | What it does |
 |---|---|---|
-| Scrape | [src/scraper.py](src/scraper.py) (Workday), [greenhouse_scraper.py](src/greenhouse_scraper.py), [lever_scraper.py](src/lever_scraper.py), [ashby_scraper.py](src/ashby_scraper.py), [smartrecruiters_scraper.py](src/smartrecruiters_scraper.py), [workable_scraper.py](src/workable_scraper.py), [oracle_scraper.py](src/oracle_scraper.py), [icims_scraper.py](src/icims_scraper.py) | One module per ATS, each hitting that platform's public jobs endpoint. All ATS sources run **in parallel** (each is its own set of hosts with its own politeness limits), and each source's boards are scraped concurrently (`scrape_workers_by_source`). Greenhouse, Lever and Ashby also read job descriptions, so plain-titled new-grad roles ("Software Engineer" with "recent graduates, 0–2 years") are recognized. iCIMS requests are globally spaced and back off on its bot challenge. **Every Workday and iCIMS board is checked every run** for new postings (newest first, any title, classified locally, paging until nothing from the last `window_days`); the full keyword sweep, which is what detects closed listings, runs on the `long_tail_rotation` cadence. Workday 429s are retried with backoff. Scraper sessions refuse cookies (a jar shared across ~1,700 tenants made each request quadratic in boards scraped) |
+| Scrape | [src/scraper.py](src/scraper.py) (Workday), [greenhouse_scraper.py](src/greenhouse_scraper.py), [lever_scraper.py](src/lever_scraper.py), [ashby_scraper.py](src/ashby_scraper.py), [smartrecruiters_scraper.py](src/smartrecruiters_scraper.py), [oracle_scraper.py](src/oracle_scraper.py), [icims_scraper.py](src/icims_scraper.py) | One module per ATS, each hitting that platform's public jobs endpoint. All ATS sources run **in parallel** (each is its own set of hosts with its own politeness limits), and each source's boards are scraped concurrently (`scrape_workers_by_source`). Greenhouse, Lever and Ashby also read job descriptions, so plain-titled new-grad roles ("Software Engineer" with "recent graduates, 0–2 years") are recognized. iCIMS requests are globally spaced and back off on its bot challenge. **Every Workday and iCIMS board is checked every run** for new postings (newest first, any title, classified locally, paging until nothing from the last `window_days`); the full keyword sweep, which is what detects closed listings, runs on the `long_tail_rotation` cadence. Workday 429s are retried with backoff. Scraper sessions refuse cookies (a jar shared across ~1,700 tenants made each request quadratic in boards scraped) |
 | Big employers' own sites | [src/bigtech_scrapers.py](src/bigtech_scrapers.py) (TikTok, Amazon, Apple), [jibe_scraper.py](src/jibe_scraper.py) (Jibe `careers.X.com` sites: AMD, Johns Hopkins APL, Garmin, Keysight, Rivian, KPMG, PNNL, ...), [rippling_scraper.py](src/rippling_scraper.py) (Rippling ATS boards) | Public JSON search on each site; Jibe and Rippling boards are found by `discover.py` from curated-list links. Apple uses its Students team (internships + university roles; Apple Store roles excluded) and is treated as partial because its result counts vary between calls. Not scrapable, so left to the curated lists: ByteDance (signed requests), Tesla (bot protection), Eightfold sites such as Qualcomm/Microsoft (API refuses), Google |
 | External boards | [src/jobspy_scraper.py](src/jobspy_scraper.py) | Indeed / Glassdoor / ZipRecruiter via JobSpy, scraped per-site and normalized into the same posting shape (descriptions kept for enrichment). Sites that block datacenter IPs go through `JOBSPY_PROXY` in CI; Indeed always goes direct |
 | Curated lists | [src/simplify_scraper.py](src/simplify_scraper.py) | Ingests community-curated intern/new-grad lists (SimplifyJobs `listings.json` format; ~7.8k active postings incl. ATSes we don't scrape). Listings pointing at a supported ATS take that ATS's job id, so they collapse onto the first-party row |
@@ -80,7 +80,7 @@ Without `GOOGLE_SHEETS_WEBHOOK_URL`, the sheet sync is skipped.
   (Workday), [greenhouse.yaml](config/greenhouse.yaml),
   [lever.yaml](config/lever.yaml), [ashby.yaml](config/ashby.yaml),
   [smartrecruiters.yaml](config/smartrecruiters.yaml),
-  [workable.yaml](config/workable.yaml). `discover.py` appends validated boards
+  [oracle.yaml](config/oracle.yaml), [icims.yaml](config/icims.yaml), [jibe.yaml](config/jibe.yaml), [rippling.yaml](config/rippling.yaml). `discover.py` appends validated boards
   to these; existing entries are always preserved.
 - **[config/settings.yaml](config/settings.yaml)** — search terms, pagination
   caps, politeness delays, scrape concurrency, the zero-shot-fallback toggle,
@@ -113,8 +113,8 @@ Inconclusive titles default to `mid`, which is never announced anyway.
 ## Scheduling (GitHub Actions, $0 hosting)
 
 [.github/workflows/scrape.yml](.github/workflows/scrape.yml) runs **hourly**.
-Each run has two stages: three **scrape** jobs in parallel (Workday split in
-two halves, plus everything else; separate machines, so separate IPs for
+Each run has two stages: four **scrape** jobs in parallel (Workday split in
+two halves, iCIMS, and everything else; separate machines, so separate IPs for
 Workday's per-IP rate limit), each saving its postings as an artifact; then
 one **process** job merges them (`python -m src.main --from-parts parts`) and
 does classification, the DB sync, enrichment, Discord and the Sheet. Locally,
@@ -197,3 +197,11 @@ CREATE TABLE jobs (
     bump_count  INTEGER NOT NULL DEFAULT 0      -- how many times it was re-dated
 );
 ```
+
+**Removed:** Workable (it answers GitHub Actions' IPs with a 15-hour block);
+its listings still arrive through the curated lists.
+
+**Post-date cutoff exceptions:** `age_limit_exempt_sources` (Apple) keeps
+months-old postings that are still listed; they're deleted once unseen for 14
+days instead. Sources with years-old "always open" ads (some SmartRecruiters
+boards date theirs 2015) shouldn't be added.

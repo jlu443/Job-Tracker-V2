@@ -183,7 +183,7 @@ def _description_for(job: dict) -> str:
     # Curated-list rows carry their ATS's id, so the ATS fetcher applies.
     source = _ID_PREFIX_SOURCE.get(job["job_id"].split("_", 1)[0], job.get("source", ""))
     fetcher = _FETCHERS.get(source)
-    if fetcher is None:  # smartrecruiters/workable etc. — flags stay unknown
+    if fetcher is None:  # sources without a detail fetcher — flags stay unknown
         return job.get("description", "")
     try:
         return fetcher(job)
