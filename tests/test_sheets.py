@@ -99,3 +99,16 @@ def test_row_has_days_ago_formula_pay_and_direct_link():
     assert col("Apply") == '=HYPERLINK("https://co/apply", "Apply")'
     assert col("Days ago").startswith("=LET(") and col("Pay") == "$45–55/hr"
     assert len(row) == len(sheets.COLUMNS)
+
+
+def test_discord_messages_stay_under_6000_chars():
+    from datetime import date
+    from src import notify
+    jobs = [{"job_id": f"j{i}", "company": f"Company {i}", "title": "Software Engineer Intern " * 3,
+             "apply_url": f"https://example.com/jobs/{i}", "location": "San Francisco, CA",
+             "posted_on": date.today().isoformat(), "role_type": "intern",
+             "category": ("software", "data_ml", "hardware")[i % 3]} for i in range(400)]
+    batches = notify._batches(notify._embeds(jobs))
+    assert all(len(b) <= 10 for b in batches)
+    assert all(sum(len(e["title"]) + len(e["description"]) for e in b) <= 6000 for b in batches)
+    assert sum(len(e["description"].split("\n")) for b in batches for e in b) == 400

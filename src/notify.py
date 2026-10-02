@@ -138,14 +138,35 @@ def post_new_jobs(jobs_to_post: list[dict]) -> None:
         for j in jobs_to_post:
             print(f"  [{j['role_type']}] {j['company']}: {j['title']}")
         return
-    embeds = _embeds(jobs_to_post)
-    for i in range(0, len(embeds), _MAX_EMBEDS):
+    batches = _batches(_embeds(jobs_to_post))
+    failed = 0
+    for batch in batches:
         try:
-            _send(webhook, {"embeds": embeds[i:i + _MAX_EMBEDS]})
+            _send(webhook, {"embeds": batch})
         except requests.RequestException as exc:
+            failed += 1
             print(f"  ! Discord post failed: {exc}")
         time.sleep(0.5)
-    print(f"Announced {len(jobs_to_post)} new jobs to Discord.")
+    print(f"Announced {len(jobs_to_post)} new jobs to Discord in {len(batches)} messages"
+          + (f" ({failed} failed)" if failed else "") + ".")
+
+
+# Discord rejects a message whose embeds total more than 6,000 characters
+# (titles + descriptions), whatever the per-embed limits.
+_MAX_MESSAGE_CHARS = 5800
+
+
+def _batches(embeds: list[dict]) -> list[list[dict]]:
+    out: list[list[dict]] = []
+    size = 0
+    for e in embeds:
+        n = len(e.get("title", "")) + len(e.get("description", ""))
+        if not out or len(out[-1]) >= _MAX_EMBEDS or size + n > _MAX_MESSAGE_CHARS:
+            out.append([])
+            size = 0
+        out[-1].append(e)
+        size += n
+    return out
 
 
 def post_daily_summary(jobs_last_24h: list[dict], sheet_url: str = "") -> None:
