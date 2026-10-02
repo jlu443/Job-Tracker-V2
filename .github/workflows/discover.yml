@@ -1,0 +1,53 @@
+name: discover-boards
+
+# Daily: find company job boards the tracker doesn't scrape yet. Harvests
+# ATS links from the curated GitHub lists (and JobSpy postings), validates
+# each new board against its ATS's API, gives it a real company name, and
+# commits the config. New boards' existing jobs are stored silently on their
+# first scrape, so this never floods Discord.
+on:
+  schedule:
+    - cron: "17 9 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: discover-boards
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # Common Crawl is skipped: it's slow and mostly re-finds known boards.
+      - name: Discover new boards
+        run: python -m src.discover --no-cc
+
+      - name: Name new boards
+        run: python -m src.names
+
+      - name: Commit config changes
+        run: |
+          if git diff --quiet -- config/; then
+            echo "No new boards."
+            exit 0
+          fi
+          git diff --stat -- config/
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add config/
+          git commit -m "chore: discover new job boards [skip ci]"
+          git pull --rebase origin main
+          git push

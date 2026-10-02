@@ -39,7 +39,7 @@ var ROLE_COLORS = { "intern": "#E3F4E8", "new_grad": "#E3EEFA" };
 // lines instead of being cut off.
 var WIDTHS = {
   "Status": [110, 120], "Apply": [60, 70], "Score": [55, 60], "Why": [220, 340],
-  "Track": [110, 140], "Company": [120, 200], "Title": [220, 360], "Role": [70, 90],
+  "Track": [110, 140], "Visa outlook": [170, 230], "H-1B history": [130, 170], "OPT/CPT": [110, 170], "Company": [120, 200], "Title": [220, 360], "Role": [70, 90],
   "Category": [75, 95], "Location": [130, 240], "Posted": [90, 100],
   "First seen": [120, 135], "First marked": [120, 150], "Updated": [120, 150],
   "Visa sponsorship": [110, 130], "US citizenship": [100, 120], "Clearance": [95, 115],

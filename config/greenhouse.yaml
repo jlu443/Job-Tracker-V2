@@ -2689,3 +2689,147 @@ companies:
   name: RVO Health
   aliases:
   - rvohealth
+- token: grassrootsanalytics
+  name: Grassroots Analytics
+  aliases:
+  - grassrootsanalytics
+- token: gitai
+  name: gitai
+- token: amca
+  name: amca
+- token: capstoneinvestmentadvisors
+  name: Capstone Investment Advisors
+  aliases:
+  - capstoneinvestmentadvisors
+- token: 21shares
+  name: 21shares
+- token: gassouth
+  name: Gas South
+  aliases:
+  - gassouth
+- token: datacor
+  name: datacor
+- token: riotgamesup
+  name: Riot Games University Programs
+  aliases:
+  - riotgamesup
+- token: zetaglobal
+  name: Zeta Global
+  aliases:
+  - zetaglobal
+- token: evolutioniq
+  name: evolutioniq
+- token: claudecorps
+  name: Claude Corps
+  aliases:
+  - claudecorps
+- token: nimblerobotics
+  name: Nimble Robotics
+  aliases:
+  - nimblerobotics
+- token: globalwebindex
+  name: GWI
+  aliases:
+  - globalwebindex
+- token: asm
+  name: asm
+- token: tifin
+  name: tifin
+- token: squarepointcapital
+  name: Squarepoint Capital
+  aliases:
+  - squarepointcapital
+- token: aqr
+  name: aqr
+- token: block
+  name: block
+- token: jumptrading
+  name: Jump Trading
+  aliases:
+  - jumptrading
+- token: akunacapital
+  name: Akuna Capital
+  aliases:
+  - akunacapital
+- token: databricks
+  name: databricks
+- token: trillium
+  name: Open Roles
+  aliases:
+  - trillium
+- token: stepstone
+  name: StepStone Group
+  aliases:
+  - stepstone
+- token: everstreamanalytics
+  name: Everstream Analytics
+  aliases:
+  - everstreamanalytics
+- token: quantbot-technologies
+  name: Quantbot Technologies
+  aliases:
+  - quantbot-technologies
+- token: veritiongroupllc
+  name: Verition Group LLC
+  aliases:
+  - veritiongroupllc
+- token: coinbase
+  name: coinbase
+- token: awardco
+  name: awardco
+- token: gemini
+  name: gemini
+- token: riotgames
+  name: Riot Games
+  aliases:
+  - riotgames
+- token: konradgroup
+  name: Konrad
+  aliases:
+  - konradgroup
+- token: praetorian
+  name: praetorian
+- token: highradius
+  name: highradius
+- token: slice
+  name: slice
+- token: captiveaire
+  name: captiveaire
+- token: billtrust
+  name: Billtrust US Careers
+  aliases:
+  - billtrust
+- token: ocadogroup
+  name: Ocado Group
+  aliases:
+  - ocadogroup
+- token: urbancompass
+  name: Compass
+  aliases:
+  - urbancompass
+- token: t2systems
+  name: T2 Systems
+  aliases:
+  - t2systems
+- token: dexisconsultinggroup
+  name: Dexis
+  aliases:
+  - dexisconsultinggroup
+- token: highmetric
+  name: NewRocket
+  aliases:
+  - highmetric
+- token: chronograph
+  name: chronograph
+- token: capvision
+  name: True North Insights
+  aliases:
+  - capvision
+- token: ukmed
+  name: UK-Med
+  aliases:
+  - ukmed
+- token: towerresearchcapital
+  name: Tower Research Capital
+  aliases:
+  - towerresearchcapital

@@ -372,6 +372,14 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     # Work through open jobs whose description was never read, so the Sheet's
     # sponsorship / citizenship / clearance columns fill in over a few runs.
     # PhD & research internships first, then announced jobs, then newest.
+    if db._meta_get(conn, "flags_version") != enrich.FLAGS_VERSION:
+        # New description flag: re-read open PhD/research postings (the
+        # backlog takes them first) so the PhD tab gets it.
+        n = conn.execute("UPDATE jobs SET checked_at = '' WHERE status = 'active' "
+                         "AND research_track != ''").rowcount
+        db._meta_set(conn, "flags_version", enrich.FLAGS_VERSION)
+        conn.commit()
+        print(f"Description flags v{enrich.FLAGS_VERSION}: re-reading {n} PhD/research postings")
     backlog_n = settings.get("enrich_backlog_per_run", 300)
     if settings.get("enrich_descriptions", True) and backlog_n:
         backlog = [j for j in db.unchecked_open(conn, backlog_n * 3) if enrich.fetchable(j)]

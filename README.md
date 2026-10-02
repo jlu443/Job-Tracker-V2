@@ -205,3 +205,16 @@ its listings still arrive through the curated lists.
 months-old postings that are still listed; they're deleted once unseen for 14
 days instead. Sources with years-old "always open" ads (some SmartRecruiters
 boards date theirs 2015) shouldn't be added.
+
+**Visa sponsorship (PhD & Research tab).** `Visa outlook` combines what the
+posting says (sponsorship, US-citizen/clearance requirements, and a new
+`OPT/CPT` flag read from the description) with the company's H-1B record:
+`H-1B history` = USCIS H-1B Employer Data Hub approvals, FY2021–23, summed
+over the company's legal entities ([src/h1b.py](src/h1b.py); data committed as
+`config/h1b_employers.json.gz`, refresh with `python -m src.h1b --build 2021
+2022 2023`; abbreviations in `config/h1b_aliases.yaml`). No public per-employer
+OPT or CPT data exists, so those come only from the posting itself.
+
+**Daily discovery** ([.github/workflows/discover.yml](.github/workflows/discover.yml))
+adds new boards found in the curated lists, including Greenhouse boards hidden
+behind company career pages (`?gh_jid=`) or embeds, and commits the config.

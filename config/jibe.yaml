@@ -337,3 +337,7 @@ companies:
   name: International
   aliases:
   - careers.international.com
+- host: careers.certara.com
+  name: Certara
+  aliases:
+  - careers.certara.com

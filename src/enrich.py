@@ -217,6 +217,28 @@ _CITIZEN = [re.compile(p) for p in (
     r"(?:^|[.:] )(?:u\.?s\.?|united states) citizenship(?: required| is required)?(?:\.|$)",
 )]
 
+# Student work authorization (F-1 CPT / OPT / STEM OPT), stated in the posting.
+# There's no public per-employer data for either, so the posting is the only
+# direct source. Bare "opt" is English ("opt in"), so only unambiguous forms
+# count.
+# Bump when parse_flags learns a new flag: open PhD/research rows are re-read.
+FLAGS_VERSION = "2"   # 2: opt_cpt
+
+_OPT_TERM = (r"(?:stem opt|opt ?/ ?cpt|cpt ?/ ?opt|opt or cpt|cpt or opt|opt and cpt|"
+             r"cpt and opt|\bcpt\b|curricular practical training|optional practical "
+             r"training|f-?1 (?:students?|visa|opt|status))")
+_OPT_NO = [re.compile(p) for p in (
+    r"(?:not|unable|cannot|can ?not|won'?t|will not|do(?:es)? not|ineligible)[^.]{0,60}"
+    + _OPT_TERM,
+    _OPT_TERM + r"[^.]{0,40}(?:not (?:eligible|accepted|supported|available|considered)"
+                r"|ineligible)",
+)]
+_OPT_YES = [re.compile(p) for p in (
+    _OPT_TERM + r"[^.]{0,60}(?:eligible|welcome|accepted|considered|supported|available|"
+                r"encouraged to apply)",
+    r"(?:accept|consider|welcome|support)\w*[^.]{0,40}" + _OPT_TERM,
+)]
+
 _YES_SPONSOR = [re.compile(p) for p in (
     r"(?:visa |h-?1b |immigration )?sponsorship (?:is )?available",
     r"will (?:consider )?sponsor",
@@ -288,9 +310,10 @@ def _grad_years(t: str) -> str:
 def parse_flags(text: str) -> dict:
     """sponsorship: 'yes' | 'no' | ''   citizenship: 'required' | ''
     clearance: 'yes' (required/mentioned) | 'none' (explicitly not required) | ''
-    grad_year: '2026' | '2026, 2027' | ''      pay: '$45–55/hr' | '$120k–150k/yr' | ''"""
+    grad_year: '2026' | '2026, 2027' | ''      pay: '$45–55/hr' | '$120k–150k/yr' | ''
+    opt_cpt: 'yes' (CPT/OPT/F-1 students accepted) | 'no' (ruled out) | ''"""
     flags = {"sponsorship": "", "citizenship": "", "clearance": "", "grad_year": "",
-             "pay": ""}
+             "pay": "", "opt_cpt": ""}
     if not text:
         return flags
     # Newlines become sentence boundaries so bullet-list items don't bleed
@@ -309,6 +332,11 @@ def parse_flags(text: str) -> dict:
         flags["clearance"] = "none"
     elif any(p.search(t) for p in _CLEARANCE):
         flags["clearance"] = "yes"
+
+    if flags["citizenship"] or any(p.search(t) for p in _OPT_NO):
+        flags["opt_cpt"] = "no"
+    elif any(p.search(t) for p in _OPT_YES):
+        flags["opt_cpt"] = "yes"
 
     flags["grad_year"] = _grad_years(t)
     flags["pay"] = parse_pay(text)

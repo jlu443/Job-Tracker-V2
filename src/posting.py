@@ -26,6 +26,7 @@ class JobPosting:
     citizenship: str = ""
     grad_year: str = ""
     pay: str = ""             # "$45–55/hr" | "$120k–150k/yr"
+    opt_cpt: str = ""         # 'yes' | 'no' | '': F-1 CPT/OPT stated in the posting
     checked: bool = False
 
     def __post_init__(self):

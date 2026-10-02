@@ -929,3 +929,23 @@ companies:
   name: Galatea Associates
   aliases:
   - galatea-associates
+- slug: patchmypc
+  name: Patch My PC
+  aliases:
+  - patchmypc
+- slug: wepclinical
+  name: WEP Clinical
+  aliases:
+  - wepclinical
+- slug: shopback-2
+  name: ShopBack
+  aliases:
+  - shopback-2
+- slug: runlaminar
+  name: Laminar
+  aliases:
+  - runlaminar
+- slug: true-environmental
+  name: True Environmental
+  aliases:
+  - true-environmental

@@ -1239,3 +1239,27 @@ companies:
   name: Milwaukee Brewers
   aliases:
   - careers-brewers
+- host: careers-hrblock.icims.com
+  name: H&R Block
+  aliases:
+  - careers-hrblock
+- host: campus-us-corgan.icims.com
+  name: Corgan
+  aliases:
+  - campus-us-corgan
+- host: careers-novelis.icims.com
+  name: Novelis
+  aliases:
+  - careers-novelis
+- host: careers-ftidefense.icims.com
+  name: Frontier Technology
+  aliases:
+  - careers-ftidefense
+- host: careers-mwdh2o.icims.com
+  name: Metropolitan Water District of Southern California
+  aliases:
+  - careers-mwdh2o
+- host: careers-liro.icims.com
+  name: LiRo
+  aliases:
+  - careers-liro

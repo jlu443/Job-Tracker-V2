@@ -21,7 +21,7 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
-from . import db, dedupe, phd
+from . import db, dedupe, h1b, phd
 
 COLUMNS = ["Apply", "Company", "Title", "Role", "Category", "Location", "Posted",
            "Days ago", "First seen", "Visa sponsorship", "US citizenship", "Clearance",
@@ -92,14 +92,40 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
 
 
 PHD_TAB = "PhD & Research"
-PHD_COLUMNS = ["Track"] + COLUMNS
+PHD_COLUMNS = ["Track", "Visa outlook", "H-1B history", "OPT/CPT"] + COLUMNS
 _TRACK = {"phd": "PhD", "research_ms": "Research (MS/PhD)"}
+_OPT = {"yes": "Accepted (per posting)", "no": "Not accepted (per posting)"}
+
+
+def visa_outlook(job: dict, h1b_approvals: int | None) -> str:
+    """One-glance verdict for an F-1 student. What the posting says always
+    wins; otherwise the company's H-1B record (USCIS) is the best predictor,
+    since companies that file H-1Bs routinely hire on OPT / STEM OPT."""
+    if job.get("citizenship") == "required" or job.get("clearance") == "yes":
+        return "🇺🇸 US citizens / clearance only"
+    if job.get("sponsorship") == "no" or job.get("opt_cpt") == "no":
+        return "❌ Posting rules out sponsorship"
+    if job.get("sponsorship") == "yes" or job.get("opt_cpt") == "yes":
+        return "✅ Posting offers sponsorship / OPT"
+    if h1b_approvals is None:
+        return "⚪ Unknown"
+    if h1b_approvals >= 50:
+        return "🟢 Likely: sponsors H-1Bs regularly"
+    if h1b_approvals >= 1:
+        return "🟡 Some H-1B history"
+    return "⚪ No H-1B record"
 
 
 def build_phd_tab(conn: sqlite3.Connection, settings: dict) -> list[list]:
-    """Open PhD / research-track internships (src/phd.py), newest-posted first."""
-    return [[_TRACK.get(j["research_track"], "")] + _row(j)
-            for j in phd.open_internships(conn, settings)]
+    """Open PhD / research-track internships (src/phd.py), newest-posted
+    first, with the company's H-1B record and the posting's OPT/CPT stance."""
+    rows = []
+    for j in phd.open_internships(conn, settings):
+        n = h1b.approvals(j["company"])
+        rows.append([_TRACK.get(j["research_track"], ""), visa_outlook(j, n),
+                     h1b.label(j["company"]), _OPT.get(j.get("opt_cpt") or "", "")]
+                    + _row(j))
+    return rows
 
 
 def _post(webhook: str, payload: dict) -> dict:

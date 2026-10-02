@@ -987,3 +987,11 @@ companies:
   name: IPT Global
   aliases:
   - IPTGlobal
+- company: DPDGroupUK1
+  name: DPD Group UK
+  aliases:
+  - DPDGroupUK1
+- company: UnitedFranchiseGroup
+  name: United Franchise Group
+  aliases:
+  - UnitedFranchiseGroup

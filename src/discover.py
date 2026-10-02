@@ -358,6 +358,7 @@ _GITHUB_SOURCES = [
 
 def harvest_from_github(specs: list[ATSSpec] = ATS_SPECS) -> dict[str, list[dict]]:
     found: dict[str, list[dict]] = {}
+    texts: list[str] = []
     for url in _GITHUB_SOURCES:
         try:
             resp = requests.get(url, headers=_HEADERS, timeout=30)
@@ -369,6 +370,57 @@ def harvest_from_github(specs: list[ATSSpec] = ATS_SPECS) -> dict[str, list[dict
             continue
         print(f"  GitHub: fetched {'/'.join(url.split('/')[3:5])} ({url.rsplit('/', 1)[-1]})")
         _merge_found(found, _extract_all(resp.text, specs))
+        texts.append(resp.text)
+    if any(s.name == "greenhouse" for s in specs):
+        _merge_found(found, {"greenhouse": resolve_hidden_greenhouse("\n".join(texts))})
+    return found
+
+
+# Greenhouse jobs linked without their board's name: on the company's own
+# site (careers.aqr.com/jobs?gh_jid=123) or as an embed (boards.greenhouse.io/
+# embed/job_app?token=123). The page itself names the board ("...?for=aqr").
+_GH_HIDDEN = re.compile(
+    r"https?://[^\s\"'<>\\]+?(?:[?&]gh_jid=|greenhouse\.io/embed/job_app\?(?:[^\s\"'<>]*&)?"
+    r"token=)(\d+)", re.I)
+_GH_TOKEN_IN_PAGE = re.compile(
+    r"(?:boards|job-boards)(?:\.eu)?\.greenhouse\.io/(?:embed/job_(?:board|app)(?:/js)?\?"
+    r"(?:[^\"'<>\s]*&)?for=)?([a-z0-9_-]+)|boards-api\.greenhouse\.io/v1/boards/([a-z0-9_-]+)"
+    r"|[?&]for=([a-z0-9_-]+)", re.I)
+_GH_NOT_TOKENS = {"embed", "v1", "boards", "job_app", "job_board", "js"}
+
+
+def _resolve_one(url: str, job_id: str) -> dict | None:
+    try:
+        resp = requests.get(url, headers=_HEADERS, timeout=25, allow_redirects=True)
+    except requests.RequestException:
+        return None
+    tokens = {t.lower() for m in _GH_TOKEN_IN_PAGE.findall(resp.url + " " + resp.text)
+              for t in m if t and t.lower() not in _GH_NOT_TOKENS}
+    for token in sorted(tokens):
+        data = _request_json("GET", f"https://boards-api.greenhouse.io/v1/boards/{token}/jobs")
+        # Only a board that actually lists this job counts.
+        if data and any(str(j.get("id")) == job_id for j in data.get("jobs", [])):
+            return {"token": token, "name": token}
+    return None
+
+
+def resolve_hidden_greenhouse(text: str, max_pages: int = 400) -> list[dict]:
+    """Board tokens for Greenhouse jobs linked without one. One page fetch
+    per company site; embeds are fetched per job."""
+    seen_sites: set[str] = set()
+    todo: list[tuple[str, str]] = []
+    for m in _GH_HIDDEN.finditer(text):
+        url, job_id = m.group(0), m.group(1)
+        site = url if "embed/job_app" in url else url.split("/")[2].lower()
+        if site in seen_sites:
+            continue
+        seen_sites.add(site)
+        todo.append((url, job_id))
+    todo = todo[:max_pages]
+    print(f"  Greenhouse: resolving {len(todo)} boards hidden behind company pages / embeds ...")
+    with ThreadPoolExecutor(max_workers=_VALIDATE_WORKERS) as pool:
+        found = [r for r in pool.map(lambda t: _resolve_one(*t), todo) if r]
+    print(f"  Greenhouse: resolved {len({f['token'] for f in found})} board tokens")
     return found
 
 

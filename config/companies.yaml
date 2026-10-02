@@ -10,7 +10,9 @@ companies:
 - tenant: aba
   wd: wd1
   site: ABA
-  name: aba
+  name: American Bankers Association
+  aliases:
+  - aba
 - tenant: abcsupply
   wd: wd1
   site: ABCSupplyCareers
@@ -1112,7 +1114,9 @@ companies:
 - tenant: quickenloans
   wd: wd5
   site: rocket_careers
-  name: quickenloans
+  name: Rocket Mortgage
+  aliases:
+  - quickenloans
 - tenant: thyssenkruppmaterialsna
   wd: wd12
   site: '1'
@@ -6402,7 +6406,9 @@ companies:
 - tenant: tsys
   wd: wd1
   site: tsys
-  name: tsys
+  name: Global Payments
+  aliases:
+  - tsys
 - tenant: cadence
   wd: wd1
   site: University_CST
@@ -9195,3 +9201,47 @@ companies:
   wd: wd5
   site: External
   name: chewy
+- tenant: elevancehealth
+  wd: wd1
+  site: ELV-ET
+  name: elevancehealth
+- tenant: olg
+  wd: wd3
+  site: Careers-Students
+  name: olg
+- tenant: avnet
+  wd: wd1
+  site: external
+  name: avnet
+- tenant: healthcare
+  wd: wd1
+  site: private
+  name: Solventum
+  aliases:
+  - healthcare
+- tenant: primient
+  wd: wd1
+  site: External_Careers
+  name: primient
+- tenant: aba
+  wd: wd1
+  site: aba
+  name: American Bankers Association
+  aliases:
+  - aba
+- tenant: avnet
+  wd: wd1
+  site: External
+  name: avnet
+- tenant: acuityinternational
+  wd: wd5
+  site: external
+  name: Acuity International
+  aliases:
+  - acuityinternational
+- tenant: sterlingmets
+  wd: wd5
+  site: Mets
+  name: Major League Baseball
+  aliases:
+  - sterlingmets

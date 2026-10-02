@@ -1,0 +1,19 @@
+# Company name (as the tracker shows it) -> employer name USCIS files H-1Bs
+# under, for abbreviations, nicknames and operator entities (src/h1b.py).
+# Add a line whenever the Sheet shows "not found" for a company you know
+# sponsors.
+aliases:
+  AMD: Advanced Micro Devices
+  RTX: Raytheon
+  LLNL: Lawrence Livermore National Security
+  Sandia National Laboratories: National Technology and Engineering Solutions of Sandia
+  Johns Hopkins Applied Physics Laboratory: Johns Hopkins University Applied Physics Laboratory
+  MIT Lincoln Laboratory: Massachusetts Institute of Technology
+  tamus: Texas A and M University
+  washpost: WP Company
+  dowjones: Dow Jones
+  oxy: Occidental Petroleum
+  digikey: Digi Key
+  relx: RELX
+  pimco: Pacific Investment Management
+  Excellus BCBS: Excellus Health Plan
