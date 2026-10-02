@@ -97,6 +97,10 @@ profile:
   us_citizen: true         # false: hide citizenship- or clearance-required jobs
   locations: []            # e.g. [CA, WA, New York, Remote]; empty = anywhere in the US
 
+# Discord: new jobs are collected and posted as one digest every N hours.
+discord:
+  digest_hours: 3
+
 # Only announce jobs in these functions (classify.categorize / curated-list
 # category). Remove the key to announce every function (sales, legal, ...).
 announce_categories: [software, data_ml, hardware, quant, product]

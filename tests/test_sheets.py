@@ -1,3 +1,4 @@
+import pytest
 from datetime import datetime, timedelta, timezone
 
 from src import db, sheets
@@ -24,12 +25,13 @@ def test_build_tabs_uses_announcements_and_keeps_all_stored():
 
     tabs = sheets.build_tabs(conn, include_all=True)
     ids = lambda tab: sorted(r[-1] for r in tabs[tab])
-    assert ids("Today") == ["gh_1"]
-    assert ids("This Week") == ["gh_1", "gh_4"]
-    assert ids("All Open") == ["gh_1", "gh_4"]                        # closed gh_2 left out
-    today = tabs["Today"][0]
+    assert ids("Internships · Today") == ["gh_1"]
+    assert ids("Internships · This Week") == ["gh_1", "gh_4"]
+    assert ids("Internships · All Open") == ["gh_1", "gh_4"]          # closed gh_2 left out
+    assert ids("New Grad · This Week") == []
+    today = tabs["Internships · Today"][0]
     assert today[0] == '=HYPERLINK("https://x/gh_1", "Apply")' and len(today) == len(sheets.COLUMNS)
-    assert "All Open" not in sheets.build_tabs(conn, include_all=False)
+    assert not any(t.endswith("All Open") for t in sheets.build_tabs(conn, include_all=False))
 
 
 def test_discord_grouping_and_hot_flag():
@@ -51,7 +53,7 @@ def test_discord_grouping_and_hot_flag():
     assert [e["title"] for e in embeds] == ["💻 Software (2)", "📊 Data / ML (1)"]
     first, second = embeds[0]["description"].split("\n")
     assert first.startswith("⭐ **Acme**") and not second.startswith("⭐")   # 212 applicants
-    assert "🕰️ old post" in embeds[1]["description"]
+    assert "🕰️" in embeds[1]["description"]
 
 
 def test_flag_columns_distinguish_unchecked_from_not_mentioned():
@@ -112,3 +114,32 @@ def test_discord_messages_stay_under_6000_chars():
     assert all(len(b) <= 10 for b in batches)
     assert all(sum(len(e["title"]) + len(e["description"]) for e in b) <= 6000 for b in batches)
     assert sum(len(e["description"].split("\n")) for b in batches for e in b) == 400
+
+
+
+def test_compact_discord_line():
+    from datetime import date
+    from src import notify
+    line = notify._line({"company": "Acme", "title": "Software Engineer, New Grad",
+                         "apply_url": "https://a", "location": "Austin, TX; Seattle, WA +2 more",
+                         "posted_on": date.today().isoformat(), "role_type": "new_grad",
+                         "sponsorship": "no", "pay": "$120k–150k/yr"})
+    assert line == ("⭐ **Acme** · [Software Engineer, New Grad](https://a) · Austin +3 · today"
+                    "  🎓 ❌ visa 💵 $120k–150k/yr")
+
+
+
+@pytest.mark.parametrize("loc,place", [
+    ("US-AZ-TUCSON-801 ~ 1151 E Hermans Rd ~ BLDG 801 (External Site)", "Tucson"),
+    ("Salem-Virginia-United States of America", "Salem"),
+    ("2 Locations", "2 locations"),
+    ("Remote - US", "Remote"),
+    ("Winston-Salem, NC", "Winston-Salem"),
+])
+def test_discord_place(loc, place):
+    from src import notify
+    assert notify._place(loc) == place
+
+
+def test_key_rows_shape():
+    assert all(len(r) == 5 for r in sheets.KEY_ROWS)

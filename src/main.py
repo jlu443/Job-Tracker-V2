@@ -212,6 +212,25 @@ def _scrape_ats(settings: dict, postings: list, complete_scopes: set, conn,
     return board_stats
 
 
+def _discord_digest(conn, settings: dict) -> None:
+    """Post the jobs announced since the last digest once digest_hours have
+    passed. Jobs closed in the meantime are left out."""
+    hours = (settings.get("discord") or {}).get("digest_hours", 3)
+    now = datetime.now(timezone.utc)
+    last = db._meta_get(conn, "discord_last_digest_at")
+    if last and datetime.fromisoformat(last) > now - timedelta(hours=hours, minutes=-10):
+        print(f"Discord digest: next one {hours}h after {last[11:16]} UTC")
+        return
+    since = last or (now - timedelta(hours=hours)).isoformat(timespec="seconds")
+    conn.row_factory = sqlite3.Row
+    jobs = [dict(r) for r in conn.execute(
+        "SELECT * FROM jobs WHERE announced_at > ? AND status = 'active' "
+        "ORDER BY posted_on DESC", (since,))]
+    notify.post_digest(jobs, f"{since[11:16]} UTC", os.environ.get("GOOGLE_SHEET_URL", ""))
+    db._meta_set(conn, "discord_last_digest_at", now.isoformat(timespec="seconds"))
+    conn.commit()
+
+
 # -- collect: scraping, all of it or one part -------------------------------
 
 @dataclasses.dataclass
@@ -410,21 +429,11 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     if skipped_profile:
         print("Profile filtered: " + ", ".join(f"{n} {r}" for r, n in skipped_profile.items()))
 
-    notify.post_new_jobs(targets)
+    # Announced = in the Sheet's Today / This Week now; Discord gets them in
+    # one digest every few hours instead of a post per hourly run.
     db.mark_announced(conn, [j["job_id"] for j in targets])
     sheets.publish(conn, settings)
-
-    # Once a day, a one-line digest pointing at the sheet's Today tab.
-    last_digest = db._meta_get(conn, "discord_digest_at")
-    if not last_digest or last_digest < (datetime.now(timezone.utc)
-                                         - timedelta(hours=23)).isoformat(timespec="seconds"):
-        day_ago = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat(timespec="seconds")
-        conn.row_factory = sqlite3.Row
-        recent = [dict(r) for r in conn.execute(
-            "SELECT * FROM jobs WHERE announced_at >= ?", (day_ago,))]
-        notify.post_daily_summary(recent, os.environ.get("GOOGLE_SHEET_URL", ""))
-        db._meta_set(conn, "discord_digest_at", db._now())
-        conn.commit()
+    _discord_digest(conn, settings)
 
     if settings.get("max_listing_age_days"):
         purged = db.purge_old(

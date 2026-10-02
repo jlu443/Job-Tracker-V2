@@ -40,32 +40,65 @@ def is_hot(job: dict) -> bool:
     return not count or "first" in applicants.lower() or int(count.group()) < 50
 
 
+_WD_SITE = re.compile(r"^[A-Z]{2}-[A-Z]{2}-([A-Za-z .]+?)(?:-\d+)?$")
+_N_LOCATIONS = re.compile(r"^(\d+) Locations?$", re.I)
+
+
+def _city(raw: str) -> str:
+    """'Austin, TX' -> Austin; Workday site codes 'US-AZ-TUCSON-801 ~ 1151 E
+    Hermans Rd' -> Tucson; 'Salem-Virginia-United States of America' -> Salem."""
+    text = re.sub(r"\(.*?\)", "", raw.split("~")[0]).strip()
+    m = _WD_SITE.match(text)
+    if m:
+        return m.group(1).strip().title()
+    city = text.split(",")[0].strip()
+    if "," not in text and "-" in city and not city.lower().startswith("remote"):
+        city = city.split("-")[0].strip()
+    if city.lower().startswith("remote"):
+        return "Remote"
+    return city
+
+
+def _place(location: str) -> str:
+    """First city only, with a count of the rest: "Austin +3"."""
+    parts = [p for p in (location or "").replace(" +", "; +").split("; ") if p]
+    if not parts:
+        return ""
+    m = _N_LOCATIONS.match(parts[0].strip())
+    if m:
+        return f"{m.group(1)} locations"
+    more = sum(int(p[1:].split()[0]) if p.startswith("+") else 1 for p in parts[1:])
+    return _city(parts[0]) + (f" +{more}" if more else "")
+
+
 def _line(job: dict) -> str:
-    title = job["title"] if len(job["title"]) <= 90 else job["title"][:87] + "…"
-    bits = [f"{'⭐ ' if is_hot(job) else ''}**{job['company'] or '—'}** · "
-            f"[{title}]({job.get('direct_url') or job['apply_url']})"]
-    if job.get("location"):
-        bits.append(job["location"][:40])
+    """One short line: ⭐ Company · Title · City · 2d, plus flags only when
+    they matter (visa, clearance, pay, repost, new grad)."""
+    title = job["title"] if len(job["title"]) <= 70 else job["title"][:67] + "…"
+    url = job.get("direct_url") or job["apply_url"]
+    bits = [f"{'⭐ ' if is_hot(job) else ''}**{job['company'] or '—'}** · [{title}]({url})"]
+    place = _place(job.get("location") or "")
+    if place:
+        bits.append(place)
     age = dates.age_days(job.get("posted_on") or "")
     if age is not None:
-        bits.append("today" if age <= 0 else f"{age}d ago")
+        bits.append("today" if age <= 0 else f"{age}d")
+    flags = []
     if job["role_type"] == "new_grad":
-        bits.append("new grad")
+        flags.append("🎓")
     if job.get("citizenship") == "required":
-        bits.append("🇺🇸 US citizens only")
+        flags.append("🇺🇸 only")
     elif job.get("sponsorship") == "no":
-        bits.append("❌ no visa")
+        flags.append("❌ visa")
     elif job.get("sponsorship") == "yes":
-        bits.append("✅ visa")
+        flags.append("✅ visa")
     if job.get("clearance") == "yes":
-        bits.append("🔒 clearance")
+        flags.append("🔒")
     if job.get("pay"):
-        bits.append(f"💵 {job['pay']}")
-    if job.get("applicants"):
-        bits.append(job["applicants"])
+        flags.append(f"💵 {job['pay']}")
     if job.get("repost"):
-        bits.append(_FLAG.get(job["repost"], "♻️ repost"))
-    return " · ".join(bits)
+        flags.append("🕰️" if job["repost"] == "stale" else "♻️")
+    return " · ".join(bits) + ("  " + " ".join(flags) if flags else "")
 
 
 def _embeds(jobs: list[dict]) -> list[dict]:
@@ -169,23 +202,34 @@ def _batches(embeds: list[dict]) -> list[list[dict]]:
     return out
 
 
-def post_daily_summary(jobs_last_24h: list[dict], sheet_url: str = "") -> None:
-    """One line a day: what came in, by category, and where to see it all."""
-    webhook = os.environ.get("DISCORD_WEBHOOK_URL")
-    counts = {}
-    for j in jobs_last_24h:
+def post_digest(jobs: list[dict], since_label: str, sheet_url: str = "") -> None:
+    """Every few hours: one header line, then the jobs announced since the
+    last digest as compact per-category lists. Replaces a post per run."""
+    if not jobs:
+        print("Discord digest: nothing new since the last one.")
+        return
+    counts: dict = {}
+    for j in jobs:
         counts[j.get("category")] = counts.get(j.get("category"), 0) + 1
     parts = [f"{n} {_CATEGORY_HEADINGS[c][0].split(' ', 1)[1].lower()}"
              for c, n in sorted(counts.items(), key=lambda kv: -kv[1])
              if c in _CATEGORY_HEADINGS]
-    hot = sum(is_hot(j) for j in jobs_last_24h)
-    text = (f"📬 **Last 24 hours: {len(jobs_last_24h)} new intern/new-grad jobs**"
-            + (f" ({', '.join(parts)})" if parts else "")
-            + (f" · ⭐ {hot} fresh with few applicants" if hot else "")
-            + (f"\nFull list with status tracking: {sheet_url}" if sheet_url else ""))
-    print(text)
-    if webhook:
-        try:
-            _send(webhook, {"content": text[:2000]})
-        except requests.RequestException as exc:
-            print(f"  ! Discord summary failed: {exc}")
+    hot = sum(is_hot(j) for j in jobs)
+    header = (f"📬 **{len(jobs)} new intern/new-grad jobs since {since_label}**"
+              + (f" ({', '.join(parts)})" if parts else "")
+              + (f" · ⭐ {hot} fresh, few applicants" if hot else "")
+              + "\n-# ⭐ apply first · 🎓 new grad · ❌/✅ visa · 🇺🇸 citizens only · 🔒 clearance"
+              + " · ♻️ repost · 🕰️ old post"
+              + (f"\n-# Full list with status tracking: <{sheet_url}>" if sheet_url else ""))
+    webhook = os.environ.get("DISCORD_WEBHOOK_URL")
+    if not webhook:
+        print(header)
+        for j in jobs:
+            print("  " + _line(j))
+        return
+    try:
+        _send(webhook, {"content": header[:2000]})
+    except requests.RequestException as exc:
+        print(f"  ! Discord digest header failed: {exc}")
+    post_new_jobs(jobs)
+

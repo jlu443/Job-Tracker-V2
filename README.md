@@ -218,3 +218,14 @@ OPT or CPT data exists, so those come only from the posting itself.
 **Daily discovery** ([.github/workflows/discover.yml](.github/workflows/discover.yml))
 adds new boards found in the curated lists, including Greenhouse boards hidden
 behind company career pages (`?gh_jid=`) or embeds, and commits the config.
+
+**Sheet layout (script v4).** A **Key** tab (the spreadsheet's default
+Sheet1, renamed) explains the row colours, role tints, closed-listing marks,
+columns and tabs. Internships and new-grad roles have separate tabs:
+`Internships · Today / This Week / All Open` and `New Grad · Today / This
+Week / All Open`; the old combined tabs are removed automatically.
+
+**Discord digest.** New jobs are posted as one digest every
+`discord.digest_hours` (3): a header with counts and an emoji legend, then
+one short line per job (company · title · city · age, plus 🎓 / visa / 🔒 /
+pay / repost flags only when they apply).

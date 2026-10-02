@@ -37,7 +37,7 @@ def _flag(value: str, labels: dict, checked: bool) -> str:
     return labels.get(value, value) if value else ("Not mentioned" if checked else "")
 _REPOST = {"relisted": "re-listed", "linkedin": "LinkedIn repost", "stale": "old posting",
            "bumped": "re-dated"}
-_SCRIPT_VERSION = 3
+_SCRIPT_VERSION = 4
 
 
 def _apply_cell(url: str) -> str:
@@ -76,15 +76,59 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
     # One row per role on the short lists: a job posted in 12 cities is one
     # opening to apply to, with its locations merged.
     collapse = lambda js: [_row(j) for j in dedupe.collapse_roles(js)]
-    tabs = {
-        "Today": collapse([j for j in announced if j["announced_at"] >= since(24)]),
-        "This Week": collapse([j for j in announced if j["announced_at"] >= since(24 * 7)]),
-    }
+    tabs = {}
+    # Internships and new-grad roles on separate tabs.
+    for role, label in ROLE_TABS:
+        mine = [j for j in announced if j["role_type"] == role]
+        tabs[f"{label} · Today"] = collapse([j for j in mine if j["announced_at"] >= since(24)])
+        tabs[f"{label} · This Week"] = collapse(
+            [j for j in mine if j["announced_at"] >= since(24 * 7)])
     if include_all:
         # Open listings only: closed rows stay in the DB for repost history,
         # but would bury the open ones (57k rows vs ~25k open on 2026-10-01).
-        tabs["All Open"] = [_row(j) for j in jobs if j["status"] == "active"]
+        for role, label in ROLE_TABS:
+            tabs[f"{label} · All Open"] = [_row(j) for j in jobs
+                                           if j["status"] == "active" and j["role_type"] == role]
     return tabs
+
+
+ROLE_TABS = [("intern", "Internships"), ("new_grad", "New Grad")]
+
+# The "Key" tab (written into the spreadsheet's default Sheet1). Colours must
+# match docs/apps_script.gs (FRESH, ROLE_COLORS).
+KEY_ROWS = [
+    ["Row colours", "Posted in the last 2 days", "Bright yellow row, Posted date in bold. "
+     "Updates every day on its own.", "#FFE68A", "bold"],
+    ["Row colours", "Posted 3-7 days ago", "Light yellow row.", "#FFF7D1", ""],
+    ["Row colours", "Posted over a week ago", "No highlight.", "", ""],
+    ["Row colours", "Big tabs (All Open)", "Only the Posted cell is tinted, to keep "
+     "40,000-row tabs fast.", "", ""],
+    ["Role cell", "intern", "Internship / co-op.", "#E3F4E8", ""],
+    ["Role cell", "new_grad", "New-grad / entry-level full-time.", "#E3EEFA", ""],
+    ["My Applications", "Struck-through grey row", "The listing has been taken down "
+     "(Listing = closed).", "", "strike"],
+    ["Status", "Dropdown (first column)", "Interested / Applied / Interviewing / Offer / "
+     "Rejected / Skip. Setting one copies the job into My Applications, kept forever; "
+     "your status survives every refresh.", "", ""],
+    ["Columns", "Visa sponsorship", "Offered / Not offered, from the posting. "
+     "Not mentioned = read, says nothing. Blank = not read yet.", "", ""],
+    ["Columns", "US citizenship / Clearance", "Required when the posting demands US "
+     "citizenship or a security clearance.", "", ""],
+    ["Columns", "Pay", "Range from the posting, e.g. $45-55/hr or $120k-150k/yr.", "", ""],
+    ["Columns", "Repost", "re-listed / re-dated / LinkedIn repost / old posting: "
+     "the job isn't as new as it looks.", "", ""],
+    ["Tabs", "Internships / New Grad · Today", "Jobs announced in the last 24 hours, "
+     "one row per role (cities merged).", "", ""],
+    ["Tabs", "Internships / New Grad · This Week", "The same for 7 days.", "", ""],
+    ["Tabs", "Internships / New Grad · All Open", "Every open job (60-day window), "
+     "refreshed once a day.", "", ""],
+    ["Tabs", "PhD & Research", "Open PhD and research-track (MS/PhD) internships.", "", ""],
+    ["Tabs", "Visa Sponsors", "Companies with open PhD/research internships and their "
+     "visa record. 🟢 likely = 50+ H-1B approvals FY21-23 (USCIS); 🟡 some history; "
+     "✅/❌ = what their postings say; 🇺🇸 = citizens/clearance only.", "", ""],
+]
+# Tabs from before the intern / new-grad split; removed from the sheet.
+RETIRED_TABS = ["Today", "This Week", "All Open"]
 
 
 PHD_TAB = "PhD & Research"
@@ -178,7 +222,7 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
               f"(v{_SCRIPT_VERSION}) to get closed-listing marks in My Applications.")
 
     refresh_hours = settings.get("sheets", {}).get("all_open_refresh_hours", 24)
-    last = db._meta_get(conn, "sheets_all_open_at_v3")
+    last = db._meta_get(conn, "sheets_all_open_at_v4")
     include_all = (not last or datetime.fromisoformat(last)
                    < datetime.now(timezone.utc) - timedelta(hours=refresh_hours))
 
@@ -198,9 +242,16 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
             print(f"  ! Google Sheets tab {tab!r}: {result.get('error')}")
             continue
         print(f"Sheet tab {tab!r}: {len(rows)} rows")
-        if tab == "All Open":
-            db._meta_set(conn, "sheets_all_open_at_v3", db._now())
+        if tab.endswith("All Open"):
+            db._meta_set(conn, "sheets_all_open_at_v4", db._now())
             conn.commit()
+
+    if version >= 4:
+        try:
+            _post(webhook, {"action": "write_key", "rows": KEY_ROWS})
+            _post(webhook, {"action": "delete_tabs", "tabs": RETIRED_TABS})
+        except requests.RequestException as exc:
+            print(f"  ! Google Sheets tab cleanup failed: {exc}")
 
     if version >= 3:
         # Jobs taken down, or aged out of the DB's window, get marked closed

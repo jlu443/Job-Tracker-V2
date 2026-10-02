@@ -24,13 +24,14 @@
  *      GOOGLE_SHEETS_WEBHOOK_URL secret.
  */
 
-var VERSION = 3;
+var VERSION = 4;
 var APPLICATIONS = "My Applications";
 var STATUSES = ["Interested", "Applied", "Interviewing", "Offer", "Rejected", "Skip"];
 // New columns are only ever appended at the end, so a My Applications tab
 // created by an older version keeps lining up (ensureAppColumns_ adds them).
 var APP_COLUMNS = ["Status", "Apply", "Company", "Title", "Role", "Location",
                    "Posted", "First marked", "Updated", "job_id", "Listing", "Pay"];
+var KEY_TAB = "Key";
 var ROLE_COLORS = { "intern": "#E3F4E8", "new_grad": "#E3EEFA" };
 
 // Column widths in pixels, by header. Columns are first auto-sized to their
@@ -59,6 +60,10 @@ function doPost(e) {
     var result;
     if (body.action === "ping") {
       result = { ok: true, version: VERSION };
+    } else if (body.action === "write_key") {
+      result = writeKey_(body.rows || []);
+    } else if (body.action === "delete_tabs") {
+      result = deleteTabs_(body.tabs || []);
     } else if (body.action === "list_applications") {
       result = { ok: true, ids: Object.keys(readApplications_()) };
     } else if (body.action === "listing_status") {
@@ -74,6 +79,53 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+/** The "Key" tab: what each colour, column and tab means. Reuses the
+ *  spreadsheet's empty default "Sheet1" and keeps the key as the first tab.
+ *  rows: [section, item, meaning, background colour or "", style] where
+ *  style is "" | "bold" | "strike". */
+function writeKey_(rows) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(KEY_TAB) || ss.getSheetByName("Sheet1")
+              || ss.insertSheet(KEY_TAB, 0);
+  if (sheet.getName() !== KEY_TAB) sheet.setName(KEY_TAB);
+  ss.setActiveSheet(sheet);
+  ss.moveActiveSheet(1);
+  sheet.clear();
+  var header = ["Section", "Item", "Meaning"];
+  var values = [header].concat(rows.map(function (r) { return [r[0], r[1], r[2]]; }));
+  sheet.getRange(1, 1, values.length, 3).setValues(values);
+  styleHeader_(sheet, 3);
+  sheet.setFrozenRows(1);
+  for (var i = 0; i < rows.length; i++) {
+    var item = sheet.getRange(i + 2, 2);
+    if (rows[i][3]) item.setBackground(rows[i][3]);
+    if (rows[i][4] === "bold") item.setFontWeight("bold");
+    if (rows[i][4] === "strike") item.setFontColor("#999999").setStrikethrough(true);
+  }
+  sheet.getRange(2, 1, rows.length, 1).setFontWeight("bold");
+  sheet.getRange(2, 1, rows.length, 3).setVerticalAlignment("top")
+       .setWrapStrategy(SpreadsheetApp.WrapStrategy.WRAP);
+  sheet.setColumnWidth(1, 140);
+  sheet.setColumnWidth(2, 230);
+  sheet.setColumnWidth(3, 560);
+  trimGrid_(sheet, values.length, 3);
+  return { ok: true, rows: rows.length };
+}
+
+/** Remove tabs the tracker no longer writes (never My Applications). */
+function deleteTabs_(names) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var removed = [];
+  for (var i = 0; i < names.length; i++) {
+    var sh = ss.getSheetByName(names[i]);
+    if (sh && names[i] !== APPLICATIONS && names[i] !== KEY_TAB && ss.getSheets().length > 1) {
+      ss.deleteSheet(sh);
+      removed.push(names[i]);
+    }
+  }
+  return { ok: true, removed: removed };
 }
 
 /** Rewrite one tab in a single write, keeping every Status the user set. */
