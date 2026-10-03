@@ -27,7 +27,7 @@ from datetime import datetime, timedelta, timezone
 
 import yaml
 
-from . import (accuracy, ashby_scraper, classify, db, dedupe, enrich, greenhouse_scraper, health,
+from . import (accuracy, ashby_scraper, classify, config, db, dedupe, enrich, greenhouse_scraper, health,
                icims_scraper, jobspy_scraper, lever_scraper, notify, oracle_scraper, profile,
                repost, scraper, sheets,
                simplify_scraper, smartrecruiters_scraper)
@@ -239,6 +239,32 @@ class Collected:
     complete_scopes: set
     complete_sources: set
     board_stats: dict
+    # Postings per source *before* trim_for_handoff(), for the health check.
+    source_counts: dict = dataclasses.field(default_factory=dict)
+
+
+def keyword_role(p) -> str:
+    """The role process() assigns without the zero-shot fallback: a curated
+    list's label unless the title clearly says otherwise, else the title."""
+    by_title = classify.classify_by_keyword(p.title)
+    if p.role_hint:
+        return by_title if by_title in ("intern", "new_grad", "senior") else p.role_hint
+    return by_title or "mid"
+
+
+def trim_for_handoff(c: Collected, conn, settings: dict) -> int:
+    """Drop postings process() would discard anyway: new jobs whose role isn't
+    stored (senior/mid, ~85% of what the full boards return). Jobs already in
+    the DB are kept (their last_seen and closure tracking need them). Returns
+    how many were dropped. Skipped when the zero-shot fallback may reclassify
+    titles the keyword rules leave as "mid"."""
+    store = settings.get("store_roles")
+    if not store or settings.get("use_llm_fallback"):
+        return 0
+    store, known = set(store), db.existing_ids(conn)
+    before = len(c.postings)
+    c.postings = [p for p in c.postings if p.job_id in known or keyword_role(p) in store]
+    return before - len(c.postings)
 
 
 def collect(settings: dict, conn, part: str | None = None) -> Collected:
@@ -271,7 +297,8 @@ def collect(settings: dict, conn, part: str | None = None) -> Collected:
             if curated_ok:
                 sources.add("simplify")
             postings.extend(external_f.result())
-    return Collected(postings, scopes, sources, board_stats)
+    return Collected(postings, scopes, sources, board_stats,
+                     dict(Counter(p.source for p in postings)))
 
 
 def save_part(path: str, c: Collected) -> None:
@@ -279,7 +306,8 @@ def save_part(path: str, c: Collected) -> None:
         json.dump({"postings": [dataclasses.asdict(p) for p in c.postings],
                    "complete_scopes": sorted(c.complete_scopes),
                    "complete_sources": sorted(c.complete_sources),
-                   "board_stats": c.board_stats}, fh)
+                   "board_stats": c.board_stats,
+                   "source_counts": c.source_counts}, fh)
 
 
 def _precedence(source: str) -> int:
@@ -297,6 +325,8 @@ def load_parts(paths: list) -> Collected:
         merged.postings += [JobPosting(**p) for p in d["postings"]]
         merged.complete_scopes |= {tuple(x) for x in d["complete_scopes"]}
         merged.complete_sources |= set(d["complete_sources"])
+        for src, n in (d.get("source_counts") or {}).items():
+            merged.source_counts[src] = merged.source_counts.get(src, 0) + n
         for src, (attempted, failed) in d["board_stats"].items():
             a0, f0 = merged.board_stats.get(src, (0, 0))
             merged.board_stats[src] = (a0 + attempted, f0 + failed)
@@ -314,7 +344,8 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     board_stats = collected.board_stats
 
     print(f"\nTotal postings this run: {len(all_postings)}")
-    health.record(conn, run_at, dict(Counter(p.source for p in all_postings)), board_stats)
+    health.record(conn, run_at, collected.source_counts
+                  or dict(Counter(p.source for p in all_postings)), board_stats)
     known = db.existing_ids(conn)
     all_postings, dupes = dedupe.dedupe_postings(all_postings, known)
     if dupes:
@@ -473,6 +504,12 @@ def main(argv: list | None = None) -> int:
     run_started = time.time()
     run_at = db._now()
     settings = _load_yaml(_SETTINGS)
+    problems = config.validate(settings)
+    if problems:
+        print("config/settings.yaml has problems; not running:")
+        for p in problems:
+            print(f"  - {p}")
+        return 2
     os.makedirs(os.path.dirname(_DB_PATH), exist_ok=True)
     conn = db.connect(_DB_PATH)
     _apply_config_renames(conn)
@@ -481,8 +518,10 @@ def main(argv: list | None = None) -> int:
         if not args.out:
             ap.error("--scrape-part needs --out")
         collected = collect(settings, conn, args.scrape_part)
+        dropped = trim_for_handoff(collected, conn, settings)
         save_part(args.out, collected)
-        print(f"Saved {len(collected.postings)} postings for part {args.scrape_part!r}")
+        print(f"Saved {len(collected.postings)} postings for part {args.scrape_part!r} "
+              f"({dropped} senior/mid postings not handed off)")
         conn.close()
         return 0
 

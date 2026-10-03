@@ -38,3 +38,22 @@ def test_collapse_roles_merges_locations_with_cap():
     out = dedupe.collapse_roles(jobs)
     assert [j["job_id"] for j in out] == ["j0", "other"]
     assert out[0]["location"] == "City0, TX; City1, TX; City2, TX; City3, TX +3 more"
+
+
+def test_trim_for_handoff_keeps_known_and_storable_and_counts_first(tmp_path):
+    from src import db
+    conn = db.connect(":memory:")
+    db.sync(conn, [_p("gh_old", "greenhouse", title="Staff Engineer")], lambda p: "intern",
+            set(), set())                                   # already stored (as intern)
+    c = main.Collected([_p("gh_old", "greenhouse", title="Staff Engineer"),
+                        _p("gh_new", "greenhouse", title="Senior Engineer"),
+                        _p("gh_int", "greenhouse", title="SWE Intern"),
+                        _p("sim_1", "simplify", title="Software Engineer")],
+                       set(), set(), {}, {"greenhouse": 3, "simplify": 1})
+    object.__setattr__(c.postings[3], "role_hint", "new_grad")
+    dropped = main.trim_for_handoff(c, conn, {"store_roles": ["intern", "new_grad"]})
+    assert dropped == 1 and [p.job_id for p in c.postings] == ["gh_old", "gh_int", "sim_1"]
+    main.save_part(str(tmp_path / "p.json.gz"), c)
+    merged = main.load_parts([str(tmp_path / "p.json.gz")])
+    assert merged.source_counts == {"greenhouse": 3, "simplify": 1}
+    assert main.trim_for_handoff(c, conn, {"store_roles": ["intern"], "use_llm_fallback": True}) == 0
