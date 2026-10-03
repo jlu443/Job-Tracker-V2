@@ -29,6 +29,7 @@ SCHEMA: dict = {
     "workday_min_relevant_per_page": int,
     "recency_check": ("each", {"window_days": int, "max_pages": int}),
     "ci_shards": ("each", int),
+    "retry_incomplete": ("each", {"delay": _NUM, "workers": int}),
     "disabled_sources": list,
     "long_tail_rotation": ("each", _ROTATION),
     "request_timeout": _NUM,

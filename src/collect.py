@@ -80,25 +80,51 @@ def fetch_one(source: str, module, company: dict, settings: dict):
 
 
 def scrape_source(source: str, module, companies: list[dict], settings: dict):
-    """One ATS's boards, concurrently. Returns (postings, complete scopes, failed)."""
+    """One ATS's boards, concurrently. Returns (postings, complete scopes, failed).
+
+    Boards that fail in the main pass (mostly rate limits, which are per IP
+    and hit while every thread is firing) get one more try at low
+    concurrency after a pause, when settings.retry_incomplete lists the
+    source: {source: {delay: seconds, workers: n}}.
+    """
     workers = (settings.get("scrape_workers_by_source") or {}).get(
         source, settings.get("scrape_workers", 8))
-    postings, failed, t0 = [], 0, time.time()
+    t0 = time.time()
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        results = list(pool.map(lambda c: fetch_one(source, module, c, settings), companies))
+
+    retry = (settings.get("retry_incomplete") or {}).get(source)
+    failed_at = [i for i, (_, complete) in enumerate(results) if complete is False]
+    recovered = 0
+    if retry and failed_at:
+        time.sleep(retry.get("delay", 30))
+        with ThreadPoolExecutor(max_workers=retry.get("workers", 4)) as pool:
+            again = list(pool.map(lambda i: fetch_one(source, module, companies[i], settings),
+                                  failed_at))
+        for i, (found, complete) in zip(failed_at, again):
+            if complete is not False:
+                results[i] = (found, complete)      # a clean second pass replaces the first
+                recovered += 1
+            else:                                   # keep whatever either pass saw
+                seen = {p.job_id for p in results[i][0]}
+                results[i] = (results[i][0] + [p for p in found if p.job_id not in seen], False)
+
+    postings, failed = [], 0
     # Removal is scoped by company name (what db rows carry), and one company
     # can have several boards (CVS Health has two Workday sites). A name only
     # counts as complete when every one of its boards completed this run.
     complete_by_name: dict[str, bool] = {}
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        results = pool.map(lambda c: fetch_one(source, module, c, settings), companies)
-        for company, (found, complete) in zip(companies, results):
-            postings.extend(found)
-            name = company_name(company)
-            complete_by_name[name] = complete_by_name.get(name, True) and bool(complete)
-            if complete is False:        # None = recent-only by design, not a failure
-                failed += 1
+    for company, (found, complete) in zip(companies, results):
+        postings.extend(found)
+        name = company_name(company)
+        complete_by_name[name] = complete_by_name.get(name, True) and bool(complete)
+        if complete is False:        # None = recent-only by design, not a failure
+            failed += 1
     scopes = {(source, name) for name, ok in complete_by_name.items() if ok}
     log.info(f"{source}: {len(postings)} postings from {len(companies)} boards "
-          f"in {time.time() - t0:.0f}s" + (f" ({failed} incomplete)" if failed else ""))
+             f"in {time.time() - t0:.0f}s" + (f" ({failed} incomplete)" if failed else "")
+             + (f"; {recovered} of {len(failed_at)} recovered on retry" if failed_at and retry
+                else ""))
     return postings, scopes, failed
 
 

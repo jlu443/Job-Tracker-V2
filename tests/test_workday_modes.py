@@ -75,3 +75,25 @@ def test_same_name_boards_complete_only_together():
               {"tenant": "acme", "site": "x", "name": "Acme"}]
     _, scopes, failed = collect.scrape_source("workday", Mod, boards, {})
     assert scopes == {("workday", "Acme")} and failed == 1
+
+
+def test_failed_boards_get_a_second_pass(monkeypatch):
+    from src import collect
+    calls = {}
+
+    class Mod:
+        @staticmethod
+        def fetch_company_jobs(c, settings):
+            calls[c["tenant"]] = calls.get(c["tenant"], 0) + 1
+            if c["tenant"] == "flaky" and calls["flaky"] == 1:
+                return [], False                      # rate-limited the first time
+            if c["tenant"] == "down":
+                return [], False                      # fails both times
+            return [], True
+
+    monkeypatch.setattr(collect.time, "sleep", lambda s: None)
+    boards = [{"tenant": t, "name": t} for t in ("ok", "flaky", "down")]
+    _, scopes, failed = collect.scrape_source(
+        "workday", Mod, boards, {"retry_incomplete": {"workday": {"delay": 0, "workers": 2}}})
+    assert scopes == {("workday", "ok"), ("workday", "flaky")} and failed == 1
+    assert calls == {"ok": 1, "flaky": 2, "down": 2}

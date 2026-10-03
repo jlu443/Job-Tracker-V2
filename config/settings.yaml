@@ -43,6 +43,12 @@ ci_shards:
   workday: 2
   icims: 1         # its own job: the slowest source (globally spaced requests)
 
+# Boards that fail the main pass (Workday answers bursts from one IP with
+# 429) are retried once after `delay` seconds with only `workers` threads.
+# ~3% of Workday boards per run were left incomplete before this.
+retry_incomplete:
+  workday: {delay: 20, workers: 4}
+
 # ATS sources to skip entirely (e.g. while a site is blocking us).
 disabled_sources: []
 
