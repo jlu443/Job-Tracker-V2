@@ -86,3 +86,21 @@ def test_greenhouse_company_hosted_link_finds_its_board(monkeypatch):
                                      "apply_url": "https://careers.withwaymo.com/jobs?gh_jid=8193295"})
     assert "US citizen" in text
     assert calls[-1] == "https://boards-api.greenhouse.io/v1/boards/waymo/jobs/8193295"
+
+
+def test_workday_status_only_retires_on_a_definite_answer(monkeypatch):
+    from src import enrich
+
+    class Resp:
+        def __init__(self, code, data=None):
+            self.status_code, self._data = code, data
+
+        def json(self):
+            return self._data
+
+    job = {"apply_url": "https://acme.wd1.myworkdayjobs.com/External/job/X/Intern_R1"}
+    for code, data, want in [(200, {"jobPostingInfo": {"id": "1"}}, True),
+                             (403, {"errorCode": "S22"}, False), (404, None, False),
+                             (429, None, None), (500, None, None)]:
+        monkeypatch.setattr(enrich._SESSION, "get", lambda url, timeout, c=code, d=data: Resp(c, d))
+        assert enrich.workday_status(job) is want

@@ -435,3 +435,43 @@ def test_enrich_backlog_gives_up_after_empty_reads_and_closes_404s(tmp_path):
     assert db.unchecked_open(conn, 10) == []
     assert dict(conn.execute("SELECT job_id, status FROM jobs").fetchall()) == \
         {"gh_1": "active", "li_2": "removed"}
+
+
+def test_unseen_rows_kept_when_still_open(tmp_path):
+    conn = db.connect(str(tmp_path / "s.db"))
+    db.sync(conn, [_p("gh_1"), _p("gh_2")], lambda p: "intern", set(), set())
+    scope = {("greenhouse", "Acme")}
+    db.sync(conn, [], lambda p: "intern", scope, set(),
+            still_open=lambda rows: {r["job_id"] for r in rows if r["job_id"] == "gh_2"})
+    assert dict(conn.execute("SELECT job_id, status FROM jobs").fetchall()) == \
+        {"gh_1": "removed", "gh_2": "active"}
+
+
+def test_workday_removal_repair_reopens_live_jobs_once(tmp_path, monkeypatch):
+    from src import enrich, maintenance
+    conn = db.connect(str(tmp_path / "r.db"))
+    db.sync(conn, [_p("wd_a_1", source="workday"), _p("wd_a_2", source="workday")],
+            lambda p: "intern", set(), set())
+    conn.execute("UPDATE jobs SET status = 'removed', last_seen = '2026-10-01T00:00:00+00:00'")
+    conn.commit()
+    monkeypatch.setattr(enrich, "still_open", lambda rows, limit: {"wd_a_2"})
+    maintenance.recheck_workday_removals(conn)
+    maintenance.recheck_workday_removals(conn)      # nothing left: marks itself done
+    assert dict(conn.execute("SELECT job_id, status FROM jobs").fetchall()) == \
+        {"wd_a_1": "removed", "wd_a_2": "active"}
+    assert db._meta_get(conn, "workday_recheck_done") == "1"
+
+
+def test_migration_7_relabels_senior_level_one(tmp_path):
+    path = str(tmp_path / "m7.db")
+    conn = db.connect(path)
+    db.sync(conn, [_p("gh_1", title="Senior Software Engineer I"),
+                   _p("gh_2", title="Software Engineer I"),
+                   _p("sim_1", title="Senior Software Engineer I", source="simplify")],
+            lambda p: "new_grad", set(), set())
+    conn.execute("UPDATE meta SET value = '6' WHERE key = 'schema_version'")
+    conn.commit()
+    conn.close()
+    conn = db.connect(path)
+    assert dict(conn.execute("SELECT job_id, role_type FROM jobs").fetchall()) == \
+        {"gh_1": "senior", "gh_2": "new_grad", "sim_1": "new_grad"}

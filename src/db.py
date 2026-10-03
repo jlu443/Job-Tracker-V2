@@ -119,6 +119,12 @@ def undated_open(conn: sqlite3.Connection, source: str, limit: int) -> list[dict
         (source, limit))]
 
 
+def reopen(conn: sqlite3.Connection, job_ids: list[str]) -> None:
+    conn.executemany("UPDATE jobs SET status = 'active', last_seen = ? WHERE job_id = ?",
+                     [(_now(), jid) for jid in job_ids])
+    conn.commit()
+
+
 def mark_undated(conn: sqlite3.Connection, job_ids: list[str]) -> None:
     """Count a read that found no post date toward MAX_ENRICH_TRIES."""
     conn.executemany("UPDATE jobs SET enrich_tries = enrich_tries + 1 WHERE job_id = ?",
@@ -188,13 +194,16 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
          aggregator_ttl_days: int = 21,
          store_roles: frozenset[str] | None = None,
          max_age_days: int | None = None,
-         age_exempt: frozenset = frozenset()) -> UpsertResult:
+         age_exempt: frozenset = frozenset(),
+         still_open=None) -> UpsertResult:
     """Reconcile this run's postings against the DB.
 
     A job is only marked removed when the scrape that should have returned it
     succeeded: its (source, company) is in complete_scopes, or its whole
     source is in complete_sources. A timeout on one board no longer "removes"
     that board's jobs. Aggregator rows expire after aggregator_ttl_days unseen.
+    still_open(rows) -> ids, when given, gets the rows about to be removed
+    and returns those that must stay (their job page is still up).
 
     New postings whose role isn't in store_roles are not stored (None = all):
     full-board ATS APIs return every role, and keeping hundreds of thousands
@@ -310,16 +319,18 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
 
     ttl_cutoff = (datetime.now(timezone.utc)
                   - timedelta(days=aggregator_ttl_days)).isoformat(timespec="seconds")
-    gone = []
-    for r in conn.execute(
-            "SELECT job_id, source, company, last_seen FROM jobs WHERE status = 'active'"):
+    gone, unseen = [], []
+    for r in conn.execute("SELECT job_id, source, company, last_seen, apply_url, title "
+                          "FROM jobs WHERE status = 'active'"):
         if r["job_id"] in seen_ids:
             continue
         if r["source"] in AGGREGATOR_SOURCES:
             if r["last_seen"] < ttl_cutoff:
                 gone.append(r["job_id"])
         elif r["source"] in complete_sources or (r["source"], r["company"]) in complete_scopes:
-            gone.append(r["job_id"])
+            unseen.append(dict(r))
+    keep = still_open(unseen) if still_open and unseen else set()
+    gone += [r["job_id"] for r in unseen if r["job_id"] not in keep]
     if gone:
         conn.executemany(
             "UPDATE jobs SET status = 'removed', last_seen = ? WHERE job_id = ?",

@@ -57,6 +57,54 @@ def _fetch_workday(job: dict) -> str:
     return _strip_html((data.get("jobPostingInfo") or {}).get("jobDescription", ""))
 
 
+def workday_status(job: dict) -> bool | None:
+    """True if the job page is up, False if Workday says it's gone (403
+    "permission denied" / 404 / 410), None when we can't tell (rate limit,
+    timeout): a job is only retired on a definite answer."""
+    u = urlparse(job["apply_url"])
+    tenant = (u.hostname or "").split(".")[0]
+    site, _, rest = u.path.lstrip("/").partition("/")
+    if not (tenant and site and rest):
+        return None
+    try:
+        resp = _SESSION.get(f"https://{u.hostname}/wday/cxs/{tenant}/{site}/{rest}",
+                            timeout=_TIMEOUT)
+    except requests.RequestException:
+        return None
+    if resp.status_code in (403, 404, 410):
+        return False
+    if resp.status_code == 200:
+        try:
+            info = resp.json().get("jobPostingInfo") or {}
+            return bool(info) and info.get("posted", True) is not False
+        except ValueError:
+            return None
+    return None
+
+
+def still_open(rows: list[dict], workers: int = 4, limit: int = 400) -> set[str]:
+    """Ids among rows about to be marked removed whose job page is still up.
+
+    Workday's every-run recency check finds jobs of any title ("Compensation
+    Analyst I"), but the full sweep only searches keywords, so a job the
+    sweep can't find isn't necessarily closed. Measured 2026-10-03: ~16% of
+    Workday jobs removed this way were still open. Undecidable checks also
+    keep the row (retried next run)."""
+    wd = sorted((r for r in rows if r["source"] == "workday"), key=lambda r: r["last_seen"])
+    if not wd:
+        return set()
+    # Beyond the cap, keep them for now; the oldest-seen are checked first.
+    deferred = {r["job_id"] for r in wd[limit:]}
+    wd = wd[:limit]
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        status = list(pool.map(workday_status, wd))
+    keep = {r["job_id"] for r, s in zip(wd, status) if s is not False} | deferred
+    log.info(f"Checked {len(wd)} unseen Workday jobs: {len(wd) - len(keep)} closed, "
+             f"{sum(s is True for s in status)} still open, {sum(s is None for s in status)} unknown"
+             + (f", {len(deferred)} deferred" if deferred else ""))
+    return keep
+
+
 _GH_URL = re.compile(
     r"(?:job-boards|boards)(?:\.eu)?\.greenhouse\.io/([A-Za-z0-9_-]+)/jobs/(\d+)")
 

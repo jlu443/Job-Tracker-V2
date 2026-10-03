@@ -81,7 +81,8 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
                      aggregator_ttl_days=settings.get("aggregator_ttl_days", 21),
                      store_roles=store_roles,
                      max_age_days=settings.get("max_listing_age_days"),
-                     age_exempt=frozenset(settings.get("age_limit_exempt_sources") or ()))
+                     age_exempt=frozenset(settings.get("age_limit_exempt_sources") or ()),
+                     still_open=enrich.still_open)
     log.info(f"New: {len(result.new_jobs)}  Updated: {result.updated}  "
           f"Removed: {result.removed}")
     if result.bumped:
@@ -180,6 +181,22 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     if skipped_profile:
         log.info("Profile filtered: " + ", ".join(f"{n} {r}" for r, n in skipped_profile.items()))
 
+    # The same job at another location (same company and title) announced in
+    # the past week, or twice in this batch, is announced once.
+    recent = {(c, t) for c, t in conn.execute(
+        "SELECT company, title FROM jobs WHERE announced_at >= ? AND company != ''",
+        ((datetime.now(timezone.utc) - timedelta(days=7)).isoformat(timespec="seconds"),))}
+    fresh = []
+    for j in targets:
+        key = (j["company"], j["title"])
+        if j["company"] and key in recent:
+            continue
+        recent.add(key)
+        fresh.append(j)
+    if len(fresh) != len(targets):
+        log.info(f"Not announced: {len(targets) - len(fresh)} same job at another location")
+    targets = fresh
+
     # Announced = in the Sheet's Today / This Week now; Discord gets them in
     # one digest every few hours instead of a post per hourly run.
     db.mark_announced(conn, [j["job_id"] for j in targets])
@@ -193,6 +210,7 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         if purged:
             log.info(f"Purged {purged} listings older than "
                   f"{settings['max_listing_age_days']} days.")
+    maintenance.recheck_workday_removals(conn)
     pruned = maintenance.prune(conn, settings.get("prune_removed_after_days", 30), store_roles)
     if pruned:
         log.info(f"Pruned {pruned} rows that are no longer kept.")

@@ -7,11 +7,14 @@
 
 from __future__ import annotations
 
+import logging
 import sqlite3
 from datetime import datetime, timedelta, timezone
 
-from . import dates, dedupe
+from . import dates, db, dedupe
 from .db import _now
+
+log = logging.getLogger(__name__)
 
 
 def apply_renames(conn: sqlite3.Connection, renames: dict[tuple[str, str], str]) -> int:
@@ -100,3 +103,31 @@ def prune(conn: sqlite3.Connection, keep_days: int = 30,
     if cur.rowcount:
         conn.execute("VACUUM")
     return cur.rowcount
+
+
+def recheck_workday_removals(conn: sqlite3.Connection, per_run: int = 800) -> None:
+    """One-time repair, a batch per run: before 2026-10-03 a Workday job the
+    keyword sweep couldn't find was marked removed even when still open (58%
+    of a sample were). Re-check removals from the 14 days before the fix and
+    reopen the live ones. Finishes on its own; the cursor lives in meta."""
+    from . import enrich
+    if db._meta_get(conn, "workday_recheck_done") == "1":
+        return
+    cursor = db._meta_get(conn, "workday_recheck_cursor") or "2026-09-19"
+    conn.row_factory = sqlite3.Row
+    rows = [dict(r) for r in conn.execute(
+        "SELECT job_id, source, apply_url, last_seen FROM jobs WHERE status = 'removed' "
+        "AND source = 'workday' AND last_seen > ? AND last_seen < '2026-10-04' "
+        "ORDER BY last_seen LIMIT ?", (cursor, per_run))]
+    if not rows:
+        db._meta_set(conn, "workday_recheck_done", "1")
+        conn.commit()
+        return
+    keep = enrich.still_open(rows, limit=per_run)
+    live = [r["job_id"] for r in rows if r["job_id"] in keep]
+    # Unknown answers (rate limits) count as open here too; a wrongly reopened
+    # job is retired again, with a definite check, the next time it's unseen.
+    db.reopen(conn, live)
+    db._meta_set(conn, "workday_recheck_cursor", rows[-1]["last_seen"])
+    conn.commit()
+    log.info(f"Workday removal repair: reopened {len(live)} of {len(rows)} re-checked jobs")
