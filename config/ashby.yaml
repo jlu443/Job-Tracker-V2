@@ -6869,3 +6869,7 @@ companies:
   name: Lucid Computing
   aliases:
   - lucidcomputing
+- slug: parasail
+  name: parasail
+- slug: Relling
+  name: Relling

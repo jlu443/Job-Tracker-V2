@@ -1271,3 +1271,15 @@ companies:
   name: Wclcareers Mastec.icims.com
   aliases:
   - wclcareers-mastec
+- host: careers-kleinfelder.icims.com
+  name: Careers Kleinfelder.icims.com
+  aliases:
+  - careers-kleinfelder
+- host: careers2-wyn.icims.com
+  name: Careers2 Wyn.icims.com
+  aliases:
+  - careers2-wyn
+- host: careers-allspringglobal.icims.com
+  name: Careers Allspringglobal.icims.com
+  aliases:
+  - careers-allspringglobal

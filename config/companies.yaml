@@ -9341,3 +9341,7 @@ companies:
   wd: wd12
   site: ERPA
   name: erpa
+- tenant: sehinc
+  wd: wd12
+  site: SEH
+  name: sehinc

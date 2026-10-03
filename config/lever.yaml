@@ -949,3 +949,5 @@ companies:
   name: True Environmental
   aliases:
   - true-environmental
+- slug: stanleygroup
+  name: stanleygroup
