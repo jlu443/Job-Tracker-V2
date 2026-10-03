@@ -92,6 +92,10 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
 
     scraped = complete_scopes | {(src, "*") for src in complete_sources}
     scraped |= {(p.source, "*") for p in all_postings if p.source in db.AGGREGATOR_SOURCES}
+    # A board's first scrape is a backlog even when it stopped early (page
+    # cap, an error mid-way): register every board that returned postings,
+    # or a big new board's old jobs are announced as new.
+    scraped |= {(p.source, p.company) for p in all_postings if p.source not in db._SECONDHAND}
     new_boards = db.register_boards(conn, scraped)
     reclassified = db._meta_get(conn, "classifier_version") != str(classify.VERSION)
     fresh, relisted_from, skipped = repost.triage(

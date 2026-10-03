@@ -224,6 +224,15 @@ def _recanonicalize_curated_ids(conn: sqlite3.Connection) -> None:
             conn.execute("DELETE FROM jobs WHERE job_id = ?", (job_id,))
 
 
+def _unannounce_capped_board_backlog(conn: sqlite3.Connection) -> None:
+    """The first SuccessFactors run (2026-10-03 ~23:30 UTC) announced 68 old
+    jobs from sites whose first scrape hit the page cap: only complete
+    scrapes registered a board, so their backlog wasn't recognized (fixed in
+    process.py). Un-announce them before the next Discord digest."""
+    conn.execute("UPDATE jobs SET announced_at = '' WHERE source = 'successfactors' "
+                 "AND announced_at >= '2026-10-03T23:00' AND announced_at < '2026-10-04T00:00'")
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -234,6 +243,7 @@ MIGRATIONS = [
     (7, _relabel_senior_level_one),
     (8, _drop_old_sheet_keys),
     (9, _recanonicalize_curated_ids),
+    (10, _unannounce_capped_board_backlog),
 ]
 
 
