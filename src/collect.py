@@ -20,7 +20,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 from . import (ashby_scraper, bigtech_scrapers, classify, db, eightfold_scraper, greenhouse_scraper,
                icims_scraper, jibe_scraper, jobspy_scraper, lever_scraper, oracle_scraper,
-               rippling_scraper, scraper, simplify_scraper, smartrecruiters_scraper)
+               rippling_scraper, scraper, simplify_scraper, smartrecruiters_scraper,
+               successfactors_scraper)
 from .config import CONFIG_DIR, load_yaml
 from .posting import JobPosting
 
@@ -43,10 +44,12 @@ ATS_SCRAPERS = [
     ("smartrecruiters", "smartrecruiters.yaml",  smartrecruiters_scraper),
     ("oracle",          "oracle.yaml",           oracle_scraper),
     ("eightfold",       "eightfold.yaml",        eightfold_scraper),
+    ("successfactors",  "successfactors.yaml",   successfactors_scraper),
     ("icims",           "icims.yaml",            icims_scraper),
     ("jibe",            "jibe.yaml",             jibe_scraper),
     ("rippling",        "rippling.yaml",         rippling_scraper),
     ("tiktok",          "tiktok.yaml",           _One(bigtech_scrapers.fetch_tiktok)),
+    ("bytedance",       "bytedance.yaml",        _One(bigtech_scrapers.fetch_bytedance)),
     ("amazon",          "amazon.yaml",           _One(bigtech_scrapers.fetch_amazon)),
     ("apple",           "apple.yaml",            _One(bigtech_scrapers.fetch_apple)),
 ]

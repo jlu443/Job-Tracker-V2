@@ -1,4 +1,5 @@
-"""Single-company career sites with public JSON search: TikTok, Amazon, Apple.
+"""Single-company career sites with public JSON search: TikTok, ByteDance,
+Amazon, Apple.
 
 Each keeps to entry-level searches (or, for Apple, its Students team) and
 lets the local classifier decide what's intern / new grad. Like the other
@@ -6,7 +7,6 @@ scrapers, fetch_company_jobs(company, settings) -> (postings, complete); the
 config file for each holds one entry, so these slot into main.py's ATS loop.
 
 Not covered here, and why (so they stay on the curated lists):
-  ByteDance  search API requires a signature computed by its own JavaScript
   Tesla      bot protection answers "Access Denied" to non-browser clients
   Google     no public JSON search
 """
@@ -59,41 +59,65 @@ def _tiktok_location(city: dict | None) -> str:
     return ", ".join(names)
 
 
-def fetch_tiktok(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
+def _fetch_supplier_api(company: dict, settings: dict, *, api: str, headers: dict,
+                        url: str, prefix: str, source: str) -> tuple[list[JobPosting], bool]:
+    """TikTok and ByteDance run the same careers backend ("supplier" search):
+    100 posts per page with description and location, but no post date."""
     timeout = settings.get("request_timeout", 30)
+    name = company.get("name", source)
     seen: dict[str, JobPosting] = {}
     complete = True
     for term in company.get("search_terms", _TIKTOK_TERMS):
         for offset in range(0, 5000, 100):
             try:
-                resp = _SESSION.post(_TIKTOK_API, timeout=timeout,
-                                     json={"keyword": term, "limit": 100, "offset": offset},
-                                     headers={"Content-Type": "application/json",
-                                              "website-path": "tiktok"})
+                resp = _SESSION.post(api, timeout=timeout, headers=headers,
+                                     json={"keyword": term, "limit": 100, "offset": offset})
                 resp.raise_for_status()
                 data = resp.json().get("data") or {}
             except (requests.RequestException, ValueError) as exc:
-                log.warning(f"  ! TikTok term={term!r} offset={offset}: {exc}")
+                log.warning(f"  ! {name} term={term!r} offset={offset}: {exc}")
                 complete = False
                 break
             jobs = data.get("job_post_list") or []
             for j in jobs:
                 jid = str(j.get("id") or "")
-                if not jid or f"tt_{jid}" in seen:
+                if not jid or f"{prefix}_{jid}" in seen:
                     continue
                 title = (j.get("title") or "").strip()
                 description = f"{j.get('description') or ''}\n{j.get('requirement') or ''}"
                 kind = ((j.get("recruit_type") or {}).get("en_name") or "").lower()
-                seen[f"tt_{jid}"] = JobPosting(
-                    job_id=f"tt_{jid}", company=company.get("name", "TikTok"), title=title,
-                    apply_url=f"https://lifeattiktok.com/search/{jid}",
-                    location=_tiktok_location(j.get("city_info")), posted_on="",
-                    source="tiktok", **_fields(title, description,
-                                               "intern" if kind == "intern" else ""))
+                seen[f"{prefix}_{jid}"] = JobPosting(
+                    job_id=f"{prefix}_{jid}", company=name, title=title,
+                    apply_url=url.format(jid), location=_tiktok_location(j.get("city_info")),
+                    posted_on="", source=source,
+                    **_fields(title, description, "intern" if kind == "intern" else ""))
             if len(jobs) < 100 or offset + 100 >= (data.get("count") or 0):
                 break
             time.sleep(settings.get("delay_between_requests", 0.5))
     return list(seen.values()), complete
+
+
+def fetch_tiktok(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
+    return _fetch_supplier_api(
+        company, settings, api=_TIKTOK_API, prefix="tt", source="tiktok",
+        headers={"Content-Type": "application/json", "website-path": "tiktok"},
+        url="https://lifeattiktok.com/search/{}")
+
+
+# -- ByteDance ------------------------------------------------------------------
+# Same backend as TikTok. The headers are the ones jobs.bytedance.com's own
+# client sends (found in its JavaScript, 2026-10-03); without them the API
+# answers "invalid request".
+
+_BYTEDANCE_API = "https://jobs.bytedance.com/api/v1/public/supplier/search/job/posts"
+
+
+def fetch_bytedance(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
+    return _fetch_supplier_api(
+        company, settings, api=_BYTEDANCE_API, prefix="bd", source="bytedance",
+        headers={"Content-Type": "application/json", "accept-language": "en-US",
+                 "website-path": "en", "origin": "https://joinbytedance.com"},
+        url="https://jobs.bytedance.com/en/position/{}/detail")
 
 
 # -- Amazon ---------------------------------------------------------------------

@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import re
 
-from . import eightfold_scraper
+from . import eightfold_scraper, successfactors_scraper
 
 # Trailing legal suffixes stripped from company names before comparison.
 _SUFFIXES = {"inc", "llc", "ltd", "corp", "co", "corporation", "incorporated",
@@ -88,6 +88,8 @@ _URL_IDS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"apply\.workable\.com/[\w-]+/j/([0-9A-F]{6,})", re.I), "wk_{0}"),
     (re.compile(r"linkedin\.com/jobs/view/(?:[\w-]*-)?(\d{8,})"), "li_{0}"),
     (re.compile(r"lifeattiktok\.com/(?:[\w-]+/)*(?:search|position)/(\d{12,})"), "tt_{0}"),
+    (re.compile(r"(?:jobs\.bytedance\.com/(?:[\w-]+/)?position|joinbytedance\.com/search)/"
+                r"(\d{12,})"), "bd_{0}"),
     (re.compile(r"amazon\.jobs/(?:[\w-]+/)?jobs/(\d+)"), "amzn_{0}"),
     (re.compile(r"jobs\.apple\.com/[\w-]+/details/(\d+)"), "apple_{0}"),
     (re.compile(r"ats\.rippling\.com/[\w-]+/jobs/([0-9a-f-]{36})"), "rip_{0}"),
@@ -124,7 +126,7 @@ def canonical_job_id(url: str) -> str | None:
     m = _ORACLE.search(url)
     if m:
         return f"orc_{m.group(1).lower()}_{m.group(2)}"
-    ef = eightfold_scraper.canonical_id(url)
+    ef = eightfold_scraper.canonical_id(url) or successfactors_scraper.canonical_id(url)
     if ef:
         return ef
     m = _ICIMS.search(url)
