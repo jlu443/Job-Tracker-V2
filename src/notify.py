@@ -79,7 +79,7 @@ def _line(job: dict) -> str:
     they matter (visa, clearance, pay, repost, new grad)."""
     title = job["title"] if len(job["title"]) <= 70 else job["title"][:67] + "…"
     url = job.get("direct_url") or job["apply_url"]
-    bits = [f"{'⭐ ' if is_hot(job) else ''}**{job['company'] or '—'}** · [{title}]({url})"]
+    bits = [f"{'⭐ ' if is_hot(job) else ''}**{job['company'] or 'Company not listed'}** · [{title}]({url})"]
     place = _place(job.get("location") or "")
     if place:
         bits.append(place)

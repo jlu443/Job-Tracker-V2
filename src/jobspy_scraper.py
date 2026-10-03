@@ -24,6 +24,7 @@ from __future__ import annotations
 import hashlib
 import logging
 import os
+import re
 
 from . import dedupe, enrich, repost
 from .posting import JobPosting
@@ -58,6 +59,34 @@ def _cell(row, key: str) -> str:
         return ""
     s = str(val).strip()
     return "" if s.lower() in ("nan", "nat", "none") else s
+
+
+# Indeed sometimes returns no company (~3.5% of rows). The description
+# usually names it: "About Homeland Safety Systems", "GM Performance Power
+# Units is seeking ...". Up to five capitalized words; not "About the Role".
+_NAME = r"([A-Z][\w&.'’-]*(?:[ \t]+(?:&[ \t]+)?[A-Z][\w&.'’-]*){0,4})"
+_NOT_A_NAME = re.compile(r"^(?:the|this|our|we|us|you|your|job|role|position|team|company|"
+                         r"description|summary|overview|opportunity|it|who|what)\b", re.I)
+_COMPANY_IN_TEXT = [re.compile(p) for p in (
+    r"(?:^|\n)[ \t]*About[ \t]+" + _NAME + r"[ \t]*:?[ \t]*(?:\n|$)",
+    r"(?:^|[.!:\n][ \t]*)" + _NAME + r"[ \t]+is[ \t]+(?:seeking|looking[ \t]+for|hiring)\b",
+)]
+# Paylocity links carry the employer: /Recruiting/Jobs/Details/123/C-Mack-Solutions-LLC/...
+_PAYLOCITY = re.compile(r"paylocity\.com/Recruiting/Jobs/Details/\d+/([\w-]+)/", re.I)
+
+
+def guess_company(description: str, direct_url: str = "") -> str:
+    """Employer named in an Indeed posting's text or apply link, or ''."""
+    text = re.sub(r"[*\\]", "", description or "")[:1500]
+    for pattern in _COMPANY_IN_TEXT:
+        for m in pattern.finditer(text):
+            name = m.group(1).strip(" .,'’-")
+            if not _NOT_A_NAME.match(name) and len(name) >= 3:
+                return name
+    m = _PAYLOCITY.search(direct_url or "")
+    if m:
+        return re.sub(r"-ACTIVE$", "", m.group(1)).replace("-", " ")
+    return ""
 
 
 def fetch_jobs(settings: dict) -> list[JobPosting]:
@@ -133,6 +162,8 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
                     # Universities/recruiters re-share others' jobs on LinkedIn.
                     company, title = dedupe.unwrap_reshare(company, title)
                 description = _cell(row, "description")
+                if not company:
+                    company = guess_company(description, _cell(row, "job_url_direct"))
                 flags = enrich.scrape_time_flags(title, description)
                 seen[job_id] = JobPosting(
                     job_id=job_id,

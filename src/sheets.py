@@ -51,7 +51,8 @@ def _row(j: dict) -> list:
     checked = bool(j.get("checked_at"))
     return [
         # The employer's own page when an aggregator revealed it.
-        _apply_cell(j.get("direct_url") or j["apply_url"]), j["company"], j["title"],
+        _apply_cell(j.get("direct_url") or j["apply_url"]),
+        j["company"] or "Company not listed", j["title"],
         j["role_type"], j.get("category") or "", j.get("location") or "",
         j.get("posted_on") or "",
         (j.get("first_seen") or "")[:16].replace("T", " "),
