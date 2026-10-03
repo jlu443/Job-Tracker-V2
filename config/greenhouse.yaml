@@ -2833,3 +2833,9 @@ companies:
   name: Tower Research Capital
   aliases:
   - towerresearchcapital
+- token: redventures
+  name: Red Ventures
+  aliases:
+  - redventures
+- token: mastercontrol
+  name: mastercontrol

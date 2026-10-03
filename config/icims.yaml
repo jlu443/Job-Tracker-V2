@@ -1263,3 +1263,11 @@ companies:
   name: LiRo
   aliases:
   - careers-liro
+- host: ceisvcareers-mastec.icims.com
+  name: Ceisvcareers Mastec.icims.com
+  aliases:
+  - ceisvcareers-mastec
+- host: wclcareers-mastec.icims.com
+  name: Wclcareers Mastec.icims.com
+  aliases:
+  - wclcareers-mastec

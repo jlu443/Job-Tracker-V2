@@ -896,3 +896,22 @@ companies:
   name: Kent
   aliases:
   - fa-emqh-saasfaprod1
+- host: egup.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Vertiv
+  aliases:
+  - egup
+- host: fa-esbv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_xx
+  name: Fa Esbv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esbv-saasfaprod1
+- host: hcnz.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: hcnz
+- host: cbha.fa.us2.oraclecloud.com
+  site: CX_1
+  name: cbha
+- host: edyo.fa.us2.oraclecloud.com
+  site: CX
+  name: edyo

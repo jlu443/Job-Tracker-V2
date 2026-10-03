@@ -518,7 +518,9 @@ companies:
 - tenant: elevancehealth
   wd: wd1
   site: ANT
-  name: elevancehealth
+  name: Elevance Health
+  aliases:
+  - elevancehealth
 - tenant: eversource
   wd: wd1
   site: ExternalSite
@@ -9204,7 +9206,9 @@ companies:
 - tenant: elevancehealth
   wd: wd1
   site: ELV-ET
-  name: elevancehealth
+  name: Elevance Health
+  aliases:
+  - elevancehealth
 - tenant: olg
   wd: wd3
   site: Careers-Students
@@ -9245,3 +9249,95 @@ companies:
   name: Major League Baseball
   aliases:
   - sterlingmets
+- tenant: spartannash
+  wd: wd1
+  site: SpartanNash_Careers
+  name: spartannash
+- tenant: generac
+  wd: wd5
+  site: External
+  name: generac
+- tenant: dolese
+  wd: wd1
+  site: DoleseBros
+  name: dolese
+- tenant: aero
+  wd: wd5
+  site: External
+  name: The Aerospace Corporation
+  aliases:
+  - aero
+- tenant: ttmtech
+  wd: wd5
+  site: jobs
+  name: ttmtech
+- tenant: thgrp
+  wd: wd12
+  site: HeritageConstructionMaterials
+  name: thgrp
+- tenant: medtronic
+  wd: wd1
+  site: MedtronicCareers
+  name: medtronic
+- tenant: teladoc
+  wd: wd503
+  site: teladochealth_is_hiring
+  name: teladoc
+- tenant: broadridge
+  wd: wd5
+  site: Careers
+  name: broadridge
+- tenant: ankura
+  wd: wd5
+  site: Ankura
+  name: Ankura Consulting Group
+  aliases:
+  - ankura
+- tenant: methode
+  wd: wd5
+  site: methode
+  name: methode
+- tenant: rayonier
+  wd: wd501
+  site: Rayonier_Careers
+  name: rayonier
+- tenant: corpartners
+  wd: wd5
+  site: DBIConsultants
+  name: corpartners
+- tenant: copeland
+  wd: wd5
+  site: Copeland_External_Careers_Page
+  name: copeland
+- tenant: idexcorp
+  wd: wd5
+  site: IDEX_Careers
+  name: IDEX
+  aliases:
+  - idexcorp
+- tenant: abb
+  wd: wd3
+  site: External_Career_Page
+  name: abb
+- tenant: oxfordcorp
+  wd: wd108
+  site: Oxford_Careers
+  name: oxfordcorp
+- tenant: blueorigin
+  wd: wd5
+  site: BlueOrigin
+  name: Blue Origin
+  aliases:
+  - blueorigin
+- tenant: ellsworth
+  wd: wd108
+  site: ellsworth_careers
+  name: ellsworth
+- tenant: veradigm
+  wd: wd12
+  site: VR
+  name: veradigm
+- tenant: erpa
+  wd: wd12
+  site: ERPA
+  name: erpa

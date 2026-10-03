@@ -493,3 +493,19 @@ companies:
   name: positron
 - slug: torus
   name: torus
+- slug: uhin-careers
+  name: UHIN
+  aliases:
+  - uhin-careers
+- slug: plmrcareers
+  name: Palomar Holdings
+  aliases:
+  - plmrcareers
+- slug: anthony-sylvan-pools
+  name: Anthony & Sylvan Pools
+  aliases:
+  - anthony-sylvan-pools
+- slug: loggerhead-risk-management-llc
+  name: Loggerhead Risk Management Llc
+  aliases:
+  - loggerhead-risk-management-llc
