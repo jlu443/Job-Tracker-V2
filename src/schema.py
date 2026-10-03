@@ -148,11 +148,27 @@ def _relabel_senior_titles(conn: sqlite3.Connection) -> None:
                      [(r[0],) for r in rows if classify.classify_by_keyword(r[1]) == "senior"])
 
 
+def _relabel_student_department_titles(conn: sqlite3.Connection) -> None:
+    """"Student" used to count as an intern word even in staff titles like
+    "Student Success Coach" or "Student Services Coordinator" (fixed
+    2026-10-03). Rows the old rule labeled intern whose title no longer looks
+    entry-level become 'mid'; prune() drops them. Curated-list rows keep
+    their human label."""
+    import re
+    rows = conn.execute("SELECT job_id, title FROM jobs WHERE role_type = 'intern' "
+                        "AND source != 'simplify'").fetchall()
+    conn.executemany("UPDATE jobs SET role_type = 'mid' WHERE job_id = ?",
+                     [(r[0],) for r in rows
+                      if re.search(r"\bstudent\b", r[1], re.I)
+                      and classify.classify_by_keyword(r[1]) not in ("intern", "new_grad")])
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
     (3, _research_track_backfill),
     (4, _relabel_senior_titles),
+    (5, _relabel_student_department_titles),
 ]
 
 

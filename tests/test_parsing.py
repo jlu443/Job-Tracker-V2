@@ -219,3 +219,16 @@ def test_plural_internships(title):
 ])
 def test_associate_and_program_titles(title, role):
     assert classify.classify_by_keyword(title) == role
+
+
+@pytest.mark.parametrize("title,role", [
+    ("Student Success Coach", None),
+    ("Student Services Coordinator", None),
+    ("Medical Assistant - Student Health", None),
+    ("Student Researcher - Vision", "intern"),
+    ("Student Engagement Assistant (Student) (FWS)", "intern"),
+    ("Embedded Software Engineer Student Experience - Spring 2027", "intern"),
+    ("Student Worker - IT Help Desk", "intern"),
+])
+def test_student_department_titles(title, role):
+    assert classify.classify_by_keyword(title) == role

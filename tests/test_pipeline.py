@@ -384,3 +384,18 @@ def test_migration_4_relabels_senior_titles(tmp_path):
     conn = db.connect(path)
     assert dict(conn.execute("SELECT job_id, role_type FROM jobs").fetchall()) == \
         {"gh_1": "senior", "gh_2": "new_grad"}
+
+
+def test_migration_5_relabels_student_department_titles(tmp_path):
+    path = str(tmp_path / "m5.db")
+    conn = db.connect(path)
+    db.sync(conn, [_p("gh_1", title="Student Success Coach"),
+                   _p("gh_2", title="Student Researcher - Vision"),
+                   _p("sim_1", title="Student Services Coordinator", source="simplify")],
+            lambda p: "intern", set(), set())
+    conn.execute("UPDATE meta SET value = '4' WHERE key = 'schema_version'")
+    conn.commit()
+    conn.close()
+    conn = db.connect(path)
+    assert dict(conn.execute("SELECT job_id, role_type FROM jobs").fetchall()) == \
+        {"gh_1": "mid", "gh_2": "intern", "sim_1": "intern"}   # curated label kept

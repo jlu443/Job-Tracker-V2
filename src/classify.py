@@ -23,7 +23,13 @@ VERSION = 5
 # Ordered most-specific first. First matching pattern wins.
 _RULES: list[tuple[str, str]] = [
     (r"\b(intern|interns|internships?|co-?op|summer\s+(?:analyst|associate)|"
-     r"working\s+student|student|apprentice(?:ship)?|fellowship|externship|"
+     # "student" alone, but not a department serving students ("Student
+     # Success Coach", "Student Services Coordinator", "Student Living").
+     r"working\s+student|student(?!\s+(?:success|engagement|affairs|services?|living|"
+     r"health|financial|support|teacher|life|housing|involvement|activities|records|"
+     r"accounts|aid|union|center|conduct|enrollment|loans?|accessibility|wellness|"
+     r"retention|advis\w*|recruit\w*|admissions?|development|care|programs?\s+"
+     r"(?:coordinator|manager|director))\b)|apprentice(?:ship)?|fellowship|externship|"
      r"graduate\s+(?:research\s+)?assistant)\b",
      "intern"),
     (r"\b(new\s*grad|new\s*graduate|new\s+college\s+grad(?:uate)?|ncg|"
