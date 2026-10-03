@@ -129,6 +129,24 @@ _GH_TOKEN_IN_PAGE = re.compile(
 _GH_NOT_TOKENS = {"embed", "v1", "boards", "job_app", "job_board", "js"}
 
 
+def _embed_token(job_id: str) -> dict | None:
+    """Greenhouse's own embed page for a job id redirects to
+    ...?for={token}&token={id} while the job is open (404 once closed).
+    Works when the company's page is rendered by JavaScript
+    (careers.withwaymo.com) and names no board in its HTML."""
+    try:
+        resp = requests.get(f"https://boards.greenhouse.io/embed/job_app?token={job_id}",
+                            headers=HEADERS, timeout=25, allow_redirects=True)
+    except requests.RequestException:
+        return None
+    m = re.search(r"[?&]for=([A-Za-z0-9_-]+)", resp.url)
+    if not m:
+        return None
+    token = m.group(1).lower()
+    board = request_json("GET", f"https://boards-api.greenhouse.io/v1/boards/{token}")
+    return {"token": token, "name": ((board or {}).get("name") or "").strip() or token}
+
+
 def _resolve_one(url: str, job_id: str) -> dict | None:
     try:
         resp = requests.get(url, headers=HEADERS, timeout=25, allow_redirects=True)
@@ -144,22 +162,29 @@ def _resolve_one(url: str, job_id: str) -> dict | None:
     return None
 
 
+def _resolve_site(links: list[tuple[str, str]], tries: int = 5) -> dict | None:
+    """One company site's board: the embed redirect for up to `tries` of its
+    job ids, newest (highest) first, since curated lists keep closed jobs;
+    then the company page itself."""
+    for _, job_id in sorted(links, key=lambda t: -int(t[1]))[:tries]:
+        found = _embed_token(job_id)
+        if found:
+            return found
+    return _resolve_one(*links[0])
+
+
 def resolve_hidden_greenhouse(text: str, max_pages: int = 400) -> list[dict]:
-    """Board tokens for Greenhouse jobs linked without one. One page fetch
-    per company site; embeds are fetched per job."""
-    seen_sites: set[str] = set()
-    todo: list[tuple[str, str]] = []
+    """Board tokens for Greenhouse jobs linked without one, per company site
+    (embeds, which name no site, count one per job)."""
+    sites: dict[str, list[tuple[str, str]]] = {}
     for m in _GH_HIDDEN.finditer(text):
         url, job_id = m.group(0), m.group(1)
         site = url if "embed/job_app" in url else url.split("/")[2].lower()
-        if site in seen_sites:
-            continue
-        seen_sites.add(site)
-        todo.append((url, job_id))
-    todo = todo[:max_pages]
+        sites.setdefault(site, []).append((url, job_id))
+    todo = list(sites.values())[:max_pages]
     log.info(f"  Greenhouse: resolving {len(todo)} boards hidden behind company pages / embeds ...")
     with ThreadPoolExecutor(max_workers=_VALIDATE_WORKERS) as pool:
-        found = [r for r in pool.map(lambda t: _resolve_one(*t), todo) if r]
+        found = [r for r in pool.map(_resolve_site, todo) if r]
     log.info(f"  Greenhouse: resolved {len({f['token'] for f in found})} board tokens")
     return found
 

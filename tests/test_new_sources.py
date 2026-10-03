@@ -104,3 +104,19 @@ def test_workday_status_only_retires_on_a_definite_answer(monkeypatch):
                              (429, None, None), (500, None, None)]:
         monkeypatch.setattr(enrich._SESSION, "get", lambda url, timeout, c=code, d=data: Resp(c, d))
         assert enrich.workday_status(job) is want
+
+
+def test_hidden_greenhouse_board_tries_newest_job_ids_first(monkeypatch):
+    from src import discover
+    tried = []
+
+    def embed(job_id):
+        tried.append(job_id)
+        return {"token": "waymo", "name": "Waymo"} if job_id == "8193295" else None  # others closed
+
+    monkeypatch.setattr(discover, "_embed_token", embed)
+    monkeypatch.setattr(discover, "_resolve_one", lambda url, jid: None)
+    links = [("https://careers.withwaymo.com/jobs?gh_jid=" + i, i)
+             for i in ("5000001", "8193295", "8300000")]
+    assert discover._resolve_site(links) == {"token": "waymo", "name": "Waymo"}
+    assert tried == ["8300000", "8193295"]

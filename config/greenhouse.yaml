@@ -2839,3 +2839,109 @@ companies:
   - redventures
 - token: mastercontrol
   name: mastercontrol
+- token: prizepicks
+  name: PrizePicks
+- token: instacart
+  name: Instacart
+- token: wehrtyou
+  name: Hudson River Trading
+- token: waymo
+  name: Waymo
+- token: oldmissioncapital
+  name: Old Mission
+- token: upstart
+  name: Upstart
+- token: equipmentsharecom
+  name: EquipmentShare
+- token: ixllearning
+  name: IXL Learning
+- token: x9
+  name: X
+- token: americanequityinvestmentlifeinsurancecompany
+  name: American Equity
+- token: motional
+  name: Motional
+- token: rubrik
+  name: Rubrik Job Board
+- token: formlabs
+  name: Formlabs
+- token: udig
+  name: UDig
+- token: agilityrobotics
+  name: Agility Robotics
+- token: samsara
+  name: Samsara
+- token: psiquantum
+  name: PsiQuantum
+- token: vaynermedia
+  name: VaynerMedia LLC
+- token: itradenetworkinc
+  name: iTradeNetwork, Inc.
+- token: nebius
+  name: Nebius
+- token: healthesystems
+  name: Healthesystems
+- token: cellink
+  name: CelLink Corporation
+- token: stokespacetechnologies
+  name: Stoke Space
+- token: c3iot
+  name: C3 AI
+- token: interstates
+  name: Interstates
+- token: keystone
+  name: Keystone
+- token: clerkie
+  name: Clerkie
+- token: flyzipline
+  name: Zipline
+- token: williamblair
+  name: William Blair
+- token: optiverus
+  name: Optiver
+- token: pathai
+  name: PathAI
+- token: helsing
+  name: Helsing
+- token: epicgames
+  name: Epic Games
+- token: peakenergy
+  name: Peak Energy
+- token: symphony
+  name: Symphony Communication Services
+- token: bitmovin
+  name: Bitmovin
+- token: seatgeek
+  name: SeatGeek
+- token: oscar
+  name: Oscar Health
+- token: mthree
+  name: mthree
+- token: foratravel
+  name: Fora
+- token: dmcengineering
+  name: DMC Engineering
+- token: talroo
+  name: Talroo
+- token: imafinancialgroup
+  name: IMA Financial Group
+- token: andrewmorgan
+  name: Andrew Morgan
+- token: keenfootwear
+  name: KEEN Footwear
+- token: cookunity
+  name: CookUnity
+- token: trexsolutions
+  name: T-Rex Solutions
+- token: hunterdouglas
+  name: Hunter Douglas
+- token: calicolabs
+  name: Calico
+- token: cannondesign
+  name: CannonDesign
+- token: studycareers
+  name: Study.com
+- token: avathon
+  name: Avathon
+- token: pointdigitalfinance
+  name: Point Digital Finance, Inc.
