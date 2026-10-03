@@ -24,7 +24,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 import requests
 
-from . import discover, simplify_scraper
+from . import ats_specs, simplify_scraper
 
 _ID_FIELD = {"workday": "tenant", "greenhouse": "token", "lever": "slug",
              "ashby": "slug", "smartrecruiters": "company",
@@ -58,7 +58,7 @@ def _curated_names(settings: dict) -> dict[tuple[str, str], str]:
             url, name = item.get("url") or "", (item.get("company_name") or "").strip()
             if not url or not name:
                 continue
-            for spec in discover.ATS_SPECS:
+            for spec in ats_specs.ATS_SPECS:
                 for cand in spec.extract(url):
                     votes[(spec.name, str(cand[_ID_FIELD[spec.name]]).lower())][name] += 1
     out = {}
@@ -98,8 +98,8 @@ def main() -> int:
     print("Collecting names from curated lists ...")
     curated = _curated_names(settings)
 
-    for spec in discover.ATS_SPECS:
-        companies, _ = discover._load_existing(spec)
+    for spec in ats_specs.ATS_SPECS:
+        companies, _ = ats_specs.load_existing(spec)
         todo = [c for c in companies if is_slug_name(spec.name, c)]
         with ThreadPoolExecutor(max_workers=8) as pool:
             api = list(pool.map(lambda c: _api_name(spec.name, c), todo))
@@ -113,7 +113,7 @@ def main() -> int:
             c["aliases"] = sorted(set(c.get("aliases", [])) | {old})
             c["name"] = name
             filled += 1
-        discover._save_config(spec, companies)
+        ats_specs.save_config(spec, companies)
         print(f"  {spec.name}: named {filled} of {len(todo)} slug-named boards "
               f"({len(companies)} total)")
     return 0

@@ -32,7 +32,7 @@ from statistics import median
 
 import requests
 
-from . import classify, dates, dedupe, discover, simplify_scraper
+from . import ats_specs, classify, dates, dedupe, simplify_scraper
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _ID_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever", "ash": "ashby",
@@ -65,8 +65,8 @@ def load_truth(settings: dict) -> list[dict]:
 def _configured_boards() -> dict[str, dict]:
     """ATS name → {board key: company name} for boards in config."""
     out = {}
-    for spec in discover.ATS_SPECS:
-        companies, _ = discover._load_existing(spec)
+    for spec in ats_specs.ATS_SPECS:
+        companies, _ = ats_specs.load_existing(spec)
         names = {}
         for c in companies:
             names.setdefault(spec.key(c), c.get("name") or "")
@@ -76,7 +76,7 @@ def _configured_boards() -> dict[str, dict]:
 
 def _board_key(url: str):
     """(ats, board key) for a URL, when discovery can recognize the board."""
-    for spec in discover.ATS_SPECS:
+    for spec in ats_specs.ATS_SPECS:
         cands = spec.extract(url)
         if cands:
             return spec.name, spec.key(cands[0])
