@@ -18,7 +18,7 @@ ROLE_TYPES = ("intern", "new_grad", "mid", "senior")
 # Bump whenever the rules change what counts as intern/new_grad. The first run
 # on a new version stores jobs it newly recognizes on already-known boards
 # silently (unless freshly posted) instead of announcing weeks-old postings.
-VERSION = 5
+VERSION = 6
 
 # Ordered most-specific first. First matching pattern wins.
 _RULES: list[tuple[str, str]] = [
@@ -33,7 +33,16 @@ _RULES: list[tuple[str, str]] = [
     (r"\b(intern|interns|internships?|co-?op|summer\s+(?:analyst|associate)|"
      # "student" alone, but not a department serving students ("Student
      # Success Coach", "Student Services Coordinator", "Student Living").
-     r"working\s+student|work[\s-]*study|student(?!\s+(?:success|engagement|affairs|services?|living|"
+     r"working\s+student|work[\s-]*study|"
+     # UK/EU internships: "Industrial Placement", "Software Engineering
+     # Placement", "6 month placement", "Off Cycle"; not "Job Placement
+     # Specialist", "Media Placement", a graduate scheme's "Graduate
+     # Placement" or a location ("Placement: Yogyakarta").
+     r"(?<!job )(?<!media )(?<!\bad )(?<!product )(?<!patient )(?<!client )(?<!school )"
+     r"(?<!\bgraduate )placements?(?!\s*:)(?!\s+(?:specialist|coordinator|manager|officer|advisor|consultant|"
+     r"agent|director|lead|counsel\w*|services?|support)\b)|off[\s-]?cycle|"
+     r"undergrad(?:uate)?\s+(?:research\w*|student|assistant)|fellows\s+program|"
+     r"student(?!\s+(?:success|engagement|affairs|services?|living|"
      r"health|financial|support|teacher|life|housing|involvement|activities|records|"
      r"accounts|aid|union|center|conduct|enrollment|loans?|accessibility|wellness|"
      r"retention|advis\w*|recruit\w*|admissions?|development|care|programs?\s+"
@@ -55,7 +64,8 @@ _RULES: list[tuple[str, str]] = [
      r"manager|operations|experience|relations|planning|life|store|visit\w*|tours?|"
      r"it|dining|facilit\w*|recreation|engagement|coordinator|admin\w*)\b)|"
      r"fresh\s+grad(?:uate)?s?|"
-     r"early\s*(?:career|talent|in\s+career)|entry[\s-]*level|"
+     r"early\s*(?:career|talent|in\s+career)|entry[\s-]*level|emerging\s+talent|"
+     r"level\s*0|"
      # "Graduate Performance Engineer", "Quant Developer, Graduate", "(Grad)"
      r"graduate(?!\s+(?:degree|school|studies))|grad|"
      r"(?:university|college)\s+hire|"
