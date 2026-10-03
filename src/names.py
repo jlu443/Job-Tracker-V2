@@ -18,6 +18,7 @@ name is kept under `aliases`, and main.py renames stored rows on the next run.
 
 from __future__ import annotations
 
+import logging
 import sys
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
@@ -25,6 +26,8 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 
 from . import ats_specs, simplify_scraper
+
+log = logging.getLogger(__name__)
 
 _ID_FIELD = {"workday": "tenant", "greenhouse": "token", "lever": "slug",
              "ashby": "slug", "smartrecruiters": "company",
@@ -52,7 +55,7 @@ def _curated_names(settings: dict) -> dict[tuple[str, str], str]:
             items = _SESSION.get(simplify_scraper._RAW.format(repo=entry["repo"]),
                                  timeout=60).json()
         except (requests.RequestException, ValueError) as exc:
-            print(f"  ! {entry['repo']}: {exc}")
+            log.warning(f"  ! {entry['repo']}: {exc}")
             continue
         for item in items:
             url, name = item.get("url") or "", (item.get("company_name") or "").strip()
@@ -93,9 +96,11 @@ def _pretty_slug(slug: str) -> str | None:
 
 
 def main() -> int:
+    from .config import setup_logging
+    setup_logging()
     from .config import load_settings
     settings = load_settings()
-    print("Collecting names from curated lists ...")
+    log.info("Collecting names from curated lists ...")
     curated = _curated_names(settings)
 
     for spec in ats_specs.ATS_SPECS:
@@ -114,7 +119,7 @@ def main() -> int:
             c["name"] = name
             filled += 1
         ats_specs.save_config(spec, companies)
-        print(f"  {spec.name}: named {filled} of {len(todo)} slug-named boards "
+        log.info(f"  {spec.name}: named {filled} of {len(todo)} slug-named boards "
               f"({len(companies)} total)")
     return 0
 

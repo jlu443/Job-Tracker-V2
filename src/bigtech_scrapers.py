@@ -13,6 +13,7 @@ Not covered here, and why (so they stay on the curated lists):
 
 from __future__ import annotations
 
+import logging
 import time
 from datetime import datetime
 
@@ -20,6 +21,8 @@ import requests
 
 from . import classify, enrich, http_pool
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 _UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
        "(KHTML, like Gecko) Chrome/126 Safari/537.36")
@@ -70,7 +73,7 @@ def fetch_tiktok(company: dict, settings: dict) -> tuple[list[JobPosting], bool]
                 resp.raise_for_status()
                 data = resp.json().get("data") or {}
             except (requests.RequestException, ValueError) as exc:
-                print(f"  ! TikTok term={term!r} offset={offset}: {exc}")
+                log.warning(f"  ! TikTok term={term!r} offset={offset}: {exc}")
                 complete = False
                 break
             jobs = data.get("job_post_list") or []
@@ -112,7 +115,7 @@ def fetch_amazon(company: dict, settings: dict) -> tuple[list[JobPosting], bool]
                 resp.raise_for_status()
                 data = resp.json()
             except (requests.RequestException, ValueError) as exc:
-                print(f"  ! Amazon term={term!r} offset={offset}: {exc}")
+                log.warning(f"  ! Amazon term={term!r} offset={offset}: {exc}")
                 complete = False
                 break
             jobs = data.get("jobs") or []
@@ -178,7 +181,7 @@ def fetch_apple(company: dict, settings: dict) -> tuple[list[JobPosting], bool |
         token = session.get(f"{_APPLE}/api/v1/CSRFToken", timeout=timeout) \
             .headers.get("x-apple-csrf-token")
     except requests.RequestException as exc:
-        print(f"  ! Apple: {exc}")
+        log.warning(f"  ! Apple: {exc}")
         return [], False
     headers = {"x-apple-csrf-token": token or "", "Content-Type": "application/json",
                "Origin": _APPLE, "Referer": f"{_APPLE}/en-us/search"}
@@ -196,7 +199,7 @@ def fetch_apple(company: dict, settings: dict) -> tuple[list[JobPosting], bool |
                 resp.raise_for_status()
                 res = resp.json().get("res") or {}
             except (requests.RequestException, ValueError) as exc:
-                print(f"  ! Apple page={page}: {exc}")
+                log.warning(f"  ! Apple page={page}: {exc}")
                 complete = False
                 break
             results = res.get("searchResults") or []

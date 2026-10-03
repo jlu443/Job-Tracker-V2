@@ -14,11 +14,14 @@ from __future__ import annotations
 
 import argparse
 import glob
+import logging
 import os
 import sys
 import time
 
 from . import collect, config, db, maintenance, process
+
+log = logging.getLogger(__name__)
 
 # Windows consoles default to cp1252; job titles are frequently Unicode.
 # Never let a print() kill the run after the DB has already synced.
@@ -39,7 +42,7 @@ def _apply_config_renames(conn) -> None:
                 renames[(source, alias)] = collect.company_name(c)
     moved = maintenance.apply_renames(conn, renames)
     if moved:
-        print(f"Renamed {moved} stored rows to their boards' company names.")
+        log.info(f"Renamed {moved} stored rows to their boards' company names.")
 
 
 def main(argv: list | None = None) -> int:
@@ -50,15 +53,16 @@ def main(argv: list | None = None) -> int:
     ap.add_argument("--from-parts", help="directory of saved parts: merge them instead of "
                                          "scraping, then run the rest of the pipeline")
     args = ap.parse_args(argv)
+    config.setup_logging()
 
     run_started = time.time()
     run_at = db._now()
     settings = config.load_settings()
     problems = config.validate(settings)
     if problems:
-        print("config/settings.yaml has problems; not running:")
+        log.error("config/settings.yaml has problems; not running:")
         for p in problems:
-            print(f"  - {p}")
+            log.error(f"  - {p}")
         return 2
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = db.connect(DB_PATH)
@@ -70,7 +74,7 @@ def main(argv: list | None = None) -> int:
         collected = collect.collect(settings, conn, args.scrape_part)
         dropped = collect.trim_for_handoff(collected, conn, settings)
         collect.save_part(args.out, collected)
-        print(f"Saved {len(collected.postings)} postings for part {args.scrape_part!r} "
+        log.info(f"Saved {len(collected.postings)} postings for part {args.scrape_part!r} "
               f"({dropped} senior/mid postings not handed off)")
         conn.close()
         return 0
@@ -78,15 +82,18 @@ def main(argv: list | None = None) -> int:
     if args.from_parts:
         paths = glob.glob(os.path.join(args.from_parts, "**", "*.json.gz"), recursive=True)
         if not paths:
-            print(f"No scrape parts found in {args.from_parts}")
+            log.info(f"No scrape parts found in {args.from_parts}")
             return 1
-        print(f"Merging {len(paths)} scrape parts")
+        log.info(f"Merging {len(paths)} scrape parts")
         collected = collect.load_parts(paths)
     else:
         collected = collect.collect(settings, conn)
 
     process.process(conn, settings, collected, run_at, run_started)
     conn.close()
+    if config.WARNINGS:
+        log.info(f"Run logged {sum(config.WARNINGS.values())} warnings: "
+                 + ", ".join(f"{m} {n}" for m, n in config.WARNINGS.most_common()))
     return 0
 
 

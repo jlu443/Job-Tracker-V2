@@ -6,6 +6,7 @@ Set DISCORD_WEBHOOK_URL to enable; if unset, this is a no-op (prints instead).
 
 from __future__ import annotations
 
+import logging
 import os
 import re
 import time
@@ -13,6 +14,8 @@ import time
 import requests
 
 from . import dates, geo
+
+log = logging.getLogger(__name__)
 
 # Discord limits: 10 embeds per message, 4096 characters per embed description.
 _MAX_EMBEDS = 10
@@ -151,25 +154,25 @@ def post_alert(problems: list[str]) -> None:
     if not problems:
         return
     text = "⚠️ **Job tracker health check**\n" + "\n".join(f"• {p}" for p in problems)
-    print(text)
+    log.info(text)
     webhook = os.environ.get("DISCORD_ALERT_WEBHOOK_URL") or os.environ.get("DISCORD_WEBHOOK_URL")
     if not webhook:
         return
     try:
         requests.post(webhook, json={"content": text[:2000]}, timeout=30).raise_for_status()
     except requests.RequestException as exc:
-        print(f"  ! Discord alert failed: {exc}")
+        log.warning(f"  ! Discord alert failed: {exc}")
 
 
 def post_new_jobs(jobs_to_post: list[dict]) -> None:
     if not jobs_to_post:
-        print("No new intern/new_grad US jobs to announce.")
+        log.info("No new intern/new_grad US jobs to announce.")
         return
     webhook = os.environ.get("DISCORD_WEBHOOK_URL")
     if not webhook:
-        print(f"DISCORD_WEBHOOK_URL not set — would announce {len(jobs_to_post)} jobs:")
+        log.info(f"DISCORD_WEBHOOK_URL not set — would announce {len(jobs_to_post)} jobs:")
         for j in jobs_to_post:
-            print(f"  [{j['role_type']}] {j['company']}: {j['title']}")
+            log.info(f"  [{j['role_type']}] {j['company']}: {j['title']}")
         return
     batches = _batches(_embeds(jobs_to_post))
     failed = 0
@@ -178,9 +181,9 @@ def post_new_jobs(jobs_to_post: list[dict]) -> None:
             _send(webhook, {"embeds": batch})
         except requests.RequestException as exc:
             failed += 1
-            print(f"  ! Discord post failed: {exc}")
+            log.warning(f"  ! Discord post failed: {exc}")
         time.sleep(0.5)
-    print(f"Announced {len(jobs_to_post)} new jobs to Discord in {len(batches)} messages"
+    log.info(f"Announced {len(jobs_to_post)} new jobs to Discord in {len(batches)} messages"
           + (f" ({failed} failed)" if failed else "") + ".")
 
 
@@ -206,7 +209,7 @@ def post_digest(jobs: list[dict], since_label: str, sheet_url: str = "") -> None
     """Every few hours: one header line, then the jobs announced since the
     last digest as compact per-category lists. Replaces a post per run."""
     if not jobs:
-        print("Discord digest: nothing new since the last one.")
+        log.info("Discord digest: nothing new since the last one.")
         return
     counts: dict = {}
     for j in jobs:
@@ -223,13 +226,13 @@ def post_digest(jobs: list[dict], since_label: str, sheet_url: str = "") -> None
               + (f"\n-# Full list with status tracking: <{sheet_url}>" if sheet_url else ""))
     webhook = os.environ.get("DISCORD_WEBHOOK_URL")
     if not webhook:
-        print(header)
+        log.info(header)
         for j in jobs:
-            print("  " + _line(j))
+            log.info("  " + _line(j))
         return
     try:
         _send(webhook, {"content": header[:2000]})
     except requests.RequestException as exc:
-        print(f"  ! Discord digest header failed: {exc}")
+        log.warning(f"  ! Discord digest header failed: {exc}")
     post_new_jobs(jobs)
 

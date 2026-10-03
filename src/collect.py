@@ -11,6 +11,7 @@ from __future__ import annotations
 import dataclasses
 import gzip
 import json
+import logging
 import os
 import time
 import zlib
@@ -22,6 +23,8 @@ from . import (ashby_scraper, bigtech_scrapers, classify, db, greenhouse_scraper
                rippling_scraper, scraper, simplify_scraper, smartrecruiters_scraper)
 from .config import CONFIG_DIR, load_yaml
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 
 class _One:
@@ -72,7 +75,7 @@ def fetch_one(source: str, module, company: dict, settings: dict):
     try:
         return module.fetch_company_jobs(company, settings)
     except Exception as exc:
-        print(f"  ! {source} {company_name(company)}: {type(exc).__name__}: {exc}")
+        log.warning(f"  ! {source} {company_name(company)}: {type(exc).__name__}: {exc}")
         return [], False
 
 
@@ -94,7 +97,7 @@ def scrape_source(source: str, module, companies: list[dict], settings: dict):
             if complete is False:        # None = recent-only by design, not a failure
                 failed += 1
     scopes = {(source, name) for name, ok in complete_by_name.items() if ok}
-    print(f"{source}: {len(postings)} postings from {len(companies)} boards "
+    log.info(f"{source}: {len(postings)} postings from {len(companies)} boards "
           f"in {time.time() - t0:.0f}s" + (f" ({failed} incomplete)" if failed else ""))
     return postings, scopes, failed
 
@@ -122,7 +125,7 @@ def scrape_ats(settings: dict, postings: list, complete_scopes: set, conn,
     disabled = set(settings.get("disabled_sources") or ())
     for source, config_file, module in ATS_SCRAPERS:
         if source in disabled:
-            print(f"  {source}: disabled (settings.disabled_sources)")
+            log.info(f"  {source}: disabled (settings.disabled_sources)")
             continue
         if (only is not None and source not in only) or source in exclude:
             continue
@@ -146,16 +149,16 @@ def scrape_ats(settings: dict, postings: list, complete_scopes: set, conn,
             due_names = {company_name(c) for c in due}
             companies = [{**c, "_mode": "recent+sweep" if company_name(c) in due_names
                           else "recent"} for c in companies]
-            print(f"  {source}: all {total} boards checked for new postings; "
+            log.info(f"  {source}: all {total} boards checked for new postings; "
                   f"{len(due)} also fully swept")
         else:
             companies = due
-            print(f"  {source}: {len(companies)} of {total} boards due"
+            log.info(f"  {source}: {len(companies)} of {total} boards due"
                   + (f" (open-job boards every {hot}, others every {every} runs)"
                      if every > 1 or hot > 1 else ""))
         plan.append((source, module, companies))
 
-    print(f"\n=== ATS boards ({len(plan)} sources in parallel) ===")
+    log.info(f"\n=== ATS boards ({len(plan)} sources in parallel) ===")
     board_stats: dict[str, tuple[int, int]] = {}
     if not plan:
         return board_stats

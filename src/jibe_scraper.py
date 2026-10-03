@@ -11,12 +11,15 @@ curated lists cite them (and how discovery finds new hosts).
 
 from __future__ import annotations
 
+import logging
 import time
 
 import requests
 
 from . import enrich, http_pool
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 _SESSION = http_pool.make_session({"User-Agent": "Mozilla/5.0 (job-tracker)",
                                    "Accept": "application/json"})
@@ -39,12 +42,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
                 resp = _SESSION.get(f"https://{host}/api/jobs", timeout=timeout,
                                     params={"keywords": term, "page": page, "limit": 100})
                 if resp.status_code == 404:
-                    print(f"  ! {name}: no Jibe API at {host} (404)")
+                    log.warning(f"  ! {name}: no Jibe API at {host} (404)")
                     return [], True
                 resp.raise_for_status()
                 data = resp.json()
             except (requests.RequestException, ValueError) as exc:
-                print(f"  ! {name} term={term!r} page={page}: {exc}")
+                log.warning(f"  ! {name} term={term!r} page={page}: {exc}")
                 complete = False
                 break
             jobs = data.get("jobs") or []

@@ -14,6 +14,7 @@ Flags set on each job dict (and persisted to the DB by db.update_enrichment):
 from __future__ import annotations
 
 import html
+import logging
 import re
 import threading
 import time
@@ -25,6 +26,8 @@ from urllib.parse import urlparse
 import requests
 
 from . import classify, http_pool, icims_scraper, phd
+
+log = logging.getLogger(__name__)
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)", "Accept": "application/json"}
 _SESSION = http_pool.make_session(_HEADERS)
@@ -131,7 +134,7 @@ def _fetch_linkedin(job: dict) -> str:
     if resp.status_code == 429:
         if not _li_blocked.is_set():
             _li_blocked.set()
-            print("  ! LinkedIn rate limit: skipping its descriptions for the rest of this run")
+            log.warning("  ! LinkedIn rate limit: skipping its descriptions for the rest of this run")
         return ""
     resp.raise_for_status()
     page = resp.text
@@ -209,7 +212,7 @@ def _description_for(job: dict) -> str:
     try:
         return fetcher(job)
     except (requests.RequestException, ValueError, KeyError, AttributeError) as exc:
-        print(f"  ! enrich fetch failed for {job['job_id']}: {exc}")
+        log.warning(f"  ! enrich fetch failed for {job['job_id']}: {exc}")
         return ""
 
 
@@ -406,11 +409,11 @@ def enrich_jobs(jobs: list[dict], label: str = "announceable postings",
     Jobs span many hosts, so a small thread pool keeps this quick."""
     if not jobs:
         return
-    print(f"Enriching {len(jobs)} {label} ...")
+    log.info(f"Enriching {len(jobs)} {label} ...")
     with ThreadPoolExecutor(max_workers=workers) as pool:
         results = list(pool.map(_enrich_one, jobs))
     counts = Counter(k for flags in results for k, v in flags.items() if v)
     read = sum(1 for j in jobs if j.get("checked_at"))
-    print(f"  read {read}/{len(jobs)} descriptions — sponsorship: {counts['sponsorship']}, "
+    log.info(f"  read {read}/{len(jobs)} descriptions — sponsorship: {counts['sponsorship']}, "
           f"citizenship: {counts['citizenship']}, clearance: {counts['clearance']}, "
           f"grad year: {counts['grad_year']}")

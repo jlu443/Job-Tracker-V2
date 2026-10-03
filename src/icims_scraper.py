@@ -19,6 +19,7 @@ is wrongly marked removed).
 from __future__ import annotations
 
 import html
+import logging
 import re
 import threading
 import time
@@ -28,6 +29,8 @@ import requests
 
 from . import classify, dates, http_pool
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 # An honest client id. iCIMS's edge challenges a full Chrome user-agent
 # coming from a non-browser client, but serves this one normally.
@@ -60,11 +63,11 @@ def _get(host: str, params: dict, timeout: int, path: str = "/jobs/search") -> r
         resp = _SESSION.get(f"https://{host}{path}", params=params, timeout=timeout)
         if resp.status_code == 405 and "Human Verification" in resp.text:
             if attempt == 1:
-                print(f"  ! iCIMS bot challenge at {host}; backing off {_CHALLENGE_BACKOFF}s")
+                log.warning(f"  ! iCIMS bot challenge at {host}; backing off {_CHALLENGE_BACKOFF}s")
                 time.sleep(_CHALLENGE_BACKOFF)
                 continue
             _blocked.set()
-            print("  ! iCIMS still challenging; skipping remaining iCIMS portals this run")
+            log.warning("  ! iCIMS still challenging; skipping remaining iCIMS portals this run")
             raise _Challenged()
         return resp
     raise _Challenged()
@@ -147,13 +150,13 @@ def _crawl(host: str, name: str, keyword: str, max_pages: int, timeout: int,
         try:
             resp = _get(host, {**params, "pr": page_no}, timeout)
             if resp.status_code == 404:
-                print(f"  ! {name}: portal not found (404)")
+                log.warning(f"  ! {name}: portal not found (404)")
                 return "missing"
             resp.raise_for_status()
         except _Challenged:
             return "challenged"
         except requests.RequestException as exc:
-            print(f"  ! {name} keyword={keyword!r} page={page_no}: {exc}")
+            log.warning(f"  ! {name} keyword={keyword!r} page={page_no}: {exc}")
             return "failed"
         rows = parse_listing(resp.text, host, name)
         ids = [p.job_id for p in rows]

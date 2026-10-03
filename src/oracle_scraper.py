@@ -13,6 +13,7 @@ ranked, so paging stops once a page has run out of entry-level titles.
 
 from __future__ import annotations
 
+import logging
 import time
 from urllib.parse import quote
 
@@ -20,6 +21,8 @@ import requests
 
 from . import classify, http_pool
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 _SESSION = http_pool.make_session({"User-Agent": "Mozilla/5.0 (job-tracker)",
                                    "Accept": "application/json"})
@@ -59,12 +62,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
             try:
                 resp = _SESSION.get(_search_url(host, site, term, offset), timeout=timeout)
                 if resp.status_code == 404:
-                    print(f"  ! {name}: site '{site}' not found (404)")
+                    log.warning(f"  ! {name}: site '{site}' not found (404)")
                     return [], True
                 resp.raise_for_status()
                 items = resp.json().get("items") or [{}]
             except (requests.RequestException, ValueError) as exc:
-                print(f"  ! {name} term={term!r} offset={offset}: {exc}")
+                log.warning(f"  ! {name} term={term!r} offset={offset}: {exc}")
                 complete = False
                 break
             reqs = items[0].get("requisitionList") or []

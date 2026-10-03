@@ -8,7 +8,10 @@ Two layers:
 
 from __future__ import annotations
 
+import logging
 import re
+
+log = logging.getLogger(__name__)
 
 ROLE_TYPES = ("intern", "new_grad", "mid", "senior")
 
@@ -177,7 +180,7 @@ def classify_by_zeroshot(title: str) -> str | None:
         desc_to_key = {v: k for k, v in _ZS_LABELS.items()}
         return desc_to_key.get(best_desc)
     except Exception as exc:
-        print(f"  ! zero-shot classify failed for {title!r}: {exc}")
+        log.warning(f"  ! zero-shot classify failed for {title!r}: {exc}")
         return None
 
 
@@ -211,7 +214,7 @@ def _zeroshot_many(titles: list[str]) -> dict[str, str]:
                 out[title] = key
         return out
     except Exception as exc:
-        print(f"  ! zero-shot batch classify failed: {exc}")
+        log.warning(f"  ! zero-shot batch classify failed: {exc}")
         return {}
 
 
@@ -226,7 +229,7 @@ def classify_batch(titles: list[str], settings: dict) -> list[str]:
     if settings.get("use_llm_fallback"):
         pending = sorted({t for t, l in zip(titles, labels) if l is None})
         if pending:
-            print(f"  zero-shot classifying {len(pending)} unique ambiguous titles ...")
+            log.info(f"  zero-shot classifying {len(pending)} unique ambiguous titles ...")
             resolved = _zeroshot_many(pending)
             labels = [l or resolved.get(t) for t, l in zip(titles, labels)]
     return [l or "mid" for l in labels]

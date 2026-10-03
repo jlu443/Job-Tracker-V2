@@ -15,6 +15,7 @@ GOOGLE_SHEETS_WEBHOOK_URL to enable; without it this is a no-op.
 
 from __future__ import annotations
 
+import logging
 import os
 import sqlite3
 from datetime import datetime, timedelta, timezone
@@ -22,6 +23,8 @@ from datetime import datetime, timedelta, timezone
 import requests
 
 from . import db, dedupe, h1b, phd
+
+log = logging.getLogger(__name__)
 
 COLUMNS = ["Apply", "Company", "Title", "Role", "Category", "Location", "Posted",
            "First seen", "Visa sponsorship", "US citizenship", "Clearance",
@@ -212,20 +215,20 @@ def _post(webhook: str, payload: dict) -> dict:
 def publish(conn: sqlite3.Connection, settings: dict) -> None:
     webhook = os.environ.get("GOOGLE_SHEETS_WEBHOOK_URL")
     if not webhook:
-        print("GOOGLE_SHEETS_WEBHOOK_URL not set — skipping Google Sheets.")
+        log.info("GOOGLE_SHEETS_WEBHOOK_URL not set — skipping Google Sheets.")
         return
     try:
         version = _post(webhook, {"action": "ping"}).get("version")
     except requests.RequestException as exc:
-        print(f"  ! Google Sheets unreachable: {exc}")
+        log.warning(f"  ! Google Sheets unreachable: {exc}")
         return
     if not isinstance(version, int) or version < 2:
         # A v1 deployment would append these rows into the wrong layout.
-        print("  ! Google Sheets script is out of date: paste docs/apps_script.gs into "
+        log.warning("  ! Google Sheets script is out of date: paste docs/apps_script.gs into "
               "the sheet's Apps Script and deploy a new version. Skipping the sheet.")
         return
     if version < _SCRIPT_VERSION:
-        print(f"  ! Google Sheets script is v{version}; deploy docs/apps_script.gs "
+        log.warning(f"  ! Google Sheets script is v{version}; deploy docs/apps_script.gs "
               f"(v{_SCRIPT_VERSION}) to get closed-listing marks in My Applications.")
 
     refresh_hours = settings.get("sheets", {}).get("all_open_refresh_hours", 24)
@@ -243,12 +246,12 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
             result = _post(webhook, {"action": "replace_tab", "tab": tab,
                                      "columns": columns, "rows": rows})
         except requests.RequestException as exc:
-            print(f"  ! Google Sheets tab {tab!r} failed: {exc}")
+            log.warning(f"  ! Google Sheets tab {tab!r} failed: {exc}")
             continue
         if not result.get("ok"):
-            print(f"  ! Google Sheets tab {tab!r}: {result.get('error')}")
+            log.warning(f"  ! Google Sheets tab {tab!r}: {result.get('error')}")
             continue
-        print(f"Sheet tab {tab!r}: {len(rows)} rows")
+        log.info(f"Sheet tab {tab!r}: {len(rows)} rows")
         if tab.endswith("All Open"):
             db._meta_set(conn, "sheets_all_open_at_v5", db._now())
             conn.commit()
@@ -258,7 +261,7 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
             _post(webhook, {"action": "write_key", "rows": KEY_ROWS})
             _post(webhook, {"action": "delete_tabs", "tabs": RETIRED_TABS})
         except requests.RequestException as exc:
-            print(f"  ! Google Sheets tab cleanup failed: {exc}")
+            log.warning(f"  ! Google Sheets tab cleanup failed: {exc}")
 
     if version >= 3:
         # Jobs taken down, or aged out of the DB's window, get marked closed
@@ -267,9 +270,9 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
             saved = _post(webhook, {"action": "list_applications"}).get("ids") or []
             closed = closed_among(conn, saved)
             result = _post(webhook, {"action": "listing_status", "closed": closed})
-            print(f"My Applications: {result.get('marked', 0)} saved jobs marked closed")
+            log.info(f"My Applications: {result.get('marked', 0)} saved jobs marked closed")
         except requests.RequestException as exc:
-            print(f"  ! Google Sheets listing status failed: {exc}")
+            log.warning(f"  ! Google Sheets listing status failed: {exc}")
 
 
 def closed_among(conn: sqlite3.Connection, job_ids: list[str]) -> list[str]:

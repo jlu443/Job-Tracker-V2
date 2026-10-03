@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import os
 import sqlite3
 import sys
@@ -33,6 +34,8 @@ from statistics import median
 import requests
 
 from . import ats_specs, classify, dates, dedupe, simplify_scraper
+
+log = logging.getLogger(__name__)
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _ID_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever", "ash": "ashby",
@@ -49,7 +52,7 @@ def load_truth(settings: dict) -> list[dict]:
             items = requests.get(simplify_scraper._RAW.format(repo=entry["repo"]),
                                  timeout=60).json()
         except (requests.RequestException, ValueError) as exc:
-            print(f"  ! {entry['repo']}: {exc}")
+            log.warning(f"  ! {entry['repo']}: {exc}")
             continue
         for item in items:
             if not item.get("active") or not item.get("is_visible", True):
@@ -213,11 +216,11 @@ def record_daily(conn: sqlite3.Connection, settings: dict) -> dict | None:
     return report
 
 
-def _print(report: dict) -> None:
-    print(f"\nGround truth: {report['truth_listings']} curated intern/new-grad listings\n")
-    print("Coverage (our first-party scrapers vs curated jobs on each ATS):")
-    print("  in-scope = found + scraper-miss + title-rules (jobs we should have)")
-    print(f"  {'ats':<16}{'listings':>9}{'found':>7}{'in-scope':>9}{'recall':>8}  {'scraper-miss':>12}"
+def log_report(report: dict) -> None:
+    log.info(f"\nGround truth: {report['truth_listings']} curated intern/new-grad listings\n")
+    log.info("Coverage (our first-party scrapers vs curated jobs on each ATS):")
+    log.info("  in-scope = found + scraper-miss + title-rules (jobs we should have)")
+    log.info(f"  {'ats':<16}{'listings':>9}{'found':>7}{'in-scope':>9}{'recall':>8}  {'scraper-miss':>12}"
           f"  {'title-rules':>11}  {'not-scraped':>11}  {'no-board':>8}  {'too-old':>7}")
     for ats, c in report["coverage"].items():
         if ats == "unsupported":
@@ -226,34 +229,36 @@ def _print(report: dict) -> None:
         found = c.get("found", 0)
         scope = found + c.get('scraper_missed', 0) + c.get('dropped_by_title_rules', 0)
         recall = f"{found / scope:.0%}" if scope else "-"
-        print(f"  {ats:<16}{listings:>9}{found:>7}{scope:>9}{recall:>8}  "
+        log.info(f"  {ats:<16}{listings:>9}{found:>7}{scope:>9}{recall:>8}  "
               f"{c.get('scraper_missed', 0):>12}  {c.get('dropped_by_title_rules', 0):>11}  "
               f"{c.get('board_not_scraped_yet', 0):>11}  {c.get('board_not_configured', 0):>8}  "
               f"{c.get('older_than_retention', 0):>7}")
-    print(f"  (on ATSes we don't scrape: {report['coverage'].get('unsupported', {}).get('listings', 0)})")
+    log.info(f"  (on ATSes we don't scrape: {report['coverage'].get('unsupported', {}).get('listings', 0)})")
     r = report["role"]
-    print(f"\nRole classifier: entry-level recall {r['entry_level_recall']:.1%}, "
+    log.info(f"\nRole classifier: entry-level recall {r['entry_level_recall']:.1%}, "
           f"exact role {r['exact_role_accuracy']:.1%}")
-    print("  " + ", ".join(f"{k}: {v}" for k, v in list(r["confusion"].items())[:8]))
+    log.info("  " + ", ".join(f"{k}: {v}" for k, v in list(r["confusion"].items())[:8]))
     c = report["category"]
-    print(f"\nCategory agreement {c['agreement']:.1%} "
+    log.info(f"\nCategory agreement {c['agreement']:.1%} "
           f"({c['wrongly_other']} curated tech jobs we'd label 'other' and not announce)")
     d = report["dates"]
     if d["compared"]:
-        print(f"\nDates ({d['compared']} compared): exact {d['exact_share']:.0%}, within 2 days "
+        log.info(f"\nDates ({d['compared']} compared): exact {d['exact_share']:.0%}, within 2 days "
               f"{d['within_2_days_share']:.0%}; median {d['median_days_from_post_to_first_seen']}"
               f" days from posting to first seen ({d['detection_samples']} jobs on boards"
               " already watched when posted)")
     for ats, ex in report["missed_examples"].items():
-        print(f"\nScraper missed on {ats} (board scraped, title entry-level), e.g.:")
+        log.info(f"\nScraper missed on {ats} (board scraped, title entry-level), e.g.:")
         for e in ex:
-            print(f"  - {e}")
-    print("\nRole misses, e.g.:")
+            log.info(f"  - {e}")
+    log.info("\nRole misses, e.g.:")
     for e in r["misses"]:
-        print(f"  - {e}")
+        log.info(f"  - {e}")
 
 
 def main() -> int:
+    from .config import setup_logging
+    setup_logging()
     from .config import load_settings
     ap = argparse.ArgumentParser(description="Pipeline accuracy vs curated lists")
     ap.add_argument("--db", default=os.path.join(_ROOT, "data", "jobs.db"))
@@ -262,7 +267,7 @@ def main() -> int:
     settings = load_settings()
     truth = load_truth(settings)
     report = measure(truth, sqlite3.connect(args.db), settings.get("max_listing_age_days"))
-    _print(report)
+    log_report(report)
     if args.json:
         with open(args.json, "w", encoding="utf-8") as fh:
             json.dump(report, fh, indent=2)

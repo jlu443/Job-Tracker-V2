@@ -9,6 +9,7 @@ Returns all current postings in one call (no pagination needed).
 
 from __future__ import annotations
 
+import logging
 import re
 import time
 from datetime import datetime, timezone
@@ -17,6 +18,8 @@ import requests
 
 from . import enrich, http_pool
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
 _SESSION = http_pool.make_session(_HEADERS)
@@ -31,12 +34,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
     try:
         resp = _SESSION.get(url, timeout=timeout)
         if resp.status_code == 404:
-            print(f"  ! {name}: slug '{slug}' not found (404)")
+            log.warning(f"  ! {name}: slug '{slug}' not found (404)")
             return [], True
         resp.raise_for_status()
         postings = resp.json()
     except (requests.RequestException, ValueError) as exc:
-        print(f"  ! {name}: {exc}")
+        log.warning(f"  ! {name}: {exc}")
         return [], False
 
     out = []

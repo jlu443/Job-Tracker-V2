@@ -9,12 +9,15 @@ We call that endpoint directly. No browser, no DOM scraping.
 
 from __future__ import annotations
 
+import logging
 import time
 
 import requests
 
 from . import classify, dates, http_pool
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 _HEADERS = {
     "Content-Type": "application/json",
@@ -69,7 +72,7 @@ def _page(endpoint: str, term: str, offset: int, settings: dict, name: str) -> d
             resp.raise_for_status()
             return resp.json()
         except (requests.RequestException, ValueError) as exc:
-            print(f"  ! {name} term={term!r} offset={offset}: {exc}")
+            log.warning(f"  ! {name} term={term!r} offset={offset}: {exc}")
             return None
     return None
 

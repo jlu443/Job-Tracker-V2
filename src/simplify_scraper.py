@@ -11,10 +11,13 @@ instead of becoming a duplicate; everything else is keyed sim_<listing id>.
 
 from __future__ import annotations
 
+import logging
 import requests
 
 from . import dates, dedupe, http_pool
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 _SESSION = http_pool.make_session({"User-Agent": "Mozilla/5.0 (job-tracker)"})
 _RAW = "https://raw.githubusercontent.com/{repo}/dev/.github/scripts/listings.json"
@@ -72,7 +75,7 @@ def fetch_jobs(settings: dict) -> tuple[list[JobPosting], bool]:
             resp.raise_for_status()
             items = resp.json()
         except (requests.RequestException, ValueError) as exc:
-            print(f"  ! {repo}: {exc}")
+            log.warning(f"  ! {repo}: {exc}")
             complete = False
             continue
         n = 0
@@ -83,5 +86,5 @@ def fetch_jobs(settings: dict) -> tuple[list[JobPosting], bool]:
             if p and p.job_id not in out:
                 out[p.job_id] = p
                 n += 1
-        print(f"  {repo}: {n} active listings")
+        log.info(f"  {repo}: {n} active listings")
     return list(out.values()), complete

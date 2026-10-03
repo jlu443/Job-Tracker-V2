@@ -9,12 +9,15 @@ Paginated via limit/offset; totalFound gives the stop condition.
 
 from __future__ import annotations
 
+import logging
 import time
 
 import requests
 
 from . import http_pool
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
 _SESSION = http_pool.make_session(_HEADERS)
@@ -40,12 +43,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
             resp = _SESSION.get(base, params={"limit": _PAGE_SIZE, "offset": offset},
                                 timeout=timeout)
             if resp.status_code == 404:
-                print(f"  ! {name}: company '{company_id}' not found (404)")
+                log.warning(f"  ! {name}: company '{company_id}' not found (404)")
                 return out, True
             resp.raise_for_status()
             data = resp.json()
         except (requests.RequestException, ValueError) as exc:
-            print(f"  ! {name}: {exc}")
+            log.warning(f"  ! {name}: {exc}")
             return out, False
 
         content = data.get("content", [])

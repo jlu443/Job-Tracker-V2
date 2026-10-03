@@ -7,6 +7,7 @@ health checks.
 
 from __future__ import annotations
 
+import logging
 import os
 import sqlite3
 import time
@@ -17,6 +18,8 @@ from . import (accuracy, classify, db, dedupe, enrich, health, maintenance, noti
                repost, sheets)
 from .collect import ATS_SCRAPERS, Collected
 
+log = logging.getLogger(__name__)
+
 
 def discord_digest(conn, settings: dict) -> None:
     """Post the jobs announced since the last digest once digest_hours have
@@ -25,7 +28,7 @@ def discord_digest(conn, settings: dict) -> None:
     now = datetime.now(timezone.utc)
     last = db._meta_get(conn, "discord_last_digest_at")
     if last and datetime.fromisoformat(last) > now - timedelta(hours=hours, minutes=-10):
-        print(f"Discord digest: next one {hours}h after {last[11:16]} UTC")
+        log.info(f"Discord digest: next one {hours}h after {last[11:16]} UTC")
         return
     since = last or (now - timedelta(hours=hours)).isoformat(timespec="seconds")
     conn.row_factory = sqlite3.Row
@@ -44,22 +47,22 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     complete_sources = collected.complete_sources
     board_stats = collected.board_stats
 
-    print(f"\nTotal postings this run: {len(all_postings)}")
+    log.info(f"\nTotal postings this run: {len(all_postings)}")
     health.record(conn, run_at, collected.source_counts
                   or dict(Counter(p.source for p in all_postings)), board_stats)
     known = db.existing_ids(conn)
     all_postings, dupes = dedupe.dedupe_postings(all_postings, known)
     if dupes:
-        print(f"Dropped {dupes} duplicate postings (same job via another source).")
+        log.info(f"Dropped {dupes} duplicate postings (same job via another source).")
 
     # Classify only genuinely new postings, in one batched pass — calling the
     # zero-shot model per title serially is what blows up CI runtime.
     t0 = time.time()
     new_postings = [p for p in all_postings if p.job_id not in known and not p.role_hint]
-    print(f"Classifying {len(new_postings)} new postings ...")
+    log.info(f"Classifying {len(new_postings)} new postings ...")
     roles = classify.classify_batch([p.title for p in new_postings], settings)
     role_by_id = {p.job_id: r for p, r in zip(new_postings, roles)}
-    print(f"Classification done in {time.time() - t0:.0f}s")
+    log.info(f"Classification done in {time.time() - t0:.0f}s")
 
     def role_for(p) -> str:
         # A curated list's intern/new_grad label wins unless the title
@@ -79,11 +82,11 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
                      store_roles=store_roles,
                      max_age_days=settings.get("max_listing_age_days"),
                      age_exempt=frozenset(settings.get("age_limit_exempt_sources") or ()))
-    print(f"New: {len(result.new_jobs)}  Updated: {result.updated}  "
+    log.info(f"New: {len(result.new_jobs)}  Updated: {result.updated}  "
           f"Removed: {result.removed}")
     if result.bumped:
         by_source = Counter(b["source"] for b in result.bumped)
-        print(f"Re-dated (reposted) listings: {len(result.bumped)} "
+        log.info(f"Re-dated (reposted) listings: {len(result.bumped)} "
               f"({', '.join(f'{s} {n}' for s, n in by_source.most_common())})")
 
     scraped = complete_scopes | {(src, "*") for src in complete_sources}
@@ -97,7 +100,7 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         db._meta_set(conn, "classifier_version", str(classify.VERSION))
         conn.commit()
     if skipped:
-        print("Not announced: " + ", ".join(f"{n} {why}" for why, n in skipped.items())
+        log.info("Not announced: " + ", ".join(f"{n} {why}" for why, n in skipped.items())
               + ("  (bootstrap = first scrape of a new board; backlog stored silently)"
                  if skipped.get("bootstrap") else ""))
 
@@ -111,7 +114,7 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     repost.annotate(targets, relisted_from, repost.linkedin_frontier(li_obs), settings)
     n_repost = sum(1 for j in targets if j["repost"])
     if n_repost:
-        print(f"Flagged {n_repost} of {len(targets)} announceable jobs as reposts/old.")
+        log.info(f"Flagged {n_repost} of {len(targets)} announceable jobs as reposts/old.")
 
     if settings.get("enrich_descriptions", True) and targets:
         # Detail fetches are ~0.5s each; cap them so a burst of new postings
@@ -123,7 +126,7 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         to_fetch.sort(key=lambda j: j.get("posted_on") or "", reverse=True)
         enrich.enrich_jobs(to_fetch[:cap])
         if len(to_fetch) > cap:
-            print(f"  enrichment capped at {cap}; {len(to_fetch) - cap} left for the backlog")
+            log.info(f"  enrichment capped at {cap}; {len(to_fetch) - cap} left for the backlog")
     db.update_enrichment(conn, targets)
 
     # Work through open jobs whose description was never read, so the Sheet's
@@ -136,7 +139,7 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
                          "AND research_track != ''").rowcount
         db._meta_set(conn, "flags_version", enrich.FLAGS_VERSION)
         conn.commit()
-        print(f"Description flags v{enrich.FLAGS_VERSION}: re-reading {n} PhD/research postings")
+        log.info(f"Description flags v{enrich.FLAGS_VERSION}: re-reading {n} PhD/research postings")
     backlog_n = settings.get("enrich_backlog_per_run", 300)
     if settings.get("enrich_descriptions", True) and backlog_n:
         backlog = [j for j in db.unchecked_open(conn, backlog_n * 3) if enrich.fetchable(j)]
@@ -152,14 +155,14 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         before = len(targets)
         targets = [j for j in targets if j.get("sponsorship") != "no"]
         if len(targets) != before:
-            print(f"Excluded {before - len(targets)} no-sponsorship jobs.")
+            log.info(f"Excluded {before - len(targets)} no-sponsorship jobs.")
     # Personal filters (settings.profile), after enrichment so visa /
     # citizenship / grad-year flags are known.
     skipped_profile = Counter(r for j in targets
                               for r in profile.reasons_to_skip(j, settings.get("profile") or {}))
     targets = [j for j in targets if profile.fits(j, settings)]
     if skipped_profile:
-        print("Profile filtered: " + ", ".join(f"{n} {r}" for r, n in skipped_profile.items()))
+        log.info("Profile filtered: " + ", ".join(f"{n} {r}" for r, n in skipped_profile.items()))
 
     # Announced = in the Sheet's Today / This Week now; Discord gets them in
     # one digest every few hours instead of a post per hourly run.
@@ -172,22 +175,22 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
             conn, settings["max_listing_age_days"],
             exempt_sources=frozenset(settings.get("age_limit_exempt_sources") or ()))
         if purged:
-            print(f"Purged {purged} listings older than "
+            log.info(f"Purged {purged} listings older than "
                   f"{settings['max_listing_age_days']} days.")
     pruned = maintenance.prune(conn, settings.get("prune_removed_after_days", 30), store_roles)
     if pruned:
-        print(f"Pruned {pruned} rows that are no longer kept.")
+        log.info(f"Pruned {pruned} rows that are no longer kept.")
     try:
         report = accuracy.record_daily(conn, settings)
         if report:
-            accuracy._print(report)
+            accuracy.log_report(report)
     except Exception as exc:          # a measurement problem must not fail the run
-        print(f"  ! accuracy measurement failed: {exc}")
+        log.warning(f"  ! accuracy measurement failed: {exc}")
 
     disabled = set(settings.get("disabled_sources") or ())
     expected = ({s for s, _, _ in ATS_SCRAPERS if s not in disabled}
                 | {"simplify"} | set((settings.get("jobspy") or {}).get("sites") or ()))
     problems = health.check(conn, run_at, time.time() - run_started, settings, expected)
     if problems:
-        print("Health check: " + "; ".join(problems))
+        log.info("Health check: " + "; ".join(problems))
     notify.post_alert(health.due_alerts(conn, problems))

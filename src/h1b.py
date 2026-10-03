@@ -19,12 +19,15 @@ import csv
 import gzip
 import io
 import json
+import logging
 import os
 import re
 import sys
 from functools import lru_cache
 
 import requests
+
+log = logging.getLogger(__name__)
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_PATH = os.path.join(_ROOT, "config", "h1b_employers.json.gz")
@@ -133,11 +136,13 @@ def label(company: str) -> str:
 
 
 def main() -> int:
+    from .config import setup_logging
+    setup_logging()
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--build", nargs="+", type=int, metavar="YEAR", required=True)
     args = ap.parse_args()
     n = build(args.build)
-    print(f"Wrote {n} employers for FY{args.build} to {DATA_PATH}")
+    log.info(f"Wrote {n} employers for FY{args.build} to {DATA_PATH}")
     return 0
 
 

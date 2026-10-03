@@ -22,10 +22,13 @@ others' results down with it, and so the proxy is only used where required:
 from __future__ import annotations
 
 import hashlib
+import logging
 import os
 
 from . import dedupe, enrich, repost
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 # Import here so the rest of the app works without jobspy installed.
 try:
@@ -60,7 +63,7 @@ def _cell(row, key: str) -> str:
 def fetch_jobs(settings: dict) -> list[JobPosting]:
     """Search all configured job boards and return normalized postings."""
     if not _JOBSPY_AVAILABLE:
-        print("  jobspy not installed — skipping external job boards.")
+        log.info("  jobspy not installed — skipping external job boards.")
         return []
 
     board_settings = settings.get("jobspy", {})
@@ -78,7 +81,7 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
     proxy = os.environ.get("JOBSPY_PROXY")
     in_ci = bool(os.environ.get("GITHUB_ACTIONS"))
     if proxy:
-        print(f"  [jobspy] proxy configured: {proxy.split('@')[-1]}")  # hide credentials
+        log.info(f"  [jobspy] proxy configured: {proxy.split('@')[-1]}")  # hide credentials
 
     seen: dict[str, JobPosting] = {}
 
@@ -91,13 +94,13 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
             if proxy:
                 proxies = [proxy]
             elif in_ci:
-                print(f"  [jobspy] {site}: JOBSPY_PROXY not set — skipping "
+                log.info(f"  [jobspy] {site}: JOBSPY_PROXY not set — skipping "
                       "(datacenter IPs are blocked)")
                 continue
             # Local run without a proxy: residential IP, try directly.
 
         for term in search_terms:
-            print(f"  [jobspy] {site}: searching {term!r} ...")
+            log.info(f"  [jobspy] {site}: searching {term!r} ...")
             try:
                 df = _scrape(
                     site_name=[site],
@@ -110,7 +113,7 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
                     verbose=0,
                 )
             except Exception as exc:
-                print(f"  [jobspy] {site} term={term!r} failed: {exc}")
+                log.info(f"  [jobspy] {site} term={term!r} failed: {exc}")
                 continue
 
             if df is None or df.empty:
@@ -144,5 +147,5 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
                     **flags,
                 )
 
-    print(f"  [jobspy] {len(seen)} unique postings across all boards.")
+    log.info(f"  [jobspy] {len(seen)} unique postings across all boards.")
     return list(seen.values())

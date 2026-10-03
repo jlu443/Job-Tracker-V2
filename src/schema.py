@@ -8,11 +8,14 @@ is stored in meta.schema_version.
 
 from __future__ import annotations
 
+import logging
 import sqlite3
 from datetime import datetime
 from urllib.parse import urlparse
 
 from . import classify, dates, dedupe, phd
+
+log = logging.getLogger(__name__)
 
 
 SCHEMA = """
@@ -88,7 +91,7 @@ def _migrate_v2(conn: sqlite3.Connection) -> None:
       at the row's first_seen.
     * job_key / category are filled in for every row.
     """
-    print("Migrating jobs.db to schema v2 ...")
+    log.info("Migrating jobs.db to schema v2 ...")
     rows = conn.execute(
         "SELECT job_id, apply_url, posted_on, first_seen FROM jobs "
         "WHERE source = 'workday' AND job_id NOT LIKE 'wd\\_%' ESCAPE '\\'").fetchall()

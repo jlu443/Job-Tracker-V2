@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import os
 import re
 import sys
@@ -40,6 +41,8 @@ import requests
 from .ats_specs import (ATS_SPECS, HEADERS, INITIAL_BACKOFF, MAX_RETRIES, ATSSpec,
                         dedupe_candidates, extract_all, load_existing, request_json, save_config)
 from .config import CONFIG_DIR, ROOT
+
+log = logging.getLogger(__name__)
 
 _SEEDS = os.path.join(CONFIG_DIR, "seeds.txt")
 _CHECKPOINT = os.path.join(ROOT, ".discover_checkpoint.json")
@@ -103,9 +106,9 @@ def harvest_from_github(specs: list[ATSSpec] = ATS_SPECS) -> dict[str, list[dict
                 continue        # repo/season doesn't exist yet — fine
             resp.raise_for_status()
         except requests.RequestException as exc:
-            print(f"  GitHub source failed ({url}): {exc}")
+            log.info(f"  GitHub source failed ({url}): {exc}")
             continue
-        print(f"  GitHub: fetched {'/'.join(url.split('/')[3:5])} ({url.rsplit('/', 1)[-1]})")
+        log.info(f"  GitHub: fetched {'/'.join(url.split('/')[3:5])} ({url.rsplit('/', 1)[-1]})")
         _merge_found(found, extract_all(resp.text, specs))
         texts.append(resp.text)
     if any(s.name == "greenhouse" for s in specs):
@@ -154,10 +157,10 @@ def resolve_hidden_greenhouse(text: str, max_pages: int = 400) -> list[dict]:
         seen_sites.add(site)
         todo.append((url, job_id))
     todo = todo[:max_pages]
-    print(f"  Greenhouse: resolving {len(todo)} boards hidden behind company pages / embeds ...")
+    log.info(f"  Greenhouse: resolving {len(todo)} boards hidden behind company pages / embeds ...")
     with ThreadPoolExecutor(max_workers=_VALIDATE_WORKERS) as pool:
         found = [r for r in pool.map(lambda t: _resolve_one(*t), todo) if r]
-    print(f"  Greenhouse: resolved {len({f['token'] for f in found})} board tokens")
+    log.info(f"  Greenhouse: resolved {len({f['token'] for f in found})} board tokens")
     return found
 
 
@@ -169,7 +172,7 @@ def harvest_from_jobspy(specs: list[ATSSpec] = ATS_SPECS) -> dict[str, list[dict
     try:
         from jobspy import scrape_jobs
     except ImportError:
-        print("  jobspy not installed — skipping JobSpy discovery.")
+        log.info("  jobspy not installed — skipping JobSpy discovery.")
         return {}
 
     search_terms = [
@@ -180,14 +183,14 @@ def harvest_from_jobspy(specs: list[ATSSpec] = ATS_SPECS) -> dict[str, list[dict
     ]
     found: dict[str, list[dict]] = {}
     for term in search_terms:
-        print(f"  [jobspy discovery] '{term}' ...")
+        log.info(f"  [jobspy discovery] '{term}' ...")
         try:
             df = scrape_jobs(site_name=["indeed", "glassdoor", "zip_recruiter"],
                              search_term=term, location="United States",
                              results_wanted=100, hours_old=168,
                              country_indeed="USA", verbose=0)
         except Exception as exc:
-            print(f"  [jobspy discovery] failed for {term!r}: {exc}")
+            log.info(f"  [jobspy discovery] failed for {term!r}: {exc}")
             continue
         if df is None or df.empty:
             continue
@@ -218,7 +221,7 @@ def _cc_newest_indexes(n: int) -> list[str]:
         resp.raise_for_status()
         return [c["cdx-api"] for c in resp.json()][:n]
     except (requests.RequestException, ValueError, KeyError) as exc:
-        print(f"  collinfo.json unavailable ({exc}); using fallback index list.")
+        log.info(f"  collinfo.json unavailable ({exc}); using fallback index list.")
         return _CC_FALLBACK_INDEXES[:n]
 
 
@@ -237,7 +240,7 @@ def _cc_get(index_url: str, params: dict) -> requests.Response | None:
         except requests.RequestException as exc:
             if attempt == MAX_RETRIES - 1:
                 raise
-            print(f"    request failed ({exc}); retry in {backoff}s")
+            log.info(f"    request failed ({exc}); retry in {backoff}s")
             time.sleep(backoff)
             backoff = min(backoff * 2, 60)
     return None  # unreachable
@@ -292,7 +295,7 @@ def _save_checkpoint(done: list[str], found: dict[str, list[dict]]) -> None:
         with open(_CHECKPOINT, "w", encoding="utf-8") as fh:
             json.dump({"version": 2, "done": done, "found": found}, fh)
     except IOError as exc:
-        print(f"Warning: couldn't save checkpoint ({exc})")
+        log.info(f"Warning: couldn't save checkpoint ({exc})")
 
 
 def _clear_checkpoint() -> None:
@@ -312,7 +315,7 @@ def harvest_from_common_crawl(specs: list[ATSSpec] = ATS_SPECS,
     done: list[str] = checkpoint.get("done", [])
     found: dict[str, list[dict]] = checkpoint.get("found", {})
     if done:
-        print(f"Resuming CC harvest: {len(done)} index/pattern pairs already done.")
+        log.info(f"Resuming CC harvest: {len(done)} index/pattern pairs already done.")
 
     indexes = _cc_newest_indexes(num_indexes)
     for index_url in indexes:
@@ -325,17 +328,17 @@ def harvest_from_common_crawl(specs: list[ATSSpec] = ATS_SPECS,
                 try:
                     num_pages = _cc_num_pages(index_url, pattern)
                 except requests.RequestException as exc:
-                    print(f"  [{index_name}] {pattern}: page count failed "
+                    log.info(f"  [{index_name}] {pattern}: page count failed "
                           f"({exc}); skipping.")
                     continue
                 fetch = min(num_pages, max_pages)
-                print(f"  [{index_name}] {pattern} — {num_pages} pages"
+                log.info(f"  [{index_name}] {pattern} — {num_pages} pages"
                       + (f", capped at {max_pages}" if num_pages > max_pages else ""))
                 for page in range(fetch):
                     try:
                         urls = _fetch_cc_page(index_url, pattern, page)
                     except requests.RequestException as exc:
-                        print(f"    page {page} permanently failed ({exc}); "
+                        log.info(f"    page {page} permanently failed ({exc}); "
                               f"moving on.")
                         continue
                     cands = spec.extract("\n".join(urls))
@@ -356,11 +359,11 @@ def validate_and_merge(spec: ATSSpec, candidates: list[dict]) -> int:
     existing, existing_keys = load_existing(spec)
     todo = [c for c in dedupe_candidates(spec, candidates) if spec.key(c) not in existing_keys]
     if not todo:
-        print(f"  [{spec.name}] nothing new to validate "
+        log.info(f"  [{spec.name}] nothing new to validate "
               f"({len(existing)} already configured).")
         return 0
 
-    print(f"  [{spec.name}] validating {len(todo)} new candidates ...")
+    log.info(f"  [{spec.name}] validating {len(todo)} new candidates ...")
     added = 0
     with ThreadPoolExecutor(max_workers=_VALIDATE_WORKERS) as pool:
         for cand, ok in zip(todo, pool.map(spec.validate, todo)):
@@ -369,9 +372,9 @@ def validate_and_merge(spec: ATSSpec, candidates: list[dict]) -> int:
             existing.append(cand)
             existing_keys.add(spec.key(cand))
             added += 1
-            print(f"    + [{spec.name}] {cand.get('name')}")
+            log.info(f"    + [{spec.name}] {cand.get('name')}")
     save_config(spec, existing)
-    print(f"  [{spec.name}] added {added}, total {len(existing)}.")
+    log.info(f"  [{spec.name}] added {added}, total {len(existing)}.")
     return added
 
 
@@ -380,6 +383,8 @@ def validate_and_merge(spec: ATSSpec, candidates: list[dict]) -> int:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def main() -> int:
+    from .config import setup_logging
+    setup_logging()
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--seeds-only", action="store_true",
                     help="only harvest from config/seeds.txt")
@@ -400,43 +405,43 @@ def main() -> int:
         wanted = {s.strip().lower() for s in args.ats.split(",") if s.strip()}
         unknown = wanted - {s.name for s in ATS_SPECS}
         if unknown:
-            print(f"Unknown ATS name(s): {', '.join(sorted(unknown))}. "
+            log.info(f"Unknown ATS name(s): {', '.join(sorted(unknown))}. "
                   f"Known: {', '.join(s.name for s in ATS_SPECS)}")
             return 1
         specs = [s for s in ATS_SPECS if s.name in wanted]
 
     found: dict[str, list[dict]] = {s.name: [] for s in specs}
 
-    print("Harvesting from seeds.txt ...")
+    log.info("Harvesting from seeds.txt ...")
     _merge_found(found, harvest_from_seeds(specs))
 
     if not args.seeds_only and not args.no_github:
-        print("Harvesting from GitHub job lists ...")
+        log.info("Harvesting from GitHub job lists ...")
         _merge_found(found, harvest_from_github(specs))
 
     if not args.seeds_only and not args.no_jobspy:
-        print("Harvesting ATS URLs from job boards via JobSpy ...")
+        log.info("Harvesting ATS URLs from job boards via JobSpy ...")
         _merge_found(found, harvest_from_jobspy(specs))
 
     if not args.seeds_only and not args.no_cc:
-        print("Harvesting from Common Crawl ...")
+        log.info("Harvesting from Common Crawl ...")
         _merge_found(found, harvest_from_common_crawl(
             specs, max_pages=args.cc_max_pages, num_indexes=args.cc_indexes))
 
-    print("\nRaw candidates per ATS:")
+    log.info("\nRaw candidates per ATS:")
     for spec in specs:
         uniq = len(dedupe_candidates(spec, found.get(spec.name, [])))
-        print(f"  {spec.name:<16} {len(found.get(spec.name, [])):>7} raw "
+        log.info(f"  {spec.name:<16} {len(found.get(spec.name, [])):>7} raw "
               f"/ {uniq} unique")
 
-    print("\nValidating and merging into config files ...")
+    log.info("\nValidating and merging into config files ...")
     totals = {}
     for spec in specs:
         totals[spec.name] = validate_and_merge(spec, found.get(spec.name, []))
 
     _clear_checkpoint()
     summary = "  ".join(f"{k} +{v}" for k, v in totals.items())
-    print(f"\nDone. {summary}")
+    log.info(f"\nDone. {summary}")
     return 0
 
 

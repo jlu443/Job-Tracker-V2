@@ -7,12 +7,15 @@ Each board exposes its whole list through a public JSON endpoint:
 
 from __future__ import annotations
 
+import logging
 import time
 
 import requests
 
 from . import http_pool
 from .posting import JobPosting
+
+log = logging.getLogger(__name__)
 
 _SESSION = http_pool.make_session({"User-Agent": "Mozilla/5.0 (job-tracker)",
                                    "Accept": "application/json"})
@@ -40,12 +43,12 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
             resp = _SESSION.get(f"https://ats.rippling.com/api/v2/board/{slug}/jobs",
                                 params={"page": page, "pageSize": 100}, timeout=timeout)
             if resp.status_code == 404:
-                print(f"  ! {name}: board '{slug}' not found (404)")
+                log.warning(f"  ! {name}: board '{slug}' not found (404)")
                 return [], True
             resp.raise_for_status()
             data = resp.json()
         except (requests.RequestException, ValueError) as exc:
-            print(f"  ! {name}: {exc}")
+            log.warning(f"  ! {name}: {exc}")
             return out, False
         for j in data.get("items") or []:
             uid = j.get("id")

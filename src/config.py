@@ -9,7 +9,10 @@ problems; main() refuses to start when there are any.
 from __future__ import annotations
 
 import difflib
+import logging
 import os
+import sys
+from collections import Counter
 
 import yaml
 
@@ -113,3 +116,21 @@ def load_yaml(path: str) -> dict:
 
 def load_settings() -> dict:
     return load_yaml(SETTINGS_PATH)
+
+
+# Warnings logged this run, by module: the run summary reports them.
+WARNINGS: Counter = Counter()
+
+
+class _CountWarnings(logging.Handler):
+    def emit(self, record: logging.LogRecord) -> None:
+        WARNINGS[record.name.rsplit(".", 1)[-1]] += 1
+
+
+def setup_logging(level: int = logging.INFO) -> None:
+    """Plain messages on stdout (what CI shows), warnings counted."""
+    logging.basicConfig(level=level, format="%(message)s", stream=sys.stdout, force=True)
+    counter = _CountWarnings(level=logging.WARNING)
+    logging.getLogger().addHandler(counter)
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
+
