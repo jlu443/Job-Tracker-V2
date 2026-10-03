@@ -1,8 +1,8 @@
-from src import config, main
+from src import config
 
 
 def test_committed_settings_are_valid():
-    assert config.validate(main._load_yaml(main._SETTINGS)) == []
+    assert config.validate(config.load_settings()) == []
 
 
 def test_typos_and_wrong_types_are_reported():

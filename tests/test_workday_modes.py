@@ -63,7 +63,7 @@ def test_page_cap_with_results_remaining_is_incomplete(monkeypatch):
 
 
 def test_same_name_boards_complete_only_together():
-    from src import main
+    from src import collect
 
     class Mod:
         @staticmethod
@@ -73,5 +73,5 @@ def test_same_name_boards_complete_only_together():
     boards = [{"tenant": "cvs", "site": "main", "name": "CVS Health"},
               {"tenant": "cvs", "site": "private", "name": "CVS Health"},
               {"tenant": "acme", "site": "x", "name": "Acme"}]
-    _, scopes, failed = main._scrape_source("workday", Mod, boards, {})
+    _, scopes, failed = collect.scrape_source("workday", Mod, boards, {})
     assert scopes == {("workday", "Acme")} and failed == 1

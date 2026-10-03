@@ -254,12 +254,12 @@ def _print(report: dict) -> None:
 
 
 def main() -> int:
-    from .main import _load_yaml, _SETTINGS
+    from .config import load_settings
     ap = argparse.ArgumentParser(description="Pipeline accuracy vs curated lists")
     ap.add_argument("--db", default=os.path.join(_ROOT, "data", "jobs.db"))
     ap.add_argument("--json", help="also write the report as JSON here")
     args = ap.parse_args()
-    settings = _load_yaml(_SETTINGS)
+    settings = load_settings()
     truth = load_truth(settings)
     report = measure(truth, sqlite3.connect(args.db), settings.get("max_listing_age_days"))
     _print(report)

@@ -2,7 +2,7 @@ import collections
 import sqlite3
 from datetime import date, datetime, timedelta, timezone
 
-from src import db, dedupe, repost, scraper
+from src import collect, db, dedupe, maintenance, repost, schema, scraper
 from src.posting import JobPosting
 
 
@@ -106,7 +106,7 @@ def test_sync_expires_aggregator_rows_by_age():
 def test_migration_namespaces_workday_ids(tmp_path):
     path = tmp_path / "v1.db"
     raw = sqlite3.connect(path)
-    raw.executescript(db._SCHEMA.split("CREATE TABLE IF NOT EXISTS meta")[0])
+    raw.executescript(schema.SCHEMA.split("CREATE TABLE IF NOT EXISTS meta")[0])
     raw.execute(
         "INSERT INTO jobs (job_id, company, title, apply_url, location, role_type, "
         "posted_on, source, first_seen, last_seen, status) VALUES "
@@ -175,12 +175,11 @@ def test_register_boards_reports_only_first_scrape():
 
 
 def test_long_tail_rotation_covers_every_board_once_per_cycle():
-    from src import main
     boards = [{"tenant": f"co{i}"} for i in range(200)]
     hot = {"co7"}
     seen = []
     for slot in range(6):
-        due = [b["tenant"] for b in main._due_this_run(boards, hot, 6, slot)]
+        due = [b["tenant"] for b in collect.due_this_run(boards, hot, 6, slot)]
         assert "co7" in due
         seen += [t for t in due if t != "co7"]
     assert sorted(seen) == sorted(f"co{i}" for i in range(200) if i != 7)
@@ -194,7 +193,7 @@ def test_sync_stores_only_configured_roles_and_prune_drops_the_rest():
                   lambda p: roles[p.job_id], set(), set(),
                   store_roles=frozenset({"intern", "new_grad"}))
     assert [j["job_id"] for j in res.new_jobs] == ["gh_1"]
-    db.prune(conn, store_roles=frozenset({"intern", "new_grad"}))
+    maintenance.prune(conn, store_roles=frozenset({"intern", "new_grad"}))
     assert [r[0] for r in conn.execute("SELECT job_id FROM jobs")] == ["gh_1"]
 
 
@@ -227,10 +226,10 @@ def test_apply_renames_moves_rows_and_board():
     db.sync(conn, [_p("wd_amat_R1", company="amat", source="workday")],
             lambda p: "intern", set(), set())
     db.register_boards(conn, {("workday", "amat")})
-    assert db.apply_renames(conn, {("workday", "amat"): "Applied Materials"}) == 1
+    assert maintenance.apply_renames(conn, {("workday", "amat"): "Applied Materials"}) == 1
     assert conn.execute("SELECT company, job_key FROM jobs").fetchone()[0] == "Applied Materials"
     assert db.register_boards(conn, {("workday", "Applied Materials")}) == set()
-    assert db.apply_renames(conn, {("workday", "amat"): "Applied Materials"}) == 0
+    assert maintenance.apply_renames(conn, {("workday", "amat"): "Applied Materials"}) == 0
 
 
 def test_name_helpers():
@@ -253,7 +252,7 @@ def test_purge_old_by_post_date_with_tombstone():
     old_seen = (datetime.now(timezone.utc) - timedelta(days=90)).isoformat(timespec="seconds")
     conn.execute("UPDATE jobs SET first_seen = ? WHERE job_id = 'undated'", (old_seen,))
 
-    assert db.purge_old(conn, 60) == 2               # 'old' by post date, 'undated' by first_seen
+    assert maintenance.purge_old(conn, 60) == 2               # 'old' by post date, 'undated' by first_seen
     left = {r[0] for r in conn.execute("SELECT job_id FROM jobs")}
     assert left == {"fresh", "reposted"}
 
@@ -285,7 +284,6 @@ def test_triage_silences_reclassified_backlog_but_not_fresh_posts():
 
 
 def test_one_broken_board_does_not_abort_the_source():
-    from src import main
 
     class Flaky:
         @staticmethod
@@ -295,7 +293,7 @@ def test_one_broken_board_does_not_abort_the_source():
             return [_p(f"gh_{company['token']}", company=company["token"])], True
 
     boards = [{"token": "a"}, {"token": "bad"}, {"token": "b"}]
-    posts, scopes, failed = main._scrape_source("greenhouse", Flaky, boards, {})
+    posts, scopes, failed = collect.scrape_source("greenhouse", Flaky, boards, {})
     assert sorted(p.job_id for p in posts) == ["gh_a", "gh_b"]
     assert scopes == {("greenhouse", "a"), ("greenhouse", "b")} and failed == 1
 
@@ -316,12 +314,11 @@ def test_greenhouse_null_location_name(monkeypatch):
 
 
 def test_rotation_hot_boards_every_other_run():
-    from src import main
     boards = [{"tenant": f"co{i}"} for i in range(60)]
     hot = {f"co{i}" for i in range(20)}
     seen = collections.Counter()
     for slot in range(6):
-        for b in main._due_this_run(boards, hot, 6, slot, hot_every=2):
+        for b in collect.due_this_run(boards, hot, 6, slot, hot_every=2):
             seen[b["tenant"]] += 1
     assert all(seen[f"co{i}"] == 3 for i in range(20))        # hot: every 2nd run
     assert all(seen[f"co{i}"] == 1 for i in range(20, 60))    # tail: every 6th run
@@ -355,7 +352,21 @@ def test_age_exempt_source_kept_while_listed_then_purged_when_unseen():
     res = db.sync(conn, [mk("apple_1", "apple"), mk("gh_1", "greenhouse")], lambda p: "intern",
                   set(), set(), max_age_days=60, age_exempt=frozenset({"apple"}))
     assert [j["job_id"] for j in res.new_jobs] == ["apple_1"]
-    assert db.purge_old(conn, 60, exempt_sources=frozenset({"apple"})) == 0
+    assert maintenance.purge_old(conn, 60, exempt_sources=frozenset({"apple"})) == 0
     stale = (datetime.now(timezone.utc) - timedelta(days=20)).isoformat(timespec="seconds")
     conn.execute("UPDATE jobs SET last_seen = ?", (stale,))
-    assert db.purge_old(conn, 60, exempt_sources=frozenset({"apple"})) == 1
+    assert maintenance.purge_old(conn, 60, exempt_sources=frozenset({"apple"})) == 1
+
+
+def test_schema_versions_run_once_and_legacy_flag_maps_to_3(tmp_path):
+    path = str(tmp_path / "x.db")
+    conn = db.connect(path)
+    assert schema.version(conn) == schema.MIGRATIONS[-1][0]
+    conn.execute("DELETE FROM meta")
+    conn.execute("INSERT INTO meta VALUES ('schema_version', '2'), ('research_track_backfill', '1')")
+    conn.commit()
+    assert schema.version(conn) == 3          # a pre-MIGRATIONS database
+    conn.close()
+    conn = db.connect(path)
+    assert [tuple(r) for r in conn.execute("SELECT key, value FROM meta ORDER BY key")] == \
+        [("schema_version", str(schema.MIGRATIONS[-1][0]))]

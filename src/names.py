@@ -93,8 +93,8 @@ def _pretty_slug(slug: str) -> str | None:
 
 
 def main() -> int:
-    from .main import _load_yaml, _SETTINGS
-    settings = _load_yaml(_SETTINGS)
+    from .config import load_settings
+    settings = load_settings()
     print("Collecting names from curated lists ...")
     curated = _curated_names(settings)
 

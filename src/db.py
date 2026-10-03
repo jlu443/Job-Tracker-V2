@@ -10,70 +10,9 @@ from __future__ import annotations
 import sqlite3
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from urllib.parse import urlparse
 
-from . import classify, dates, dedupe, phd, repost
+from . import classify, dates, dedupe, phd, repost, schema
 
-_SCHEMA = """
-CREATE TABLE IF NOT EXISTS jobs (
-    job_id      TEXT PRIMARY KEY,
-    company     TEXT NOT NULL,
-    title       TEXT NOT NULL,
-    apply_url   TEXT NOT NULL,
-    location    TEXT,
-    role_type   TEXT CHECK(role_type IN ('intern','new_grad','mid','senior')),
-    posted_on   TEXT NOT NULL DEFAULT '',
-    source      TEXT NOT NULL DEFAULT 'workday',
-    sponsorship TEXT NOT NULL DEFAULT '',
-    clearance   TEXT NOT NULL DEFAULT '',
-    grad_year   TEXT NOT NULL DEFAULT '',
-    first_seen  TEXT NOT NULL,
-    last_seen   TEXT NOT NULL,
-    status      TEXT NOT NULL DEFAULT 'active'
-);
-CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
--- Every (source, company) board that has completed a scrape at least once.
--- Aggregators and curated lists are one board each, company '*'.
--- Ids deleted by purge_old(). Remembered so a listing that is still open
--- isn't re-inserted (and re-announced) as "new" on the next run.
-CREATE TABLE IF NOT EXISTS purged (
-    job_id    TEXT PRIMARY KEY,
-    purged_on TEXT NOT NULL
-);
-CREATE TABLE IF NOT EXISTS boards (
-    source        TEXT NOT NULL,
-    company       TEXT NOT NULL,
-    first_scraped TEXT NOT NULL,
-    PRIMARY KEY (source, company)
-);
-CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs(status);
-CREATE INDEX IF NOT EXISTS idx_jobs_role   ON jobs(role_type);
-"""
-
-_COLUMNS = {
-    "posted_on": "TEXT NOT NULL DEFAULT ''",
-    "source": "TEXT NOT NULL DEFAULT 'workday'",
-    "sponsorship": "TEXT NOT NULL DEFAULT ''",
-    "clearance": "TEXT NOT NULL DEFAULT ''",
-    "grad_year": "TEXT NOT NULL DEFAULT ''",
-    "job_key": "TEXT NOT NULL DEFAULT ''",
-    "category": "TEXT NOT NULL DEFAULT ''",
-    "repost": "TEXT NOT NULL DEFAULT ''",
-    "repost_of": "TEXT NOT NULL DEFAULT ''",
-    "applicants": "TEXT NOT NULL DEFAULT ''",
-    "relisted_on": "TEXT NOT NULL DEFAULT ''",
-    "bump_count": "INTEGER NOT NULL DEFAULT 0",
-    "announced_at": "TEXT NOT NULL DEFAULT ''",
-    "research_track": "TEXT NOT NULL DEFAULT ''",
-    "citizenship": "TEXT NOT NULL DEFAULT ''",
-    "opt_cpt": "TEXT NOT NULL DEFAULT ''",
-    "pay": "TEXT NOT NULL DEFAULT ''",
-    # The employer's own apply link when an aggregator (Indeed) reveals it.
-    "direct_url": "TEXT NOT NULL DEFAULT ''",
-    # When the description was read; '' = never read (flags unknown), set
-    # with all flags '' = read but nothing mentioned.
-    "checked_at": "TEXT NOT NULL DEFAULT ''",
-}
 
 # Aggregator searches are time-windowed (JobSpy hours_old), so a job missing
 # from one run's results hasn't been taken down; it has just aged out of the
@@ -107,74 +46,8 @@ def _meta_set(conn, key: str, value: str) -> None:
 def connect(path: str) -> sqlite3.Connection:
     conn = sqlite3.connect(path)
     conn.row_factory = sqlite3.Row
-    conn.executescript(_SCHEMA)
-    existing_cols = {row[1] for row in conn.execute("PRAGMA table_info(jobs)")}
-    for col, decl in _COLUMNS.items():
-        if col not in existing_cols:
-            conn.execute(f"ALTER TABLE jobs ADD COLUMN {col} {decl}")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_jobs_source ON jobs(source)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_jobs_key ON jobs(job_key)")
-    if _meta_get(conn, "schema_version") != "2":
-        _migrate_v2(conn)
-        _meta_set(conn, "schema_version", "2")
-    if _meta_get(conn, "research_track_backfill") != "1":
-        # Title-only tracks for rows stored before src/phd.py existed;
-        # description-based tracks arrive as boards are re-scraped/enriched.
-        rows = conn.execute("SELECT job_id, title FROM jobs WHERE research_track = ''").fetchall()
-        conn.executemany("UPDATE jobs SET research_track = ? WHERE job_id = ?",
-                         [(t, r[0]) for r in rows if (t := phd.track(r[1]))])
-        _meta_set(conn, "research_track_backfill", "1")
-    conn.commit()
+    schema.migrate(conn)
     return conn
-
-
-def _migrate_v2(conn: sqlite3.Connection) -> None:
-    """One-time backfill for rows written by the v1 pipeline.
-
-    * Workday ids gain a tenant namespace (R12345 is not unique across
-      companies) and match what scraper.job_id_for() now produces, so
-      existing rows are recognized next run instead of re-announced.
-    * Workday's relative "Posted 3 Days Ago" becomes an ISO date, anchored
-      at the row's first_seen.
-    * job_key / category are filled in for every row.
-    """
-    print("Migrating jobs.db to schema v2 ...")
-    rows = conn.execute(
-        "SELECT job_id, apply_url, posted_on, first_seen FROM jobs "
-        "WHERE source = 'workday' AND job_id NOT LIKE 'wd\\_%' ESCAPE '\\'").fetchall()
-    for r in rows:
-        new_id = dedupe.canonical_job_id(r["apply_url"])
-        if not new_id:
-            tenant = (urlparse(r["apply_url"]).hostname or "").split(".")[0]
-            new_id = f"wd_{tenant.lower()}_{r['job_id']}"
-        anchor = datetime.fromisoformat(r["first_seen"]).date()
-        posted = dates.relative_to_iso(r["posted_on"], anchor)
-        cur = conn.execute("UPDATE OR IGNORE jobs SET job_id = ?, posted_on = ? "
-                           "WHERE job_id = ?", (new_id, posted, r["job_id"]))
-        if cur.rowcount == 0:   # a twin already holds new_id; this row is redundant
-            conn.execute("DELETE FROM jobs WHERE job_id = ?", (r["job_id"],))
-
-    # Boards already represented in the DB have had their backlog stored.
-    conn.execute(
-        "INSERT OR IGNORE INTO boards (source, company, first_scraped) "
-        "SELECT source, CASE WHEN source IN ('indeed','linkedin','glassdoor',"
-        "'zip_recruiter','google','simplify') THEN '*' ELSE company END, MIN(first_seen) "
-        "FROM jobs GROUP BY 1, 2")
-
-    # Re-run the (improved) keyword classifier over stored titles. Otherwise
-    # e.g. "ASIC Engineer - New College Grad 2026", stored as 'mid' by v1,
-    # is pruned as mid and then re-announced as a "new" new_grad job.
-    rows = conn.execute("SELECT job_id, title, role_type FROM jobs").fetchall()
-    conn.executemany(
-        "UPDATE jobs SET role_type = ? WHERE job_id = ?",
-        [(new, r["job_id"]) for r in rows
-         if (new := classify.classify_by_keyword(r["title"])) and new != r["role_type"]])
-
-    rows = conn.execute("SELECT job_id, company, title, location FROM jobs").fetchall()
-    conn.executemany(
-        "UPDATE jobs SET job_key = ?, category = ? WHERE job_id = ?",
-        [(dedupe.fuzzy_key(r["company"], r["title"], r["location"]) or "",
-          classify.categorize(r["title"]), r["job_id"]) for r in rows])
 
 
 def existing_ids(conn: sqlite3.Connection) -> set[str]:
@@ -216,33 +89,6 @@ def register_boards(conn: sqlite3.Connection, scopes: set[tuple[str, str]]) -> s
                      [(src, co, now) for src, co in fresh])
     conn.commit()
     return fresh
-
-
-def apply_renames(conn: sqlite3.Connection, renames: dict[tuple[str, str], str]) -> int:
-    """Move rows and board records from an old company name to a new one.
-
-    renames maps (source, old name) → new name (config `aliases` → `name`).
-    Only pairs actually present are touched, so it's a no-op once applied.
-    """
-    present = {(r[0], r[1]) for r in conn.execute("SELECT DISTINCT source, company FROM jobs")}
-    present |= {(r[0], r[1]) for r in conn.execute("SELECT source, company FROM boards")}
-    moved = 0
-    for (source, old), new in renames.items():
-        if (source, old) not in present or old == new:
-            continue
-        rows = conn.execute("SELECT job_id, title, location FROM jobs "
-                            "WHERE source = ? AND company = ?", (source, old)).fetchall()
-        conn.executemany(
-            "UPDATE jobs SET company = ?, job_key = ? WHERE job_id = ?",
-            [(new, dedupe.fuzzy_key(new, r["title"], r["location"]) or "", r["job_id"])
-             for r in rows])
-        # Keep the board's "already backfilled" status under its new name.
-        conn.execute("UPDATE OR IGNORE boards SET company = ? WHERE source = ? AND company = ?",
-                     (new, source, old))
-        conn.execute("DELETE FROM boards WHERE source = ? AND company = ?", (source, old))
-        moved += len(rows)
-    conn.commit()
-    return moved
 
 
 def unchecked_open(conn: sqlite3.Connection, limit: int) -> list[dict]:
@@ -453,62 +299,3 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
                         bumped=bumped)
 
 
-def purge_old(conn: sqlite3.Connection, max_age_days: int,
-              tombstone_days: int = 365, exempt_sources: frozenset = frozenset(),
-              exempt_unseen_days: int = 14) -> int:
-    """Delete listings older than max_age_days, whatever their status.
-
-    Age is measured from the post date when the source gave one (the latest
-    re-listing date if it was reposted), otherwise from when we first saw it.
-    Sources in exempt_sources keep long-running postings (Apple's internship
-    programs stay open for months) and are deleted instead once unseen for
-    exempt_unseen_days. Deleted ids go into `purged` so a still-open listing
-    isn't re-announced; tombstones themselves expire after tombstone_days.
-    """
-    cutoff = (dates.today() - timedelta(days=max_age_days)).isoformat()
-    unseen = (datetime.now(timezone.utc)
-              - timedelta(days=exempt_unseen_days)).isoformat(timespec="seconds")
-    now = _now()
-    ex = sorted(exempt_sources) or [""]
-    marks = ",".join("?" * len(ex))
-    rows = conn.execute(
-        f"SELECT job_id FROM jobs WHERE "
-        f"(source NOT IN ({marks}) AND CASE WHEN posted_on != '' THEN MAX(posted_on, relisted_on) "
-        f"ELSE substr(first_seen, 1, 10) END < ?) "
-        f"OR (source IN ({marks}) AND last_seen < ?)", (*ex, cutoff, *ex, unseen)).fetchall()
-    ids = [r[0] for r in rows]
-    conn.executemany("INSERT OR REPLACE INTO purged (job_id, purged_on) VALUES (?, ?)",
-                     [(i, now) for i in ids])
-    conn.executemany("DELETE FROM jobs WHERE job_id = ?", [(i,) for i in ids])
-    tomb_cutoff = (datetime.now(timezone.utc)
-                   - timedelta(days=tombstone_days)).isoformat(timespec="seconds")
-    conn.execute("DELETE FROM purged WHERE purged_on < ?", (tomb_cutoff,))
-    conn.commit()
-    if ids:
-        conn.execute("VACUUM")   # the file is committed; don't carry free pages
-    return len(ids)
-
-
-def prune(conn: sqlite3.Connection, keep_days: int = 30,
-          store_roles: frozenset[str] | None = None) -> int:
-    """Drop rows nobody will ever look at again.
-
-    Rows outside store_roles go entirely (they're no longer being stored);
-    otherwise long-removed mid/senior rows go. Mid/senior rows are never
-    announced, and repost detection only uses intern/new_grad history.
-    """
-    if store_roles is not None:
-        roles = sorted(store_roles)
-        cur = conn.execute(
-            f"DELETE FROM jobs WHERE role_type NOT IN ({','.join('?' * len(roles))})",
-            roles)
-    else:
-        cutoff = (datetime.now(timezone.utc)
-                  - timedelta(days=keep_days)).isoformat(timespec="seconds")
-        cur = conn.execute(
-            "DELETE FROM jobs WHERE status = 'removed' AND last_seen < ? "
-            "AND role_type IN ('mid', 'senior')", (cutoff,))
-    conn.commit()
-    if cur.rowcount:
-        conn.execute("VACUUM")
-    return cur.rowcount

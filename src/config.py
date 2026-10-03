@@ -9,6 +9,9 @@ problems; main() refuses to start when there are any.
 from __future__ import annotations
 
 import difflib
+import os
+
+import yaml
 
 _NUM = (int, float)
 _ROTATION = (int, dict)
@@ -94,3 +97,19 @@ def validate(settings: dict) -> list[str]:
         else:
             _check(v, SCHEMA[k], k, errors)
     return errors
+
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CONFIG_DIR = os.path.join(ROOT, "config")
+SETTINGS_PATH = os.path.join(CONFIG_DIR, "settings.yaml")
+
+
+def load_yaml(path: str) -> dict:
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        return yaml.safe_load(fh) or {}
+
+
+def load_settings() -> dict:
+    return load_yaml(SETTINGS_PATH)
