@@ -25,7 +25,8 @@ from urllib.parse import urlparse
 
 import requests
 
-from . import classify, eightfold_scraper, http_pool, icims_scraper, phd
+from . import (classify, eightfold_scraper, http_pool, icims_scraper, phd,
+               successfactors_scraper)
 
 log = logging.getLogger(__name__)
 
@@ -241,6 +242,14 @@ def _fetch_icims(job: dict) -> str:
     return text
 
 
+def _fetch_successfactors(job: dict) -> str:
+    # Listings carry no post date; the job page does.
+    text, posted = successfactors_scraper.fetch_detail(job["apply_url"], _TIMEOUT)
+    if posted and not job.get("posted_on"):
+        job["posted_on"] = posted
+    return text
+
+
 def _fetch_smartrecruiters(job: dict) -> str:
     m = re.search(r"smartrecruiters\.com/([^/]+)/(\d+)", job["apply_url"])
     if not m:
@@ -260,11 +269,12 @@ _FETCHERS = {
     "linkedin": _fetch_linkedin,
     "oracle": _fetch_oracle,
     "eightfold": lambda job: _strip_html(eightfold_scraper.fetch_description(job, _TIMEOUT)),
+    "successfactors": _fetch_successfactors,
     "icims": _fetch_icims,
     "smartrecruiters": _fetch_smartrecruiters,
 }
 _ID_PREFIX_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever",
-                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims", "ef": "eightfold",
+                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims", "ef": "eightfold", "sf": "successfactors",
                      "sr": "smartrecruiters"}
 
 

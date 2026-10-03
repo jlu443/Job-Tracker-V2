@@ -206,6 +206,24 @@ def _drop_old_sheet_keys(conn: sqlite3.Connection) -> None:
                  "'sheets_all_open_at_v2', 'sheets_all_open_at_v3', 'sheets_all_open_at_v4')")
 
 
+def _recanonicalize_curated_ids(conn: sqlite3.Connection) -> None:
+    """Curated-list rows get our own scraper's id when their URL maps to one,
+    else sim_<uuid>. ByteDance and SuccessFactors URLs map now (2026-10-03),
+    so give those rows the new id; otherwise the scraper's copy would sit
+    next to them as a second row. A row whose new id already exists is
+    redundant and dropped."""
+    rows = conn.execute("SELECT job_id, apply_url FROM jobs WHERE job_id LIKE 'sim\\_%' "
+                        "ESCAPE '\\'").fetchall()
+    for job_id, url in rows:
+        new_id = dedupe.canonical_job_id(url)
+        if not new_id:
+            continue
+        cur = conn.execute("UPDATE OR IGNORE jobs SET job_id = ? WHERE job_id = ?",
+                           (new_id, job_id))
+        if cur.rowcount == 0:
+            conn.execute("DELETE FROM jobs WHERE job_id = ?", (job_id,))
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -215,6 +233,7 @@ MIGRATIONS = [
     (6, _relabel_campus_and_fellowship_staff),
     (7, _relabel_senior_level_one),
     (8, _drop_old_sheet_keys),
+    (9, _recanonicalize_curated_ids),
 ]
 
 

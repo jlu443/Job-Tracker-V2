@@ -1,0 +1,279 @@
+companies:
+- host: jobdetails.nestle.com
+  name: Nestle
+  aliases:
+  - jobdetails.nestle.com
+- host: jobs.paccar.com
+  name: Paccar
+  aliases:
+  - jobs.paccar.com
+- host: careers.cintas.com
+  name: Cintas
+  aliases:
+  - careers.cintas.com
+- host: jobs.xpo.com
+  name: XPO
+  aliases:
+  - jobs.xpo.com
+- host: careers.phillips66.com
+  name: Phillips 66
+  aliases:
+  - careers.phillips66.com
+- host: jobs.l3harris.com
+  name: L3Harris Technologies
+  aliases:
+  - jobs.l3harris.com
+- host: assaabloy.jobs2web.com
+  name: ASSA ABLOY
+  aliases:
+  - assaabloy.jobs2web.com
+- host: careers.pge.com
+  name: PG&E
+  aliases:
+  - careers.pge.com
+- host: jobs.supermicro.com
+  name: Super Micro Computer
+  aliases:
+  - jobs.supermicro.com
+- host: careers.kodak.com
+  name: Kodak
+  aliases:
+  - careers.kodak.com
+- host: careers.westinghousenuclear.com
+  name: Westinghouse Electric Company
+  aliases:
+  - careers.westinghousenuclear.com
+- host: jobs.royalcaribbeangroup.com
+  name: Royal Caribbean Group
+  aliases:
+  - jobs.royalcaribbeangroup.com
+- host: mhicareers.com
+  name: Primetals Technologies
+  aliases:
+  - mhicareers.com
+- host: careers.hfsinclair.com
+  name: HF Sinclair
+  aliases:
+  - careers.hfsinclair.com
+- host: careers.acuityinc.com
+  name: Acuity
+  aliases:
+  - careers.acuityinc.com
+- host: careers.dominionenergy.com
+  name: Dominion Energy
+  aliases:
+  - careers.dominionenergy.com
+- host: jobs.nucor.com
+  name: Nucor
+  aliases:
+  - jobs.nucor.com
+- host: careers.mohawkind.com
+  name: Mohawk
+  aliases:
+  - careers.mohawkind.com
+- host: jobs.advanced-energy.com
+  name: Advanced Energy
+  aliases:
+  - jobs.advanced-energy.com
+- host: jobs.halliburton.com
+  name: Halliburton
+  aliases:
+  - jobs.halliburton.com
+- host: jobs.nexteraenergy.com
+  name: NextEra Energy
+  aliases:
+  - jobs.nexteraenergy.com
+- host: careers.paramount.com
+  name: Paramount Global
+  aliases:
+  - careers.paramount.com
+- host: careers.qorvo.com
+  name: Qorvo
+  aliases:
+  - careers.qorvo.com
+- host: jobs.pseg.com
+  name: Public Service Enterprise Group
+  aliases:
+  - jobs.pseg.com
+- host: careers.consumersenergy.com
+  name: CMS Energy
+  aliases:
+  - careers.consumersenergy.com
+- host: jobs.nscorp.com
+  name: Norfolk Southern
+  aliases:
+  - jobs.nscorp.com
+- host: jobs.commscope.com
+  name: CommScope
+  aliases:
+  - jobs.commscope.com
+- host: jobs.atos.net
+  name: Atos
+  aliases:
+  - jobs.atos.net
+- host: careers.belden.com
+  name: Belden
+  aliases:
+  - careers.belden.com
+- host: careers.leonardodrs.com
+  name: Leonardo DRS
+  aliases:
+  - careers.leonardodrs.com
+- host: careers.leggett.com
+  name: Leggett & Platt
+  aliases:
+  - careers.leggett.com
+- host: jobs.farmersinsurance.com
+  name: Farmers Insurance
+  aliases:
+  - jobs.farmersinsurance.com
+- host: careers.duke.edu
+  name: Duke University
+  aliases:
+  - careers.duke.edu
+- host: jobs.gxo.com
+  name: GXO Logistics
+  aliases:
+  - jobs.gxo.com
+- host: www.careers.zurich.com
+  name: Zurich Insurance
+  aliases:
+  - www.careers.zurich.com
+- host: careers.partnerre.com
+  name: PartnerRe
+  aliases:
+  - careers.partnerre.com
+- host: jobs.cmc.com
+  name: Commercial Metals
+  aliases:
+  - jobs.cmc.com
+- host: jobs.entergy.com
+  name: Entergy
+  aliases:
+  - jobs.entergy.com
+- host: jobs.arkema.com
+  name: Arkema Global
+  aliases:
+  - jobs.arkema.com
+- host: www.optimumcareers.com
+  name: Altice USA
+  aliases:
+  - www.optimumcareers.com
+- host: jobs.exxonmobil.com
+  name: ExxonMobil
+  aliases:
+  - jobs.exxonmobil.com
+- host: careers.thehersheycompany.com
+  name: Hershey
+  aliases:
+  - careers.thehersheycompany.com
+- host: jobs.grainger.com
+  name: W.W. Grainger
+  aliases:
+  - jobs.grainger.com
+- host: corningjobs.corning.com
+  name: Corning
+  aliases:
+  - corningjobs.corning.com
+- host: apply.edisoncareers.com
+  name: Edison International
+  aliases:
+  - apply.edisoncareers.com
+- host: careers.aps.com
+  name: Arizona Public Service
+  aliases:
+  - careers.aps.com
+- host: jobs.ulalaunch.com
+  name: United Launch Alliance
+  aliases:
+  - jobs.ulalaunch.com
+- host: www.careerprofile.epiroc.com
+  name: Epiroc
+  aliases:
+  - www.careerprofile.epiroc.com
+- host: careers.huntingtoningalls.com
+  name: Huntington Ingalls Industries
+  aliases:
+  - careers.huntingtoningalls.com
+- host: jobs.erieinsurance.com
+  name: Erie Insurance Group
+  aliases:
+  - jobs.erieinsurance.com
+- host: careers.chsinc.com
+  name: CHS
+  aliases:
+  - careers.chsinc.com
+- host: mycareer.heraeus.com
+  name: Heraeus Group
+  aliases:
+  - mycareer.heraeus.com
+- host: careers-us.stulz.com
+  name: Stulz
+  aliases:
+  - careers-us.stulz.com
+- host: mann-hummel-careers.com
+  name: MANN+HUMMEL
+  aliases:
+  - mann-hummel-careers.com
+- host: careers.wecenergygroup.com
+  name: WEC Energy Group
+  aliases:
+  - careers.wecenergygroup.com
+- host: jobs.lincolnfinancial.com
+  name: Lincoln Financial
+  aliases:
+  - jobs.lincolnfinancial.com
+- host: jobs.mcdonalds.com
+  name: McDonald's
+  aliases:
+  - jobs.mcdonalds.com
+- host: jobs.newellbrands.com
+  name: Newell Brands
+  aliases:
+  - jobs.newellbrands.com
+- host: careers.owenscorning.com
+  name: Owens Corning
+  aliases:
+  - careers.owenscorning.com
+- host: career.sonepar.com
+  name: Sonepar
+  aliases:
+  - career.sonepar.com
+- host: jobs.armstrong.com
+  name: Armstrong World Industries
+  aliases:
+  - jobs.armstrong.com
+- host: careers.jetblue.com
+  name: JetBlue
+  aliases:
+  - careers.jetblue.com
+- host: jobs.nassco.com
+  name: General Dynamics
+  aliases:
+  - jobs.nassco.com
+- host: internaljobs.centurylink.com
+  name: CenturyLink
+  aliases:
+  - internaljobs.centurylink.com
+- host: careers.capgemini.com
+  name: Capgemini
+  aliases:
+  - careers.capgemini.com
+- host: careers.bauschlomb.com
+  name: Bausch Lomb
+  aliases:
+  - careers.bauschlomb.com
+- host: careers.quality-ai.com
+  name: Qualitest
+  aliases:
+  - careers.quality-ai.com
+- host: careers.aflac.com
+  name: Aflac
+  aliases:
+  - careers.aflac.com
+- host: jobs.arjo.com
+  name: Arjo
+  aliases:
+  - jobs.arjo.com
+- host: www.tractorsupply.careers
+  name: Tractor Supply

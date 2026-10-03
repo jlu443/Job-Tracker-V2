@@ -19,6 +19,7 @@ name is kept under `aliases`, and main.py renames stored rows on the next run.
 from __future__ import annotations
 
 import logging
+import re
 import sys
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
@@ -32,7 +33,7 @@ log = logging.getLogger(__name__)
 _ID_FIELD = {"workday": "tenant", "greenhouse": "token", "lever": "slug",
              "ashby": "slug", "smartrecruiters": "company",
              "oracle": "host", "icims": "host", "jibe": "host", "rippling": "slug",
-             "eightfold": "tenant"}
+             "eightfold": "tenant", "successfactors": "host"}
 _SESSION = requests.Session()
 _SESSION.headers["User-Agent"] = "Mozilla/5.0 (job-tracker-names)"
 
@@ -85,6 +86,13 @@ def _api_name(source: str, company: dict) -> str | None:
             content = r.json().get("content") or [] if r.ok else []
             return ((content[0].get("company") or {}).get("name") or "").strip() or None \
                 if content else None
+        if source == "successfactors":
+            # Page title "Search - Qorvo Jobs" / "... Careers". Codes like
+            # "L3HHCM20" are rejected (the curated name is used first anyway).
+            r = _SESSION.get(f"https://{company['host']}/search/", timeout=20)
+            m = re.search(r"<title>[^<]*?-\s*([^<]+?)\s+(?:Jobs|Careers)\s*</title>", r.text)
+            name = m.group(1).strip() if m and r.ok else ""
+            return name if name and not re.search(r"\d", name) else None
     except (requests.RequestException, ValueError):
         return None
     return None
@@ -112,7 +120,10 @@ def main() -> int:
         filled = 0
         for c, from_api in zip(todo, api):
             bid = board_id(spec.name, c)
-            name = from_api or curated.get((spec.name, bid)) or _pretty_slug(bid)
+            if spec.name == "successfactors":    # page titles are less reliable
+                name = curated.get((spec.name, bid)) or from_api
+            else:
+                name = from_api or curated.get((spec.name, bid)) or _pretty_slug(bid)
             if not name or name.lower() == (c.get("name") or "").lower():
                 continue
             old = c.get("name") or bid

@@ -151,11 +151,14 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         # Most iCIMS portals' listings show no date, but each job page does:
         # re-read undated ones (globally spaced at ~0.4s, so a few hundred
         # per run) so the Sheet's date sort and the age limit work for them.
-        undated = db.undated_open(conn, "icims", settings.get("icims_date_backfill_per_run", 300))
-        if undated:
-            enrich.enrich_jobs(undated, label="undated iCIMS jobs (post-date backfill)")
-            db.update_enrichment(conn, undated)
-            db.mark_undated(conn, [j["job_id"] for j in undated if not j.get("posted_on")])
+        # SuccessFactors listings show no date either.
+        for source in ("icims", "successfactors"):
+            undated = db.undated_open(conn, source,
+                                      settings.get("icims_date_backfill_per_run", 300))
+            if undated:
+                enrich.enrich_jobs(undated, label=f"undated {source} jobs (post-date backfill)")
+                db.update_enrichment(conn, undated)
+                db.mark_undated(conn, [j["job_id"] for j in undated if not j.get("posted_on")])
 
     # A detail page that says the posting is gone (LinkedIn 404) isn't news.
     targets = [j for j in targets if not j.get("closed")]

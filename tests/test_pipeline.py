@@ -475,3 +475,18 @@ def test_migration_7_relabels_senior_level_one(tmp_path):
     conn = db.connect(path)
     assert dict(conn.execute("SELECT job_id, role_type FROM jobs").fetchall()) == \
         {"gh_1": "senior", "gh_2": "new_grad", "sim_1": "new_grad"}
+
+
+def test_migration_9_gives_curated_rows_their_scraper_id(tmp_path):
+    path = str(tmp_path / "m9.db")
+    conn = db.connect(path)
+    url = "https://jobs.bytedance.com/en/position/7668212952030841093/detail"
+    db.sync(conn, [_p("sim_abc", source="simplify", url=url),
+                   _p("sim_keep", source="simplify", url="https://example.com/careers/1")],
+            lambda p: "intern", set(), set())
+    conn.execute("UPDATE meta SET value = '8' WHERE key = 'schema_version'")
+    conn.commit()
+    conn.close()
+    conn = db.connect(path)
+    assert sorted(r[0] for r in conn.execute("SELECT job_id FROM jobs")) == \
+        ["bd_7668212952030841093", "sim_keep"]

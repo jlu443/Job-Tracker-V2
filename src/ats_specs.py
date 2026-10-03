@@ -193,6 +193,34 @@ def _extract_rippling(text: str) -> list[dict]:
             for m in _RIPPLING_RE.finditer(text)]
 
 
+# SAP SuccessFactors career sites: https://{company host}/job/{slug}/{7+ digit id}/
+_SF_RE = re.compile(r"https?://(?P<host>(?:[\w-]+\.)+[a-z]{2,})/job/[^/\s\"'<>?#]+/\d{7,}/?",
+                    re.IGNORECASE)
+_SF_NOT = re.compile(r"(?:myworkdayjobs|icims|greenhouse|lever|ashbyhq|smartrecruiters|"
+                     r"oraclecloud|linkedin|indeed|eightfold)\.", re.IGNORECASE)
+
+
+def _extract_successfactors(text: str) -> list[dict]:
+    out = []
+    for m in _SF_RE.finditer(text):
+        host = m.group("host").lower()
+        if not _SF_NOT.search(host):
+            out.append({"host": host, "name": host})
+    return out
+
+
+def _validate_successfactors(c: dict) -> bool:
+    """A SuccessFactors search page that lists jobs in either layout."""
+    try:
+        resp = requests.get(f"https://{c['host']}/search/", params={"q": "engineer"},
+                            headers=HEADERS, timeout=25)
+    except requests.RequestException:
+        return False
+    page = resp.text
+    return (resp.ok and "successfactors" in page.lower()
+            and ('class="data-row' in page or 'class="job-tile' in page))
+
+
 def _validate_jibe(c: dict) -> bool:
     data = request_json("GET", f"https://{c['host']}/api/jobs", params={"limit": 1})
     return bool(data and data.get("totalCount"))
@@ -291,6 +319,9 @@ ATS_SPECS: list[ATSSpec] = [
             ("*.oraclecloud.com/hcmUI/CandidateExperience/*",)),
     ATSSpec("jibe", "jibe.yaml", _extract_jibe, _validate_jibe,
             lambda c: c["host"],
+            ()),
+    ATSSpec("successfactors", "successfactors.yaml", _extract_successfactors,
+            _validate_successfactors, lambda c: c["host"],
             ()),
     ATSSpec("rippling", "rippling.yaml", _extract_rippling, _validate_rippling,
             lambda c: c["slug"],
