@@ -184,6 +184,28 @@ def _relabel_campus_and_fellowship_staff(conn: sqlite3.Connection) -> None:
                       and (new := classify.classify_by_keyword(r[1]) or "mid") != r[2]])
 
 
+def _relabel_senior_level_one(conn: sqlite3.Connection) -> None:
+    """The level-one rule ("Engineer I") also matched "Senior Software
+    Engineer I" and "Lead Scientist I" (fixed 2026-10-03). Stored new-grad
+    rows with a senior word that the rules no longer call entry-level are
+    relabeled (no rule -> 'mid'); prune() drops them. Curated-list rows keep
+    their human label."""
+    import re
+    words = re.compile(r"\b(?:senior|sr|staff|principal|lead|mid[\s-]*level)\b", re.I)
+    rows = conn.execute("SELECT job_id, title FROM jobs WHERE role_type = 'new_grad' "
+                        "AND source != 'simplify'").fetchall()
+    conn.executemany("UPDATE jobs SET role_type = ? WHERE job_id = ?",
+                     [(new or "mid", r[0]) for r in rows
+                      if words.search(r[1])
+                      and (new := classify.classify_by_keyword(r[1])) not in ("intern", "new_grad")])
+
+
+def _drop_old_sheet_keys(conn: sqlite3.Connection) -> None:
+    """Superseded "All Open tab last rebuilt" stamps (sheets.py uses _v5)."""
+    conn.execute("DELETE FROM meta WHERE key IN ('sheets_all_open_at', "
+                 "'sheets_all_open_at_v2', 'sheets_all_open_at_v3', 'sheets_all_open_at_v4')")
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -191,6 +213,8 @@ MIGRATIONS = [
     (4, _relabel_senior_titles),
     (5, _relabel_student_department_titles),
     (6, _relabel_campus_and_fellowship_staff),
+    (7, _relabel_senior_level_one),
+    (8, _drop_old_sheet_keys),
 ]
 
 

@@ -82,7 +82,10 @@ _RULES: list[tuple[str, str]] = [
      r"development\s+program|graduate\s+scheme|(?:ai|ml|aiml|research)\s+resident)\b",
      "new_grad"),
     # "Software Engineer I", "Analyst 1" — level one of a laddered title.
-    (r"\b(?:engineer|developer|analyst|scientist|programmer|technician|"
+    # Not level one of a senior ladder ("Senior Software Engineer I", "Staff
+    # Engineer 1", "Associate Principal Scientist I"): the senior rule decides.
+    (r"^(?!.*\b(?:senior|sr\.?|staff|principal|lead|mid[\s-]*level)\b)"
+     r".*\b(?:engineer|developer|analyst|scientist|programmer|technician|"
      r"designer|specialist)\s*(?:i|1)\b", "new_grad"),
     # "Data Scientist - PhD (2026)": degree plus a graduation year.
     (r"\b(?:phd|ph\.d|ms|m\.s|bs|b\.s|masters?|bachelors?)\b.{0,20}\b20[2-3]\d\b",

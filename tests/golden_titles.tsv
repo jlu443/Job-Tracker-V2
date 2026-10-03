@@ -80,6 +80,16 @@ new_grad	Software Engineer Level 0
 no	Job Placement Specialist
 no	Ad Placement Manager
 no	Salesforce Developer (Talent Pool, Placement: Yogyakarta)
+# level one of a senior ladder read as new grad (fixed 2026-10-03)
+no	Senior Software Engineer I
+no	Staff Software Engineer 1
+no	Lead Research Scientist I, Battery Safety - Electrochemical Safety Research Institute
+no	Principal Data Scientist I
+no	Senior Electrical Engineer 1 - Nuclear
+no	Mid-Level Springboot Developer I Cebu
+new_grad	Member of Technical Staff (New Grad)
+new_grad	Sr HBM Design Architect, PhD NCG
+new_grad	Software Engineer I - CRM
 # "intern" inside other words; plural "Internships"; "graduate" roles
 no	Lead Internal Events Strategist
 no	International Tax Manager
