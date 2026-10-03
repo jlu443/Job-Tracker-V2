@@ -39,9 +39,9 @@ jobs:
       matrix:
         part: ["workday:0/2", "workday:1/2", "icims:0/1", "rest"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -59,7 +59,7 @@ jobs:
           python -m src.main --scrape-part "${{ matrix.part }}" \
             --out "parts/part-${{ strategy.job-index }}.json.gz"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: part-${{ strategy.job-index }}
           path: parts/
@@ -75,9 +75,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -87,7 +87,7 @@ jobs:
       # A broken parser/migration must not touch the DB.
       - run: python -m pytest -q tests
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           pattern: part-*
           path: parts
