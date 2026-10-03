@@ -1,0 +1,16 @@
+# Eightfold career sites (src/eightfold_scraper.py). host serves
+# /api/pcsx/search; domain is the company's, passed as ?domain=; tenant
+# namespaces job ids (ef_{tenant}_{id}). Checked 2026-10-03. Micron, NVIDIA,
+# CACI, Citi and Morgan Stanley also answer on Eightfold, but their Workday
+# sites are already scraped (companies.yaml), so they'd only duplicate.
+# Starbucks answers too but had no entry-level roles (its "intern" search
+# returns store jobs).
+companies:
+- tenant: microsoft
+  host: apply.careers.microsoft.com
+  domain: microsoft.com
+  name: Microsoft
+- tenant: qualcomm
+  host: qualcomm.eightfold.ai
+  domain: qualcomm.com
+  name: Qualcomm

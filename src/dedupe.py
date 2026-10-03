@@ -17,6 +17,8 @@ from __future__ import annotations
 
 import re
 
+from . import eightfold_scraper
+
 # Trailing legal suffixes stripped from company names before comparison.
 _SUFFIXES = {"inc", "llc", "ltd", "corp", "co", "corporation", "incorporated",
              "company", "plc", "gmbh", "limited"}
@@ -122,6 +124,9 @@ def canonical_job_id(url: str) -> str | None:
     m = _ORACLE.search(url)
     if m:
         return f"orc_{m.group(1).lower()}_{m.group(2)}"
+    ef = eightfold_scraper.canonical_id(url)
+    if ef:
+        return ef
     m = _ICIMS.search(url)
     if m:
         return f"icims_{m.group(1).lower()}_{m.group(2)}"

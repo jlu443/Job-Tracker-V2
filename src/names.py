@@ -31,7 +31,8 @@ log = logging.getLogger(__name__)
 
 _ID_FIELD = {"workday": "tenant", "greenhouse": "token", "lever": "slug",
              "ashby": "slug", "smartrecruiters": "company",
-             "oracle": "host", "icims": "host", "jibe": "host", "rippling": "slug"}
+             "oracle": "host", "icims": "host", "jibe": "host", "rippling": "slug",
+             "eightfold": "tenant"}
 _SESSION = requests.Session()
 _SESSION.headers["User-Agent"] = "Mozilla/5.0 (job-tracker-names)"
 

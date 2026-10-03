@@ -18,7 +18,7 @@ import zlib
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
-from . import (ashby_scraper, bigtech_scrapers, classify, db, greenhouse_scraper,
+from . import (ashby_scraper, bigtech_scrapers, classify, db, eightfold_scraper, greenhouse_scraper,
                icims_scraper, jibe_scraper, jobspy_scraper, lever_scraper, oracle_scraper,
                rippling_scraper, scraper, simplify_scraper, smartrecruiters_scraper)
 from .config import CONFIG_DIR, load_yaml
@@ -42,6 +42,7 @@ ATS_SCRAPERS = [
     ("ashby",           "ashby.yaml",            ashby_scraper),
     ("smartrecruiters", "smartrecruiters.yaml",  smartrecruiters_scraper),
     ("oracle",          "oracle.yaml",           oracle_scraper),
+    ("eightfold",       "eightfold.yaml",        eightfold_scraper),
     ("icims",           "icims.yaml",            icims_scraper),
     ("jibe",            "jibe.yaml",             jibe_scraper),
     ("rippling",        "rippling.yaml",         rippling_scraper),

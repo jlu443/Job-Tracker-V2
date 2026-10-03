@@ -25,7 +25,7 @@ from urllib.parse import urlparse
 
 import requests
 
-from . import classify, http_pool, icims_scraper, phd
+from . import classify, eightfold_scraper, http_pool, icims_scraper, phd
 
 log = logging.getLogger(__name__)
 
@@ -259,11 +259,12 @@ _FETCHERS = {
     "ashby": _fetch_ashby,
     "linkedin": _fetch_linkedin,
     "oracle": _fetch_oracle,
+    "eightfold": lambda job: _strip_html(eightfold_scraper.fetch_description(job, _TIMEOUT)),
     "icims": _fetch_icims,
     "smartrecruiters": _fetch_smartrecruiters,
 }
 _ID_PREFIX_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever",
-                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims",
+                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims", "ef": "eightfold",
                      "sr": "smartrecruiters"}
 
 
