@@ -84,16 +84,27 @@ _POSTED = re.compile(r'title="(\d{1,2}/\d{1,2}/\d{4})')
 _TAG = re.compile(r"<[^>]+>")
 
 
-def fetch_description(host: str, job_id: str, timeout: int = 30) -> str:
-    """Plain text of one job page (for enrichment), through the rate limiter."""
+_DATE_POSTED = re.compile(r'"datePosted"\s*:\s*"(\d{4}-\d{2}-\d{2})')
+
+
+def fetch_detail(host: str, job_id: str, timeout: int = 30) -> tuple[str, str]:
+    """(plain text, ISO post date or '') of one job page, through the rate
+    limiter. Many portals' listings show no date, but every job page carries
+    schema.org JSON with datePosted."""
     try:
         resp = _get(host, {"in_iframe": 1}, timeout, path=f"/jobs/{job_id}/job")
     except _Challenged:
-        return ""
+        return "", ""
     resp.raise_for_status()
     body = resp.text
+    m = _DATE_POSTED.search(body)
     start = body.find("iCIMS_JobContent")
-    return html.unescape(_TAG.sub(" ", body[start:] if start >= 0 else body))
+    return html.unescape(_TAG.sub(" ", body[start:] if start >= 0 else body)), m.group(1) if m else ""
+
+
+def fetch_description(host: str, job_id: str, timeout: int = 30) -> str:
+    """Plain text of one job page (for enrichment)."""
+    return fetch_detail(host, job_id, timeout)[0]
 
 
 def job_id_for(host: str, job_id: str) -> str:

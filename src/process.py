@@ -147,10 +147,26 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         backlog = [j for j in backlog if j["source"] != "linkedin"][:backlog_n - len(linkedin)]
         enrich.enrich_jobs(backlog + linkedin, label="unchecked open jobs (backlog)")
         db.update_enrichment(conn, backlog + linkedin)
+        # Most iCIMS portals' listings show no date, but each job page does:
+        # re-read undated ones (globally spaced at ~0.4s, so a few hundred
+        # per run) so the Sheet's date sort and the age limit work for them.
+        undated = db.undated_open(conn, "icims", settings.get("icims_date_backfill_per_run", 300))
+        if undated:
+            enrich.enrich_jobs(undated, label="undated iCIMS jobs (post-date backfill)")
+            db.update_enrichment(conn, undated)
+            db.mark_undated(conn, [j["job_id"] for j in undated if not j.get("posted_on")])
 
-    policy = settings.get("reposts", {}).get("announce", "annotate")
-    if policy == "suppress":
+    # A detail page that says the posting is gone (LinkedIn 404) isn't news.
+    targets = [j for j in targets if not j.get("closed")]
+    reposts_cfg = settings.get("reposts") or {}
+    if reposts_cfg.get("announce", "annotate") == "suppress":
         targets = [j for j in targets if not j["repost"]]
+    elif reposts_cfg.get("suppress"):          # only some kinds, e.g. [stale]
+        before = len(targets)
+        targets = [j for j in targets if j["repost"] not in reposts_cfg["suppress"]]
+        if len(targets) != before:
+            log.info(f"Not announced: {before - len(targets)} "
+                     f"{'/'.join(reposts_cfg['suppress'])} listings")
     if settings.get("exclude_no_sponsorship"):
         before = len(targets)
         targets = [j for j in targets if j.get("sponsorship") != "no"]

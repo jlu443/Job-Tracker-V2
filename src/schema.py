@@ -78,6 +78,8 @@ COLUMNS = {
     # When the description was read; '' = never read (flags unknown), set
     # with all flags '' = read but nothing mentioned.
     "checked_at": "TEXT NOT NULL DEFAULT ''",
+    # Description reads that came back empty; the backlog gives up after a few.
+    "enrich_tries": "INTEGER NOT NULL DEFAULT 0",
 }
 
 

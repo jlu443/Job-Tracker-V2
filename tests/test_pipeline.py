@@ -419,3 +419,19 @@ def test_migration_6_relabels_campus_and_fellowship_staff(tmp_path):
     assert dict(conn.execute("SELECT job_id, role_type FROM jobs").fetchall()) == \
         {"gh_1": "mid", "gh_2": "senior", "gh_3": "new_grad", "gh_4": "mid",
          "gh_5": "mid", "gh_6": "intern", "sim_1": "new_grad"}
+
+
+def test_enrich_backlog_gives_up_after_empty_reads_and_closes_404s(tmp_path):
+    conn = db.connect(str(tmp_path / "e.db"))
+    db.sync(conn, [_p("gh_1", title="Software Engineer Intern"),
+                   _p("li_2", title="Data Science Intern", source="linkedin")],
+            lambda p: "intern", set(), set())
+    for _ in range(db.MAX_ENRICH_TRIES):
+        jobs = db.unchecked_open(conn, 10)
+        for j in jobs:
+            j["enrich_attempted"] = True             # read, but no text came back
+            j["closed"] = j["job_id"] == "li_2"
+        db.update_enrichment(conn, jobs)
+    assert db.unchecked_open(conn, 10) == []
+    assert dict(conn.execute("SELECT job_id, status FROM jobs").fetchall()) == \
+        {"gh_1": "active", "li_2": "removed"}

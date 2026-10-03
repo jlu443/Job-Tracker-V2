@@ -116,6 +116,10 @@ announce_categories: [software, data_ml, hardware, quant, product]
 # Repost / stale-listing detection (src/repost.py).
 reposts:
   announce: annotate        # annotate = tag in Discord; suppress = don't announce
+  # Kinds never announced even when annotating: stale = the source's post
+  # date was already stale_after_days old when we first saw it (~8% of
+  # announcements, week of 2026-09-27). Other kinds: bumped, relisted, linkedin.
+  suppress: [stale]
   linkedin_min_age_days: 30 # LinkedIn id older than its post date by this much
   stale_after_days: 30      # source post date this old when first seen
 

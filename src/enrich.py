@@ -61,11 +61,25 @@ _GH_URL = re.compile(
     r"(?:job-boards|boards)(?:\.eu)?\.greenhouse\.io/([A-Za-z0-9_-]+)/jobs/(\d+)")
 
 
+def _greenhouse_board(gh_id: str) -> str:
+    """Board token for a job id alone: Greenhouse's embed page redirects to
+    ...?for={token}&token={id}. For company-hosted links ("careers.withwaymo.com
+    /jobs?gh_jid=...") that carry no token."""
+    resp = _SESSION.get(f"https://boards.greenhouse.io/embed/job_app?token={gh_id}",
+                        timeout=_TIMEOUT)
+    m = re.search(r"[?&]for=([A-Za-z0-9_-]+)", resp.url)
+    return m.group(1) if m else ""
+
+
 def _fetch_greenhouse(job: dict) -> str:
     m = _GH_URL.search(job["apply_url"])
-    if not m:  # company-hosted URL; board token not recoverable
-        return ""
-    token, gh_id = m.groups()
+    if m:
+        token, gh_id = m.groups()
+    else:
+        gh_id = job["job_id"].removeprefix("gh_")
+        token = _greenhouse_board(gh_id) if gh_id.isdigit() else ""
+        if not token:
+            return ""
     url = f"https://boards-api.greenhouse.io/v1/boards/{token}/jobs/{gh_id}"
     return _strip_html(_SESSION.get(url, timeout=_TIMEOUT).json().get("content", ""))
 
@@ -73,10 +87,12 @@ def _fetch_greenhouse(job: dict) -> str:
 def _fetch_lever(job: dict) -> str:
     # apply_url: https://jobs.lever.co/{slug}/{uuid}. descriptionPlain alone
     # misses the requirement bullets, which live in lists[].content.
-    parts = urlparse(job["apply_url"]).path.strip("/").split("/")
+    u = urlparse(job["apply_url"])
+    parts = u.path.strip("/").split("/")
     if len(parts) < 2:
         return ""
-    url = f"https://api.lever.co/v0/postings/{parts[0]}/{parts[1]}"
+    api = "api.eu.lever.co" if (u.hostname or "").endswith(".eu.lever.co") else "api.lever.co"
+    url = f"https://{api}/v0/postings/{parts[0]}/{parts[1]}"
     d = _SESSION.get(url, timeout=_TIMEOUT).json()
     pieces = [d.get("descriptionPlain", ""), d.get("additionalPlain", "")]
     pieces += [_strip_html(l.get("content", "")) for l in d.get("lists") or []]
@@ -94,7 +110,9 @@ def _fetch_ashby(job: dict) -> str:
         return ""
     if slug not in _ashby_boards:
         url = f"https://api.ashbyhq.com/posting-api/job-board/{slug}"
-        _ashby_boards[slug] = _SESSION.get(url, timeout=_TIMEOUT).json().get("jobs", [])
+        resp = _SESSION.get(url, timeout=_TIMEOUT)
+        # 404: the company left Ashby (a curated list still links there).
+        _ashby_boards[slug] = [] if resp.status_code == 404 else resp.json().get("jobs", [])
     ash_id = job["job_id"].removeprefix("ash_")
     for j in _ashby_boards[slug]:
         if j.get("id") == ash_id:
@@ -136,6 +154,9 @@ def _fetch_linkedin(job: dict) -> str:
             _li_blocked.set()
             log.warning("  ! LinkedIn rate limit: skipping its descriptions for the rest of this run")
         return ""
+    if resp.status_code in (404, 410):    # the posting was taken down
+        job["closed"] = True
+        return ""
     resp.raise_for_status()
     page = resp.text
     m = _LI_APPLICANTS.search(page)
@@ -145,7 +166,7 @@ def _fetch_linkedin(job: dict) -> str:
     return _strip_html(m.group(1)) if m else ""
 
 
-_ORACLE_URL = re.compile(r"https://([^/]+)/hcmUI/CandidateExperience/[\w-]+/sites/([\w-]+)/job/(\d+)")
+_ORACLE_URL = re.compile(r"https://([^/]+)/hcmUI/CandidateExperience/[\w-]+/sites/([\w-]+)/job/([\w-]+)")
 
 
 def _fetch_oracle(job: dict) -> str:
@@ -164,7 +185,12 @@ def _fetch_oracle(job: dict) -> str:
 
 def _fetch_icims(job: dict) -> str:
     m = re.search(r"https://([^/]+)/jobs/(\d+)", job["apply_url"])
-    return icims_scraper.fetch_description(*m.groups()) if m else ""
+    if not m:
+        return ""
+    text, posted = icims_scraper.fetch_detail(*m.groups())
+    if posted and not job.get("posted_on"):
+        job["posted_on"] = posted
+    return text
 
 
 def _fetch_smartrecruiters(job: dict) -> str:
@@ -390,6 +416,7 @@ def described_fields(title: str, description: str) -> dict:
 
 def _enrich_one(job: dict) -> dict:
     text = _description_for(job)
+    job["enrich_attempted"] = not _li_blocked.is_set() or job.get("source") != "linkedin"
     flags = parse_flags(text)
     if text:   # read, even if it mentions none of the flags
         job["checked_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")

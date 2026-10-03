@@ -62,3 +62,27 @@ def test_rippling_location_and_paging(monkeypatch):
                         lambda url, params, timeout: _Resp({"items": [item], "totalPages": 1}))
     posts, ok = rippling_scraper.fetch_company_jobs({"slug": "x", "name": "X"}, {})
     assert ok and posts[0].location == "Brisbane, CA, United States"
+
+
+def test_greenhouse_company_hosted_link_finds_its_board(monkeypatch):
+    from src import enrich
+    calls = []
+
+    class Resp:
+        def __init__(self, url, data=None):
+            self.url, self._data = url, data or {}
+
+        def json(self):
+            return self._data
+
+    def get(url, timeout):
+        calls.append(url)
+        if "embed/job_app" in url:
+            return Resp("https://job-boards.greenhouse.io/embed/job_app?for=waymo&token=8193295")
+        return Resp(url, {"content": "&lt;p&gt;Must be a US citizen.&lt;/p&gt;"})
+
+    monkeypatch.setattr(enrich._SESSION, "get", get)
+    text = enrich._fetch_greenhouse({"job_id": "gh_8193295",
+                                     "apply_url": "https://careers.withwaymo.com/jobs?gh_jid=8193295"})
+    assert "US citizen" in text
+    assert calls[-1] == "https://boards-api.greenhouse.io/v1/boards/waymo/jobs/8193295"

@@ -91,6 +91,11 @@ def register_boards(conn: sqlite3.Connection, scopes: set[tuple[str, str]]) -> s
     return fresh
 
 
+# Empty description reads before the backlog stops retrying a job (closed
+# postings, or ones whose page really has no text).
+MAX_ENRICH_TRIES = 3
+
+
 def unchecked_open(conn: sqlite3.Connection, limit: int) -> list[dict]:
     """Open intern/new-grad rows whose description was never read, in the
     order the Sheet most needs them: PhD/research internships, announced
@@ -98,9 +103,27 @@ def unchecked_open(conn: sqlite3.Connection, limit: int) -> list[dict]:
     conn.row_factory = sqlite3.Row
     return [dict(r) for r in conn.execute(
         "SELECT * FROM jobs WHERE status = 'active' AND checked_at = '' "
+        f"AND enrich_tries < {MAX_ENRICH_TRIES} "
         "AND role_type IN ('intern', 'new_grad') "
         "ORDER BY (role_type = 'intern' AND research_track != '') DESC, "
         "(announced_at != '') DESC, first_seen DESC LIMIT ?", (limit,))]
+
+
+def undated_open(conn: sqlite3.Connection, source: str, limit: int) -> list[dict]:
+    """Open rows of a source whose post date is unknown, newest first, minus
+    ones already read MAX_ENRICH_TRIES times without finding one."""
+    conn.row_factory = sqlite3.Row
+    return [dict(r) for r in conn.execute(
+        "SELECT * FROM jobs WHERE status = 'active' AND source = ? AND posted_on = '' "
+        f"AND enrich_tries < {MAX_ENRICH_TRIES} ORDER BY first_seen DESC LIMIT ?",
+        (source, limit))]
+
+
+def mark_undated(conn: sqlite3.Connection, job_ids: list[str]) -> None:
+    """Count a read that found no post date toward MAX_ENRICH_TRIES."""
+    conn.executemany("UPDATE jobs SET enrich_tries = enrich_tries + 1 WHERE job_id = ?",
+                     [(jid,) for jid in job_ids])
+    conn.commit()
 
 
 def mark_announced(conn: sqlite3.Connection, job_ids: list[str]) -> None:
@@ -142,13 +165,21 @@ def update_enrichment(conn: sqlite3.Connection, jobs: list[dict]) -> None:
         "UPDATE jobs SET sponsorship = ?, clearance = ?, grad_year = ?, citizenship = ?, "
         "opt_cpt = ?, pay = COALESCE(NULLIF(?, ''), pay), "
         "applicants = ?, repost = ?, repost_of = ?, research_track = ?, "
-        "checked_at = COALESCE(NULLIF(?, ''), checked_at) WHERE job_id = ?",
+        "checked_at = COALESCE(NULLIF(?, ''), checked_at), "
+        "enrich_tries = enrich_tries + ?, "
+        "posted_on = CASE WHEN posted_on = '' THEN ? ELSE posted_on END WHERE job_id = ?",
         [(j.get("sponsorship", ""), j.get("clearance", ""), j.get("grad_year", ""),
           j.get("citizenship", ""), j.get("opt_cpt", ""), j.get("pay", ""),
           j.get("applicants", ""), j.get("repost", ""),
           j.get("repost_of", ""), j.get("research_track", ""), j.get("checked_at", ""),
-          j["job_id"]) for j in jobs],
+          int(bool(j.get("enrich_attempted")) and not j.get("checked_at")),
+          j.get("posted_on", ""), j["job_id"]) for j in jobs],
     )
+    # A detail page that says the posting is gone (LinkedIn 404).
+    closed = [j["job_id"] for j in jobs if j.get("closed")]
+    if closed:
+        conn.executemany("UPDATE jobs SET status = 'removed', last_seen = ? WHERE job_id = ?",
+                         [(_now(), jid) for jid in closed])
     conn.commit()
 
 
