@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import html
 import re
+import threading
 import time
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
@@ -105,13 +106,33 @@ _LI_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                              "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36"}
 
 
+# LinkedIn's guest API answers bursts with 429. Requests are spaced across
+# the enrichment thread pool, and the first 429 stops LinkedIn for the run.
+_LI_INTERVAL = 2.0
+_li_lock = threading.Lock()
+_li_last = [0.0]
+_li_blocked = threading.Event()
+
+
 def _fetch_linkedin(job: dict) -> str:
     # Public (logged-out) job page; also yields the applicant count, a useful
     # competitiveness signal that only LinkedIn exposes.
     li_id = job["job_id"].removeprefix("li_")
+    if _li_blocked.is_set():
+        return ""                     # unread; the backlog retries next run
+    with _li_lock:                    # one request at a time, spaced out
+        wait = _li_last[0] + _LI_INTERVAL - time.monotonic()
+        if wait > 0:
+            time.sleep(wait)
+        _li_last[0] = time.monotonic()
     resp = requests.get(
         f"https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/{li_id}",
         headers=_LI_HEADERS, timeout=_TIMEOUT)
+    if resp.status_code == 429:
+        if not _li_blocked.is_set():
+            _li_blocked.set()
+            print("  ! LinkedIn rate limit: skipping its descriptions for the rest of this run")
+        return ""
     resp.raise_for_status()
     page = resp.text
     m = _LI_APPLICANTS.search(page)

@@ -15,7 +15,7 @@ ROLE_TYPES = ("intern", "new_grad", "mid", "senior")
 # Bump whenever the rules change what counts as intern/new_grad. The first run
 # on a new version stores jobs it newly recognizes on already-known boards
 # silently (unless freshly posted) instead of announcing weeks-old postings.
-VERSION = 4
+VERSION = 5
 
 # Ordered most-specific first. First matching pattern wins.
 _RULES: list[tuple[str, str]] = [
@@ -31,8 +31,14 @@ _RULES: list[tuple[str, str]] = [
      r"(?:university|college)\s+hire|"
      r"class\s+of\s+20\d\d|rotation(?:al)?\s+(?:program|engineer)|"
      r"leadership\s+development\s+program|residency|junior|jr\.?|"
-     r"associate\s+(?:software\s+)?(?:engineer|developer|product\s+manager|"
-     r"data\s+scientist)|apm)\b", "new_grad"),
+     # "Associate Data Analyst", "Associate Machine Learning Engineer":
+     # associate + up to two words + a junior role noun.
+     r"associate(?:\s+[\w/&-]+){0,2}?\s+(?:engineer|developer|analyst|scientist|"
+     r"consultant|product\s+manager|programmer)|apm|"
+     # named entry programs: "Career Accelerator Program", "AI Resident"
+     r"(?:career\s+)?accelerator\s+program|launch\s+program|analyst\s+program|"
+     r"development\s+program|graduate\s+scheme|(?:ai|ml|aiml|research)\s+resident)\b",
+     "new_grad"),
     # "Software Engineer I", "Analyst 1" — level one of a laddered title.
     (r"\b(?:engineer|developer|analyst|scientist|programmer|technician|"
      r"designer|specialist)\s*(?:i|1)\b", "new_grad"),

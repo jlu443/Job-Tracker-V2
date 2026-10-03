@@ -28,6 +28,8 @@ def test_build_tabs_uses_announcements_and_keeps_all_stored():
     assert ids("Internships · Today") == ["gh_1"]
     assert ids("Internships · This Week") == ["gh_4"]                 # not today's gh_1
     assert ids("Internships · All Open") == ["gh_1", "gh_4"]          # closed gh_2 left out
+    conn.execute("UPDATE jobs SET category = 'other' WHERE job_id = 'gh_4'")
+    assert [r[-1] for r in sheets.build_tabs(conn, include_all=True)["Internships · All Open"]]         == ["gh_1"]                                                    # non-tech left out
     assert ids("New Grad · This Week") == []
     today = tabs["Internships · Today"][0]
     assert today[0] == '=HYPERLINK("https://x/gh_1", "Apply")' and len(today) == len(sheets.COLUMNS)
@@ -118,7 +120,7 @@ def test_discord_messages_stay_under_6000_chars():
 
 
 def test_compact_discord_line():
-    from datetime import date
+    from src import dates as date   # the tracker's UTC "today", not the local date
     from src import notify
     line = notify._line({"company": "Acme", "title": "Software Engineer, New Grad",
                          "apply_url": "https://a", "location": "Austin, TX; Seattle, WA +2 more",

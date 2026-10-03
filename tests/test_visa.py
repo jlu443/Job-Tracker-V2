@@ -65,3 +65,21 @@ def test_phd_tab_and_sponsor_tab():
     assert [r[0] for r in rows] == ["Google", "Zzqx Labs"]      # known H-1B record first
     assert rows[0][1] == "✅ Postings offer sponsorship / OPT" and rows[0][3] == 2
     assert rows[1][2] == "" and len(rows[0]) == len(sheets.sponsor_columns())
+
+
+def test_linkedin_stops_after_first_429(monkeypatch):
+    calls = []
+
+    class R:
+        status_code = 429
+        text = ""
+
+    monkeypatch.setattr(enrich.requests, "get", lambda *a, **k: calls.append(1) or R())
+    monkeypatch.setattr(enrich, "_LI_INTERVAL", 0)
+    enrich._li_blocked.clear()
+    try:
+        assert enrich._fetch_linkedin({"job_id": "li_1"}) == ""
+        assert enrich._fetch_linkedin({"job_id": "li_2"}) == ""
+        assert len(calls) == 1
+    finally:
+        enrich._li_blocked.clear()
