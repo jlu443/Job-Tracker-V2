@@ -370,3 +370,17 @@ def test_schema_versions_run_once_and_legacy_flag_maps_to_3(tmp_path):
     conn = db.connect(path)
     assert [tuple(r) for r in conn.execute("SELECT key, value FROM meta ORDER BY key")] == \
         [("schema_version", str(schema.MIGRATIONS[-1][0]))]
+
+
+def test_migration_4_relabels_senior_titles(tmp_path):
+    path = str(tmp_path / "m4.db")
+    conn = db.connect(path)
+    db.sync(conn, [_p("gh_1", title="Senior Associate Software Engineer"),
+                   _p("gh_2", title="Associate Software Engineer")], lambda p: "new_grad",
+            set(), set())
+    conn.execute("UPDATE meta SET value = '3' WHERE key = 'schema_version'")
+    conn.commit()
+    conn.close()
+    conn = db.connect(path)
+    assert dict(conn.execute("SELECT job_id, role_type FROM jobs").fetchall()) == \
+        {"gh_1": "senior", "gh_2": "new_grad"}

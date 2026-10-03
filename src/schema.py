@@ -138,10 +138,21 @@ def _research_track_backfill(conn: sqlite3.Connection) -> None:
                      [(t, r[0]) for r in rows if (t := phd.track(r[1]))])
 
 
+def _relabel_senior_titles(conn: sqlite3.Connection) -> None:
+    """Classifier v5's "Associate ..." rule briefly matched "Senior Associate
+    Engineer" (2026-10-03). Stored entry-level rows whose title the rules now
+    call senior are relabeled; prune() then drops them (not a stored role)."""
+    rows = conn.execute("SELECT job_id, title FROM jobs "
+                        "WHERE role_type IN ('intern', 'new_grad')").fetchall()
+    conn.executemany("UPDATE jobs SET role_type = 'senior' WHERE job_id = ?",
+                     [(r[0],) for r in rows if classify.classify_by_keyword(r[1]) == "senior"])
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
     (3, _research_track_backfill),
+    (4, _relabel_senior_titles),
 ]
 
 

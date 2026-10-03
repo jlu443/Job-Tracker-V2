@@ -36,6 +36,8 @@ _RULES: list[tuple[str, str]] = [
      r"leadership\s+development\s+program|residency|junior|jr\.?|"
      # "Associate Data Analyst", "Associate Machine Learning Engineer":
      # associate + up to two words + a junior role noun.
+     # ...but not "Senior Associate Scientist": the senior rule decides those.
+     r"(?<!senior )(?<!sr\. )(?<!sr )(?<!lead )(?<!principal )(?<!staff )"
      r"associate(?:\s+[\w/&-]+){0,2}?\s+(?:engineer|developer|analyst|scientist|"
      r"consultant|product\s+manager|programmer)|apm|"
      # named entry programs: "Career Accelerator Program", "AI Resident"

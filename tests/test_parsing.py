@@ -206,3 +206,16 @@ def test_parse_pay(text, pay):
                                    "Hardware Undergrad Engineering Internships"])
 def test_plural_internships(title):
     assert classify.classify_by_keyword(title) == "intern"
+
+
+@pytest.mark.parametrize("title,role", [
+    ("Senior Associate Software Engineer", "senior"),
+    ("Sr Associate Engineer, IT Software", "senior"),
+    ("Associate Data Analyst - Insights", "new_grad"),
+    ("2027 Private Equity Summer Associate / Senior Associate", "intern"),
+    ("Junior SDET, Senior Associate", "new_grad"),
+    ("Software Engineer - Career Accelerator Program", "new_grad"),
+    ("AIML Resident - Machine Learning Research", "new_grad"),
+])
+def test_associate_and_program_titles(title, role):
+    assert classify.classify_by_keyword(title) == role
