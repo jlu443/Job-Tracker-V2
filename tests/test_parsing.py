@@ -232,3 +232,30 @@ def test_associate_and_program_titles(title, role):
 ])
 def test_student_department_titles(title, role):
     assert classify.classify_by_keyword(title) == role
+
+
+@pytest.mark.parametrize("title,role", [
+    ("MRI Technologist - Main Campus (Second Shift)", None),
+    ("Campus Police Officer", None),
+    ("Campus Director", "senior"),
+    ("Campus Experience Manager", "senior"),
+    ("2027 Campus - Analog Design Engineer", "new_grad"),
+    ("Campus Undergraduate Full-Time Analyst - 2027 Data & Analytics", "new_grad"),
+    ("Consulting Analyst - Federal Health Advisory - Campus 2027", "new_grad"),
+    ("CAMPUS: Internal Sales (SLATE) Associate 2027 (Carmel, IN)", "new_grad"),
+    ("Campus Quantitative Researcher | Trading Team PhD/Postdoc (Full-Time)", "new_grad"),
+    ("Engineer (Campus/2027 Fresh Graduates)", "new_grad"),
+    ("Work Study/Machine Tool Technology/Main Campus", "intern"),
+    ("University & Early Talent Recruiter", "mid"),
+    ("Campus Recruiter", "mid"),
+    ("Junior Recruiter", "new_grad"),
+    ("Talent Acquisition Intern (Summer 2027)", "intern"),
+    ("Fellowship-Trained Electrophysiology Cardiology Physician", "senior"),
+    ("FELLOWSHIP PROGRAM DIRECTOR", "senior"),
+    ("Residency/Fellowship Program Coordinator - Radiation Oncology", "mid"),
+    ("Program Lead, AI Fellowship", "mid"),
+    ("Software Engineering Fellowship - Summer 2027", "intern"),
+    ("Military Fellowship Program: Supply Chain Program Manager", "intern"),
+])
+def test_campus_recruiter_fellowship_titles(title, role):
+    assert classify.classify_by_keyword(title) == role

@@ -163,12 +163,32 @@ def _relabel_student_department_titles(conn: sqlite3.Connection) -> None:
                       and classify.classify_by_keyword(r[1]) not in ("intern", "new_grad")])
 
 
+def _relabel_campus_and_fellowship_staff(conn: sqlite3.Connection) -> None:
+    """"Campus" counted as new-grad even as a place ("MRI Technologist - Main
+    Campus") and in staff titles ("Campus Director"); "fellowship" counted as
+    intern in "Fellowship Coordinator" or "Fellowship-Trained Physician";
+    "University Recruiter" counted as new-grad (fixed 2026-10-03). Stored
+    rows with those words are relabeled by the current rules (no rule ->
+    'mid'); prune() drops the ones no longer entry-level. Curated-list rows
+    keep their human label."""
+    import re
+    words = re.compile(r"campus|fellow|recruit|talent\s+acquisition|work[\s-]*study", re.I)
+    rows = conn.execute("SELECT job_id, title, role_type FROM jobs "
+                        "WHERE role_type IN ('intern', 'new_grad') "
+                        "AND source != 'simplify'").fetchall()
+    conn.executemany("UPDATE jobs SET role_type = ? WHERE job_id = ?",
+                     [(new, r[0]) for r in rows
+                      if words.search(r[1])
+                      and (new := classify.classify_by_keyword(r[1]) or "mid") != r[2]])
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
     (3, _research_track_backfill),
     (4, _relabel_senior_titles),
     (5, _relabel_student_department_titles),
+    (6, _relabel_campus_and_fellowship_staff),
 ]
 
 

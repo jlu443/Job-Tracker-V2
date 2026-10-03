@@ -399,3 +399,23 @@ def test_migration_5_relabels_student_department_titles(tmp_path):
     conn = db.connect(path)
     assert dict(conn.execute("SELECT job_id, role_type FROM jobs").fetchall()) == \
         {"gh_1": "mid", "gh_2": "intern", "sim_1": "intern"}   # curated label kept
+
+
+def test_migration_6_relabels_campus_and_fellowship_staff(tmp_path):
+    path = str(tmp_path / "m6.db")
+    conn = db.connect(path)
+    db.sync(conn, [_p("gh_1", title="MRI Technologist - Main Campus"),
+                   _p("gh_2", title="Campus Director"),
+                   _p("gh_3", title="2027 Campus - Analog Design Engineer"),
+                   _p("gh_4", title="Fellowship Coordinator - Neurology"),
+                   _p("gh_5", title="University Recruiter"),
+                   _p("gh_6", title="Work Study - ON CAMPUS"),
+                   _p("sim_1", title="Campus Director", source="simplify")],
+            lambda p: "new_grad", set(), set())
+    conn.execute("UPDATE meta SET value = '5' WHERE key = 'schema_version'")
+    conn.commit()
+    conn.close()
+    conn = db.connect(path)
+    assert dict(conn.execute("SELECT job_id, role_type FROM jobs").fetchall()) == \
+        {"gh_1": "mid", "gh_2": "senior", "gh_3": "new_grad", "gh_4": "mid",
+         "gh_5": "mid", "gh_6": "intern", "sim_1": "new_grad"}

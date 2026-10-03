@@ -1,0 +1,236 @@
+# Golden titles: real job titles with their correct label, checked on every
+# push by tests/test_golden_titles.py. A classifier change that breaks any of
+# these fails the build. Add the title of every future classifier bug here.
+#
+# label<TAB>title. Labels: intern | new_grad | no (not entry-level: mid,
+# senior, or no rule matched; we don't store or announce those).
+# Sources: SimplifyJobs' human-labeled lists (2026-10-03 sample), real
+# Greenhouse titles (Stripe, Databricks, Figma, Robinhood, Cloudflare), and
+# titles from past bugs.
+
+# --- Past bugs: titles a classifier change once got wrong -----------------
+# "Senior Associate" read as new grad (v5, fixed 2026-10-03)
+no	Senior Associate Software Engineer
+no	Sr Associate Engineer, IT Software
+no	Senior Associate Scientist
+no	Internal Audit Senior Associate
+new_grad	Associate Data Analyst - Insights
+new_grad	Junior SDET, Senior Associate
+intern	2027 Private Equity Summer Associate / Senior Associate
+# "student" in staff titles read as intern (fixed 2026-10-03)
+no	Student Success Coach
+no	Student Services Coordinator
+no	Medical Assistant - Student Health
+no	Associate Student Recruiter and Advisor, On-Campus
+intern	Student Researcher - Vision
+intern	Student Worker - IT Help Desk
+intern	Embedded Software Engineer Student Experience - Spring 2027
+intern	Student Web Developer
+# "campus" as a place or a staff title read as new grad (fixed 2026-10-03)
+no	MRI Technologist - Main Campus (Second Shift)
+no	Research Engineer, Guidance, Navigation, and Control, Daytona Beach Campus
+no	Campus Police Officer
+no	Campus Director
+no	Campus Experience Manager
+no	Director of Campus Technology
+no	#CORE DIGITAL CAMPUS - SAP Developer (f/m/d)
+no	Locksmith Supervisor Security Systems - Campus Services
+new_grad	2027 Campus - Analog Design Engineer
+new_grad	2027Y Campus - Software Engineer - Linux BSP & Driver Development
+new_grad	Campus Undergraduate Full-Time Analyst - 2027 Data & Analytics, Enterprise Technology Services- New York, NY
+new_grad	Consulting Analyst - Health and Human Services, Federal Health Advisory - Campus 2027
+new_grad	CAMPUS: Internal Sales (SLATE) Associate 2027 (Carmel, IN)
+new_grad	Campus Quantitative Researcher | Trading Team PhD/Postdoc (Full-Time)
+new_grad	AI Engineer/Anthropic-Campus Hire - US West
+new_grad	Engineer (Campus/2027 Fresh Graduates)
+intern	Work Study/Machine Tool Technology/Main Campus
+intern	2026-2027 Campus Internship - Research & Development (PhD)
+# recruiters of students read as new grad (fixed 2026-10-03)
+no	University & Early Talent Recruiter
+no	Campus Recruiter
+no	Technical/AI Campus Recruiter, Talent Acquisition
+no	Talent Acquisition Consultant I - Campus Recruiter - Global Markets & Research
+no	Regional Early Careers/University Recruiter
+new_grad	Junior Recruiter
+new_grad	Corporate Recruiter - Entry Level
+intern	Talent Acquisition Intern (Summer 2027)
+intern	Technical Recruiter Intern
+# fellowship staff read as intern (fixed 2026-10-03)
+no	Fellowship-Trained Electrophysiology Cardiology Physician - Saint Luke's - Kansas City, MO
+no	FELLOWSHIP PROGRAM DIRECTOR
+no	Pain Fellowship Program Director/Interventional Pain Physician
+no	Residency/Fellowship Program Coordinator - Radiation Oncology
+no	Fellowship Coordinator - Neurology
+no	Program Lead, AI Fellowship
+intern	Software Engineering Fellowship - Summer 2027
+intern	High School Fellowship, Software Engineering
+intern	2027 Baseball Technology Fellowship
+# "intern" inside other words; plural "Internships"; "graduate" roles
+no	Lead Internal Events Strategist
+no	International Tax Manager
+intern	Software PhD Internships
+intern	Hardware Undergrad Engineering Internships
+intern	Graduate Research Assistant
+intern	Graduate Student Intern
+new_grad	Graduate Performance Engineer
+new_grad	Quantitative Developer, Graduate
+new_grad	Software Engineer (Grad)
+# level one, named programs, degree + year
+new_grad	Software Engineer I
+new_grad	Software Engineer 1, Payments
+new_grad	ASIC Verification Engineer - New College Grad 2026
+new_grad	Data Scientist, Core Data - PhD (2026)
+new_grad	Early Talent Software Engineer
+new_grad	Software Engineer - Career Accelerator Program
+new_grad	AIML Resident - Machine Learning Research
+new_grad	Associate Product Manager
+no	Software Engineer II
+no	Software Engineer III
+no	Senior Software Engineer
+no	Staff Engineer, Infrastructure
+no	Software Engineer
+
+# --- SimplifyJobs internship lists (human-labeled) ---------------------------
+intern	Hardware Engineer Intern - Machine Integration & Test
+intern	Data Analytics & Governance Internship
+intern	Manufacturing Data & Analytics Co-op
+intern	Software Integration Engineer Intern, Energy Engineering
+intern	Analog Design Intern Co-op - Master’s
+intern	Artificial Intelligence and Data Science Intern - Artificial Intelligence & Data Science
+intern	Robotics System Test Intern
+intern	Business Development Intern
+intern	Junior Software Developer Intern
+intern	Software Engineer Intern - AI/ML
+intern	Application Developer Intern
+intern	Research Engineer Intern - High Performance Analog
+intern	Digital Innovation Intern
+intern	ASIC Package Engineer Intern Co-op
+intern	Backend Services Programmer Intern - Epic Games Services
+intern	Portfolio Resource Forecasting Intern
+intern	Operations Engineering Intern
+intern	Artificial Intelligence Developer Intern - Aerospace/Aviation
+intern	Embedded Electrical Engineer Intern
+intern	Bot Controls Intern
+intern	Silicon Validation Intern
+intern	People Analytics Co-op
+intern	Application Engineer Intern - Investments
+intern	Software Developer Intern - University - 2027 Summer Games
+intern	Compound Semiconductor Device Characterization Intern
+intern	Early Career Intern - Fixed Income Global Technology
+intern	Software Engineer Intern, Security & Identity
+intern	Software Engineer Intern, Factory Software
+intern	Applied AI Engineer Intern - Advancing Agent Quality
+intern	Software Engineer Co-op - Product Development
+intern	Software Engineer Intern - Applied Machine Learning-Enterprise
+intern	Maritime Modeling & Control Intern - Maritime Robotics
+intern	Analog IC Design Engineering Intern
+intern	Distribution Sales Reporting Co-op
+intern	Analog Design Engineer Intern - High Performance Analog - Advanced Cellular
+intern	Software Developer 1 Intern/Co-op - Winter 2027
+intern	Core Developer Intern
+intern	Forward Deployed Operations Intern
+intern	Optical & Electrical Engineering Intern
+intern	Data Analyst Co-op - Business Solutions
+intern	Sales Data Analytics Intern - Summer 2027
+intern	College Intern - Records and Information Management
+intern	Software Development Intern - Citizen Remote Identity Verification
+intern	GenAI/ML Intern
+intern	Software Developer Intern - Digital Engine Services - Ground Cloud Software Developer
+
+# --- SimplifyJobs new-grad lists (human-labeled) -----------------------------
+new_grad	Entry Level Business Analyst / Data Analyst
+new_grad	Cloud Support Engineer I (Support Response)
+new_grad	UX Software Engineer 1 - Contractor
+new_grad	Entry Level NVM Reliability Lab Engineer
+new_grad	New Grad 2026: Software Engineer Graduate (Data Arch - ShortText Rec) (BS/MS)
+new_grad	C++ Software Engineer I, Maps SDKs
+new_grad	Software R&D Engineer New Grad - VLSI Physical Design
+new_grad	Associate Product Manager - University Graduate
+new_grad	Technology Graduate Program - Technology, Data and Innovation
+new_grad	Associate Product Manager - Hive Models
+new_grad	Forward Deployed Software Engineer New Grad - UK Government
+new_grad	Software Engineer 1 - User Systems
+new_grad	Software Engineer New Grad - Helios
+new_grad	Quantitative Researcher Graduate - 2027 Start
+new_grad	Machine Learning Engineer Graduate - Performance Monetization
+new_grad	Simulation and Modelling Engineer New Grad
+new_grad	Research Scientist New Grad - Computational Imaging
+new_grad	New Grad 2026: Site Reliability Engineer
+new_grad	Machine Learning Engineer Graduate - Ads Delivery
+new_grad	Graduate Software Engineer - Media Engine
+new_grad	Entry Level Application Engineer
+new_grad	Graduate Software Development Engineer
+new_grad	Avionics / Embedded Software Engineer 1 - Early Career
+new_grad	Weapon Systems Algorithms Engineer New Grad
+new_grad	Machine Learning Engineer Graduate - Ads Signal & Measurement
+new_grad	Software Engineer New Grad - Ads Signal & Measurement
+new_grad	Software Engineer 1 - Network
+new_grad	New Grad 2026: Agent Software Engineer
+new_grad	Research Scientist Graduate - Quantum Chemistry and Machine Learning
+new_grad	Junior Software Engineer - Research & Development Engineering
+new_grad	Associate Software Engineer - Launchpad
+new_grad	Data Engineer Graduate
+new_grad	Software Engineer Graduate, Site Reliability Engineering
+new_grad	Product Manager MBA Graduate
+new_grad	Embedded Firmware Engineer 1
+new_grad	New Grad 2026: (Machine Learning Engineer, Data-Search-TikTok Recommendation
+new_grad	Electrical Design Engineer Graduate - Board Engineer
+new_grad	Software Engineer 1 - Electronic Systems
+new_grad	Product/Test Engineer 1 - Networking & Connectivity Solutions
+new_grad	Associate Applications Development Engineer
+new_grad	Associate Software Engineer/Software Engineer - Associate Engineer Software (T01) - Engineer Software (T02)
+new_grad	Systems Engineer 1 - Software, Robotics & Semiconductor Automation
+new_grad	Visual Generation & Multimodal Evaluation Machine Learning Engineer Graduate - Applied Machine Learning Ark
+new_grad	Machine Learning Engineer Graduate - Multiple Teams
+new_grad	New Grad 2025: Software Development Engineer I
+
+# --- Real experienced-hire titles (Greenhouse boards) ------------------------
+no	Solutions Architect, AI/Cloudflare Developer Platform
+no	Network Hardware Engineer
+no	Senior Software Engineer, Compute Infrastructure
+no	Senior Customer Engineer, Enterprise AI - Bay Area
+no	Senior Software Engineer (Money)
+no	Staff Forward Deployed Engineer
+no	Sales Manager, Commercial Grower (Healthcare)
+no	Android Engineer, Terminal
+no	Staff Software Engineer, Agentic Applications
+no	Comms Strategy & Operations Associate
+no	Implementation Consultant, Professional Services
+no	Security Engineer, Privy
+no	Solutions Architect, Enterprise Hunter (Presales)
+no	Software Engineer, Data Orchestration
+no	Alliance RVP, Boston Consulting Group (BCG)
+no	Account Executive, Velocity Platforms (Hunter)
+no	Sr. Developer Advocate, Open Source — Omnigent
+no	Solutions Consultant, Enterprise (Presales)
+no	Manager, Delivery Solutions Architects
+no	Short Term Planning Analyst
+no	Senior Software Engineer (Backend)
+no	Solutions Architect (Portuguese speaking) - Madrid OR Paris
+no	Staff Software Engineer
+no	Risk Partnerships Manager, Banks & Treasury
+no	Sr Staff Software Engineer (Backend)
+no	Principal Engineer - Privacy
+no	Strategy & Ops, Enterprise
+no	Software Engineer, Online Database Infrastructure
+no	Named Enterprise Account Executive
+no	Account Executive, Enterprise (Tokyo, Japan)
+no	Sales Manager, Key Accounts - Enterprise
+no	Operations Associate, Sanctions
+no	Director, Research - AI Evals
+no	Senior Solutions Architect, APJC (Developer Platform) - India Market
+no	Customer Funds Reconciliation Manager, Luxembourg
+no	Senior Customer Engineer, Bogotá, Colombia.
+no	Account Executive, Strategic (Tokyo, Japan)
+no	External Affairs Strategist
+no	Sr. Solutions Architect - Agencies
+no	KYB/KYC Operations Associate, Bridge (English fluency)
+no	Data Scientist, Finance
+no	Sr. Field Technical Program Manager, FDE
+no	GTM Operations Process Architect
+no	Processing cost Analyst
+no	Principal People Team Business Partner - R&D
+no	Trust & Safety Investigator II, Singapore
+no	Strategic Capacity Planning Specialist
+no	Senior Customer Engineer, East China
+no	Business Development Representative (Cantonese Speaking)

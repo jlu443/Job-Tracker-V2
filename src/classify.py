@@ -22,18 +22,39 @@ VERSION = 5
 
 # Ordered most-specific first. First matching pattern wins.
 _RULES: list[tuple[str, str]] = [
+    # Staff who run fellowships, ahead of the intern rule's "fellowship":
+    # "Fellowship-Trained Physician", "Fellowship Program Director",
+    # "Residency/Fellowship Coordinator", "Program Lead, AI Fellowship".
+    (r"\b(fellowship[\s-]+trained|fellowships?(?:\s+program)?\s+director|"
+     r"senior\s+(?:research\s+)?fellow)\b", "senior"),
+    (r"\b(fellowships?(?:\s+(?:and|&)\s+internships?)?(?:\s+[\w-]+){0,3}?\s+"
+     r"(?:coordinator|manager|administrator|advisor|specialist)|"
+     r"(?:manager|director|lead)\b[\s,:–-]+(?:[\w&–-]+\s+){0,4}fellowships?)\b", "mid"),
     (r"\b(intern|interns|internships?|co-?op|summer\s+(?:analyst|associate)|"
      # "student" alone, but not a department serving students ("Student
      # Success Coach", "Student Services Coordinator", "Student Living").
-     r"working\s+student|student(?!\s+(?:success|engagement|affairs|services?|living|"
+     r"working\s+student|work[\s-]*study|student(?!\s+(?:success|engagement|affairs|services?|living|"
      r"health|financial|support|teacher|life|housing|involvement|activities|records|"
      r"accounts|aid|union|center|conduct|enrollment|loans?|accessibility|wellness|"
      r"retention|advis\w*|recruit\w*|admissions?|development|care|programs?\s+"
      r"(?:coordinator|manager|director))\b)|apprentice(?:ship)?|fellowship|externship|"
      r"graduate\s+(?:research\s+)?assistant)\b",
      "intern"),
+    # Recruiters *of* students ("Campus Recruiter", "University & Early
+    # Talent Recruiter") are staff, unless the title itself is junior.
+    (r"^(?!.*\b(?:junior|jr\.?|entry[\s-]*level|(?:new|recent)\s+(?:college\s+)?grad\w*|"
+     r"20\d\d\s+start)(?!\w)).*\b(recruiters?|recruiting\s+coordinator|"
+     r"talent\s+acquisition\s+(?:partner|specialist|coordinator|consultant|manager|"
+     r"lead|advisor|associate)|university\s+relations)\b", "mid"),
     (r"\b(new\s*grad|new\s*graduate|new\s+college\s+grad(?:uate)?|ncg|"
-     r"university\s*grad(?:uate)?|recent\s+grad(?:uate)?|campus|"
+     r"university\s*grad(?:uate)?|recent\s+grad(?:uate)?|"
+     # "campus" as hiring, not a place ("Main Campus", "Prescott Campus")
+     r"campus\s*[-:/]?\s*(?:hire|hiring|graduate|grad|undergrad\w*|program|"
+     r"full[\s-]?time|recruit(?:ing|ment)|20\d\d)|20\d\d\w?\s+campus|"
+     r"^campus\s*:?\s+(?=\w)(?!(?:security|police|safety|services?|ministry|minister|director|"
+     r"manager|operations|experience|relations|planning|life|store|visit\w*|tours?|"
+     r"it|dining|facilit\w*|recreation|engagement|coordinator|admin\w*)\b)|"
+     r"fresh\s+grad(?:uate)?s?|"
      r"early\s*(?:career|talent|in\s+career)|entry[\s-]*level|"
      # "Graduate Performance Engineer", "Quant Developer, Graduate", "(Grad)"
      r"graduate(?!\s+(?:degree|school|studies))|grad|"
