@@ -4130,7 +4130,9 @@ companies:
 - tenant: ulse
   wd: wd5
   site: ulsecareers
-  name: ulse
+  name: Underwriters Laboratories
+  aliases:
+  - ulse
 - tenant: imerys
   wd: wd3
   site: imerys-careers
@@ -4438,7 +4440,9 @@ companies:
 - tenant: ulse
   wd: wd5
   site: ulricareers
-  name: ulse
+  name: Underwriters Laboratories
+  aliases:
+  - ulse
 - tenant: intelcomgroup
   wd: wd3
   site: Intelcom

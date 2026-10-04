@@ -509,3 +509,13 @@ companies:
   name: Loggerhead Risk Management Llc
   aliases:
   - loggerhead-risk-management-llc
+- slug: blue-water-autonomy
+  name: Blue Water Autonomy
+  aliases:
+  - blue-water-autonomy
+- slug: jitsu
+  name: jitsu
+- slug: dext-capital-llc
+  name: Dext Capital
+  aliases:
+  - dext-capital-llc

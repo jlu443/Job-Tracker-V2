@@ -341,3 +341,7 @@ companies:
   name: Certara
   aliases:
   - careers.certara.com
+- host: careers.docusign.com
+  name: DocuSign
+  aliases:
+  - careers.docusign.com

@@ -3518,7 +3518,9 @@ companies:
 - slug: passport
   name: passport
 - slug: patch.io
-  name: patch.io
+  name: Patch
+  aliases:
+  - patch.io
 - slug: pathwork
   name: pathwork
 - slug: patreon
@@ -3986,7 +3988,9 @@ companies:
 - slug: reflectionai
   name: reflectionai
 - slug: ReflexRobotics
-  name: ReflexRobotics
+  name: Reflex Robotics
+  aliases:
+  - ReflexRobotics
 - slug: reflow
   name: reflow
 - slug: reframesystems
@@ -5824,7 +5828,9 @@ companies:
 - slug: hercules
   name: hercules
 - slug: highlightai
-  name: highlightai
+  name: Highlight AI
+  aliases:
+  - highlightai
 - slug: hiring-pros
   name: Hiring Pros
   aliases:
@@ -6050,7 +6056,9 @@ companies:
 - slug: palladio
   name: palladio
 - slug: pangramlabs
-  name: pangramlabs
+  name: Pangram Labs
+  aliases:
+  - pangramlabs
 - slug: paxoslabs
   name: paxoslabs
 - slug: Payscale
@@ -6873,3 +6881,15 @@ companies:
   name: parasail
 - slug: Relling
   name: Relling
+- slug: standardsubsea
+  name: Standard Subsea
+  aliases:
+  - standardsubsea
+- slug: krew
+  name: krew
+- slug: fortell
+  name: fortell
+- slug: hudson-pacific-properties
+  name: Hudson Pacific Properties
+  aliases:
+  - hudson-pacific-properties

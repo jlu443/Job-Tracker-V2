@@ -1283,3 +1283,11 @@ companies:
   name: Careers Allspringglobal.icims.com
   aliases:
   - careers-allspringglobal
+- host: careers-additionalrovisysopportunities.icims.com
+  name: RoviSys
+  aliases:
+  - careers-additionalrovisysopportunities
+- host: careers-fdcorp.icims.com
+  name: Careers Fdcorp.icims.com
+  aliases:
+  - careers-fdcorp
