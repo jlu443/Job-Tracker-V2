@@ -283,3 +283,5 @@ companies:
   name: career.karlstorz.com
 - host: ro.careers.tsmc.com
   name: ro.careers.tsmc.com
+- host: careers.gallo.com
+  name: careers.gallo.com

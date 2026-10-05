@@ -1291,3 +1291,7 @@ companies:
   name: Careers Fdcorp.icims.com
   aliases:
   - careers-fdcorp
+- host: employees-primecontrols.icims.com
+  name: Employees Primecontrols.icims.com
+  aliases:
+  - employees-primecontrols
