@@ -32,7 +32,7 @@ jobs:
   # Parts only read a copy of the DB (board rotation); nothing is uploaded.
   # Keep the workday parts in line with settings.yaml -> ci_shards.
   scrape:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
       fail-fast: false
@@ -72,7 +72,7 @@ jobs:
   process:
     needs: scrape
     if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
