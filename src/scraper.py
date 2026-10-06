@@ -185,7 +185,9 @@ def _facet_pass(company: dict, settings: dict, seen: dict) -> bool:
                     posting = _posting(p, tenant, name, base, site, anchor)
                     if posting:
                         kept = seen.get(posting.job_id, posting)
-                        seen[posting.job_id] = kept if kept.role_hint else                             dataclasses.replace(kept, role_hint=hint)
+                        if not kept.role_hint:
+                            kept = dataclasses.replace(kept, role_hint=hint)
+                        seen[posting.job_id] = kept
                 offset += settings["page_limit"]
                 if not postings or offset >= total:
                     break

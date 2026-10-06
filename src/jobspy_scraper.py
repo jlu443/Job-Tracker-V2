@@ -81,7 +81,8 @@ _PAYLOCITY = re.compile(r"paylocity\.com/Recruiting/Jobs/Details/\d+/([\w-]+)/",
 # baskandlather.bamboohr.com, holmes.applytojob.com, kbjwgroup.isolvedhire.com.
 _ACCOUNT_HOST = re.compile(r"https?://([\w-]+)\.(?:bamboohr\.com|applytojob\.com|isolvedhire\.com|"
                            r"breezy\.hr|recruitee\.com)/", re.I)
-_ACCOUNT_PATH = re.compile(r"https?://(?:apply\.workable\.com|jobs\.jobvite\.com)/(?!j/)([\w-]+)", re.I)
+_ACCOUNT_PATH = re.compile(r"https?://(?:apply\.workable\.com|jobs\.jobvite\.com)/(?!j/)([\w-]+)",
+                           re.I)
 # Boards keyed by a company slug, so an unconfigured one still names it.
 _SLUG_SOURCES = ("greenhouse", "lever", "ashby", "smartrecruiters", "rippling")
 
