@@ -523,3 +523,13 @@ companies:
   name: Ambyint Careers
   aliases:
   - ambyint-careers
+- slug: joinroot
+  name: Root Insurance
+  aliases:
+  - joinroot
+- slug: accelintjobboardtest
+  name: accelintjobboardtest
+- slug: barntools
+  name: barntools
+- slug: cyngn
+  name: cyngn

@@ -6893,3 +6893,15 @@ companies:
   name: Hudson Pacific Properties
   aliases:
   - hudson-pacific-properties
+- slug: whoop
+  name: whoop
+- slug: fireworks
+  name: Fireworks AI
+  aliases:
+  - fireworks
+- slug: aurora-operations-inc
+  name: Aurora Innovation
+  aliases:
+  - aurora-operations-inc
+- slug: parameter
+  name: parameter

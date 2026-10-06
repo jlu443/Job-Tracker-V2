@@ -997,3 +997,7 @@ companies:
   - UnitedFranchiseGroup
 - company: Travoom
   name: Travoom
+- company: HoustonEngineeringInc
+  name: Houston Engineering, Inc.
+  aliases:
+  - HoustonEngineeringInc

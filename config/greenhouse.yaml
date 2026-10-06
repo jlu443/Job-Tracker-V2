@@ -2949,3 +2949,59 @@ companies:
   name: blend
 - token: hubspotjobs
   name: HubSpot
+- token: khanacademy
+  name: Khan Academy
+  aliases:
+  - khanacademy
+- token: foundenergy
+  name: Found Industries
+  aliases:
+  - foundenergy
+- token: asteraearlycareer2027
+  name: Astera Labs Early Career - North America 2027
+  aliases:
+  - asteraearlycareer2027
+- token: atoms
+  name: atoms
+- token: iex-interns
+  name: IEX Group (Interns)
+  aliases:
+  - iex-interns
+- token: judihealth
+  name: Judi Health
+  aliases:
+  - judihealth
+- token: solutions
+  name: Cadence Solutions
+  aliases:
+  - solutions
+- token: stackadapt-confidential
+  name: StackAdapt - Confidential
+  aliases:
+  - stackadapt-confidential
+- token: idme
+  name: ID.me
+  aliases:
+  - idme
+- token: fanaticsfbg
+  name: Fanatics Betting & Gaming
+  aliases:
+  - fanaticsfbg
+- token: machindustries
+  name: Mach Industries
+  aliases:
+  - machindustries
+- token: 2kearlycareers
+  name: 2K Early Careers
+  aliases:
+  - 2kearlycareers
+- token: roku
+  name: Roku
+- token: nuro
+  name: Nuro
+- token: staged
+  name: Student Careers at KKR
+- token: westmonroe5
+  name: West Monroe (Campus)
+- token: codepath
+  name: codepath

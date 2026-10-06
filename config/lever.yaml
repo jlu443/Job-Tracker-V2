@@ -951,3 +951,13 @@ companies:
   - true-environmental
 - slug: stanleygroup
   name: stanleygroup
+- slug: ispace-inc
+  name: Ispace Inc
+  aliases:
+  - ispace-inc
+- slug: canopy-ad
+  name: Canopy Ad
+  aliases:
+  - canopy-ad
+- slug: fehrandpeers
+  name: fehrandpeers

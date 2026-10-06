@@ -285,3 +285,7 @@ companies:
   name: ro.careers.tsmc.com
 - host: careers.gallo.com
   name: careers.gallo.com
+- host: jobs.myflorida.com
+  name: jobs.myflorida.com
+- host: careers.borderstates.com
+  name: careers.borderstates.com

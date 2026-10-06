@@ -1295,3 +1295,27 @@ companies:
   name: Employees Primecontrols.icims.com
   aliases:
   - employees-primecontrols
+- host: campus-libertymutual.icims.com
+  name: Liberty Mutual
+  aliases:
+  - campus-libertymutual
+- host: careers-sentinel.icims.com
+  name: Sentinel Technologies
+  aliases:
+  - careers-sentinel
+- host: canada-english-avisonyoung.icims.com
+  name: Avison Young
+  aliases:
+  - canada-english-avisonyoung
+- host: careers2-vhb.icims.com
+  name: Careers2 Vhb.icims.com
+  aliases:
+  - careers2-vhb
+- host: collegerecruitment-barrios.icims.com
+  name: Collegerecruitment Barrios.icims.com
+  aliases:
+  - collegerecruitment-barrios
+- host: interns-maserconsulting.icims.com
+  name: Interns Maserconsulting.icims.com
+  aliases:
+  - interns-maserconsulting

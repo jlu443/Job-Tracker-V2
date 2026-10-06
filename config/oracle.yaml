@@ -925,3 +925,49 @@ companies:
   name: Navy Federal
   aliases:
   - fa-etbx-saasfaprod1
+- host: fa-euwp-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Mayo Clinic
+  aliases:
+  - fa-euwp-saasfaprod1
+- host: iadugs.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Legrand
+  aliases:
+  - iadugs
+- host: eihu.fa.us8.oraclecloud.com
+  site: CX
+  name: SAIC
+  aliases:
+  - eihu
+- host: iazuqy.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: UCSF
+  aliases:
+  - iazuqy
+- host: fda.fa.us1.oraclecloud.com
+  site: CX_1
+  name: fda
+- host: vmcfa-prod-iccgjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Vmcfa Prod Iccgjb.fa.ocs.oraclecloud.com
+  aliases:
+  - vmcfa-prod-iccgjb
+- host: fa-ewlq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewlq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewlq-saasfaprod1
+- host: fa-eups-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: UL Solutions
+  aliases:
+  - fa-eups-saasfaprod1
+- host: hcal.fa.us2.oraclecloud.com
+  site: CX_xx
+  name: Subaru
+  aliases:
+  - hcal
+- host: icfcjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: icfcjb

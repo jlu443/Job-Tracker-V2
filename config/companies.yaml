@@ -9363,3 +9363,67 @@ companies:
   wd: wd1
   site: RMC
   name: regionalfinance
+- tenant: midlandsb
+  wd: wd1
+  site: msbcareers
+  name: Midland States Bank
+  aliases:
+  - midlandsb
+- tenant: visa
+  wd: wd5
+  site: Visa_Early_Careers
+  name: visa
+- tenant: alston
+  wd: wd1
+  site: ExternalCareer
+  name: Alston & Bird Law Firm
+  aliases:
+  - alston
+- tenant: morningstar
+  wd: wd5
+  site: Morningstar
+  name: morningstar
+- tenant: snc
+  wd: wd1
+  site: SNC_External_Career_Site
+  name: Sierra Nevada Corporation
+  aliases:
+  - snc
+- tenant: batesville
+  wd: wd504
+  site: Batesville
+  name: batesville
+- tenant: ncratleos
+  wd: wd1
+  site: ext_contractors
+  name: NCR Atleos
+  aliases:
+  - ncratleos
+- tenant: bah
+  wd: wd1
+  site: BAH_Jobs
+  name: Booz Allen
+  aliases:
+  - bah
+- tenant: kiongroup
+  wd: wd3
+  site: KIONGroup
+  name: KION Group
+  aliases:
+  - kiongroup
+- tenant: vai
+  wd: wd1
+  site: VAICareers
+  name: vai
+- tenant: slrconsulting
+  wd: wd103
+  site: SLRCareers
+  name: slrconsulting
+- tenant: hargroveepc
+  wd: wd12
+  site: Hargrove_Careers
+  name: hargroveepc
+- tenant: jbhunt
+  wd: wd501
+  site: Careers
+  name: jbhunt
