@@ -17,7 +17,13 @@ the page's session and CSRF token, and the RSS feed ignores the keyword and
 dates every item "today", so neither is used (checked 2026-10-03).
 
 Search matches descriptions and isn't relevance-ranked (entry-level titles
-were spread evenly across L3Harris's pages), so every page is read.
+were spread evenly across L3Harris's pages), and a multi-word term matches
+either word ("early career" found 2,669 of Cintas's 2,826 jobs; quoting
+the phrase returns nothing on tile sites). So a site whose whole listing
+fits in `successfactors_full_sweep_max_pages` is read in full (q=""): that
+took fewer requests across all 76 sites than the keyword terms, which hit
+the page cap on 11 of them every run and so never counted as complete
+(measured 2026-10-06). Larger sites fall back to the keyword terms.
 """
 
 from __future__ import annotations
@@ -47,17 +53,19 @@ _TERMS = ("intern", "co-op", "entry level", "new grad", "early career", "student
 
 _CHUNK = re.compile(r'<tr class="data-row|<li class="job-tile')
 # Groups: job path (the full /job/{slug}/{id}/ is needed; /job/{id}/ errors),
-# job id, title.
-_LINK = re.compile(r'<a\b[^>]*?href="(/job/[^"/]+/(\d{6,})/)"[^>]*>\s*([^<]+?)\s*</a>')
-_LINK_CLASSED = re.compile(r'<a\b(?=[^>]*class="jobTitle-link)[^>]*?href="(/job/[^"/]+/(\d{6,})/)"'
-                           r'[^>]*>\s*([^<]+?)\s*</a>')
+# job id, title. Multi-brand sites prefix the path with the brand
+# (Mohawk: /DalTile/job/...).
+_PATH = r'((?:/[^"/]+)?/job/[^"/]+/(\d{6,})/)'
+_LINK = re.compile(r'<a\b[^>]*?href="' + _PATH + r'"[^>]*>\s*([^<]+?)\s*</a>')
+_LINK_CLASSED = re.compile(r'<a\b(?=[^>]*class="jobTitle-link)[^>]*?href="' + _PATH
+                           + r'"[^>]*>\s*([^<]+?)\s*</a>')
 _LOC_TABLE = re.compile(r'<span class="jobLocation">\s*([^<]+?)\s*</span>')
 _LOC_TILE = re.compile(r'id="job-\d+-desktop-section-location-value"[^>]*>\s*([^<]+?)\s*<')
 _TOTAL = re.compile(r'aria-rowcount="(\d+)"|of\s*<b>\s*([\d,]+)\s*</b>')
 _DATE = re.compile(r'itemprop="datePosted"[^>]*content="([^"]+)"')
 _DESC = re.compile(r'class="jobdescription"[^>]*>(.*?)</span>\s*</div>', re.S)
 _TAG = re.compile(r"<[^>]+>")
-_JOB_URL = re.compile(r"https?://([^/]+)/job/[^/?#]+/(\d{6,})/?")
+_JOB_URL = re.compile(r"https?://([^/]+)(?:/[^/?#]+)?/job/[^/?#]+/(\d{6,})/?")
 
 
 def site_key(host: str) -> str:
@@ -103,43 +111,62 @@ def parse_search(page: str) -> tuple[list[tuple[str, str, str, str]], int]:
     return rows, total
 
 
+def _search(host: str, name: str, term: str, max_pages: int, seen: dict,
+            settings: dict) -> bool:
+    """Page through one search into `seen`; False if it failed or was cut off."""
+    timeout = settings.get("request_timeout", 30)
+    delay = settings.get("delay_between_requests", 0.5)
+    offset = 0
+    for _ in range(max_pages):
+        try:
+            resp = _SESSION.get(f"https://{host}/search/", timeout=timeout,
+                                params={"q": term, "startrow": offset})
+            resp.raise_for_status()
+        except requests.RequestException as exc:
+            log.warning(f"  ! {name} term={term!r} startrow={offset}: {exc}")
+            return False
+        rows, total = parse_search(resp.text)
+        added = 0
+        for req_id, path, title, location in rows:
+            jid = job_id_for(host, req_id)
+            if jid not in seen:
+                added += 1
+                seen[jid] = JobPosting(
+                    job_id=jid, company=name, title=title,
+                    apply_url=f"https://{host}{path}",
+                    location=location, posted_on="", source="successfactors")
+        offset += len(rows)
+        # Some sites repeat their last page for any startrow past the end.
+        if not rows or offset >= total or (offset > len(rows) and not added):
+            return True
+        time.sleep(delay)
+    return False        # hit max_pages: there were more results
+
+
+def listing_pages(host: str, settings: dict) -> int | None:
+    """Pages in the site's full listing, or None if it can't be read."""
+    try:
+        resp = _SESSION.get(f"https://{host}/search/", params={"q": "", "startrow": 0},
+                            timeout=settings.get("request_timeout", 30))
+        resp.raise_for_status()
+    except requests.RequestException:
+        return None
+    rows, total = parse_search(resp.text)
+    return -(-total // len(rows)) if rows else None
+
+
 def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
     host = company["host"]
     name = company.get("name", host)
-    timeout = settings.get("request_timeout", 30)
-    delay = settings.get("delay_between_requests", 0.5)
-    max_pages = settings.get("max_pages_per_term", 25)
-
     seen: dict[str, JobPosting] = {}
-    complete = True
-    for term in company.get("search_terms", _TERMS):
-        offset = 0
-        for _ in range(max_pages):
-            try:
-                resp = _SESSION.get(f"https://{host}/search/", timeout=timeout,
-                                    params={"q": term, "startrow": offset})
-                resp.raise_for_status()
-            except requests.RequestException as exc:
-                log.warning(f"  ! {name} term={term!r} startrow={offset}: {exc}")
-                complete = False
-                break
-            rows, total = parse_search(resp.text)
-            added = 0
-            for req_id, path, title, location in rows:
-                jid = job_id_for(host, req_id)
-                if jid not in seen:
-                    added += 1
-                    seen[jid] = JobPosting(
-                        job_id=jid, company=name, title=title,
-                        apply_url=f"https://{host}{path}",
-                        location=location, posted_on="", source="successfactors")
-            offset += len(rows)
-            # Some sites repeat their last page for any startrow past the end.
-            if not rows or offset >= total or (offset > len(rows) and not added):
-                break
-            time.sleep(delay)
-        else:
-            complete = False        # hit max_pages: there were more results
+    pages = None if company.get("search_terms") else listing_pages(host, settings)
+    if pages is not None and pages <= settings.get("successfactors_full_sweep_max_pages", 300):
+        complete = _search(host, name, "", pages + 1, seen, settings)
+    else:
+        max_pages = settings.get("max_pages_per_term", 25)
+        complete = True
+        for term in company.get("search_terms", _TERMS):
+            complete &= _search(host, name, term, max_pages, seen, settings)
     return list(seen.values()), complete
 
 

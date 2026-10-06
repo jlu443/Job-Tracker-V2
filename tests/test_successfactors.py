@@ -77,3 +77,51 @@ def test_bytedance_urls_map_to_scraper_ids():
         "bd_7668212952030841093"
     assert dedupe.canonical_job_id("https://joinbytedance.com/search/7668212952030841093") == \
         "bd_7668212952030841093"
+
+
+def test_brand_prefixed_links():
+    """Multi-brand sites (Mohawk) put the brand before /job/."""
+    page = TILES.replace('href="/job/', 'href="/DalTile/job/')
+    rows, _ = sf.parse_search(page)
+    assert rows[0][:2] == ("1413204900", "/DalTile/job/Nashville-Principal%2C-Contracts-TN-37203/1413204900/")
+
+
+def test_reads_whole_listing_when_small(monkeypatch):
+    queries = []
+
+    class Resp:
+        text = TABLE.replace("<b>209</b>", "<b>2</b>")
+
+        def raise_for_status(self):
+            pass
+
+    def get(url, timeout, params):
+        queries.append(params["q"])
+        return Resp()
+
+    monkeypatch.setattr(sf._SESSION, "get", get)
+    monkeypatch.setattr(sf.time, "sleep", lambda s: None)
+    jobs, complete = sf.fetch_company_jobs({"host": "careers.qorvo.com", "name": "Qorvo"}, {})
+    assert complete and len(jobs) == 2
+    assert set(queries) == {""}         # no keyword searches
+
+
+def test_keyword_fallback_for_large_listing(monkeypatch):
+    queries = []
+
+    class Resp:
+        def __init__(self, q):
+            self.text = TABLE.replace("<b>209</b>", "<b>99999</b>" if q == "" else "<b>2</b>")
+
+        def raise_for_status(self):
+            pass
+
+    def get(url, timeout, params):
+        queries.append(params["q"])
+        return Resp(params["q"])
+
+    monkeypatch.setattr(sf._SESSION, "get", get)
+    monkeypatch.setattr(sf.time, "sleep", lambda s: None)
+    jobs, complete = sf.fetch_company_jobs({"host": "careers.qorvo.com", "name": "Qorvo"},
+                                           {"successfactors_full_sweep_max_pages": 10})
+    assert complete and queries[0] == "" and set(queries[1:]) == set(sf._TERMS)

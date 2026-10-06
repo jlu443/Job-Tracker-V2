@@ -26,6 +26,7 @@ SCHEMA: dict = {
     "search_terms": list,
     "page_limit": int,
     "max_pages_per_term": int,
+    "successfactors_full_sweep_max_pages": int,
     "workday_min_relevant_per_page": int,
     "recency_check": ("each", {"window_days": int, "max_pages": int}),
     "ci_shards": ("each", int),
