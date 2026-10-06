@@ -100,7 +100,7 @@ _GH_RES = [
 _GH_BAD = {"v1", "boards", "jobs", "embed", "js", "generic", "internal"}
 
 
-_LV_RE = re.compile(r"jobs\.lever\.co/([A-Za-z0-9_-]+)", re.I)
+_LV_RE = re.compile(r"jobs\.(eu\.)?lever\.co/([A-Za-z0-9_-]+)", re.I)
 
 
 _ASHBY_RE = re.compile(r"jobs\.ashbyhq\.com/([A-Za-z0-9_.%-]+)", re.I)
@@ -140,7 +140,8 @@ def _extract_greenhouse(text: str) -> list[dict]:
 
 
 def _extract_lever(text: str) -> list[dict]:
-    return [{"slug": m.group(1).lower(), "name": m.group(1).lower()}
+    return [{"slug": m.group(2).lower(), "name": m.group(2).lower(),
+             **({"region": "eu"} if m.group(1) else {})}
             for m in _LV_RE.finditer(text)]
 
 
@@ -266,8 +267,8 @@ def _validate_greenhouse(c: dict) -> bool:
 
 
 def _validate_lever(c: dict) -> bool:
-    url = f"https://api.lever.co/v0/postings/{c['slug']}?mode=json"
-    data = request_json("GET", url)
+    from .lever_scraper import api_url
+    data = request_json("GET", api_url(c))
     return isinstance(data, list) and len(data) > 0
 
 

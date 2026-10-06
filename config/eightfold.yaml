@@ -14,3 +14,17 @@ companies:
   host: qualcomm.eightfold.ai
   domain: qualcomm.com
   name: Qualcomm
+# Found through curated-list links, 2026-10-06 (entry-level titles then):
+# John Deere 55, Eaton 33, Boston Scientific 12. None has another scraped board.
+- tenant: johndeere
+  host: johndeere.eightfold.ai
+  domain: johndeere.com
+  name: John Deere
+- tenant: eaton
+  host: eaton.eightfold.ai
+  domain: eaton.com
+  name: Eaton
+- tenant: bostonscientific
+  host: bostonscientific.eightfold.ai
+  domain: bostonscientific.com
+  name: Boston Scientific

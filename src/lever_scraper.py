@@ -4,7 +4,9 @@ Lever exposes a free, unauthenticated JSON endpoint per company:
 
     GET https://api.lever.co/v0/postings/{slug}?mode=json
 
-Returns all current postings in one call (no pagination needed).
+Returns all current postings in one call (no pagination needed). Boards on
+Lever's EU instance (jobs.eu.lever.co, `region: eu` in lever.yaml) are
+served by api.eu.lever.co instead.
 """
 
 from __future__ import annotations
@@ -25,10 +27,15 @@ _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
 _SESSION = http_pool.make_session(_HEADERS)
 
 
+def api_url(company: dict) -> str:
+    host = "api.eu.lever.co" if company.get("region") == "eu" else "api.lever.co"
+    return f"https://{host}/v0/postings/{company['slug']}?mode=json"
+
+
 def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
     slug = company["slug"]
     name = company.get("name", slug)
-    url = f"https://api.lever.co/v0/postings/{slug}?mode=json"
+    url = api_url(company)
     timeout = settings.get("request_timeout", 30)
 
     try:

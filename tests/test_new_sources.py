@@ -120,3 +120,23 @@ def test_hidden_greenhouse_board_tries_newest_job_ids_first(monkeypatch):
              for i in ("5000001", "8193295", "8300000")]
     assert discover._resolve_site(links) == {"token": "waymo", "name": "Waymo"}
     assert tried == ["8300000", "8193295"]
+
+
+def test_atlassian_portals_share_one_id():
+    from src import dedupe
+    for url in ("https://campus-americas.icims.com/jobs/26268/machine-learning-intern",
+                "https://careers-americas.icims.com/jobs/26268/x",
+                "https://campus-globalcareers-atlassian.icims.com/jobs/26268/x"):
+        assert dedupe.canonical_job_id(url) == "icims_atlassian_26268"
+    assert dedupe.canonical_job_id("https://americas-cookmedical.icims.com/jobs/19325/x") == \
+        "icims_americas-cookmedical_19325"
+
+
+def test_lever_eu_boards_use_eu_api():
+    from src import ats_specs, lever_scraper
+    assert lever_scraper.api_url({"slug": "cirrus", "region": "eu"}) == \
+        "https://api.eu.lever.co/v0/postings/cirrus?mode=json"
+    assert lever_scraper.api_url({"slug": "anduril"}) == \
+        "https://api.lever.co/v0/postings/anduril?mode=json"
+    assert ats_specs._extract_lever("https://jobs.eu.lever.co/Cirrus/abc") == \
+        [{"slug": "cirrus", "name": "cirrus", "region": "eu"}]

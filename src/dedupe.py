@@ -110,6 +110,14 @@ _ORACLE = re.compile(
     r"https?://([a-z0-9-]+)\.fa(?:\.[a-z0-9-]+)?\.oraclecloud\.com/hcmUI/CandidateExperience/"
     r"[\w-]+/sites/[\w-]+/(?:job|requisitions/preview)/(\d+)", re.I)
 _ICIMS = re.compile(r"https?://([a-z0-9-]+)\.icims\.com/jobs/(\d+)", re.I)
+# One employer, several iCIMS portals sharing job numbers; scraped from its
+# own feed (bigtech_scrapers.fetch_atlassian) as icims_atlassian_<n>.
+_ICIMS_PORTALS = {"careers-americas": "atlassian", "campus-americas": "atlassian"}
+
+
+def icims_portal(subdomain: str) -> str:
+    sub = subdomain.lower()
+    return "atlassian" if "atlassian" in sub else _ICIMS_PORTALS.get(sub, sub)
 
 
 def canonical_job_id(url: str) -> str | None:
@@ -131,7 +139,7 @@ def canonical_job_id(url: str) -> str | None:
         return ef
     m = _ICIMS.search(url)
     if m:
-        return f"icims_{m.group(1).lower()}_{m.group(2)}"
+        return f"icims_{icims_portal(m.group(1))}_{m.group(2)}"
     m = _JIBE.search(url)
     if m:
         return f"jibe_{m.group(1).lower()}_{m.group(2)}"

@@ -256,6 +256,25 @@ def _name_unnamed_aggregator_rows(conn: sqlite3.Connection) -> None:
                       if (name := jobspy_scraper.company_from_url(r[1])[0])])
 
 
+def _recanonicalize_icims_portals(conn: sqlite3.Connection) -> None:
+    """Atlassian's iCIMS portals (careers-americas, campus-americas,
+    *-atlassian) share job numbers; their rows were keyed per portal and are
+    now icims_atlassian_<n>, the id its own feed is scraped under
+    (2026-10-06). Tombstones follow, so a purged job stays purged."""
+    for table in ("jobs", "purged"):
+        rows = conn.execute(f"SELECT job_id FROM {table} WHERE job_id LIKE 'icims\\_%' "
+                            "ESCAPE '\\'").fetchall()
+        for (job_id,) in rows:
+            _, sub, num = job_id.split("_", 2)
+            new_id = f"icims_{dedupe.icims_portal(sub)}_{num}"
+            if new_id == job_id:
+                continue
+            cur = conn.execute(f"UPDATE OR IGNORE {table} SET job_id = ? WHERE job_id = ?",
+                               (new_id, job_id))
+            if cur.rowcount == 0:
+                conn.execute(f"DELETE FROM {table} WHERE job_id = ?", (job_id,))
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -269,6 +288,7 @@ MIGRATIONS = [
     (10, _unannounce_capped_board_backlog),
     (11, _recategorize_titles),
     (12, _name_unnamed_aggregator_rows),
+    (13, _recanonicalize_icims_portals),
 ]
 
 

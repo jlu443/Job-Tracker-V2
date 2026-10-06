@@ -1,5 +1,5 @@
 """Single-company career sites with public JSON search: TikTok, ByteDance,
-Amazon, Apple.
+Amazon, Apple, Atlassian.
 
 Each keeps to entry-level searches (or, for Apple, its Students team) and
 lets the local classifier decide what's intern / new grad. Like the other
@@ -14,6 +14,7 @@ Not covered here, and why (so they stay on the curated lists):
 from __future__ import annotations
 
 import logging
+import re
 import time
 from datetime import datetime
 
@@ -247,3 +248,39 @@ def fetch_apple(company: dict, settings: dict) -> tuple[list[JobPosting], bool |
     # one call to the next (73, then 44), so missing from one run proves
     # nothing: report partial (None) and let the 60-day purge retire jobs.
     return list(seen.values()), (None if complete else False)
+
+
+# -- Atlassian ------------------------------------------------------------------
+
+_ATLASSIAN = "https://www.atlassian.com/endpoint/careers/listings"
+_TAGS = re.compile(r"<[^>]+>")
+
+
+def fetch_atlassian(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
+    """Every open job in one public JSON list, descriptions included; no
+    post dates. Ids match its iCIMS portals' job numbers (dedupe maps every
+    Atlassian portal to icims_atlassian_<n>). A plain title posted on a
+    campus portal ("Software Engineer" on campus-americas) is a grad role."""
+    try:
+        resp = _SESSION.get(_ATLASSIAN, timeout=settings.get("request_timeout", 30))
+        resp.raise_for_status()
+        listings = resp.json()
+    except (requests.RequestException, ValueError) as exc:
+        log.warning(f"  ! Atlassian: {exc}")
+        return [], False
+    out = []
+    for p in listings:
+        jid, title = str(p.get("id") or ""), (p.get("title") or "").strip()
+        url = p.get("applyUrl") or (p.get("portalJobPost") or {}).get("portalUrl") or ""
+        if not jid or not title:
+            continue
+        text = _TAGS.sub(" ", " ".join(p.get(k) or "" for k in
+                                       ("overview", "responsibilities", "qualifications")))
+        campus = "//campus-" in url
+        out.append(JobPosting(
+            job_id=f"icims_atlassian_{jid}", company=company.get("name", "Atlassian"),
+            title=title, apply_url=url, location="; ".join(p.get("locations") or []),
+            posted_on="", source="atlassian",
+            **_fields(title, text, "new_grad" if campus and not classify.is_entry_level(title)
+                      else "")))
+    return out, True

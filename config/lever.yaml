@@ -961,3 +961,9 @@ companies:
   - canopy-ad
 - slug: fehrandpeers
   name: fehrandpeers
+- slug: cirrus
+  name: Cirrus Logic
+  region: eu
+- slug: quantinuum
+  name: Quantinuum
+  region: eu

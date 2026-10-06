@@ -52,6 +52,7 @@ ATS_SCRAPERS = [
     ("bytedance",       "bytedance.yaml",        _One(bigtech_scrapers.fetch_bytedance)),
     ("amazon",          "amazon.yaml",           _One(bigtech_scrapers.fetch_amazon)),
     ("apple",           "apple.yaml",            _One(bigtech_scrapers.fetch_apple)),
+    ("atlassian",       "atlassian.yaml",        _One(bigtech_scrapers.fetch_atlassian)),
 ]
 
 
