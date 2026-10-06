@@ -18,7 +18,7 @@ ROLE_TYPES = ("intern", "new_grad", "mid", "senior")
 # Bump whenever the rules change what counts as intern/new_grad. The first run
 # on a new version stores jobs it newly recognizes on already-known boards
 # silently (unless freshly posted) instead of announcing weeks-old postings.
-VERSION = 6
+VERSION = 7
 
 # Ordered most-specific first. First matching pattern wins.
 _RULES: list[tuple[str, str]] = [
@@ -90,8 +90,9 @@ _RULES: list[tuple[str, str]] = [
     # "Data Scientist - PhD (2026)": degree plus a graduation year.
     (r"\b(?:phd|ph\.d|ms|m\.s|bs|b\.s|masters?|bachelors?)\b.{0,20}\b20[2-3]\d\b",
      "new_grad"),
-    (r"\b(senior|sr\.?|staff|principal|lead|architect|distinguished|"
-     r"director|head\s+of|vp|manager|mgr|fellow)\b", "senior"),
+    # "Member of Technical Staff" is a flat title at AI labs, not a level.
+    (r"\b(senior|sr\.?|(?<!technical )(?<!trading )(?<!research )staff|principal|lead|"
+     r"architect|distinguished|director|head\s+of|vp|manager|mgr|fellow)\b", "senior"),
     (r"\b(iii|iv|v)\b", "senior"),
     (r"\b(ii|2)\b", "mid"),
     (r"\b\d{2,}\+?\s*years?\b", "senior"),  # "5+ years", "10 years"
@@ -104,10 +105,20 @@ _COMPILED = [(re.compile(p, re.IGNORECASE), label) for p, label in _RULES]
 # are claimed before it can mislabel them as software.
 _CATEGORY_RULES: list[tuple[str, str]] = [
     (r"\b(quant|quantitative|trading|trader|markets?|derivatives|securities|"
-     r"fixed\s+income|investment\w*)\b", "quant"),
+     r"fixed\s+income|investment\w*|model\s+risk|credit\s+risk|stress\s+testing)\b", "quant"),
     (r"\b(asic|fpga|rtl|silicon|circuit|analog|mixed[\s-]signal|hardware|"
      r"physical\s+design|design\s+verification|dft|photonics|semiconductor|"
-     r"pcb|signal\s+(?:and|&)\s+power\s+integrity|electrical\s+engineer|"
+     r"pcb|signal\s+(?:and|&)\s+power\s+integrity|electromechanical|"
+     # "Electrical Designer", "Electrical Validation Intern"; not
+     # "Electrical Apprentice" or "Electrical Construction ... Intern".
+     r"electrical(?:\s*(?:and|&|/)\s*\w+)?\s+(?:engineer\w*|design\w*|validation|test\w*|"
+     r"integration|systems?|analysis|intern|co-?op)|"
+     # "AMS Validation", "Functional Validation", "Formal Verification"; not
+     # "Model Validation" (quant, above) or "Data Validation".
+     r"(?:ams|electrical|functional|system|silicon|chip|hardware|post[\s-]?si)\s+validation|"
+     r"formal\s+verification|rfic|radio\s+frequency|ic\s+(?:design\w*|test|layout)|"
+     r"optical|optics|photonic\w*|dram|field[\s-]programmable|harness\w*|sensors?|"
+     r"telematics|"
      r"cpu|gpu\s+architecture|soc|rf|transistor|avionics|electronics?|"
      r"mechatronics|power\s+electronics|gpu|design\s+for\s+test|packaging|"
      r"reliability)\b", "hardware"),
@@ -116,7 +127,8 @@ _CATEGORY_RULES: list[tuple[str, str]] = [
      r"computer\s+vision|vision|nlp|natural\s+language|llm|research\w*|r\s*&\s*d|"
      r"applied\s+scientist|scientist|business\s+intelligence|algorithm\w*|"
      r"autonom\w*|robotic\w*|perception|statistic\w*|model(?:ing|ling)|"
-     r"analyst|insights?|computational|bioinformatics|geospatial)\b", "data_ml"),
+     r"analyst|insights?|computational|bioinformatics|geospatial|applied\s+scien\w*|"
+     r"informatics|biostatistic\w*|power\s+bi|motion\s+planning|biometrics)\b", "data_ml"),
     (r"\b(product\s+manag\w*|apm|technical\s+program\s+manag\w*|tpm|product|"
      r"offering)\b", "product"),
     (r"\b(security\s+(?:guard|officer))\b", "other"),
@@ -126,7 +138,9 @@ _CATEGORY_RULES: list[tuple[str, str]] = [
      r"embedded|firmware|qa|sdet|test\s+automation|forward\s+deployed|"
      r"it|applications?|automation|technical\s+staff|coding|digital|"
      r"information\s+(?:technology|systems)|java|python|c\+\+|golang|technical|"
-     r"computing|gis|architect\w*)\b", "software"),
+     r"computing|gis|architect\w*|sap|mainframe|iot|website\s+develop\w*|database|"
+     r"game\s+design\w*|"
+     r"unity|unreal|quantum)\b", "software"),
     (r"\b(mechanical|civil|chemical|industrial|manufacturing|process|"
      r"structural|environmental|propulsion|thermal|materials|biomedical|"
      r"petroleum|mining|nuclear|construction|field\s+service|sales|"
@@ -176,6 +190,22 @@ def role_hint_from_description(title: str, description: str) -> str:
     if classify_by_keyword(title) is None and new_grad_from_description(description):
         return "new_grad"
     return ""
+
+
+# Seniority a title states outright. A curated list's intern/new_grad label
+# gives way only to these: "Senior Full Stack Engineer" slipped into a list
+# is senior, but a listed new-grad "Product Manager" or "AI Fellow" is not.
+_EXPLICIT_SENIOR = re.compile(
+    r"\b(senior|sr\.?|(?<!technical )(?<!trading )(?<!research )staff|principal|lead|"
+    r"distinguished|director|head\s+of|vp|iii|iv)\b", re.IGNORECASE)
+
+
+def role_with_hint(title: str, hint: str) -> str:
+    """Role for a posting whose source asserts `hint` (intern/new_grad)."""
+    by_title = classify_by_keyword(title)
+    if by_title in ("intern", "new_grad"):
+        return by_title
+    return "senior" if _EXPLICIT_SENIOR.search(title) else hint
 
 
 def is_entry_level(title: str) -> bool:

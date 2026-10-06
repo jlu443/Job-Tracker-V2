@@ -68,8 +68,7 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         # A curated list's intern/new_grad label wins unless the title
         # clearly says otherwise ("Senior ..." slipping into a list).
         if p.role_hint:
-            by_title = classify.classify_by_keyword(p.title)
-            return by_title if by_title in ("intern", "new_grad", "senior") else p.role_hint
+            return classify.role_with_hint(p.title, p.role_hint)
         return role_by_id.get(p.job_id, "mid")
 
     # Snapshot before sync so "known" means "known before this run".

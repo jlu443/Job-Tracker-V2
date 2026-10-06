@@ -217,10 +217,9 @@ class Collected:
 def keyword_role(p) -> str:
     """The role process() assigns without the zero-shot fallback: a curated
     list's label unless the title clearly says otherwise, else the title."""
-    by_title = classify.classify_by_keyword(p.title)
     if p.role_hint:
-        return by_title if by_title in ("intern", "new_grad", "senior") else p.role_hint
-    return by_title or "mid"
+        return classify.role_with_hint(p.title, p.role_hint)
+    return classify.classify_by_keyword(p.title) or "mid"
 
 
 def trim_for_handoff(c: Collected, conn, settings: dict) -> int:

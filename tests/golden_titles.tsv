@@ -9,6 +9,10 @@
 # titles from past bugs.
 
 # --- Past bugs: titles a classifier change once got wrong -----------------
+# "Member of Technical Staff" read as senior staff level (fixed 2026-10-06);
+# it's a flat title, so the title alone says nothing about level.
+no	Member of Technical Staff
+no	Associate Member of Trading Staff
 # "Senior Associate" read as new grad (v5, fixed 2026-10-03)
 no	Senior Associate Software Engineer
 no	Sr Associate Engineer, IT Software

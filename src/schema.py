@@ -233,6 +233,18 @@ def _unannounce_capped_board_backlog(conn: sqlite3.Connection) -> None:
                  "AND announced_at >= '2026-10-03T23:00' AND announced_at < '2026-10-04T00:00'")
 
 
+def _recategorize_titles(conn: sqlite3.Connection) -> None:
+    """Category rules learned Applied Science, informatics, model/credit
+    risk, validation, RFIC, optical, SAP, ... (2026-10-06); such rows were
+    'other' and so missing from All Open. Category is only set on insert, so
+    refresh stored rows. Curated-list rows keep the list's own category."""
+    rows = conn.execute("SELECT job_id, title, category FROM jobs "
+                        "WHERE source != 'simplify'").fetchall()
+    conn.executemany("UPDATE jobs SET category = ? WHERE job_id = ?",
+                     [(new, r[0]) for r in rows
+                      if (new := classify.categorize(r[1])) != r[2]])
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -244,6 +256,7 @@ MIGRATIONS = [
     (8, _drop_old_sheet_keys),
     (9, _recanonicalize_curated_ids),
     (10, _unannounce_capped_board_backlog),
+    (11, _recategorize_titles),
 ]
 
 

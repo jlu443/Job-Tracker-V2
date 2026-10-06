@@ -41,9 +41,38 @@ def test_role_keywords(title, role):
     ("Production Engineer Intern, Summer 2027", "other"),
     ("RF Engineer I", "hardware"),
     ("Software Engineer, Production Systems", "software"),
+    # Tech roles that once fell into "other" (never announced), 2026-10-06
+    ("Applied Science Intern (Summer 2027)", "data_ml"),
+    ("Clinical Informatics Intern - Summer 2027", "data_ml"),
+    ("Enterprise Power BI Reporting Intern", "data_ml"),
+    ("Summer Intern - Model Risk Management", "quant"),
+    ("Credit Risk Intern", "quant"),
+    ("Functional Validation Intern, BS - Summer 2027", "hardware"),
+    ("Intern, RFIC Design - Fall 2026", "hardware"),
+    ("Optical Test Coop/Intern", "hardware"),
+    ("Electrical Designer I", "hardware"),
+    ("SAP ABAP Internship Program", "software"),
+    ("Junior Database Administrator", "software"),
+    ("IoT Intern", "software"),
+    # ...but not every title with the word in it
+    ("Electrical Apprentice Signal Trainee", "other"),
+    ("Growth Marketing Intern - Website & ABM", "other"),
+    ("Data Validation Intern", "data_ml"),
 ])
 def test_categories(title, category):
     assert classify.categorize(title) == category
+
+
+@pytest.mark.parametrize("title,hint,role", [
+    ("Product Manager", "new_grad", "new_grad"),          # "manager" alone isn't seniority
+    ("AI Fellow - Member of Technical Staff", "new_grad", "new_grad"),
+    ("Senior Full Stack Software Engineer", "new_grad", "senior"),
+    ("Staff Software Engineer", "new_grad", "senior"),
+    ("Software Engineer Intern", "new_grad", "intern"),
+    ("Software Engineer", "new_grad", "new_grad"),
+])
+def test_curated_label_vs_title(title, hint, role):
+    assert classify.role_with_hint(title, hint) == role
 
 
 @pytest.mark.parametrize("loc,us", [
