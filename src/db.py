@@ -279,6 +279,8 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
             conn.execute(
                 "UPDATE jobs SET last_seen = ?, status = 'active', title = ?, "
                 "apply_url = COALESCE(NULLIF(?, ''), apply_url), location = ?, "
+                # a row stored without an employer takes one found later
+                "company = CASE WHEN company = '' THEN ? ELSE company END, "
                 "posted_on = CASE WHEN posted_on = '' OR (? != '' AND ? < posted_on) "
                 "THEN ? ELSE posted_on END, "
                 # a description-based track (scrape time) upgrades a title-only one
@@ -295,7 +297,7 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
                 "direct_url = CASE WHEN ? != '' THEN ? ELSE direct_url END, "
                 "checked_at = CASE WHEN checked_at = '' AND ? THEN ? ELSE checked_at END "
                 "WHERE job_id = ?",
-                (now, p.title, p.apply_url, p.location,
+                (now, p.title, p.apply_url, p.location, p.company,
                  p.posted_on, p.posted_on, p.posted_on,
                  p.research_track, p.research_track,
                  p.checked, p.sponsorship or "", p.checked, p.clearance,

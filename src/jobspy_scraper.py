@@ -25,8 +25,10 @@ import hashlib
 import logging
 import os
 import re
+from functools import lru_cache
+from urllib.parse import unquote
 
-from . import dedupe, enrich, repost
+from . import ats_specs, dedupe, enrich, names, repost
 from .posting import JobPosting
 
 log = logging.getLogger(__name__)
@@ -75,18 +77,72 @@ _COMPANY_IN_TEXT = [re.compile(p) for p in (
 _PAYLOCITY = re.compile(r"paylocity\.com/Recruiting/Jobs/Details/\d+/([\w-]+)/", re.I)
 
 
+# Hosted career pages whose first label is the employer's account:
+# baskandlather.bamboohr.com, holmes.applytojob.com, kbjwgroup.isolvedhire.com.
+_ACCOUNT_HOST = re.compile(r"https?://([\w-]+)\.(?:bamboohr\.com|applytojob\.com|isolvedhire\.com|"
+                           r"breezy\.hr|recruitee\.com)/", re.I)
+_ACCOUNT_PATH = re.compile(r"https?://(?:apply\.workable\.com|jobs\.jobvite\.com)/(?!j/)([\w-]+)", re.I)
+# Boards keyed by a company slug, so an unconfigured one still names it.
+_SLUG_SOURCES = ("greenhouse", "lever", "ashby", "smartrecruiters", "rippling")
+
+
+# Configured names still left as a slug or host ("accelintjobboardtest",
+# "Fa Ewlq Saasfaprod1.fa.ocs.oraclecloud.com") aren't names.
+_HOSTLIKE = re.compile(r"\.(?:com|net|org|io|co)\b|saasfaprod", re.I)
+
+
+@lru_cache(maxsize=1)
+def _board_names() -> dict:
+    """(ATS, board key) -> company name, for configured boards with a real name."""
+    out = {}
+    for spec in ats_specs.ATS_SPECS:
+        for c in ats_specs.load_existing(spec)[0]:
+            name = c.get("name") or ""
+            if name != name.lower() and not _HOSTLIKE.search(name):
+                out.setdefault((spec.name, spec.key(c)), name)
+    return out
+
+
+def _from_slug(slug: str) -> str:
+    slug = unquote(slug)
+    return names._pretty_slug(slug) or slug.capitalize()
+
+
+def company_from_url(url: str) -> tuple[str, bool]:
+    """(employer named by an apply link, whether it's a configured board's
+    name). Else the board or account slug: "jobs.ashbyhq.com/parisi-labs"
+    -> ("Parisi Labs", False)."""
+    if not url:
+        return "", False
+    for spec in ats_specs.ATS_SPECS:
+        cands = spec.extract(url)
+        if cands:
+            name = _board_names().get((spec.name, spec.key(cands[0])))
+            if name:
+                return name, True
+            if spec.name in _SLUG_SOURCES:
+                return _from_slug(cands[0]["name"]), False
+            return "", False    # a Workday tenant or host isn't a reliable name
+    m = _PAYLOCITY.search(url)
+    if m:
+        return re.sub(r"-ACTIVE$", "", m.group(1)).replace("-", " "), True
+    m = _ACCOUNT_HOST.match(url) or _ACCOUNT_PATH.match(url)
+    return (_from_slug(m.group(1)) if m else ""), False
+
+
 def guess_company(description: str, direct_url: str = "") -> str:
-    """Employer named in an Indeed posting's text or apply link, or ''."""
+    """Employer named in an Indeed posting's apply link or text, or ''. A
+    configured board's name is the most reliable, then the text, then a slug."""
+    from_url, certain = company_from_url(direct_url)
+    if certain:
+        return from_url
     text = re.sub(r"[*\\]", "", description or "")[:1500]
     for pattern in _COMPANY_IN_TEXT:
         for m in pattern.finditer(text):
             name = m.group(1).strip(" .,'’-")
             if not _NOT_A_NAME.match(name) and len(name) >= 3:
                 return name
-    m = _PAYLOCITY.search(direct_url or "")
-    if m:
-        return re.sub(r"-ACTIVE$", "", m.group(1)).replace("-", " ")
-    return ""
+    return from_url
 
 
 def fetch_jobs(settings: dict) -> list[JobPosting]:

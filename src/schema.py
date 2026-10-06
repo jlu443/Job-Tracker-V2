@@ -245,6 +245,17 @@ def _recategorize_titles(conn: sqlite3.Connection) -> None:
                       if (new := classify.categorize(r[1])) != r[2]])
 
 
+def _name_unnamed_aggregator_rows(conn: sqlite3.Connection) -> None:
+    """Indeed rows stored without an employer ("Company not listed") get the
+    one their direct apply link names, where it names one (2026-10-06)."""
+    from . import jobspy_scraper
+    rows = conn.execute("SELECT job_id, direct_url FROM jobs "
+                        "WHERE company = '' AND direct_url != ''").fetchall()
+    conn.executemany("UPDATE jobs SET company = ? WHERE job_id = ?",
+                     [(name, r[0]) for r in rows
+                      if (name := jobspy_scraper.company_from_url(r[1])[0])])
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -257,6 +268,7 @@ MIGRATIONS = [
     (9, _recanonicalize_curated_ids),
     (10, _unannounce_capped_board_backlog),
     (11, _recategorize_titles),
+    (12, _name_unnamed_aggregator_rows),
 ]
 
 
