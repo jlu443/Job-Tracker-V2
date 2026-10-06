@@ -147,7 +147,13 @@ max_listing_age_days: 60
 # internship programs from spring). They're kept regardless of post date and
 # deleted instead once unseen for 14 days. Don't add sources with years-old
 # "always open" listings (e.g. SmartRecruiters ads dated 2015).
-age_limit_exempt_sources: [apple]
+# simplify: curated lists drop a listing once it closes, and their active
+# listings include roles open for months that nothing else here can see
+# (Jane Street, Citadel Securities, YC startups, Tesla: ~560 on 2026-10-06).
+# A listing that a scraped board returns in the same run is stored under
+# that board's source, so its age limit applies (2015 SmartRecruiters ads stay out).
+# Old ones aren't announced: see reposts.suppress (stale).
+age_limit_exempt_sources: [apple, simplify]
 
 # Roles persisted to jobs.db (and sent to the Google Sheet). Full-board ATS
 # APIs return every role; storing mid/senior from ~6,000 boards pushes the

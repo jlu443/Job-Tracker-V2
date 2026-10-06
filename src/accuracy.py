@@ -127,7 +127,8 @@ def measure(truth: list[dict], conn: sqlite3.Connection, max_age: int | None = N
                     lag_days.append((seen - date.fromisoformat(posted)).days)
             continue
         age = dates.age_days(dates.epoch_to_iso(item.get("date_posted")))
-        if jid in purged or (max_age and age is not None and age > max_age):
+        if jid in purged or (max_age and age is not None and age > max_age
+                             and not dates.names_upcoming_season(item.get("title", ""))):
             c["older_than_retention"] += 1     # skipped by max_listing_age_days, by design
             continue
         board = _board_key(item["url"])

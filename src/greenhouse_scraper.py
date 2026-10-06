@@ -16,7 +16,7 @@ import time
 
 import requests
 
-from . import enrich, http_pool
+from . import dates, enrich, http_pool
 from .posting import JobPosting
 
 log = logging.getLogger(__name__)
@@ -24,6 +24,20 @@ log = logging.getLogger(__name__)
 _HEADERS = {"User-Agent": "Mozilla/5.0 (job-tracker)"}
 _SESSION = http_pool.make_session(_HEADERS)
 _TAG = re.compile(r"<[^>]+>")
+
+
+def reused_posting_date(title: str, first_published: str, updated: str) -> str:
+    """Companies re-use one posting each season and just rename it: Glean's
+    "Software Engineer, Intern (Summer 2027)" was first published 2025-09-03,
+    Perpay's in 2023. When first publication predates both the named
+    season's recruiting (the year before it) and this year, the last update
+    is the real post date. ("Class of 2029", first published in August 2026,
+    is simply early.)"""
+    year = dates.season_year(title)
+    before = f"{min(year - 1, dates.today().year)}-01-01" if year else ""
+    if updated and first_published and first_published < before:
+        return updated
+    return first_published
 
 
 def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
@@ -55,6 +69,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
         raw_date = job.get("first_published") or ""
         posted = raw_date[:10]
         title = (job.get("title") or "").strip()
+        posted = reused_posting_date(title, posted, (job.get("updated_at") or "")[:10])
         description = _TAG.sub(" ", html.unescape(job.get("content") or ""))
         out.append(JobPosting(
             job_id=f"gh_{jid}",

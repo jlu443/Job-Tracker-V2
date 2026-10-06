@@ -49,3 +49,25 @@ def age_days(iso: str, anchor: date | None = None) -> int | None:
     if not iso or not _ISO_PREFIX.match(iso):
         return None
     return ((anchor or today()) - date.fromisoformat(iso[:10])).days
+
+
+_TITLE_YEAR = re.compile(r"(?<!\d)(20[2-4]\d)(?!\d)")
+
+
+def season_year(title: str) -> int | None:
+    """The latest year a title names ("Summer 2027 Intern" -> 2027)."""
+    years = [int(y) for y in _TITLE_YEAR.findall(title or "")]
+    return max(years) if years else None
+
+
+def upcoming_season_years(anchor: date | None = None) -> tuple[int, ...]:
+    """Years whose internships / grad programs are still ahead: next year
+    and the one after, plus this year until its summer is over."""
+    d = anchor or today()
+    return ((d.year,) if d.month <= 8 else ()) + (d.year + 1, d.year + 2)
+
+
+def names_upcoming_season(title: str, anchor: date | None = None) -> bool:
+    """"Software Engineer Intern (Summer 2027)" in October 2026: recruiting
+    for a season that hasn't happened yet, however long ago it was posted."""
+    return season_year(title) in upcoming_season_years(anchor)

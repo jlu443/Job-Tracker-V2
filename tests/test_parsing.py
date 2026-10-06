@@ -288,3 +288,28 @@ def test_student_department_titles(title, role):
 ])
 def test_campus_recruiter_fellowship_titles(title, role):
     assert classify.classify_by_keyword(title) == role
+
+
+def test_reused_greenhouse_posting_dated_by_last_update():
+    from datetime import date
+    from src.greenhouse_scraper import reused_posting_date
+    # Real postings, 2026-10-06
+    assert reused_posting_date("Software Engineer, Intern (Summer 2027)",
+                               "2025-09-03", "2026-10-02") == "2026-10-02"
+    assert reused_posting_date("Quantitative Risk Intern - Summer 2027",
+                               "2026-08-04", "2026-10-01") == "2026-08-04"
+    assert reused_posting_date("Academy Coffee Chats - Class of 2029 (US)",
+                               f"{date.today().year}-08-24", "2099-01-01") ==         f"{date.today().year}-08-24"     # early, not re-used
+    assert reused_posting_date("Software Engineer Intern", "2024-01-05", "2026-10-01") == \
+        "2024-01-05"                     # no season named: can't tell
+
+
+def test_upcoming_season_titles():
+    from datetime import date
+    from src import dates
+    oct26, mar27 = date(2026, 10, 6), date(2027, 3, 1)
+    assert dates.names_upcoming_season("Software Engineer Intern - Summer 2027", oct26)
+    assert dates.names_upcoming_season("2028 Quant Graduate", oct26)
+    assert not dates.names_upcoming_season("Summer 2026 Intern", oct26)    # that summer is over
+    assert dates.names_upcoming_season("Summer 2027 Intern", mar27)
+    assert not dates.names_upcoming_season("Software Engineer Intern", oct26)

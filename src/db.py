@@ -225,12 +225,18 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
         if p.job_id in seen_ids:
             continue
         seen_ids.add(p.job_id)
-        if p.job_id in purged:
+        # Exempt from the age limit: sources whose listings run for months,
+        # and titles recruiting for a season still ahead ("Summer 2027").
+        exempt = p.source in age_exempt or dates.names_upcoming_season(p.title)
+        # A tombstone stops an aged-out listing from coming back as "new".
+        # Exempt listings are deleted only once unseen, so seeing one again
+        # means it's open again.
+        if p.job_id in purged and not exempt:
             continue
         if p.job_id not in known:
             age = dates.age_days(p.posted_on)
             if (max_age_days is not None and age is not None and age > max_age_days
-                    and p.source not in age_exempt):
+                    and not exempt):
                 continue
             role = role_for(p)
             if store_roles is not None and role not in store_roles:

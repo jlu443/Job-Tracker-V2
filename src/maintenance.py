@@ -53,6 +53,8 @@ def purge_old(conn: sqlite3.Connection, max_age_days: int,
     re-listing date if it was reposted), otherwise from when we first saw it.
     Sources in exempt_sources keep long-running postings (Apple's internship
     programs stay open for months) and are deleted instead once unseen for
+    exempt_unseen_days. Titles recruiting for a season still ahead ("Summer
+    2027 Intern", posted in July) outlive max_age_days until unseen for
     exempt_unseen_days. Deleted ids go into `purged` so a still-open listing
     isn't re-announced; tombstones themselves expire after tombstone_days.
     """
@@ -60,14 +62,16 @@ def purge_old(conn: sqlite3.Connection, max_age_days: int,
     unseen = (datetime.now(timezone.utc)
               - timedelta(days=exempt_unseen_days)).isoformat(timespec="seconds")
     now = _now()
-    ex = sorted(exempt_sources) or [""]
-    marks = ",".join("?" * len(ex))
-    rows = conn.execute(
-        f"SELECT job_id FROM jobs WHERE "
-        f"(source NOT IN ({marks}) AND CASE WHEN posted_on != '' THEN MAX(posted_on, relisted_on) "
-        f"ELSE substr(first_seen, 1, 10) END < ?) "
-        f"OR (source IN ({marks}) AND last_seen < ?)", (*ex, cutoff, *ex, unseen)).fetchall()
-    ids = [r[0] for r in rows]
+    rows = conn.execute("SELECT job_id, source, title, posted_on, relisted_on, first_seen, "
+                        "last_seen FROM jobs").fetchall()
+    ids = []
+    for jid, source, title, posted, relisted, first_seen, last_seen in rows:
+        if source in exempt_sources:
+            if last_seen < unseen:
+                ids.append(jid)
+        elif ((max(posted, relisted) if posted else first_seen[:10]) < cutoff
+              and not (dates.names_upcoming_season(title) and last_seen >= unseen)):
+            ids.append(jid)
     conn.executemany("INSERT OR REPLACE INTO purged (job_id, purged_on) VALUES (?, ?)",
                      [(i, now) for i in ids])
     conn.executemany("DELETE FROM jobs WHERE job_id = ?", [(i,) for i in ids])

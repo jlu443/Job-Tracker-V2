@@ -490,3 +490,38 @@ def test_migration_9_gives_curated_rows_their_scraper_id(tmp_path):
     conn = db.connect(path)
     assert sorted(r[0] for r in conn.execute("SELECT job_id FROM jobs")) == \
         ["bd_7668212952030841093", "sim_keep"]
+
+
+def test_exempt_source_returns_after_tombstone():
+    """A curated listing deleted for age (old tombstone) that its list still
+    shows comes back: exempt sources are only deleted once unseen."""
+    conn = _mem()
+    old = (date.today() - timedelta(days=120)).isoformat()
+    conn.execute("INSERT INTO purged VALUES ('sim_9', '2026-09-01T00:00:00+00:00')")
+    posting = JobPosting("sim_9", "Jane Street", "Software Engineer Intern", "https://x",
+                         "New York, NY", old, "simplify")
+    res = db.sync(conn, [posting], lambda p: "intern", set(), set(), max_age_days=60,
+                  age_exempt=frozenset({"simplify"}))
+    assert [j["job_id"] for j in res.new_jobs] == ["sim_9"]
+    other = _mem()                   # not exempt: the tombstone still holds
+    other.execute("INSERT INTO purged VALUES ('sim_9', '2026-09-01T00:00:00+00:00')")
+    res = db.sync(other, [posting], lambda p: "intern", set(), set(), max_age_days=60)
+    assert res.new_jobs == []
+
+
+def test_upcoming_season_title_skips_age_limit_until_unseen():
+    """Summer 2027 internships opened in July are still the season's openings
+    in October: kept past max_age_days, deleted only once they close."""
+    conn = _mem()
+    old = (date.today() - timedelta(days=90)).isoformat()
+    season = date.today().year + 1
+    mk = lambda jid, title: JobPosting(jid, "DV Trading", title, f"https://x/{jid}",
+                                       "Chicago, IL", old, "greenhouse")
+    res = db.sync(conn, [mk("gh_1", f"Quantitative Risk Intern - Summer {season}"),
+                         mk("gh_2", "Quantitative Risk Intern")],
+                  lambda p: "intern", set(), set(), max_age_days=60)
+    assert [j["job_id"] for j in res.new_jobs] == ["gh_1"]
+    assert maintenance.purge_old(conn, 60) == 0
+    stale = (datetime.now(timezone.utc) - timedelta(days=20)).isoformat(timespec="seconds")
+    conn.execute("UPDATE jobs SET last_seen = ?", (stale,))
+    assert maintenance.purge_old(conn, 60) == 1
