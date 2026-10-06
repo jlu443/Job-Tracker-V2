@@ -16,7 +16,7 @@ import time
 
 import requests
 
-from . import dates, enrich, http_pool
+from . import classify, dates, enrich, http_pool
 from .posting import JobPosting
 
 log = logging.getLogger(__name__)
@@ -33,9 +33,6 @@ _TAG = re.compile(r"<[^>]+>")
 # whose titles don't. Department fields aren't levels ("International ...").
 _LEVEL_FIELD = re.compile(r"employment|job\s*type|level|worker|position\s*type|"
                           r"time\s*type|type\s+of|seniority|experience", re.I)
-_INTERN_VALUE = re.compile(r"\b(?:intern\w*|co-?op|student|trainee)\b", re.I)
-_GRAD_VALUE = re.compile(r"\b(?:new\s*grad\w*|graduate|entry[\s_-]*level|early\s+career\w*|"
-                         r"university|campus|emerging\s+talent)\b", re.I)
 
 
 def metadata_hint(metadata: list | None) -> str:
@@ -46,10 +43,10 @@ def metadata_hint(metadata: list | None) -> str:
         value = ", ".join(map(str, value)) if isinstance(value, list) else str(value or "")
         if not value or "department" in name.lower() or not _LEVEL_FIELD.search(name):
             continue
-        if _INTERN_VALUE.search(value):
-            return "intern"
-        if _GRAD_VALUE.search(value):
-            hint = "new_grad"
+        level = classify.hint_from_level(value)
+        if level == "intern":
+            return level
+        hint = hint or level
     return hint
 
 

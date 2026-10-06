@@ -200,6 +200,20 @@ _EXPLICIT_SENIOR = re.compile(
     r"distinguished|director|head\s+of|vp|iii|iv)\b", re.IGNORECASE)
 
 
+# An ATS's own level / employment-type value: "Summer Internship",
+# "Intern/Co-op", "Full-Time: New Grad", "Entry level", "Early Career Talent".
+_INTERN_LEVEL = re.compile(r"\b(?:intern\w*|co-?op|student|trainee)\b", re.I)
+_GRAD_LEVEL = re.compile(r"\b(?:new\s*grad\w*|graduate|entry[\s_-]*level|early\s+career\w*|"
+                         r"university|campus|emerging\s+talent)\b", re.I)
+
+
+def hint_from_level(value: str) -> str:
+    """'intern' / 'new_grad' for an ATS level value that says so, else ''."""
+    if _INTERN_LEVEL.search(value or ""):
+        return "intern"
+    return "new_grad" if _GRAD_LEVEL.search(value or "") else ""
+
+
 def role_with_hint(title: str, hint: str) -> str:
     """Role for a posting whose source asserts `hint` (intern/new_grad)."""
     by_title = classify_by_keyword(title)

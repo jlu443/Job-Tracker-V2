@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 
 import requests
 
-from . import enrich, http_pool
+from . import classify, enrich, http_pool
 from .posting import JobPosting
 
 log = logging.getLogger(__name__)
@@ -70,6 +70,9 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
         description = " ".join([p.get("descriptionPlain") or ""] + [
             re.sub(r"<[^>]+>", " ", item.get("content") or "") for item in p.get("lists") or []])
         fields = enrich.described_fields(title, description)
+        # "Internship", "Early Career Talent": the board's own level label.
+        fields["role_hint"] = (classify.hint_from_level(categories.get("commitment") or "")
+                               or fields["role_hint"])
         salary = p.get("salaryRange") or {}
         if salary.get("min") and (salary.get("currency") or "USD") == "USD":
             unit = "per hour" if "hour" in (salary.get("interval") or "") else ""

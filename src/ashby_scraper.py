@@ -50,6 +50,8 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
         title = (job.get("title") or "").strip()
         description = job.get("descriptionPlain") or ""
         fields = enrich.described_fields(title, description)
+        if job.get("employmentType") == "Intern":
+            fields["role_hint"] = "intern"
         comp = job.get("compensation") or {}
         pay = enrich.parse_pay(comp.get("scrapeableCompensationSalarySummary")
                                or comp.get("compensationTierSummary") or "")
