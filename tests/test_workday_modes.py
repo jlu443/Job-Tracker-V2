@@ -97,3 +97,42 @@ def test_failed_boards_get_a_second_pass(monkeypatch):
         "workday", Mod, boards, {"retry_incomplete": {"workday": {"delay": 0, "workers": 2}}})
     assert scopes == {("workday", "ok"), ("workday", "flaky")} and failed == 1
     assert calls == {"ok": 1, "flaky": 2, "down": 2}
+
+
+# Trimmed from real boards (Sysco, Coca-Cola, Florida Tech, Barclays), 2026-10-06.
+FACETS = [
+    {"facetParameter": "workerSubType", "values": [
+        {"descriptor": "Regular", "id": "reg", "count": 654},
+        {"descriptor": "Intern (Trainee)", "id": "int", "count": 26},
+        {"descriptor": "Graduate", "id": "grad", "count": 32},
+        {"descriptor": "Student Employee (Fixed Term)", "id": "campus", "count": 1},
+        {"descriptor": "Intern/Student Worker (Fixed Term)", "id": "int2", "count": 4}]},
+    {"facetParameter": "jobFamilyGroup", "values": [
+        {"descriptor": "Interim & Interns", "id": "mixed", "count": 9},
+        {"descriptor": "Internal Audit", "id": "audit", "count": 22},
+        {"descriptor": "Student Finance", "id": "staff", "count": 2},
+        {"descriptor": "Early Careers", "id": "ec", "count": 127}]},
+    {"facetParameter": "locationMainGroup", "values": [
+        {"facetParameter": "locations", "values": [
+            {"descriptor": "University Park, Florida", "id": "loc", "count": 2}]}]},
+]
+
+
+def test_entry_facets_pick_early_career_values_only():
+    assert scraper.entry_facets(FACETS) == {
+        "workerSubType": [("int", "intern"), ("grad", "new_grad"), ("int2", "intern")],
+        "jobFamilyGroup": [("ec", "new_grad")]}
+
+
+def test_facet_listing_labels_plain_titles(monkeypatch):
+    """A plain "Software Engineer" filed under Intern comes back as one."""
+    def page(endpoint, term, offset, settings, name, facets=None):
+        if facets == {"workerSubType": ["int"]}:
+            return {"total": 1, "jobPostings": [_p(9, "Posted Today", "Software Engineer")]}
+        if facets is None and term == "":
+            return {"total": 0, "jobPostings": [], "facets": FACETS[:1]}
+        return {"total": 0, "jobPostings": []}
+    monkeypatch.setattr(scraper, "_page", page)
+    posts, complete = scraper.fetch_company_jobs(BOARD, SETTINGS)
+    assert complete
+    assert [(p.job_id, p.role_hint) for p in posts] == [("wd_acme_R9", "intern")]

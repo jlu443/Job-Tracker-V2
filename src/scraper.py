@@ -9,7 +9,9 @@ We call that endpoint directly. No browser, no DOM scraping.
 
 from __future__ import annotations
 
+import dataclasses
 import logging
+import re
 import time
 
 import requests
@@ -57,9 +59,10 @@ def _posting(p: dict, tenant: str, name: str, base: str, site: str, anchor) -> J
     )
 
 
-def _page(endpoint: str, term: str, offset: int, settings: dict, name: str) -> dict | None:
-    payload = {"appliedFacets": {}, "limit": settings["page_limit"], "offset": offset,
-               "searchText": term}
+def _page(endpoint: str, term: str, offset: int, settings: dict, name: str,
+          facets: dict | None = None) -> dict | None:
+    payload = {"appliedFacets": facets or {}, "limit": settings["page_limit"],
+               "offset": offset, "searchText": term}
     # Workday rate-limits per client IP across all tenants (HTTP 429). Back
     # off and retry instead of writing the board off as incomplete.
     for attempt in range(4):
@@ -112,6 +115,86 @@ def _recent(company: dict, settings: dict, seen: dict) -> tuple[bool, bool]:
     return True, True
 
 
+# Search filters ("facets") that mark early-career jobs. 50 of 80 sampled
+# boards had one (2026-10-06): worker type "Intern (Fixed Term)", job family
+# "Internship" / "Early Careers". Listing a filter value is exact, where
+# keyword search isn't: Sysco's "intern" search returns 705 jobs, unranked,
+# with its 26 internships spread to position 677. Worker-type facets name
+# the person ("Student", "Trainee"); job families also name staff teams
+# ("Student Finance", "Internal Audit"), so they need a stricter match.
+_WORKER_FACET = re.compile(r"workersubtype|jobtype|worker_?type", re.I)
+_ENTRY_WORKER = re.compile(r"\b(?:interns?|internships?|co-?ops?|students?|apprentice\w*|"
+                           r"trainees?|graduates?|new\s+grad\w*|early\s+careers?)\b", re.I)
+_ENTRY_FAMILY = re.compile(r"\b(?:interns?|internships?|co-?ops?|early\s+careers?|"
+                           r"campus\s+programs?|students?\s+(?:and|&)\s+graduates|"
+                           r"graduate\s+programs?|new\s+grad\w*)\b", re.I)
+# Mixed or campus-job values: Coca-Cola's "Interim & Interns" (temp staff
+# too), a university's "Student Employee" (campus jobs, not internships).
+_MIXED_VALUE = re.compile(r"\binterim\b", re.I)
+_CAMPUS_JOB_VALUE = re.compile(r"\bstudent\s+(?:employee|worker|assistant|staff)s?\b", re.I)
+_INTERN_WORD = re.compile(r"\b(?:interns?|internships?|co-?ops?)\b", re.I)
+_NEW_GRAD_VALUE = re.compile(r"\b(?:graduates?|new\s+grad\w*|early\s+careers?)\b", re.I)
+_INTERN_VALUE = re.compile(r"\b(?:interns?|internships?|co-?ops?|students?|apprentice\w*|"
+                           r"trainees?)\b", re.I)
+
+
+def entry_facets(facets: list) -> dict[str, list[tuple[str, str]]]:
+    """facetParameter -> [(value id, role hint)] for early-career values."""
+    out: dict[str, list[tuple[str, str]]] = {}
+
+    def walk(facet: dict) -> None:
+        param = facet.get("facetParameter") or ""
+        if "location" in param.lower():
+            return
+        rx = _ENTRY_WORKER if _WORKER_FACET.search(param) else _ENTRY_FAMILY
+        for v in facet.get("values") or []:
+            if v.get("values"):              # a group of facets
+                walk(v)
+            elif v.get("id") and rx.search(d := v.get("descriptor") or "") \
+                    and not _MIXED_VALUE.search(d) \
+                    and not (_CAMPUS_JOB_VALUE.search(d) and not _INTERN_WORD.search(d)):
+                hint = "intern" if _INTERN_VALUE.search(d) or not _NEW_GRAD_VALUE.search(d) \
+                    else "new_grad"
+                out.setdefault(param, []).append((v["id"], hint))
+
+    for f in facets or []:
+        walk(f)
+    return out
+
+
+def _facet_pass(company: dict, settings: dict, seen: dict) -> bool:
+    """Every job under the board's early-career filter values, labeled with
+    the value's role (a plain "Software Engineer" filed as an internship)."""
+    tenant, wd, site = company["tenant"], company["wd"], company["site"]
+    name = company.get("name", tenant)
+    endpoint, base, anchor = _jobs_endpoint(tenant, wd, site), _base_url(tenant, wd), dates.today()
+    first = _page(endpoint, "", 0, settings, name)
+    if first is None:
+        return False
+    for param, values in entry_facets(first.get("facets") or []).items():
+        for value_id, hint in values:
+            offset, total = 0, None
+            for _ in range(settings["max_pages_per_term"]):
+                data = _page(endpoint, "", offset, settings, name, {param: [value_id]})
+                if data is None:
+                    return False
+                postings = data.get("jobPostings") or []
+                if total is None:
+                    total = data.get("total") or 0
+                for p in postings:
+                    posting = _posting(p, tenant, name, base, site, anchor)
+                    if posting:
+                        kept = seen.get(posting.job_id, posting)
+                        seen[posting.job_id] = kept if kept.role_hint else                             dataclasses.replace(kept, role_hint=hint)
+                offset += settings["page_limit"]
+                if not postings or offset >= total:
+                    break
+                time.sleep(settings["delay_between_requests"])
+            else:
+                return False
+    return True
+
+
 def _sweep(company: dict, settings: dict, seen: dict) -> bool:
     """Every configured search term, paged while results stay entry-level.
     The complete pass: absence from it means a job was taken down."""
@@ -125,7 +208,7 @@ def _sweep(company: dict, settings: dict, seen: dict) -> bool:
     # "new") but relevance-ranked: entry-level titles cluster on the first
     # pages. Stop once a page has fewer than this many of them.
     min_relevant = settings.get("workday_min_relevant_per_page", 2)
-    complete = True
+    complete = _facet_pass(company, settings, seen)
     for term in terms:
         offset, total = 0, None
         for _ in range(settings["max_pages_per_term"]):

@@ -3,6 +3,8 @@ companies:
   wd: wd5
   site: NVIDIAExternalCareerSite
   name: NVIDIA
+  aliases:
+  - nvidia
 - tenant: 3m
   wd: wd1
   site: Search
@@ -98,10 +100,6 @@ companies:
 - tenant: aes
   wd: wd1
   site: AES_Andes
-  name: aes
-- tenant: aes
-  wd: wd1
-  site: AES_ANDES
   name: aes
 - tenant: aes
   wd: wd1
@@ -377,22 +375,12 @@ companies:
   name: The Boeing Company
   aliases:
   - boeing
-- tenant: acehardware
-  wd: wd1
-  site: ahhs_external
-  name: Ace Hardware
-  aliases:
-  - acehardware
 - tenant: abglobal
   wd: wd1
   site: privatealliancebernsteincareers
   name: AllianceBernstein
   aliases:
   - abglobal
-- tenant: 3m
-  wd: wd1
-  site: search
-  name: 3m
 - tenant: aampower
   wd: wd1
   site: AAM-Career-Site
@@ -475,10 +463,6 @@ companies:
   name: Nissan Global
   aliases:
   - alliance
-- tenant: kla
-  wd: wd1
-  site: search
-  name: kla
 - tenant: bmo
   wd: wd3
   site: Campus
@@ -705,10 +689,6 @@ companies:
   name: Blue Origin
   aliases:
   - blueorigin
-- tenant: intel
-  wd: wd1
-  site: external
-  name: intel
 - tenant: leidos
   wd: wd5
   site: External
@@ -1953,10 +1933,6 @@ companies:
   name: Genuine Parts Company
   aliases:
   - genpt
-- tenant: amgen
-  wd: wd1
-  site: careers
-  name: amgen
 - tenant: chrobinson
   wd: wd5
   site: CHRobinson
@@ -2329,12 +2305,6 @@ companies:
   name: Caterpillar Inc.
   aliases:
   - cat
-- tenant: danaher
-  wd: wd1
-  site: danaherjobs
-  name: Danaher Corporation
-  aliases:
-  - danaher
 - tenant: capitalone
   wd: wd12
   site: Capital_One
@@ -2731,10 +2701,6 @@ companies:
   name: Arch Capital Group
   aliases:
   - archgroup
-- tenant: jabil
-  wd: wd5
-  site: jabil_careers
-  name: jabil
 - tenant: ultra
   wd: wd3
   site: ultra-careers
@@ -2897,22 +2863,12 @@ companies:
   name: Loblaw Companies
   aliases:
   - myview
-- tenant: nelnet
-  wd: wd1
-  site: mynelnet
-  name: nelnet
 - tenant: abcfinancial
   wd: wd5
   site: abcfinancialservices
   name: ABC Fitness
   aliases:
   - abcfinancial
-- tenant: magna
-  wd: wd3
-  site: magna
-  name: Magna International
-  aliases:
-  - magna
 - tenant: rxo
   wd: wd501
   site: rxojobs
@@ -2987,12 +2943,6 @@ companies:
   name: Nordson
   aliases:
   - nordsonhcm
-- tenant: tmobile
-  wd: wd1
-  site: external
-  name: T-Mobile
-  aliases:
-  - tmobile
 - tenant: oxy
   wd: wd5
   site: UniversityRelations
@@ -3199,12 +3149,6 @@ companies:
   name: Signet Jewelers
   aliases:
   - signetjewelers
-- tenant: bcbsri
-  wd: wd1
-  site: bcbsricareers
-  name: Blue Cross and Blue Shield of Rhode Island
-  aliases:
-  - bcbsri
 - tenant: sprinklr
   wd: wd1
   site: careers
@@ -3387,12 +3331,6 @@ companies:
   name: Bread Financial
   aliases:
   - alliancedata
-- tenant: americanredcross
-  wd: wd1
-  site: american_red_cross_careers
-  name: American Red Cross
-  aliases:
-  - americanredcross
 - tenant: volarisgroup
   wd: wd3
   site: BiblioCommons
@@ -3521,10 +3459,6 @@ companies:
   name: Erickson Senior Living
   aliases:
   - erickson
-- tenant: skechers
-  wd: wd5
-  site: one-career-site
-  name: skechers
 - tenant: salesforce
   wd: wd12
   site: futureforce_newgradroles
@@ -3703,12 +3637,6 @@ companies:
   wd: wd12
   site: TSC-Careers
   name: tsc
-- tenant: american
-  wd: wd1
-  site: au
-  name: American University
-  aliases:
-  - american
 - tenant: championx
   wd: wd1
   site: championx_external
@@ -3723,22 +3651,6 @@ companies:
   wd: wd1
   site: DataRobot_External_Careers
   name: datarobot
-- tenant: jj
-  wd: wd5
-  site: jj
-  name: Johnson & Johnson
-  aliases:
-  - jj
-- tenant: jci
-  wd: wd5
-  site: jci
-  name: Johnson Controls
-  aliases:
-  - jci
-- tenant: situsamc
-  wd: wd1
-  site: situsamc
-  name: situsamc
 - tenant: enbridge
   wd: wd3
   site: enbridge_careers
@@ -4033,12 +3945,6 @@ companies:
   name: Charter Manufacturing
   aliases:
   - chartermfg
-- tenant: amn
-  wd: wd1
-  site: amn_careers
-  name: AMN Healthcare
-  aliases:
-  - amn
 - tenant: heidelbergmaterials
   wd: wd3
   site: global_hm_career_site
@@ -4117,12 +4023,6 @@ companies:
   name: Carrier Global
   aliases:
   - carrier
-- tenant: motorolasolutions
-  wd: wd5
-  site: careers
-  name: Motorola
-  aliases:
-  - motorolasolutions
 - tenant: mgic
   wd: wd5
   site: mgic
@@ -4477,12 +4377,6 @@ companies:
   name: Epiq Systems
   aliases:
   - epiqsystems
-- tenant: statestreet
-  wd: wd1
-  site: global
-  name: State Street
-  aliases:
-  - statestreet
 - tenant: intactfc
   wd: wd3
   site: intactfc
@@ -4571,10 +4465,6 @@ companies:
   wd: wd3
   site: volaris
   name: volarisgroup
-- tenant: pattersoncompanies
-  wd: wd501
-  site: pdco
-  name: pattersoncompanies
 - tenant: slu
   wd: wd5
   site: Careers
@@ -4743,10 +4633,6 @@ companies:
   name: Jade Global
   aliases:
   - jadeglobal
-- tenant: salesforce
-  wd: wd12
-  site: Futureforce_NewGradRoles
-  name: salesforce
 - tenant: zillow
   wd: wd5
   site: Zillow_Group_External
@@ -5389,10 +5275,6 @@ companies:
   wd: wd3
   site: richemont
   name: richemont
-- tenant: arlo
-  wd: wd12
-  site: External_Careers
-  name: arlo
 - tenant: hrhub
   wd: wd3
   site: Euronext_Career_Page
@@ -5649,10 +5531,6 @@ companies:
   name: Diamondback Energy
   aliases:
   - diamondbackenergy
-- tenant: mmc
-  wd: wd1
-  site: MMC
-  name: mmc
 - tenant: ecolab
   wd: wd1
   site: ecolab_external
@@ -5999,12 +5877,6 @@ companies:
   name: Cone Health
   aliases:
   - conehealth
-- tenant: erickson
-  wd: wd108
-  site: External
-  name: Erickson Senior Living
-  aliases:
-  - erickson
 - tenant: austincc
   wd: wd1
   site: external
@@ -6295,12 +6167,6 @@ companies:
   name: AT&T
   aliases:
   - att
-- tenant: hp
-  wd: wd5
-  site: ExternalCareerSite
-  name: Hewlett Packard (HP)
-  aliases:
-  - hp
 - tenant: horizonmedia
   wd: wd1
   site: CareerOpportunities
@@ -6991,12 +6857,6 @@ companies:
   name: MKS Instruments
   aliases:
   - mksinst
-- tenant: isu
-  wd: wd1
-  site: iowastatejobs
-  name: Iowa State University
-  aliases:
-  - isu
 - tenant: optrust
   wd: wd3
   site: OPTrust
@@ -7063,16 +6923,6 @@ companies:
   wd: wd1
   site: careers-collegecampus
   name: belk
-- tenant: cat
-  wd: wd5
-  site: caterpillarcareers
-  name: Caterpillar Inc.
-  aliases:
-  - cat
-- tenant: leidos
-  wd: wd5
-  site: external
-  name: leidos
 - tenant: hamiltonlane
   wd: wd108
   site: Search
@@ -7151,18 +7001,6 @@ companies:
   name: Link Logistics
   aliases:
   - linklogistics
-- tenant: cvshealth
-  wd: wd1
-  site: cvs_health_careers
-  name: CVS Health
-  aliases:
-  - cvshealth
-- tenant: generalmotors
-  wd: wd5
-  site: careers_gm
-  name: General Motors
-  aliases:
-  - generalmotors
 - tenant: lazboy
   wd: wd1
   site: lzbcareers
@@ -7199,12 +7037,6 @@ companies:
   name: University of Wisconsin-Madison
   aliases:
   - wisconsin
-- tenant: boeing
-  wd: wd1
-  site: external_careers
-  name: The Boeing Company
-  aliases:
-  - boeing
 - tenant: tamus
   wd: wd1
   site: TARLETON_External
@@ -7309,12 +7141,6 @@ companies:
   name: Bristol Myers Squibb
   aliases:
   - bristolmyerssquibb
-- tenant: umusic
-  wd: wd5
-  site: UMGUS
-  name: Universal Music Group Careers
-  aliases:
-  - umusic
 - tenant: merative
   wd: wd12
   site: External_Career_Site
@@ -7329,12 +7155,6 @@ companies:
   name: WSFS Bank
   aliases:
   - wsfsbank
-- tenant: advisorgroup
-  wd: wd1
-  site: advisor_career_site
-  name: Osaic
-  aliases:
-  - advisorgroup
 - tenant: hss
   wd: wd1
   site: HSS_Careers
@@ -7419,12 +7239,6 @@ companies:
   wd: wd5
   site: ssc
   name: racetrac
-- tenant: jcrew
-  wd: wd1
-  site: madewellcareers
-  name: J.Crew
-  aliases:
-  - jcrew
 - tenant: baincapital
   wd: wd1
   site: External_Public
@@ -7463,30 +7277,10 @@ companies:
   name: Selene
   aliases:
   - pretiumenterpriseservices
-- tenant: kbr
-  wd: wd5
-  site: kbr_careers
-  name: kbr
-- tenant: truist
-  wd: wd1
-  site: careers
-  name: Truist Bank
-  aliases:
-  - truist
 - tenant: unum
   wd: wd1
   site: external
   name: unum
-- tenant: finning
-  wd: wd3
-  site: external
-  name: finning
-- tenant: hpe
-  wd: wd5
-  site: jobsathpe
-  name: Hewlett Packard Enterprise
-  aliases:
-  - hpe
 - tenant: mecca
   wd: wd3
   site: careers
@@ -7707,16 +7501,6 @@ companies:
   name: Denver Health
   aliases:
   - denverhealth
-- tenant: alliedsolutions
-  wd: wd501
-  site: allied_external
-  name: Allied Solutions
-  aliases:
-  - alliedsolutions
-- tenant: nvidia
-  wd: wd5
-  site: nvidiaexternalcareersite
-  name: nvidia
 - tenant: vsg
   wd: wd1
   site: vsg
@@ -7733,12 +7517,6 @@ companies:
   wd: wd3
   site: RBI_External_Career_Site
   name: rbi
-- tenant: ryder
-  wd: wd5
-  site: rydercareers
-  name: Ryder System
-  aliases:
-  - ryder
 - tenant: aamc
   wd: wd5
   site: aamc
@@ -7787,10 +7565,6 @@ companies:
   wd: wd3
   site: External
   name: adient
-- tenant: kla
-  wd: wd1
-  site: annarbor
-  name: kla
 - tenant: dtna
   wd: wd5
   site: dtna_external
@@ -7895,10 +7669,6 @@ companies:
   name: Memorial Sloan Kettering Cancer Center
   aliases:
   - msk
-- tenant: bcbst
-  wd: wd1
-  site: External
-  name: bcbst
 - tenant: lennar
   wd: wd1
   site: Lennar_Jobs
@@ -7979,12 +7749,6 @@ companies:
   name: Mizuho Securities USA
   aliases:
   - mizuho
-- tenant: academy
-  wd: wd1
-  site: careers
-  name: Academy Sports + Outdoors
-  aliases:
-  - academy
 - tenant: nordic
   wd: wd1
   site: Nordic
@@ -8129,10 +7893,6 @@ companies:
   name: Chickasaw Nation Industries
   aliases:
   - cni
-- tenant: halma
-  wd: wd3
-  site: Halma
-  name: halma
 - tenant: materion
   wd: wd5
   site: Materion
@@ -8245,10 +8005,6 @@ companies:
   name: Broadview Federal Credit Union
   aliases:
   - broadviewfcu
-- tenant: broadcom
-  wd: wd1
-  site: external_career
-  name: broadcom
 - tenant: chess
   wd: wd1
   site: CNMJOBS
@@ -8609,12 +8365,6 @@ companies:
   name: St. Jude Children's Research Hospital
   aliases:
   - stjude
-- tenant: alwayscompassionate
-  wd: wd1
-  site: achomecare
-  name: Always Compassionate Home Care
-  aliases:
-  - alwayscompassionate
 - tenant: canvasinc
   wd: wd108
   site: Canvas
@@ -8703,10 +8453,6 @@ companies:
   wd: wd1
   site: careers
   name: insitu
-- tenant: hubinternational
-  wd: wd1
-  site: hubinternational
-  name: hubinternational
 - tenant: seminolehardrock
   wd: wd503
   site: seminolehardrockcareers
@@ -8869,12 +8615,6 @@ companies:
   wd: wd1
   site: ppma_careers
   name: jackson
-- tenant: abcsupply
-  wd: wd1
-  site: abcsupplycareers
-  name: ABC Supply
-  aliases:
-  - abcsupply
 - tenant: ufpi
   wd: wd503
   site: ufpi
@@ -9055,26 +8795,10 @@ companies:
   name: Information Services Corporation
   aliases:
   - isc
-- tenant: humana
-  wd: wd5
-  site: Humana_External_Career_Site
-  name: humana
 - tenant: medtronic
   wd: wd1
   site: medtroniccareers
   name: medtronic
-- tenant: icf
-  wd: wd5
-  site: ICFExternal_Career_Site
-  name: ICF International
-  aliases:
-  - icf
-- tenant: bloomenergy
-  wd: wd1
-  site: BloomEnergyCareers
-  name: Bloom Energy
-  aliases:
-  - bloomenergy
 - tenant: parexel
   wd: wd1
   site: Parexel_External_Careers
@@ -9113,16 +8837,6 @@ companies:
   name: Snap
   aliases:
   - snapchat
-- tenant: tjx
-  wd: wd1
-  site: TJX_EXTERNAL
-  name: tjx
-- tenant: ssctech
-  wd: wd1
-  site: SSCTechnologies
-  name: SS&C
-  aliases:
-  - ssctech
 - tenant: cart
   wd: wd1
   site: Cart
@@ -9231,16 +8945,6 @@ companies:
   wd: wd1
   site: External_Careers
   name: primient
-- tenant: aba
-  wd: wd1
-  site: aba
-  name: American Bankers Association
-  aliases:
-  - aba
-- tenant: avnet
-  wd: wd1
-  site: External
-  name: avnet
 - tenant: acuityinternational
   wd: wd5
   site: external
@@ -9257,20 +8961,10 @@ companies:
   wd: wd1
   site: SpartanNash_Careers
   name: spartannash
-- tenant: generac
-  wd: wd5
-  site: External
-  name: generac
 - tenant: dolese
   wd: wd1
   site: DoleseBros
   name: dolese
-- tenant: aero
-  wd: wd5
-  site: External
-  name: The Aerospace Corporation
-  aliases:
-  - aero
 - tenant: ttmtech
   wd: wd5
   site: jobs
@@ -9279,24 +8973,10 @@ companies:
   wd: wd12
   site: HeritageConstructionMaterials
   name: thgrp
-- tenant: medtronic
-  wd: wd1
-  site: MedtronicCareers
-  name: medtronic
 - tenant: teladoc
   wd: wd503
   site: teladochealth_is_hiring
   name: teladoc
-- tenant: broadridge
-  wd: wd5
-  site: Careers
-  name: broadridge
-- tenant: ankura
-  wd: wd5
-  site: Ankura
-  name: Ankura Consulting Group
-  aliases:
-  - ankura
 - tenant: methode
   wd: wd5
   site: methode
@@ -9309,30 +8989,10 @@ companies:
   wd: wd5
   site: DBIConsultants
   name: corpartners
-- tenant: copeland
-  wd: wd5
-  site: Copeland_External_Careers_Page
-  name: copeland
-- tenant: idexcorp
-  wd: wd5
-  site: IDEX_Careers
-  name: IDEX
-  aliases:
-  - idexcorp
-- tenant: abb
-  wd: wd3
-  site: External_Career_Page
-  name: abb
 - tenant: oxfordcorp
   wd: wd108
   site: Oxford_Careers
   name: oxfordcorp
-- tenant: blueorigin
-  wd: wd5
-  site: BlueOrigin
-  name: Blue Origin
-  aliases:
-  - blueorigin
 - tenant: ellsworth
   wd: wd108
   site: ellsworth_careers
@@ -9383,12 +9043,6 @@ companies:
   wd: wd5
   site: Morningstar
   name: morningstar
-- tenant: snc
-  wd: wd1
-  site: SNC_External_Career_Site
-  name: Sierra Nevada Corporation
-  aliases:
-  - snc
 - tenant: batesville
   wd: wd504
   site: Batesville
@@ -9399,18 +9053,6 @@ companies:
   name: NCR Atleos
   aliases:
   - ncratleos
-- tenant: bah
-  wd: wd1
-  site: BAH_Jobs
-  name: Booz Allen
-  aliases:
-  - bah
-- tenant: kiongroup
-  wd: wd3
-  site: KIONGroup
-  name: KION Group
-  aliases:
-  - kiongroup
 - tenant: vai
   wd: wd1
   site: VAICareers

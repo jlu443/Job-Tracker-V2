@@ -299,7 +299,8 @@ class ATSSpec:
 
 ATS_SPECS: list[ATSSpec] = [
     ATSSpec("workday", "companies.yaml", _extract_workday, _validate_workday,
-            lambda c: (c["tenant"], c["wd"], c["site"]),
+            # Site paths are case-insensitive ("Search" / "search" is one board).
+            lambda c: (c["tenant"].lower(), c["wd"].lower(), c["site"].lower()),
             ("*.myworkdayjobs.com/*",)),
     ATSSpec("greenhouse", "greenhouse.yaml", _extract_greenhouse, _validate_greenhouse,
             lambda c: c["token"],
