@@ -313,3 +313,15 @@ def test_upcoming_season_titles():
     assert not dates.names_upcoming_season("Summer 2026 Intern", oct26)    # that summer is over
     assert dates.names_upcoming_season("Summer 2027 Intern", mar27)
     assert not dates.names_upcoming_season("Software Engineer Intern", oct26)
+
+
+def test_greenhouse_level_fields():
+    from src.greenhouse_scraper import metadata_hint
+    meta = lambda name, value: [{"name": name, "value": value}]
+    assert metadata_hint(meta("Employment Type", "Summer Internship")) == "intern"   # Jane Street
+    assert metadata_hint(meta("Job Type", "Full-Time: New Grad")) == "new_grad"      # HRT
+    assert metadata_hint(meta("LinkedIn Posting Level", "Entry level")) == "new_grad"
+    assert metadata_hint(meta("Employment Type", "Full-Time: Experienced")) == ""
+    assert metadata_hint(meta("Careersite Department", "University Relations")) == ""
+    assert metadata_hint(meta("Experience Level", ["Entry Level", "Intern"])) == "intern"
+    assert metadata_hint(None) == ""

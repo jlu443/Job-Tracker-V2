@@ -26,6 +26,33 @@ _SESSION = http_pool.make_session(_HEADERS)
 _TAG = re.compile(r"<[^>]+>")
 
 
+# Custom job fields that state the level: "Employment Type: Summer
+# Internship" (Jane Street, whose titles never say intern), "Job Type:
+# Full-Time: New Grad" (Hudson River Trading), "LinkedIn Posting Level:
+# Entry level". On 300 boards (2026-10-06) they marked 146 entry-level jobs
+# whose titles don't. Department fields aren't levels ("International ...").
+_LEVEL_FIELD = re.compile(r"employment|job\s*type|level|worker|position\s*type|"
+                          r"time\s*type|type\s+of|seniority|experience", re.I)
+_INTERN_VALUE = re.compile(r"\b(?:intern\w*|co-?op|student|trainee)\b", re.I)
+_GRAD_VALUE = re.compile(r"\b(?:new\s*grad\w*|graduate|entry[\s_-]*level|early\s+career\w*|"
+                         r"university|campus|emerging\s+talent)\b", re.I)
+
+
+def metadata_hint(metadata: list | None) -> str:
+    """'intern' / 'new_grad' when a level field says so, else ''."""
+    hint = ""
+    for m in metadata or []:
+        name, value = m.get("name") or "", m.get("value")
+        value = ", ".join(map(str, value)) if isinstance(value, list) else str(value or "")
+        if not value or "department" in name.lower() or not _LEVEL_FIELD.search(name):
+            continue
+        if _INTERN_VALUE.search(value):
+            return "intern"
+        if _GRAD_VALUE.search(value):
+            hint = "new_grad"
+    return hint
+
+
 def reused_posting_date(title: str, first_published: str, updated: str) -> str:
     """Companies re-use one posting each season and just rename it: Glean's
     "Software Engineer, Intern (Summer 2027)" was first published 2025-09-03,
@@ -71,6 +98,8 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
         title = (job.get("title") or "").strip()
         posted = reused_posting_date(title, posted, (job.get("updated_at") or "")[:10])
         description = _TAG.sub(" ", html.unescape(job.get("content") or ""))
+        fields = enrich.described_fields(title, description)
+        fields["role_hint"] = metadata_hint(job.get("metadata")) or fields["role_hint"]
         out.append(JobPosting(
             job_id=f"gh_{jid}",
             company=name,
@@ -79,7 +108,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
             location=location,
             posted_on=posted,
             source="greenhouse",
-            **enrich.described_fields(title, description),
+            **fields,
         ))
 
     time.sleep(settings.get("delay_between_requests", 0.5))

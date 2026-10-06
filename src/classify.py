@@ -67,7 +67,7 @@ _RULES: list[tuple[str, str]] = [
      r"early\s*(?:career|talent|in\s+career)|entry[\s-]*level|emerging\s+talent|"
      r"level\s*0|"
      # "Graduate Performance Engineer", "Quant Developer, Graduate", "(Grad)"
-     r"graduate(?!\s+(?:degree|school|studies))|grad|"
+     r"graduate(?!\s+(?:degree|school|studies))|grads?|"
      r"(?:university|college)\s+hire|"
      r"class\s+of\s+20\d\d|rotation(?:al)?\s+(?:program|engineer)|"
      r"leadership\s+development\s+program|residency|junior|jr\.?|"

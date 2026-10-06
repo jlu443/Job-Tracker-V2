@@ -13,6 +13,9 @@
 # it's a flat title, so the title alone says nothing about level.
 no	Member of Technical Staff
 no	Associate Member of Trading Staff
+# "2027 Grads" (plural) wasn't read as new grad (fixed 2026-10-06)
+new_grad	Software Engineer (C++ or Python) – 2027 Grads
+new_grad	Hardware Design Engineer - 2027 Grads
 # "Senior Associate" read as new grad (v5, fixed 2026-10-03)
 no	Senior Associate Software Engineer
 no	Sr Associate Engineer, IT Software
