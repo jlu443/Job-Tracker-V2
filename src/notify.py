@@ -143,8 +143,7 @@ def announceable(jobs: list[dict], settings: dict) -> list[dict]:
     categories = set(settings.get("announce_categories") or ())
     return [j for j in jobs
             if j.get("role_type") in _ANNOUNCE_ROLES
-            and geo.is_us(j.get("location", ""))
-            and not geo.title_names_foreign_place(j.get("title", ""))
+            and geo.is_us_job(j.get("title", ""), j.get("location", ""))
             and (not categories or j.get("category") in categories)]
 
 

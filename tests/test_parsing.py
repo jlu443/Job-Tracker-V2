@@ -325,3 +325,19 @@ def test_greenhouse_level_fields():
     assert metadata_hint(meta("Careersite Department", "University Relations")) == ""
     assert metadata_hint(meta("Experience Level", ["Entry Level", "Intern"])) == "intern"
     assert metadata_hint(None) == ""
+
+
+@pytest.mark.parametrize("title,location,us", [
+    # Workday intern filters, 2026-10-07: bare foreign cities pass is_us()
+    ("Werkstudent/ Praktikum AI Innovation Marketing (all genders)", "Hamburg", False),
+    ("Data scientist - Stage - H/F", "Haute Garonne (31)", False),
+    ("Strategy Business Analyst (VIE)", "2 Locations", False),
+    ("Junior Controller (m/w/d)", "Itzehoe, DE", False),            # DE: Germany, not Delaware
+    ("Software Engineer I (M/F/D)*", "Grand Rapids, MI", True),     # German firm, US job
+    ("V.I.E. HiL Testing engineer M/W", "Troy, MI, US", True),
+    ("Software Engineer Intern", "Austin, TX", True),
+    ("Software Engineer Intern", "2 Locations", True),               # unknown still passes
+    ("Stage Manager", "Los Angeles, CA", True),
+])
+def test_us_job(title, location, us):
+    assert geo.is_us_job(title, location) is us

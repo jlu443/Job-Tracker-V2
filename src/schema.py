@@ -275,6 +275,18 @@ def _recanonicalize_icims_portals(conn: sqlite3.Connection) -> None:
                 conn.execute(f"DELETE FROM {table} WHERE job_id = ?", (job_id,))
 
 
+def _unannounce_foreign_postings(conn: sqlite3.Connection) -> None:
+    """Workday's intern filters (2026-10-07) announced ~170 European jobs
+    whose location is a bare city ("Hamburg", "Tarn (81)"). Their titles say
+    so ("Werkstudent", "H/F", "(m/w/d)"); geo.is_us_job now checks. Take the
+    past week's off the Sheet's Today / This Week tabs."""
+    from . import geo
+    rows = conn.execute("SELECT job_id, title, location FROM jobs WHERE announced_at >= "
+                        "'2026-09-30'").fetchall()
+    conn.executemany("UPDATE jobs SET announced_at = '' WHERE job_id = ?",
+                     [(r[0],) for r in rows if not geo.is_us_job(r[1], r[2] or "")])
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -289,6 +301,7 @@ MIGRATIONS = [
     (11, _recategorize_titles),
     (12, _name_unnamed_aggregator_rows),
     (13, _recanonicalize_icims_portals),
+    (14, _unannounce_foreign_postings),
 ]
 
 

@@ -61,7 +61,7 @@ def open_internships(conn: sqlite3.Connection, settings: dict) -> list[dict]:
         "AND research_track IN ('phd', 'research_ms')")]
     out = []
     for j in jobs:
-        if not geo.is_us(j.get("location") or "") or geo.title_names_foreign_place(j["title"]):
+        if not geo.is_us_job(j["title"], j.get("location") or ""):
             continue
         if categories and j.get("category") not in categories:
             continue

@@ -107,6 +107,42 @@ def is_us(location: str) -> bool:
     return True
 
 
+# European posting conventions no US posting uses: gender markers ("H/F",
+# "(m/w/d)", "all genders") and local internship words ("Werkstudent",
+# "Stage 2027", "Stagiaire", "VIE", "Duales Studium"). Workday's location is
+# often a bare city ("Hamburg", "Tarn (81)", "2 Locations"), which is_us()
+# lets through; Workday's intern filters (2026-10-07) surfaced ~170 such
+# jobs in one morning.
+_FOREIGN_TITLE = re.compile(
+    r"\((?:[hfmwdxn]\s*/\s*){2,}[hfmwdxn]\)|\b(?:h/f|f/h|m/w/d|w/m/d|m/f/d|f/m/d|d/f/m|f/m/x|"
+    r"m/f/x|h/f/x|h/f/n|x/w/m|w/m/x)\b|\bx\s*\|\s*[wf]\s*\|\s*m\b|\ball\s+genders?\b|"
+    r"\bwerkstudent\w*|\bpraktik\w*|\bstagiaire\b|^\s*stage\b|\bstage\s+(?:20\d\d|de\s+\d|-)|"
+    r"\bv\.?i\.?e\.?(?=\W|$)|\balternan\w*|\bpr[aá]cticas\b|\bbecari[oa]\b|\btirocini\w*|"
+    r"\bausbildung\b|\bauszubildende\w*|\bduales?\s+studium|\bmasterarbeit|\bbachelorarbeit",
+    re.I)
+
+
+def clearly_us(location: str) -> bool:
+    """The location names the US outright, not just "plausibly" (is_us lets
+    unknowns through). "DE" alone is Germany as often as Delaware."""
+    if re.search(r"\bUnited States\b|\bUSA\b|,\s*US\b", location or ""):
+        return True
+    phrases = _phrases(location or "")
+    if phrases & _US_STATE_NAMES and not phrases & _NON_US:
+        return True
+    comps = [c.strip() for c in (location or "").split(",") if c.strip()]
+    return any(c.upper() in _US_STATES and c.upper() != "DE" for c in comps[1:])
+
+
+def is_us_job(title: str, location: str) -> bool:
+    """is_us(location), unless the title says the job is abroad: a foreign
+    place ("Intern (London)") or a European posting convention without a
+    location that clearly names the US."""
+    if not is_us(location) or title_names_foreign_place(title):
+        return False
+    return not (_FOREIGN_TITLE.search(title or "") and not clearly_us(location))
+
+
 def title_names_foreign_place(title: str) -> bool:
     """'GPU Architecture Engineer - China', 'Intern (London)': the title's
     trailing qualifier names a place abroad. Matters when the location field
