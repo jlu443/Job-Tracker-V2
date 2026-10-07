@@ -278,22 +278,36 @@ companies:
 - host: www.tractorsupply.careers
   name: Tractor Supply
 - host: kiewitcareers.kiewit.com
-  name: kiewitcareers.kiewit.com
+  name: Kiewit
+  aliases:
+  - kiewitcareers.kiewit.com
 - host: career.karlstorz.com
-  name: career.karlstorz.com
+  name: KARL STORZ
+  aliases:
+  - career.karlstorz.com
 - host: ro.careers.tsmc.com
-  name: ro.careers.tsmc.com
+  name: TSMC
+  aliases:
+  - ro.careers.tsmc.com
 - host: careers.gallo.com
-  name: careers.gallo.com
+  name: Gallo
+  aliases:
+  - careers.gallo.com
 - host: jobs.myflorida.com
   name: jobs.myflorida.com
 - host: careers.borderstates.com
-  name: careers.borderstates.com
+  name: Border States
+  aliases:
+  - careers.borderstates.com
 - host: careers.anglogoldashanti.com
   name: AngloGold Ashanti
   aliases:
   - careers.anglogoldashanti.com
 - host: careers.ll.mit.edu
-  name: careers.ll.mit.edu
+  name: MIT
+  aliases:
+  - careers.ll.mit.edu
 - host: careers.jenoptik.com
-  name: careers.jenoptik.com
+  name: JENOPTIK
+  aliases:
+  - careers.jenoptik.com

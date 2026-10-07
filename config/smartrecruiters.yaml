@@ -754,7 +754,9 @@ companies:
   aliases:
   - CapTechConsulting
 - company: Socotec
-  name: Socotec
+  name: SOCOTEC
+  aliases:
+  - Socotec
 - company: SopraSteria1
   name: Sopra Steria
   aliases:
@@ -768,7 +770,9 @@ companies:
 - company: Sia
   name: Sia
 - company: PureIntegration
-  name: PureIntegration
+  name: pureIntegration
+  aliases:
+  - PureIntegration
 - company: DataIntellect
   name: Data Intellect
   aliases:

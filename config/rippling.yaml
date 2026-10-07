@@ -8,13 +8,17 @@ companies:
   aliases:
   - journaltech
 - slug: mytra
-  name: mytra
+  name: Mytra
+  aliases:
+  - mytra
 - slug: open-roles
   name: Tidal Financial Group
   aliases:
   - open-roles
 - slug: pathos
-  name: pathos
+  name: Pathos
+  aliases:
+  - pathos
 - slug: foundation-robotics
   name: Foundation
   aliases:
@@ -68,17 +72,25 @@ companies:
   aliases:
   - camlin-careers
 - slug: rippling
-  name: rippling
+  name: Rippling
+  aliases:
+  - rippling
 - slug: denari
-  name: denari
+  name: Denari
+  aliases:
+  - denari
 - slug: duku-ai
   name: Duku AI
   aliases:
   - duku-ai
 - slug: neosigma
-  name: neosigma
+  name: NeoSigma
+  aliases:
+  - neosigma
 - slug: spreeai
-  name: spreeai
+  name: SpreeAI
+  aliases:
+  - spreeai
 - slug: fluidai-medical-careers
   name: NERv Technology Inc. D.B.A. FluidAI Medical
   aliases:
@@ -88,7 +100,9 @@ companies:
   aliases:
   - pendulum-intelligence-jobs
 - slug: moon
-  name: moon
+  name: Moon
+  aliases:
+  - moon
 - slug: greengas
   name: Mobius Renewables
   aliases:
@@ -126,11 +140,15 @@ companies:
   aliases:
   - loop-careers
 - slug: naxo
-  name: naxo
+  name: NAXO
+  aliases:
+  - naxo
 - slug: citylogix
   name: citylogix
 - slug: zededa
-  name: zededa
+  name: Zededa
+  aliases:
+  - zededa
 - slug: aapd-jobs
   name: American Association of People With Disabilities
   aliases:
@@ -140,7 +158,9 @@ companies:
   aliases:
   - briowt
 - slug: studyfetch
-  name: studyfetch
+  name: StudyFetch
+  aliases:
+  - studyfetch
 - slug: eridu-ai
   name: Eridu AI
   aliases:
@@ -158,7 +178,9 @@ companies:
   aliases:
   - ampersand-biomedicines
 - slug: capacity
-  name: capacity
+  name: Capacity
+  aliases:
+  - capacity
 - slug: stag-careers
   name: STAG
   aliases:
@@ -184,7 +206,9 @@ companies:
   aliases:
   - tive-careers
 - slug: intelliguard
-  name: intelliguard
+  name: Intelliguard
+  aliases:
+  - intelliguard
 - slug: 4ag
   name: 4AG Robotics
   aliases:
@@ -206,23 +230,33 @@ companies:
   aliases:
   - power-takeoff-careers
 - slug: perle
-  name: perle
+  name: Perle
+  aliases:
+  - perle
 - slug: patientnow
-  name: patientnow
+  name: PatientNow
+  aliases:
+  - patientnow
 - slug: flexai
-  name: flexai
+  name: FlexAI
+  aliases:
+  - flexai
 - slug: external-job-board
   name: FlexGen
   aliases:
   - external-job-board
 - slug: intersection
-  name: intersection
+  name: Intersection
+  aliases:
+  - intersection
 - slug: adelaide
   name: Adelaide Metrics
   aliases:
   - adelaide
 - slug: memryx
-  name: memryx
+  name: MemryX
+  aliases:
+  - memryx
 - slug: legitscript-careers
   name: Legit Script
   aliases:
@@ -256,7 +290,9 @@ companies:
   aliases:
   - wdscareers
 - slug: supper
-  name: supper
+  name: Supper
+  aliases:
+  - supper
 - slug: critical-response-group
   name: Critical Response Group
   aliases:
@@ -278,7 +314,9 @@ companies:
   aliases:
   - supernova-technology
 - slug: whc
-  name: whc
+  name: Whc
+  aliases:
+  - whc
 - slug: les-olson-it
   name: Les Olson IT
   aliases:
@@ -328,7 +366,9 @@ companies:
   aliases:
   - encore-auctions
 - slug: skytrac
-  name: skytrac
+  name: SKYTRAC
+  aliases:
+  - skytrac
 - slug: genlogs-corporation
   name: GenLogs
   aliases:
@@ -342,9 +382,13 @@ companies:
   aliases:
   - kielo
 - slug: closinglock
-  name: closinglock
+  name: Closinglock
+  aliases:
+  - closinglock
 - slug: rugsusa
-  name: rugsusa
+  name: RugsUSA
+  aliases:
+  - rugsusa
 - slug: mei-employment
   name: Middle East Institute
   aliases:
@@ -354,7 +398,9 @@ companies:
   aliases:
   - electrosonic-careers
 - slug: ascentt
-  name: ascentt
+  name: Ascentt
+  aliases:
+  - ascentt
 - slug: nws
   name: National Water Services
   aliases:
@@ -392,7 +438,9 @@ companies:
   aliases:
   - topdoglaw
 - slug: pcmi
-  name: pcmi
+  name: PCMI
+  aliases:
+  - pcmi
 - slug: nesto
   name: nesto
 - slug: mile-marker
@@ -404,7 +452,9 @@ companies:
   aliases:
   - logicbroker-inc
 - slug: door
-  name: door
+  name: DOOR
+  aliases:
+  - door
 - slug: advocate-technologies-inc
   name: Advocate Technologies Inc.
   aliases:
@@ -434,7 +484,9 @@ companies:
   aliases:
   - door-controls-usa
 - slug: fragile
-  name: fragile
+  name: Fragile
+  aliases:
+  - fragile
 - slug: d-wave-quantum
   name: D-Wave Quantum
   aliases:
@@ -460,7 +512,9 @@ companies:
   aliases:
   - lyte
 - slug: opiniion
-  name: opiniion
+  name: Opiniion
+  aliases:
+  - opiniion
 - slug: aalyria-careers
   name: Aalyria
   aliases:
@@ -482,17 +536,25 @@ companies:
   aliases:
   - ip-house
 - slug: fieldpulse
-  name: fieldpulse
+  name: FieldPulse
+  aliases:
+  - fieldpulse
 - slug: cintal
-  name: cintal
+  name: Cintal
+  aliases:
+  - cintal
 - slug: atlas-data-storage
   name: Atlas Data Storage
   aliases:
   - atlas-data-storage
 - slug: positron
-  name: positron
+  name: Positron
+  aliases:
+  - positron
 - slug: torus
-  name: torus
+  name: Torus
+  aliases:
+  - torus
 - slug: uhin-careers
   name: UHIN
   aliases:
@@ -514,7 +576,9 @@ companies:
   aliases:
   - blue-water-autonomy
 - slug: jitsu
-  name: jitsu
+  name: Jitsu
+  aliases:
+  - jitsu
 - slug: dext-capital-llc
   name: Dext Capital
   aliases:

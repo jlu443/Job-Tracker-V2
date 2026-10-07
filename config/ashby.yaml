@@ -1,6 +1,8 @@
 companies:
 - slug: openai
-  name: openai
+  name: OpenAI
+  aliases:
+  - openai
 - slug: 0g
   name: 0g
 - slug: 0x
@@ -12,7 +14,9 @@ companies:
 - slug: 1mind
   name: 1mind
 - slug: 1password
-  name: 1password
+  name: 1Password
+  aliases:
+  - 1password
 - slug: 3imembers
   name: 3imembers
 - slug: 42dot
@@ -42,13 +46,17 @@ companies:
   aliases:
   - abby-care
 - slug: abound
-  name: abound
+  name: Abound
+  aliases:
+  - abound
 - slug: Abridge
   name: Abridge
 - slug: absorblms
   name: absorblms
 - slug: abundant
-  name: abundant
+  name: Abundant
+  aliases:
+  - abundant
 - slug: accurx
   name: accurx
 - slug: acd
@@ -94,7 +102,9 @@ companies:
 - slug: aerovy
   name: aerovy
 - slug: aescape
-  name: aescape
+  name: Aescape
+  aliases:
+  - aescape
 - slug: agent
   name: agent
 - slug: agentio
@@ -112,7 +122,9 @@ companies:
 - slug: aios
   name: aios
 - slug: aiprise
-  name: aiprise
+  name: AiPrise
+  aliases:
+  - aiprise
 - slug: airapps
   name: airapps
 - slug: airbyte
@@ -156,7 +168,9 @@ companies:
 - slug: allium
   name: allium
 - slug: alljoined
-  name: alljoined
+  name: Alljoined
+  aliases:
+  - alljoined
 - slug: allminds
   name: allminds
 - slug: allocate
@@ -186,7 +200,9 @@ companies:
 - slug: Ambral
   name: Ambral
 - slug: ambrook
-  name: ambrook
+  name: Ambrook
+  aliases:
+  - ambrook
 - slug: ameba
   name: ameba
 - slug: american-housing
@@ -194,7 +210,9 @@ companies:
   aliases:
   - american-housing
 - slug: ami
-  name: ami
+  name: AMI
+  aliases:
+  - ami
 - slug: amo
   name: amo
 - slug: amperos
@@ -212,7 +230,9 @@ companies:
 - slug: andela
   name: andela
 - slug: ando
-  name: ando
+  name: Ando
+  aliases:
+  - ando
 - slug: andotechnologies
   name: andotechnologies
 - slug: Anima
@@ -234,7 +254,9 @@ companies:
   aliases:
   - Antares
 - slug: anterior
-  name: anterior
+  name: Anterior
+  aliases:
+  - anterior
 - slug: antimetal
   name: antimetal
 - slug: antithesis
@@ -244,7 +266,9 @@ companies:
   aliases:
   - anyone-ai
 - slug: anyscale
-  name: anyscale
+  name: Anyscale
+  aliases:
+  - anyscale
 - slug: anysignal
   name: anysignal
 - slug: anything
@@ -276,7 +300,9 @@ companies:
 - slug: april
   name: april
 - slug: apron
-  name: apron
+  name: Apron
+  aliases:
+  - apron
 - slug: aptible
   name: aptible
 - slug: aptosfoundation
@@ -308,7 +334,9 @@ companies:
 - slug: archive
   name: archive
 - slug: archy
-  name: archy
+  name: Archy
+  aliases:
+  - archy
 - slug: arcturus
   name: arcturus
 - slug: arena
@@ -344,7 +372,9 @@ companies:
 - slug: ascertain
   name: ascertain
 - slug: ashby
-  name: ashby
+  name: Ashby
+  aliases:
+  - ashby
 - slug: asimov
   name: asimov
 - slug: askdragonfly
@@ -364,7 +394,9 @@ companies:
 - slug: assured
   name: assured
 - slug: astera
-  name: astera
+  name: Astera
+  aliases:
+  - astera
 - slug: astra
   name: astra
 - slug: Astro-Mechanica
@@ -372,7 +404,9 @@ companies:
   aliases:
   - Astro-Mechanica
 - slug: astronomer
-  name: astronomer
+  name: Astronomer
+  aliases:
+  - astronomer
 - slug: asymmetric.re
   name: asymmetric.re
 - slug: ataraxis-ai
@@ -406,7 +440,9 @@ companies:
 - slug: atticus
   name: atticus
 - slug: auctor
-  name: auctor
+  name: Auctor
+  aliases:
+  - auctor
 - slug: audiohook
   name: audiohook
 - slug: aufinity-group-gmbh
@@ -420,7 +456,9 @@ companies:
 - slug: august
   name: august
 - slug: aurelian
-  name: aurelian
+  name: Aurelian
+  aliases:
+  - aurelian
 - slug: aureliussystems
   name: Aurelius Systems
   aliases:
@@ -432,7 +470,9 @@ companies:
 - slug: authzed
   name: authzed
 - slug: automat
-  name: automat
+  name: Automat
+  aliases:
+  - automat
 - slug: ava-labs
   name: Ava Labs
   aliases:
@@ -516,7 +556,9 @@ companies:
   aliases:
   - base-power
 - slug: baseten
-  name: baseten
+  name: Baseten
+  aliases:
+  - baseten
 - slug: basiccapital
   name: basiccapital
 - slug: basis-ai
@@ -568,7 +610,9 @@ companies:
 - slug: ben
   name: ben
 - slug: benchling
-  name: benchling
+  name: Benchling
+  aliases:
+  - benchling
 - slug: benepass
   name: benepass
 - slug: beside
@@ -652,9 +696,13 @@ companies:
 - slug: bliro
   name: bliro
 - slug: blissway
-  name: blissway
+  name: Blissway
+  aliases:
+  - blissway
 - slug: blitzy
-  name: blitzy
+  name: Blitzy
+  aliases:
+  - blitzy
 - slug: block-labs
   name: Block Labs
   aliases:
@@ -662,7 +710,9 @@ companies:
 - slug: blockdaemon
   name: blockdaemon
 - slug: blockhouse
-  name: blockhouse
+  name: Blockhouse
+  aliases:
+  - blockhouse
 - slug: blockparty
   name: blockparty
 - slug: blockstream
@@ -684,7 +734,9 @@ companies:
 - slug: boam
   name: boam
 - slug: bobyard
-  name: bobyard
+  name: Bobyard
+  aliases:
+  - bobyard
 - slug: bold
   name: bold
 - slug: boon
@@ -706,7 +758,9 @@ companies:
 - slug: bravehealth
   name: bravehealth
 - slug: bree
-  name: bree
+  name: Bree
+  aliases:
+  - bree
 - slug: brelle
   name: brelle
 - slug: brellium
@@ -714,7 +768,9 @@ companies:
 - slug: brettonai
   name: brettonai
 - slug: bridger
-  name: bridger
+  name: Bridger
+  aliases:
+  - bridger
 - slug: brightstar-ai
   name: Brightstar.AI
   aliases:
@@ -790,7 +846,9 @@ companies:
 - slug: candidintelligence
   name: candidintelligence
 - slug: cantina
-  name: cantina
+  name: Cantina
+  aliases:
+  - cantina
 - slug: canvas-medical
   name: Canvas Medical
   aliases:
@@ -804,7 +862,9 @@ companies:
 - slug: capsule
   name: capsule
 - slug: capy
-  name: capy
+  name: Capy
+  aliases:
+  - capy
 - slug: cara-ai
   name: Cara Ai
   aliases:
@@ -862,7 +922,9 @@ companies:
 - slug: centari
   name: centari
 - slug: centerfield
-  name: centerfield
+  name: Centerfield
+  aliases:
+  - centerfield
 - slug: centivo
   name: centivo
 - slug: centreforeffectivealtruism
@@ -904,7 +966,9 @@ companies:
 - slug: checkly
   name: checkly
 - slug: checkout.com
-  name: checkout.com
+  name: Checkout.com
+  aliases:
+  - checkout.com
 - slug: Chestnut
   name: Chestnut
 - slug: chief
@@ -1040,15 +1104,21 @@ companies:
 - slug: cognition
   name: cognition
 - slug: cohere
-  name: cohere
+  name: Cohere
+  aliases:
+  - cohere
 - slug: Coinflow
   name: Coinflow
 - slug: cointracker
   name: cointracker
 - slug: collective
-  name: collective
+  name: Collective
+  aliases:
+  - collective
 - slug: colonist
-  name: colonist
+  name: Colonist
+  aliases:
+  - colonist
 - slug: column
   name: column
 - slug: comfy-org
@@ -1066,9 +1136,13 @@ companies:
 - slug: commonroom
   name: commonroom
 - slug: commure
-  name: commure
+  name: Commure
+  aliases:
+  - commure
 - slug: compa
-  name: compa
+  name: Compa
+  aliases:
+  - compa
 - slug: compass-surgical-partners
   name: Compass Surgical Partners
   aliases:
@@ -1082,7 +1156,9 @@ companies:
 - slug: Conception
   name: Conception
 - slug: concourse
-  name: concourse
+  name: Concourse
+  aliases:
+  - concourse
 - slug: conduct
   name: conduct
 - slug: conduit-health
@@ -1094,7 +1170,9 @@ companies:
 - slug: confiant
   name: confiant
 - slug: confluent
-  name: confluent
+  name: Confluent
+  aliases:
+  - confluent
 - slug: console
   name: console
 - slug: constellationspace
@@ -1104,9 +1182,13 @@ companies:
 - slug: contentoo
   name: contentoo
 - slug: context
-  name: context
+  name: Context
+  aliases:
+  - context
 - slug: contoro
-  name: contoro
+  name: Contoro
+  aliases:
+  - contoro
 - slug: conveo
   name: conveo
 - slug: conversion
@@ -1188,7 +1270,9 @@ companies:
 - slug: crogl
   name: crogl
 - slug: crosby
-  name: crosby
+  name: Crosby
+  aliases:
+  - crosby
 - slug: Crusoe
   name: Crusoe
 - slug: cruva
@@ -1216,7 +1300,9 @@ companies:
   aliases:
   - cursor
 - slug: cuspai
-  name: cuspai
+  name: CuspAI
+  aliases:
+  - cuspai
 - slug: cybcube
   name: cybcube
 - slug: cyberhaven
@@ -1228,17 +1314,25 @@ companies:
 - slug: cytora.com
   name: cytora.com
 - slug: cyvl
-  name: cyvl
+  name: Cyvl
+  aliases:
+  - cyvl
 - slug: d-matrix
-  name: d-matrix
+  name: d-Matrix
+  aliases:
+  - d-matrix
 - slug: dailypay
-  name: dailypay
+  name: DailyPay
+  aliases:
+  - dailypay
 - slug: dakota
   name: dakota
 - slug: dandelion
   name: dandelion
 - slug: dandy
-  name: dandy
+  name: Dandy
+  aliases:
+  - dandy
 - slug: darkroom
   name: darkroom
 - slug: dash0
@@ -1264,7 +1358,9 @@ companies:
 - slug: dClimate
   name: dClimate
 - slug: decagon
-  name: decagon
+  name: Decagon
+  aliases:
+  - decagon
 - slug: dedale-intelligence
   name: Dedale Intelligence
   aliases:
@@ -1286,9 +1382,13 @@ companies:
 - slug: deligo
   name: deligo
 - slug: delinea
-  name: delinea
+  name: Delinea
+  aliases:
+  - delinea
 - slug: deliveroo
-  name: deliveroo
+  name: Deliveroo
+  aliases:
+  - deliveroo
 - slug: delphi
   name: delphi
 - slug: demandbase
@@ -1316,7 +1416,9 @@ companies:
   aliases:
   - Distyl
 - slug: ditto
-  name: ditto
+  name: Ditto
+  aliases:
+  - ditto
 - slug: DivineResearch
   name: DivineResearch
 - slug: docebo
@@ -1360,7 +1462,9 @@ companies:
 - slug: drogue
   name: drogue
 - slug: dryft
-  name: dryft
+  name: Dryft
+  aliases:
+  - dryft
 - slug: dualentry
   name: dualentry
 - slug: duck-duck-go
@@ -1376,9 +1480,13 @@ companies:
 - slug: duna
   name: duna
 - slug: dune
-  name: dune
+  name: Dune
+  aliases:
+  - dune
 - slug: dust
-  name: dust
+  name: Dust
+  aliases:
+  - dust
 - slug: dyna-robotics
   name: Dyna Robotics
   aliases:
@@ -1420,7 +1528,9 @@ companies:
 - slug: ekarobotics
   name: ekarobotics
 - slug: ekho
-  name: ekho
+  name: Ekho
+  aliases:
+  - ekho
 - slug: electric
   name: electric
 - slug: electricair
@@ -1436,7 +1546,9 @@ companies:
 - slug: eli
   name: eli
 - slug: eliseai
-  name: eliseai
+  name: EliseAI
+  aliases:
+  - eliseai
 - slug: ellamind
   name: ellamind
 - slug: ellipsislabs
@@ -1452,7 +1564,9 @@ companies:
   aliases:
   - eloquentai
 - slug: ema
-  name: ema
+  name: Ema
+  aliases:
+  - ema
 - slug: emerald-ai
   name: Emerald AI
   aliases:
@@ -1480,7 +1594,9 @@ companies:
 - slug: enpal
   name: enpal
 - slug: envoy
-  name: envoy
+  name: Envoy
+  aliases:
+  - envoy
 - slug: epay-policy
   name: Epay Policy
   aliases:
@@ -1502,7 +1618,9 @@ companies:
 - slug: espresso
   name: espresso
 - slug: etched
-  name: etched
+  name: Etched
+  aliases:
+  - etched
 - slug: ether.fi
   name: ether.fi
 - slug: ethyca
@@ -1564,11 +1682,15 @@ companies:
 - slug: farmraise
   name: farmraise
 - slug: farsight
-  name: farsight
+  name: Farsight
+  aliases:
+  - farsight
 - slug: fathom.video
   name: fathom.video
 - slug: feathery
-  name: feathery
+  name: Feathery
+  aliases:
+  - feathery
 - slug: feathr
   name: feathr
 - slug: felix
@@ -1616,7 +1738,9 @@ companies:
 - slug: firecrawl
   name: firecrawl
 - slug: firetiger
-  name: firetiger
+  name: Firetiger
+  aliases:
+  - firetiger
 - slug: first-resonance
   name: First Resonance
   aliases:
@@ -1658,7 +1782,9 @@ companies:
 - slug: flink
   name: flink
 - slug: flint
-  name: flint
+  name: Flint
+  aliases:
+  - flint
 - slug: FloatMe
   name: FloatMe
 - slug: Flock%20Safety
@@ -1674,7 +1800,9 @@ companies:
 - slug: flox
   name: flox
 - slug: fluidstack
-  name: fluidstack
+  name: FluidStack
+  aliases:
+  - fluidstack
 - slug: FlutterFlow
   name: FlutterFlow
 - slug: flux
@@ -1700,7 +1828,9 @@ companies:
   aliases:
   - fortuna-health
 - slug: forus
-  name: forus
+  name: Forus
+  aliases:
+  - forus
 - slug: Forward%20Financing
   name: Forward Financing
 - slug: found
@@ -1724,7 +1854,9 @@ companies:
 - slug: foxelligroup
   name: foxelligroup
 - slug: foxglove
-  name: foxglove
+  name: Foxglove
+  aliases:
+  - foxglove
 - slug: fractional-ai
   name: Fractional AI
   aliases:
@@ -1790,7 +1922,9 @@ companies:
 - slug: galvany
   name: galvany
 - slug: gamechanger
-  name: gamechanger
+  name: Gamechanger
+  aliases:
+  - gamechanger
 - slug: gamma
   name: gamma
 - slug: garage-door-doctor
@@ -1854,7 +1988,9 @@ companies:
 - slug: glacier
   name: glacier
 - slug: glia
-  name: glia
+  name: Glia
+  aliases:
+  - glia
 - slug: glide
   name: glide
 - slug: glimp-se
@@ -1886,7 +2022,9 @@ companies:
 - slug: goody
   name: goody
 - slug: gorgias
-  name: gorgias
+  name: Gorgias
+  aliases:
+  - gorgias
 - slug: gorilla
   name: gorilla
 - slug: goteleport
@@ -1896,7 +2034,9 @@ companies:
 - slug: GoVenti
   name: GoVenti
 - slug: govwell
-  name: govwell
+  name: GovWell
+  aliases:
+  - govwell
 - slug: govworx
   name: govworx
 - slug: GPTZero
@@ -1944,7 +2084,9 @@ companies:
   aliases:
   - greenlitecareers
 - slug: gridcare
-  name: gridcare
+  name: GridCARE
+  aliases:
+  - gridcare
 - slug: gridverify
   name: gridverify
 - slug: griffin
@@ -1972,7 +2114,9 @@ companies:
   aliases:
   - gt-hq
 - slug: gumloop
-  name: gumloop
+  name: Gumloop
+  aliases:
+  - gumloop
 - slug: h2analytics
   name: h2analytics
 - slug: h3x-technologies
@@ -1998,7 +2142,9 @@ companies:
 - slug: hamster
   name: hamster
 - slug: handshake
-  name: handshake
+  name: Handshake
+  aliases:
+  - handshake
 - slug: handspring
   name: handspring
 - slug: hang
@@ -2030,13 +2176,17 @@ companies:
 - slug: Hartbeat
   name: Hartbeat
 - slug: harvey
-  name: harvey
+  name: Harvey
+  aliases:
+  - harvey
 - slug: hauler-hero
   name: Hauler Hero
   aliases:
   - hauler-hero
 - slug: havocai
-  name: havocai
+  name: HavocAI
+  aliases:
+  - havocai
 - slug: hawk
   name: hawk
 - slug: hawkeyeinnovations
@@ -2048,7 +2198,9 @@ companies:
   aliases:
   - haydenai
 - slug: hcompany
-  name: hcompany
+  name: HCompany
+  aliases:
+  - hcompany
 - slug: Headstart
   name: Headstart
 - slug: healthaxis
@@ -2086,13 +2238,21 @@ companies:
 - slug: higgsfieldai
   name: higgsfieldai
 - slug: higharc
-  name: higharc
+  name: Higharc
+  aliases:
+  - higharc
 - slug: highbeam
-  name: highbeam
+  name: Highbeam
+  aliases:
+  - highbeam
 - slug: highlightta
-  name: highlightta
+  name: HighlightTA
+  aliases:
+  - highlightta
 - slug: hiive
-  name: hiive
+  name: Hiive
+  aliases:
+  - hiive
 - slug: hike-medical
   name: Hike Medical
   aliases:
@@ -2130,7 +2290,9 @@ companies:
 - slug: hivemq
   name: hivemq
 - slug: hiverge
-  name: hiverge
+  name: Hiverge
+  aliases:
+  - hiverge
 - slug: hiya
   name: hiya
 - slug: hockeystack
@@ -2138,7 +2300,9 @@ companies:
 - slug: holywater
   name: holywater
 - slug: homebase
-  name: homebase
+  name: Homebase
+  aliases:
+  - homebase
 - slug: Homebound
   name: Homebound
 - slug: homera-health
@@ -2186,7 +2350,9 @@ companies:
 - slug: humanarchive
   name: humanarchive
 - slug: humanoid
-  name: humanoid
+  name: Humanoid
+  aliases:
+  - humanoid
 - slug: humans-and
   name: Humans And
   aliases:
@@ -2214,7 +2380,9 @@ companies:
 - slug: iceye
   name: iceye
 - slug: icon
-  name: icon
+  name: Icon
+  aliases:
+  - icon
 - slug: ideogram
   name: ideogram
 - slug: ignite-reading
@@ -2222,11 +2390,15 @@ companies:
   aliases:
   - ignite-reading
 - slug: illumio
-  name: illumio
+  name: Illumio
+  aliases:
+  - illumio
 - slug: immersivelabs
   name: immersivelabs
 - slug: imprint
-  name: imprint
+  name: Imprint
+  aliases:
+  - imprint
 - slug: improbable
   name: improbable
 - slug: impulse
@@ -2282,7 +2454,9 @@ companies:
 - slug: infracost
   name: infracost
 - slug: inherent
-  name: inherent
+  name: Inherent
+  aliases:
+  - inherent
 - slug: injective-labs
   name: Injective Labs
   aliases:
@@ -2296,7 +2470,9 @@ companies:
 - slug: InscribeAI
   name: InscribeAI
 - slug: insitro
-  name: insitro
+  name: Insitro
+  aliases:
+  - insitro
 - slug: inspiration-commerce-group
   name: Inspiration Commerce Group
   aliases:
@@ -2306,7 +2482,9 @@ companies:
 - slug: Intellistack
   name: Intellistack
 - slug: interaction
-  name: interaction
+  name: Interaction
+  aliases:
+  - interaction
 - slug: interface
   name: interface
 - slug: interplay
@@ -2446,7 +2624,9 @@ companies:
   aliases:
   - keycard-labs
 - slug: keyrock
-  name: keyrock
+  name: Keyrock
+  aliases:
+  - keyrock
 - slug: keystone
   name: keystone
 - slug: kin
@@ -2472,7 +2652,9 @@ companies:
 - slug: klim
   name: klim
 - slug: klue
-  name: klue
+  name: Klue
+  aliases:
+  - klue
 - slug: knock
   name: knock
 - slug: knoetic
@@ -2506,7 +2688,9 @@ companies:
 - slug: Kombo
   name: Kombo
 - slug: kong
-  name: kong
+  name: Kong
+  aliases:
+  - kong
 - slug: kos.ai
   name: kos.ai
 - slug: kota
@@ -2530,7 +2714,9 @@ companies:
 - slug: lakera.ai
   name: lakera.ai
 - slug: lambda
-  name: lambda
+  name: Lambda
+  aliases:
+  - lambda
 - slug: lancedb
   name: lancedb
 - slug: langchain
@@ -2586,7 +2772,9 @@ companies:
 - slug: legora
   name: legora
 - slug: leland
-  name: leland
+  name: Leland
+  aliases:
+  - leland
 - slug: lemfi
   name: lemfi
 - slug: lemlist
@@ -2596,7 +2784,9 @@ companies:
   aliases:
   - lemon-markets
 - slug: lendable
-  name: lendable
+  name: Lendable
+  aliases:
+  - lendable
 - slug: leona
   name: leona
 - slug: letta
@@ -2624,7 +2814,9 @@ companies:
 - slug: lightsource
   name: lightsource
 - slug: lightspark
-  name: lightspark
+  name: Lightspark
+  aliases:
+  - lightspark
 - slug: lightspeedhq
   name: lightspeedhq
 - slug: lilt-corporate
@@ -2658,13 +2850,17 @@ companies:
 - slug: listenlabs
   name: listenlabs
 - slug: litellm
-  name: litellm
+  name: LiteLLM
+  aliases:
+  - litellm
 - slug: literati
   name: literati
 - slug: lithosquare
   name: lithosquare
 - slug: liveflow
-  name: liveflow
+  name: LiveFlow
+  aliases:
+  - liveflow
 - slug: livekit
   name: livekit
 - slug: lm-studio
@@ -2674,7 +2870,9 @@ companies:
 - slug: Local%20Infusion
   name: Local Infusion
 - slug: logiqal
-  name: logiqal
+  name: Logiqal
+  aliases:
+  - logiqal
 - slug: long-lake
   name: Long Lake
   aliases:
@@ -2688,7 +2886,9 @@ companies:
 - slug: lorikeet
   name: lorikeet
 - slug: lovable
-  name: lovable
+  name: Lovable
+  aliases:
+  - lovable
 - slug: loveholidays
   name: loveholidays
 - slug: lpadesignstudios
@@ -2716,7 +2916,9 @@ companies:
 - slug: luxor
   name: luxor
 - slug: lydian
-  name: lydian
+  name: Lydian
+  aliases:
+  - lydian
 - slug: Lynk
   name: Lynk
 - slug: lyric
@@ -2732,7 +2934,9 @@ companies:
   aliases:
   - mach
 - slug: mach9
-  name: mach9
+  name: Mach9
+  aliases:
+  - mach9
 - slug: madecard
   name: madecard
 - slug: madhive
@@ -2740,7 +2944,9 @@ companies:
 - slug: magic.dev
   name: magic.dev
 - slug: magical
-  name: magical
+  name: Magical
+  aliases:
+  - magical
 - slug: magiceden
   name: magiceden
 - slug: magicpatterns
@@ -2760,7 +2966,9 @@ companies:
 - slug: maki
   name: maki
 - slug: mandolin
-  name: mandolin
+  name: Mandolin
+  aliases:
+  - mandolin
 - slug: maneuver-marketing
   name: Maneuver Marketing
   aliases:
@@ -2818,7 +3026,9 @@ companies:
   aliases:
   - matter-labs
 - slug: matterworks
-  name: matterworks
+  name: Matterworks
+  aliases:
+  - matterworks
 - slug: maven
   name: maven
 - slug: maven-agi
@@ -2864,9 +3074,13 @@ companies:
   aliases:
   - megazone
 - slug: melius
-  name: melius
+  name: Melius
+  aliases:
+  - melius
 - slug: melotech
-  name: melotech
+  name: Melotech
+  aliases:
+  - melotech
 - slug: mem.ai
   name: mem.ai
 - slug: mem0
@@ -2876,7 +3090,9 @@ companies:
 - slug: mento
   name: mento
 - slug: mercor
-  name: mercor
+  name: Mercor
+  aliases:
+  - mercor
 - slug: mercura
   name: mercura
 - slug: Merge%20Labs
@@ -2886,7 +3102,9 @@ companies:
   aliases:
   - meridianlink
 - slug: meshy
-  name: meshy
+  name: Meshy
+  aliases:
+  - meshy
 - slug: messa
   name: messa
 - slug: metadao
@@ -2898,7 +3116,9 @@ companies:
 - slug: metalenz
   name: metalenz
 - slug: metaview
-  name: metaview
+  name: Metaview
+  aliases:
+  - metaview
 - slug: meter
   name: meter
 - slug: method
@@ -2910,7 +3130,9 @@ companies:
 - slug: method.security
   name: method.security
 - slug: meticulous
-  name: meticulous
+  name: Meticulous
+  aliases:
+  - meticulous
 - slug: metriport
   name: metriport
 - slug: middesk
@@ -2928,7 +3150,9 @@ companies:
 - slug: Mintlify
   name: Mintlify
 - slug: mirage
-  name: mirage
+  name: Mirage
+  aliases:
+  - mirage
 - slug: mirai-robotics
   name: Mirai Robotics
   aliases:
@@ -2942,13 +3166,17 @@ companies:
 - slug: mithrl
   name: mithrl
 - slug: moab
-  name: moab
+  name: Moab
+  aliases:
+  - moab
 - slug: mobasi
   name: mobasi
 - slug: mobilefirst
   name: mobilefirst
 - slug: modal
-  name: modal
+  name: Modal
+  aliases:
+  - modal
 - slug: modelyst
   name: modelyst
 - slug: modernfi
@@ -3006,17 +3234,23 @@ companies:
 - slug: mosey
   name: mosey
 - slug: moss
-  name: moss
+  name: Moss
+  aliases:
+  - moss
 - slug: MotherDuck
   name: MotherDuck
 - slug: motorway
-  name: motorway
+  name: Motorway
+  aliases:
+  - motorway
 - slug: Moxie
   name: Moxie
 - slug: MUBI
   name: MUBI
 - slug: mudflap
-  name: mudflap
+  name: Mudflap
+  aliases:
+  - mudflap
 - slug: MUI
   name: MUI
 - slug: Multitude%20Insights
@@ -3038,7 +3272,9 @@ companies:
 - slug: mystenlabs
   name: mystenlabs
 - slug: n1
-  name: n1
+  name: N1
+  aliases:
+  - n1
 - slug: n8n
   name: n8n
 - slug: nabihealth
@@ -3054,7 +3290,9 @@ companies:
 - slug: nango
   name: nango
 - slug: nascent
-  name: nascent
+  name: Nascent
+  aliases:
+  - nascent
 - slug: Nash
   name: Nash
 - slug: NationGraph
@@ -3158,7 +3396,9 @@ companies:
 - slug: nexus.xyz
   name: nexus.xyz
 - slug: nexxen
-  name: nexxen
+  name: Nexxen
+  aliases:
+  - nexxen
 - slug: niantic-spatial
   name: Niantic Spatial
   aliases:
@@ -3196,7 +3436,9 @@ companies:
 - slug: nomos
   name: nomos
 - slug: nooks
-  name: nooks
+  name: Nooks
+  aliases:
+  - nooks
 - slug: norm-ai
   name: Norm Ai
   aliases:
@@ -3226,7 +3468,9 @@ companies:
 - slug: notable
   name: notable
 - slug: notion
-  name: notion
+  name: Notion
+  aliases:
+  - notion
 - slug: novaintelligence
   name: novaintelligence
 - slug: novel
@@ -3250,7 +3494,9 @@ companies:
 - slug: nudge
   name: nudge
 - slug: numeral
-  name: numeral
+  name: Numeral
+  aliases:
+  - numeral
 - slug: numeric
   name: numeric
 - slug: numosai
@@ -3330,7 +3576,9 @@ companies:
 - slug: onoshealth
   name: onoshealth
 - slug: ontic
-  name: ontic
+  name: Ontic
+  aliases:
+  - ontic
 - slug: onton
   name: onton
 - slug: onyx
@@ -3340,7 +3588,9 @@ companies:
 - slug: openblock
   name: openblock
 - slug: opengov
-  name: opengov
+  name: OpenGov
+  aliases:
+  - opengov
 - slug: OpenHands
   name: OpenHands
 - slug: openhomefoundation
@@ -3372,9 +3622,13 @@ companies:
   aliases:
   - opus-training
 - slug: opusclip
-  name: opusclip
+  name: OpusClip
+  aliases:
+  - opusclip
 - slug: orb
-  name: orb
+  name: Orb
+  aliases:
+  - orb
 - slug: orbit
   name: orbit
 - slug: orbital
@@ -3396,7 +3650,9 @@ companies:
 - slug: oscilar
   name: oscilar
 - slug: osmo
-  name: osmo
+  name: Osmo
+  aliases:
+  - osmo
 - slug: Oso
   name: Oso
 - slug: oumi
@@ -3472,7 +3728,9 @@ companies:
 - slug: paradox
   name: paradox
 - slug: parafin
-  name: parafin
+  name: Parafin
+  aliases:
+  - parafin
 - slug: paraform
   name: paraform
 - slug: Paragon
@@ -3504,7 +3762,9 @@ companies:
 - slug: parker
   name: parker
 - slug: parspec
-  name: parspec
+  name: Parspec
+  aliases:
+  - parspec
 - slug: partiful
   name: partiful
 - slug: partly.com
@@ -3524,7 +3784,9 @@ companies:
 - slug: pathwork
   name: pathwork
 - slug: patreon
-  name: patreon
+  name: Patreon
+  aliases:
+  - patreon
 - slug: patrianna
   name: patrianna
 - slug: PaveBank
@@ -3552,7 +3814,9 @@ companies:
   aliases:
   - pearlhealth
 - slug: pebl
-  name: pebl
+  name: Pebl
+  aliases:
+  - pebl
 - slug: Peec
   name: Peec
 - slug: peek
@@ -3578,7 +3842,9 @@ companies:
 - slug: Perk
   name: Perk
 - slug: permitflow
-  name: permitflow
+  name: PermitFlow
+  aliases:
+  - permitflow
 - slug: permutive
   name: permutive
 - slug: Perplexity
@@ -3586,7 +3852,9 @@ companies:
   aliases:
   - Perplexity
 - slug: persona
-  name: persona
+  name: Persona
+  aliases:
+  - persona
 - slug: petra-labs
   name: Petra Labs
   aliases:
@@ -3594,13 +3862,21 @@ companies:
 - slug: phantom
   name: phantom
 - slug: phia
-  name: phia
+  name: Phia
+  aliases:
+  - phia
 - slug: phil
-  name: phil
+  name: Phil
+  aliases:
+  - phil
 - slug: phlair
-  name: phlair
+  name: Phlair
+  aliases:
+  - phlair
 - slug: phonic
-  name: phonic
+  name: Phonic
+  aliases:
+  - phonic
 - slug: photoroom
   name: photoroom
 - slug: phylo
@@ -3610,9 +3886,13 @@ companies:
   aliases:
   - physicalintelligence
 - slug: picogrid
-  name: picogrid
+  name: Picogrid
+  aliases:
+  - picogrid
 - slug: pika
-  name: pika
+  name: Pika
+  aliases:
+  - pika
 - slug: pilot-fiber
   name: Pilot Fiber
   aliases:
@@ -3632,7 +3912,9 @@ companies:
 - slug: pixelmatters
   name: pixelmatters
 - slug: plaid
-  name: plaid
+  name: Plaid
+  aliases:
+  - plaid
 - slug: plain
   name: plain
 - slug: planera
@@ -3694,9 +3976,13 @@ companies:
   aliases:
   - polygon-labs
 - slug: polymarket
-  name: polymarket
+  name: Polymarket
+  aliases:
+  - polymarket
 - slug: polymath
-  name: polymath
+  name: Polymath
+  aliases:
+  - polymath
 - slug: poolside
   name: poolside
 - slug: popl
@@ -3704,7 +3990,9 @@ companies:
 - slug: posh
   name: posh
 - slug: poshmark
-  name: poshmark
+  name: Poshmark
+  aliases:
+  - poshmark
 - slug: positive-development
   name: Positive Development
   aliases:
@@ -3724,7 +4012,9 @@ companies:
   aliases:
   - Preference-Model
 - slug: prelim
-  name: prelim
+  name: Prelim
+  aliases:
+  - prelim
 - slug: Prelude
   name: Prelude
 - slug: preply
@@ -3744,7 +4034,9 @@ companies:
 - slug: primer.io
   name: primer.io
 - slug: primer
-  name: primer
+  name: Primer
+  aliases:
+  - primer
 - slug: prior-labs
   name: Prior Labs
   aliases:
@@ -3752,7 +4044,9 @@ companies:
 - slug: probablygenetic
   name: probablygenetic
 - slug: probook
-  name: probook
+  name: Probook
+  aliases:
+  - probook
 - slug: procurify
   name: procurify
 - slug: Profound
@@ -3804,7 +4098,9 @@ companies:
   aliases:
   - proxima-fusion
 - slug: pryzm
-  name: pryzm
+  name: Pryzm
+  aliases:
+  - pryzm
 - slug: psi
   name: psi
 - slug: publiccloudgroup
@@ -3820,7 +4116,9 @@ companies:
 - slug: puzzle.io
   name: puzzle.io
 - slug: pylon
-  name: pylon
+  name: Pylon
+  aliases:
+  - pylon
 - slug: pylon-labs
   name: Pylon
   aliases:
@@ -3848,9 +4146,13 @@ companies:
 - slug: qualytics
   name: qualytics
 - slug: quantexa
-  name: quantexa
+  name: Quantexa
+  aliases:
+  - quantexa
 - slug: quantum
-  name: quantum
+  name: Quantum
+  aliases:
+  - quantum
 - slug: quantumleap.education
   name: quantumleap.education
 - slug: quantware
@@ -3866,7 +4168,9 @@ companies:
 - slug: quindar
   name: quindar
 - slug: quora
-  name: quora
+  name: Quora
+  aliases:
+  - quora
 - slug: quorum
   name: quorum
 - slug: quotewell
@@ -3894,7 +4198,9 @@ companies:
 - slug: railway
   name: railway
 - slug: rain
-  name: rain
+  name: Rain
+  aliases:
+  - rain
 - slug: rainfallhealth
   name: rainfallhealth
 - slug: rainforest-pay
@@ -3904,11 +4210,17 @@ companies:
 - slug: rallyuxr
   name: rallyuxr
 - slug: ramp
-  name: ramp
+  name: Ramp
+  aliases:
+  - ramp
 - slug: range
-  name: range
+  name: Range
+  aliases:
+  - range
 - slug: rapdev
-  name: rapdev
+  name: RapDev
+  aliases:
+  - rapdev
 - slug: rarecandy
   name: rarecandy
 - slug: rasa
@@ -4046,7 +4358,9 @@ companies:
 - slug: replimune
   name: replimune
 - slug: replit
-  name: replit
+  name: Replit
+  aliases:
+  - replit
 - slug: rerun
   name: rerun
 - slug: rescale
@@ -4074,7 +4388,9 @@ companies:
 - slug: revenium
   name: revenium
 - slug: revenuecat
-  name: revenuecat
+  name: RevenueCat
+  aliases:
+  - revenuecat
 - slug: revin
   name: revin
 - slug: revive
@@ -4082,7 +4398,9 @@ companies:
 - slug: rewst
   name: rewst
 - slug: rho
-  name: rho
+  name: Rho
+  aliases:
+  - rho
 - slug: rhoda-ai
   name: Rhoda AI
   aliases:
@@ -4100,7 +4418,9 @@ companies:
   aliases:
   - Ridealso
 - slug: rilla
-  name: rilla
+  name: Rilla
+  aliases:
+  - rilla
 - slug: rillet
   name: rillet
 - slug: rime
@@ -4108,7 +4428,9 @@ companies:
 - slug: risklabs
   name: risklabs
 - slug: riveron
-  name: riveron
+  name: Riveron
+  aliases:
+  - riveron
 - slug: rivianvw.tech
   name: Rivian and Volkswagen Group Technologies
   aliases:
@@ -4164,7 +4486,9 @@ companies:
 - slug: rubiconmd
   name: rubiconmd
 - slug: rubie
-  name: rubie
+  name: Rubie
+  aliases:
+  - rubie
 - slug: ruby-labs
   name: Ruby Labs
   aliases:
@@ -4172,7 +4496,9 @@ companies:
 - slug: rula
   name: rula
 - slug: rundoo
-  name: rundoo
+  name: Rundoo
+  aliases:
+  - rundoo
 - slug: runlayer
   name: runlayer
 - slug: runna
@@ -4222,19 +4548,25 @@ companies:
 - slug: sandbar
   name: sandbar
 - slug: sandboxaq
-  name: sandboxaq
+  name: SandboxAQ
+  aliases:
+  - sandboxaq
 - slug: Sanity
   name: Sanity
 - slug: sapien
   name: sapien
 - slug: sardine
-  name: sardine
+  name: Sardine
+  aliases:
+  - sardine
 - slug: saris-ai
   name: Saris Ai
   aliases:
   - saris-ai
 - slug: saronic
-  name: saronic
+  name: Saronic
+  aliases:
+  - saronic
 - slug: satispay
   name: satispay
 - slug: satoshilabs
@@ -4302,7 +4634,9 @@ companies:
 - slug: sellfire
   name: sellfire
 - slug: semgrep
-  name: semgrep
+  name: Semgrep
+  aliases:
+  - semgrep
 - slug: semperis
   name: semperis
 - slug: seneca
@@ -4318,11 +4652,17 @@ companies:
 - slug: sentient
   name: sentient
 - slug: sentilink
-  name: sentilink
+  name: SentiLink
+  aliases:
+  - sentilink
 - slug: sentra
-  name: sentra
+  name: Sentra
+  aliases:
+  - sentra
 - slug: sentry
-  name: sentry
+  name: Sentry
+  aliases:
+  - sentry
 - slug: seon
   name: seon
 - slug: seqera.io
@@ -4352,7 +4692,9 @@ companies:
 - slug: Shasqi
   name: Shasqi
 - slug: shepherd
-  name: shepherd
+  name: Shepherd
+  aliases:
+  - shepherd
 - slug: Shiftkey
   name: Shiftkey
 - slug: shiftsmart
@@ -4388,9 +4730,13 @@ companies:
 - slug: Silver
   name: Silver
 - slug: sim
-  name: sim
+  name: Sim
+  aliases:
+  - sim
 - slug: simile
-  name: simile
+  name: Simile
+  aliases:
+  - simile
 - slug: simondata
   name: simondata
 - slug: simple-ai
@@ -4414,7 +4760,9 @@ companies:
 - slug: SKELAR
   name: SKELAR
 - slug: skydio
-  name: skydio
+  name: Skydio
+  aliases:
+  - skydio
 - slug: Skydropx
   name: Skydropx
 - slug: skyflow
@@ -4442,17 +4790,25 @@ companies:
 - slug: smallstep
   name: smallstep
 - slug: smarkets
-  name: smarkets
+  name: Smarkets
+  aliases:
+  - smarkets
 - slug: smartleaf
   name: smartleaf
 - slug: snapdocs
   name: snapdocs
 - slug: snowflake
-  name: snowflake
+  name: Snowflake
+  aliases:
+  - snowflake
 - slug: socket
-  name: socket
+  name: Socket
+  aliases:
+  - socket
 - slug: socure
-  name: socure
+  name: Socure
+  aliases:
+  - socure
 - slug: sofarocean
   name: sofarocean
 - slug: sola
@@ -4468,7 +4824,9 @@ companies:
 - slug: solcoa
   name: solcoa
 - slug: solink
-  name: solink
+  name: Solink
+  aliases:
+  - solink
 - slug: solvd
   name: solvd
 - slug: solve.ai
@@ -4496,11 +4854,15 @@ companies:
   aliases:
   - spaice-tech
 - slug: spaitial
-  name: spaitial
+  name: SpAItial
+  aliases:
+  - spaitial
 - slug: span.app
   name: span.app
 - slug: span
-  name: span
+  name: Span
+  aliases:
+  - span
 - slug: spara
   name: spara
 - slug: spare
@@ -4570,7 +4932,9 @@ companies:
   aliases:
   - StandInsurance
 - slug: starbridge
-  name: starbridge
+  name: Starbridge
+  aliases:
+  - starbridge
 - slug: stargate-foundation
   name: Stargate Foundation
   aliases:
@@ -4668,7 +5032,9 @@ companies:
 - slug: SunnyData
   name: SunnyData
 - slug: suno
-  name: suno
+  name: Suno
+  aliases:
+  - suno
 - slug: sunrise
   name: sunrise
 - slug: supabase
@@ -4692,7 +5058,9 @@ companies:
 - slug: swarmer
   name: swarmer
 - slug: sweatpals
-  name: sweatpals
+  name: Sweatpals
+  aliases:
+  - sweatpals
 - slug: sweedpos.com
   name: sweedpos.com
 - slug: sweep
@@ -4704,7 +5072,9 @@ companies:
   aliases:
   - sygaldry-technologies
 - slug: sylvera
-  name: sylvera
+  name: Sylvera
+  aliases:
+  - sylvera
 - slug: symbiotic
   name: symbiotic
 - slug: Symmetry
@@ -4754,13 +5124,17 @@ companies:
   aliases:
   - tandem-health
 - slug: tapcart
-  name: tapcart
+  name: Tapcart
+  aliases:
+  - tapcart
 - slug: TaptapSend
   name: TaptapSend
 - slug: tavahealth
   name: tavahealth
 - slug: tavily
-  name: tavily
+  name: Tavily
+  aliases:
+  - tavily
 - slug: tavrn
   name: tavrn
 - slug: tavus
@@ -4772,7 +5146,9 @@ companies:
 - slug: teameigen
   name: teameigen
 - slug: teamworks
-  name: teamworks
+  name: Teamworks
+  aliases:
+  - teamworks
 - slug: tebi
   name: tebi
 - slug: techtorch
@@ -4808,7 +5184,9 @@ companies:
 - slug: tennr
   name: tennr
 - slug: tensorwave
-  name: tensorwave
+  name: TensorWave
+  aliases:
+  - tensorwave
 - slug: terac
   name: terac
 - slug: tern
@@ -4828,7 +5206,9 @@ companies:
 - slug: texture
   name: texture
 - slug: teya
-  name: teya
+  name: Teya
+  aliases:
+  - teya
 - slug: teza-technologies
   name: Teza Technologies
   aliases:
@@ -4896,7 +5276,9 @@ companies:
   aliases:
   - thread-ai
 - slug: thumbtack
-  name: thumbtack
+  name: Thumbtack
+  aliases:
+  - thumbtack
 - slug: tigerdata
   name: tigerdata
 - slug: tight
@@ -4938,7 +5320,9 @@ companies:
 - slug: tomo
   name: tomo
 - slug: tonal
-  name: tonal
+  name: Tonal
+  aliases:
+  - tonal
 - slug: tonicai
   name: tonicai
 - slug: toogeza
@@ -4960,9 +5344,13 @@ companies:
 - slug: town
   name: town
 - slug: traba
-  name: traba
+  name: Traba
+  aliases:
+  - traba
 - slug: tracebit
-  name: tracebit
+  name: Tracebit
+  aliases:
+  - tracebit
 - slug: tracelabs
   name: Trace Labs
   aliases:
@@ -4972,9 +5360,13 @@ companies:
 - slug: tradeify
   name: tradeify
 - slug: trading212
-  name: trading212
+  name: Trading212
+  aliases:
+  - trading212
 - slug: trainline
-  name: trainline
+  name: Trainline
+  aliases:
+  - trainline
 - slug: Transfr
   name: Transfr
 - slug: traversal
@@ -4988,7 +5380,9 @@ companies:
 - slug: tread
   name: tread
 - slug: treefera
-  name: treefera
+  name: Treefera
+  aliases:
+  - treefera
 - slug: tremendous
   name: tremendous
 - slug: Trener-Robotics
@@ -5022,7 +5416,9 @@ companies:
 - slug: truelogic
   name: truelogic
 - slug: trulioo
-  name: trulioo
+  name: Trulioo
+  aliases:
+  - trulioo
 - slug: Trunk%20Tools
   name: Trunk Tools
 - slug: trust-wallet
@@ -5074,7 +5470,9 @@ companies:
 - slug: Uberall
   name: Uberall
 - slug: uipath
-  name: uipath
+  name: UiPath
+  aliases:
+  - uipath
 - slug: ultralytics
   name: ultralytics
 - slug: umbrel
@@ -5082,7 +5480,9 @@ companies:
 - slug: unicornpro
   name: unicornpro
 - slug: unify
-  name: unify
+  name: Unify
+  aliases:
+  - unify
 - slug: union-tech
   name: Union Tech
   aliases:
@@ -5090,7 +5490,9 @@ companies:
 - slug: Union
   name: Union
 - slug: uniswap
-  name: uniswap
+  name: Uniswap
+  aliases:
+  - uniswap
 - slug: unit
   name: unit
 - slug: united-talent-agency
@@ -5132,7 +5534,9 @@ companies:
 - slug: upside
   name: upside
 - slug: upvest
-  name: upvest
+  name: Upvest
+  aliases:
+  - upvest
 - slug: US%20Health%20Partners
   name: US Health Partners
 - slug: usekernel
@@ -5140,7 +5544,9 @@ companies:
 - slug: v7labs.com
   name: v7labs.com
 - slug: valency
-  name: valency
+  name: Valency
+  aliases:
+  - valency
 - slug: valiussciences
   name: valiussciences
 - slug: valkai
@@ -5152,9 +5558,13 @@ companies:
 - slug: vanilla
   name: vanilla
 - slug: vanta
-  name: vanta
+  name: Vanta
+  aliases:
+  - vanta
 - slug: vantage
-  name: vantage
+  name: Vantage
+  aliases:
+  - vantage
 - slug: vantageanalytics
   name: vantageanalytics
 - slug: vapi
@@ -5174,7 +5584,9 @@ companies:
   aliases:
   - vend-park
 - slug: vendelux
-  name: vendelux
+  name: Vendelux
+  aliases:
+  - vendelux
 - slug: venn
   name: venn
 - slug: verdance
@@ -5256,7 +5668,9 @@ companies:
 - slug: vow
   name: vow
 - slug: voxel
-  name: voxel
+  name: Voxel
+  aliases:
+  - voxel
 - slug: Voya%20Energy
   name: Voya Energy
 - slug: VREY
@@ -5280,7 +5694,9 @@ companies:
 - slug: Watershed
   name: Watershed
 - slug: watney
-  name: watney
+  name: Watney
+  aliases:
+  - watney
 - slug: wayflyer
   name: wayflyer
 - slug: wealth-com
@@ -5288,17 +5704,23 @@ companies:
   aliases:
   - wealth-com
 - slug: wealthsimple
-  name: wealthsimple
+  name: Wealthsimple
+  aliases:
+  - wealthsimple
 - slug: weave-grid
   name: Weave Grid
   aliases:
   - weave-grid
 - slug: weave
-  name: weave
+  name: Weave
+  aliases:
+  - weave
 - slug: weaviate
   name: weaviate
 - slug: webai
-  name: webai
+  name: WebAI
+  aliases:
+  - webai
 - slug: Weekend
   name: Weekend
 - slug: welltech
@@ -5366,7 +5788,9 @@ companies:
 - slug: workyard
   name: workyard
 - slug: worldly
-  name: worldly
+  name: Worldly
+  aliases:
+  - worldly
 - slug: wormholelabs
   name: wormholelabs
 - slug: wrapbook
@@ -5386,7 +5810,9 @@ companies:
 - slug: xenon
   name: xenon
 - slug: xero
-  name: xero
+  name: Xero
+  aliases:
+  - xero
 - slug: XMTP%20Labs
   name: XMTP Labs
 - slug: xnrgy-climate-systems
@@ -5416,7 +5842,9 @@ companies:
 - slug: Zania
   name: Zania
 - slug: zapier
-  name: zapier
+  name: Zapier
+  aliases:
+  - zapier
 - slug: zauber
   name: zauber
 - slug: zeal-network
@@ -5442,15 +5870,21 @@ companies:
 - slug: zeno
   name: zeno
 - slug: Zeromark
-  name: Zeromark
+  name: ZeroMark
+  aliases:
+  - Zeromark
 - slug: zip%20security
   name: zip security
 - slug: zip
-  name: zip
+  name: Zip
+  aliases:
+  - zip
 - slug: zippymh
   name: zippymh
 - slug: zuru
-  name: zuru
+  name: Zuru
+  aliases:
+  - zuru
 - slug: zyphra
   name: zyphra
 - slug: 8returns
@@ -5632,7 +6066,9 @@ companies:
 - slug: civicmarketplace
   name: civicmarketplace
 - slug: clarium
-  name: clarium
+  name: Clarium
+  aliases:
+  - clarium
 - slug: clearvector
   name: clearvector
 - slug: climate-finance-solutions
@@ -5644,7 +6080,9 @@ companies:
 - slug: complete
   name: complete
 - slug: composio
-  name: composio
+  name: Composio
+  aliases:
+  - composio
 - slug: compound
   name: compound
 - slug: condor-software
@@ -5666,11 +6104,15 @@ companies:
   aliases:
   - cosmic-robotics
 - slug: coverdash
-  name: coverdash
+  name: Coverdash
+  aliases:
+  - coverdash
 - slug: creem
   name: creem
 - slug: ctgt
-  name: ctgt
+  name: CTGT
+  aliases:
+  - ctgt
 - slug: cyber.fund
   name: cyber.fund
 - slug: dapper
@@ -5692,7 +6134,9 @@ companies:
 - slug: deposely
   name: deposely
 - slug: dexmate
-  name: dexmate
+  name: Dexmate
+  aliases:
+  - dexmate
 - slug: diversified-botanics
   name: Diversified Botanics
   aliases:
@@ -5714,7 +6158,9 @@ companies:
 - slug: ekumenlabs
   name: ekumenlabs
 - slug: eliza
-  name: eliza
+  name: Eliza
+  aliases:
+  - eliza
 - slug: elorian-ai-inc
   name: Elorian Ai Inc
   aliases:
@@ -5746,9 +6192,13 @@ companies:
 - slug: everfield
   name: everfield
 - slug: exegy
-  name: exegy
+  name: Exegy
+  aliases:
+  - exegy
 - slug: fable
-  name: fable
+  name: Fable
+  aliases:
+  - fable
 - slug: fabrion
   name: fabrion
 - slug: fanvue.com
@@ -5780,9 +6230,13 @@ companies:
 - slug: flowhub
   name: flowhub
 - slug: fluency
-  name: fluency
+  name: Fluency
+  aliases:
+  - fluency
 - slug: focal
-  name: focal
+  name: Focal
+  aliases:
+  - focal
 - slug: focus
   name: focus
 - slug: focused
@@ -5866,7 +6320,9 @@ companies:
 - slug: kinsteadhealth
   name: kinsteadhealth
 - slug: kira
-  name: kira
+  name: Kira
+  aliases:
+  - kira
 - slug: kled-ai
   name: Kled Ai
   aliases:
@@ -5878,7 +6334,9 @@ companies:
 - slug: kog
   name: kog
 - slug: kognitos
-  name: kognitos
+  name: Kognitos
+  aliases:
+  - kognitos
 - slug: konvu
   name: konvu
 - slug: kovo
@@ -5916,7 +6374,9 @@ companies:
   aliases:
   - limelight-steel
 - slug: liquid
-  name: liquid
+  name: Liquid
+  aliases:
+  - liquid
 - slug: litmus
   name: litmus
 - slug: liveitup
@@ -5956,9 +6416,13 @@ companies:
 - slug: mimica
   name: mimica
 - slug: mintmcp
-  name: mintmcp
+  name: MintMCP
+  aliases:
+  - mintmcp
 - slug: miovision
-  name: miovision
+  name: Miovision
+  aliases:
+  - miovision
 - slug: miri
   name: miri
 - slug: mobbin.com
@@ -6024,7 +6488,9 @@ companies:
 - slug: nuon
   name: nuon
 - slug: obvio
-  name: obvio
+  name: Obvio
+  aliases:
+  - obvio
 - slug: odys-aviation
   name: Odys Aviation
   aliases:
@@ -6080,7 +6546,9 @@ companies:
 - slug: phasebiolabs
   name: phasebiolabs
 - slug: phonely
-  name: phonely
+  name: Phonely
+  aliases:
+  - phonely
 - slug: pilgrim
   name: pilgrim
 - slug: pirros
@@ -6128,7 +6596,9 @@ companies:
 - slug: qontext
   name: qontext
 - slug: quanta
-  name: quanta
+  name: Quanta
+  aliases:
+  - quanta
 - slug: rabot
   name: rabot
 - slug: rad-intel
@@ -6208,7 +6678,9 @@ companies:
 - slug: sibill
   name: sibill
 - slug: sieve
-  name: sieve
+  name: Sieve
+  aliases:
+  - sieve
 - slug: sifflet
   name: sifflet
 - slug: siftwell-analytics
@@ -6300,11 +6772,15 @@ companies:
 - slug: technitask
   name: technitask
 - slug: teleskope
-  name: teleskope
+  name: Teleskope
+  aliases:
+  - teleskope
 - slug: tellos
   name: tellos
 - slug: tempo
-  name: tempo
+  name: Tempo
+  aliases:
+  - tempo
 - slug: terminal-industries
   name: Terminal Industries
   aliases:
@@ -6350,11 +6826,15 @@ companies:
 - slug: universalagi
   name: universalagi
 - slug: usul
-  name: usul
+  name: Usul
+  aliases:
+  - usul
 - slug: valeriehealth
   name: valeriehealth
 - slug: valinor
-  name: valinor
+  name: Valinor
+  aliases:
+  - valinor
 - slug: ValonVM
   name: ValonVM
 - slug: vanishid
@@ -6430,7 +6910,9 @@ companies:
   aliases:
   - alloyenterprises
 - slug: obvious
-  name: obvious
+  name: Obvious
+  aliases:
+  - obvious
 - slug: herondata
   name: Heron Data
   aliases:
@@ -6440,17 +6922,25 @@ companies:
   aliases:
   - realitydefender
 - slug: fundwell
-  name: fundwell
+  name: Fundwell
+  aliases:
+  - fundwell
 - slug: unlikelyai
   name: Unlikely AI
   aliases:
   - unlikelyai
 - slug: proxima
-  name: proxima
+  name: Proxima
+  aliases:
+  - proxima
 - slug: uncountable
-  name: uncountable
+  name: Uncountable
+  aliases:
+  - uncountable
 - slug: golinks
-  name: golinks
+  name: GoLinks
+  aliases:
+  - golinks
 - slug: Remedy%20Scientific
   name: Remedy Scientific
 - slug: tldraw
@@ -6464,11 +6954,15 @@ companies:
   aliases:
   - voleon
 - slug: niural
-  name: niural
+  name: Niural
+  aliases:
+  - niural
 - slug: Lunon
   name: Lunon
 - slug: clera
-  name: clera
+  name: Clera
+  aliases:
+  - clera
 - slug: outmarket
   name: Outmarket AI
   aliases:
@@ -6484,51 +6978,73 @@ companies:
   aliases:
   - droyd
 - slug: 1x
-  name: 1x
+  name: 1X
+  aliases:
+  - 1x
 - slug: circleback
-  name: circleback
+  name: Circleback
+  aliases:
+  - circleback
 - slug: fab2
-  name: fab2
+  name: Fab2
+  aliases:
+  - fab2
 - slug: kirin
-  name: kirin
+  name: Kirin
+  aliases:
+  - kirin
 - slug: mistral.ai
   name: Mistral AI
   aliases:
   - mistral.ai
 - slug: bloxd
-  name: bloxd
+  name: Bloxd
+  aliases:
+  - bloxd
 - slug: varick-agents
   name: Varick Agents
   aliases:
   - varick-agents
 - slug: neocognition
-  name: neocognition
+  name: NeoCognition
+  aliases:
+  - neocognition
 - slug: faculty-fellowship
   name: Faculte
   aliases:
   - faculty-fellowship
 - slug: genmd
-  name: genmd
+  name: GenMD
+  aliases:
+  - genmd
 - slug: hubs.is
-  name: hubs.is
+  name: Hubs.is
+  aliases:
+  - hubs.is
 - slug: frontier-health
   name: Frontier Health
   aliases:
   - frontier-health
 - slug: aptura
-  name: aptura
+  name: Aptura
+  aliases:
+  - aptura
 - slug: reviserobotics
   name: Revise Robotics
   aliases:
   - reviserobotics
 - slug: terranova
-  name: terranova
+  name: Terranova
+  aliases:
+  - terranova
 - slug: quadrillion-labs
   name: Quadrillion
   aliases:
   - quadrillion-labs
 - slug: eragon
-  name: eragon
+  name: Eragon
+  aliases:
+  - eragon
 - slug: georgian
   name: Georgian Partners Growth
   aliases:
@@ -6538,7 +7054,9 @@ companies:
   aliases:
   - kineticsystems
 - slug: monogram
-  name: monogram
+  name: Monogram
+  aliases:
+  - monogram
 - slug: vmax
   name: Vmax AI Corp
   aliases:
@@ -6552,7 +7070,9 @@ companies:
   aliases:
   - anthelioncap
 - slug: heliux
-  name: heliux
+  name: Heliux
+  aliases:
+  - heliux
 - slug: generalintuition-medal
   name: General Intuition &amp; Medal
   aliases:
@@ -6570,17 +7090,25 @@ companies:
   aliases:
   - ntt-data-aivista
 - slug: valstad
-  name: valstad
+  name: Valstad
+  aliases:
+  - valstad
 - slug: tacit
-  name: tacit
+  name: Tacit
+  aliases:
+  - tacit
 - slug: terminal
-  name: terminal
+  name: Terminal
+  aliases:
+  - terminal
 - slug: epianeuro
   name: Epia Neuro
   aliases:
   - epianeuro
 - slug: hypercubic
-  name: hypercubic
+  name: Hypercubic
+  aliases:
+  - hypercubic
 - slug: dedalus-labs
   name: Dedalus Labs
   aliases:
@@ -6598,11 +7126,17 @@ companies:
   aliases:
   - maximor
 - slug: maxinsights
-  name: maxinsights
+  name: Maxinsights
+  aliases:
+  - maxinsights
 - slug: cheiron
-  name: cheiron
+  name: Cheiron
+  aliases:
+  - cheiron
 - slug: armadin
-  name: armadin
+  name: Armadin
+  aliases:
+  - armadin
 - slug: deft-ai
   name: Deft AI
   aliases:
@@ -6612,9 +7146,13 @@ companies:
   aliases:
   - ramielcapital
 - slug: conductorai
-  name: conductorai
+  name: ConductorAI
+  aliases:
+  - conductorai
 - slug: revel
-  name: revel
+  name: Revel
+  aliases:
+  - revel
 - slug: allen-control-systems
   name: Allen Control Systems
   aliases:
@@ -6634,13 +7172,17 @@ companies:
   aliases:
   - withpace
 - slug: pressw
-  name: pressw
+  name: PressW
+  aliases:
+  - pressw
 - slug: collinear-ai
   name: Collinear AI
   aliases:
   - collinear-ai
 - slug: qumulo
-  name: qumulo
+  name: Qumulo
+  aliases:
+  - qumulo
 - slug: bracket-bot
   name: Bracket Bot
   aliases:
@@ -6658,33 +7200,49 @@ companies:
   aliases:
   - anglehealth
 - slug: 8vc
-  name: 8vc
+  name: 8VC
+  aliases:
+  - 8vc
 - slug: augmodo
-  name: augmodo
+  name: Augmodo
+  aliases:
+  - augmodo
 - slug: treeswift
-  name: treeswift
+  name: Treeswift
+  aliases:
+  - treeswift
 - slug: Authorium
   name: Authorium
 - slug: encord
-  name: encord
+  name: Encord
+  aliases:
+  - encord
 - slug: sewer-ai
   name: SewerAI
   aliases:
   - sewer-ai
 - slug: aditude
-  name: aditude
+  name: Aditude
+  aliases:
+  - aditude
 - slug: generalist
-  name: generalist
+  name: Generalist
+  aliases:
+  - generalist
 - slug: cylake-inc
   name: Cylake
   aliases:
   - cylake-inc
 - slug: jigsaw
-  name: jigsaw
+  name: Jigsaw
+  aliases:
+  - jigsaw
 - slug: PointOne
   name: PointOne
 - slug: confido
-  name: confido
+  name: Confido
+  aliases:
+  - confido
 - slug: amigo
   name: Amigo AI
   aliases:
@@ -6692,23 +7250,37 @@ companies:
 - slug: algo1
   name: algo1
 - slug: specter
-  name: specter
+  name: Specter
+  aliases:
+  - specter
 - slug: lawdepot
-  name: lawdepot
+  name: LawDepot
+  aliases:
+  - lawdepot
 - slug: cerebras
-  name: cerebras
+  name: Cerebras
+  aliases:
+  - cerebras
 - slug: quantcast
-  name: quantcast
+  name: Quantcast
+  aliases:
+  - quantcast
 - slug: amplify
-  name: amplify
+  name: Amplify
+  aliases:
+  - amplify
 - slug: joinpogo
   name: Pogo Technologies, Inc.
   aliases:
   - joinpogo
 - slug: zilch
-  name: zilch
+  name: Zilch
+  aliases:
+  - zilch
 - slug: healf
-  name: healf
+  name: Healf
+  aliases:
+  - healf
 - slug: envision-horizons
   name: Envision Horizons LLC
   aliases:
@@ -6730,13 +7302,21 @@ companies:
   aliases:
   - backbone
 - slug: maigrate
-  name: maigrate
+  name: Maigrate
+  aliases:
+  - maigrate
 - slug: runpod
-  name: runpod
+  name: Runpod
+  aliases:
+  - runpod
 - slug: packz
-  name: packz
+  name: Packz
+  aliases:
+  - packz
 - slug: castle
-  name: castle
+  name: Castle
+  aliases:
+  - castle
 - slug: numerixs-quant
   name: NumerixS Quant
   aliases:
@@ -6754,7 +7334,9 @@ companies:
   aliases:
   - cohort
 - slug: apiphany
-  name: apiphany
+  name: Apiphany
+  aliases:
+  - apiphany
 - slug: turn-river
   name: Turn/River Capital
   aliases:
@@ -6768,7 +7350,9 @@ companies:
   aliases:
   - alphalifesci
 - slug: claimsorted
-  name: claimsorted
+  name: ClaimSorted
+  aliases:
+  - claimsorted
 - slug: Inclined
   name: Inclined Technologies
   aliases:
@@ -6782,7 +7366,9 @@ companies:
   aliases:
   - alta-ares
 - slug: rollout
-  name: rollout
+  name: Rollout
+  aliases:
+  - rollout
 - slug: fr
   name: Maya HTT
   aliases:
@@ -6792,17 +7378,25 @@ companies:
   aliases:
   - dome-systems-inc
 - slug: atominvest
-  name: atominvest
+  name: Atominvest
+  aliases:
+  - atominvest
 - slug: fs-studio
   name: FS Studio
   aliases:
   - fs-studio
 - slug: gearset
-  name: gearset
+  name: Gearset
+  aliases:
+  - gearset
 - slug: cloudscaler
-  name: cloudscaler
+  name: Cloudscaler
+  aliases:
+  - cloudscaler
 - slug: trovy
-  name: trovy
+  name: Trovy
+  aliases:
+  - trovy
 - slug: interface-ai
   name: interface.ai
   aliases:
@@ -6820,19 +7414,29 @@ companies:
   aliases:
   - nova-talent
 - slug: tunnl
-  name: tunnl
+  name: Tunnl
+  aliases:
+  - tunnl
 - slug: sciemo
-  name: sciemo
+  name: Sciemo
+  aliases:
+  - sciemo
 - slug: deeter-analytics
   name: Deeter Analytics
   aliases:
   - deeter-analytics
 - slug: hooglee
-  name: hooglee
+  name: Hooglee
+  aliases:
+  - hooglee
 - slug: tradinghub
-  name: tradinghub
+  name: TradingHub
+  aliases:
+  - tradinghub
 - slug: idler
-  name: idler
+  name: Idler
+  aliases:
+  - idler
 - slug: liveview-technologies
   name: LiveView Technologies
   aliases:
@@ -6842,9 +7446,13 @@ companies:
   aliases:
   - inductive-automation-llc
 - slug: circuithub
-  name: circuithub
+  name: CircuitHub
+  aliases:
+  - circuithub
 - slug: dipper
-  name: dipper
+  name: Dipper
+  aliases:
+  - dipper
 - slug: surge-ai
   name: Surge AI
   aliases:
@@ -6854,31 +7462,45 @@ companies:
   aliases:
   - genesis
 - slug: extropic
-  name: extropic
+  name: Extropic
+  aliases:
+  - extropic
 - slug: voyant-photonics
   name: Voyant Photonics
   aliases:
   - voyant-photonics
 - slug: greenboard
-  name: greenboard
+  name: Greenboard
+  aliases:
+  - greenboard
 - slug: Roadrunner
-  name: Roadrunner
+  name: RoadRunner
+  aliases:
+  - Roadrunner
 - slug: oratomic
-  name: oratomic
+  name: Oratomic
+  aliases:
+  - oratomic
 - slug: meow
-  name: meow
+  name: Meow
+  aliases:
+  - meow
 - slug: morse-micro
   name: Morse Micro
   aliases:
   - morse-micro
 - slug: synhawk
-  name: synhawk
+  name: Synhawk
+  aliases:
+  - synhawk
 - slug: lucidcomputing
   name: Lucid Computing
   aliases:
   - lucidcomputing
 - slug: parasail
-  name: parasail
+  name: Parasail
+  aliases:
+  - parasail
 - slug: Relling
   name: Relling
 - slug: standardsubsea
@@ -6886,15 +7508,21 @@ companies:
   aliases:
   - standardsubsea
 - slug: krew
-  name: krew
+  name: Krew
+  aliases:
+  - krew
 - slug: fortell
-  name: fortell
+  name: Fortell
+  aliases:
+  - fortell
 - slug: hudson-pacific-properties
   name: Hudson Pacific Properties
   aliases:
   - hudson-pacific-properties
 - slug: whoop
-  name: whoop
+  name: Whoop
+  aliases:
+  - whoop
 - slug: fireworks
   name: Fireworks AI
   aliases:

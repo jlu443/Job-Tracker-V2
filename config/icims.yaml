@@ -1308,12 +1308,14 @@ companies:
   aliases:
   - canada-english-avisonyoung
 - host: careers2-vhb.icims.com
-  name: Careers2 Vhb.icims.com
+  name: VHB
   aliases:
+  - Careers2 Vhb.icims.com
   - careers2-vhb
 - host: collegerecruitment-barrios.icims.com
-  name: Collegerecruitment Barrios.icims.com
+  name: Barrios
   aliases:
+  - Collegerecruitment Barrios.icims.com
   - collegerecruitment-barrios
 - host: interns-maserconsulting.icims.com
   name: Interns Maserconsulting.icims.com
@@ -1324,12 +1326,14 @@ companies:
   aliases:
   - careers-daddario
 - host: externalcareers-ohsu.icims.com
-  name: Externalcareers Ohsu.icims.com
+  name: OHSU
   aliases:
+  - Externalcareers Ohsu.icims.com
   - externalcareers-ohsu
 - host: careers2-quanta.icims.com
-  name: Careers2 Quanta.icims.com
+  name: Quanta
   aliases:
+  - Careers2 Quanta.icims.com
   - careers2-quanta
 - host: careers-usa-cecoenviro.icims.com
   name: Careers Usa Cecoenviro.icims.com

@@ -84,7 +84,9 @@ companies:
   aliases:
   - klaviyocampus
 - token: wheely
-  name: wheely
+  name: Wheely
+  aliases:
+  - wheely
 - token: testnisc
   name: NISC
   aliases:
@@ -102,7 +104,9 @@ companies:
   aliases:
   - ruggedrobotics
 - token: pagaya
-  name: pagaya
+  name: Pagaya
+  aliases:
+  - pagaya
 - token: twosixtechnologies
   name: Two Six Technologies
   aliases:
@@ -120,7 +124,9 @@ companies:
   aliases:
   - samsungresearchamericainternship
 - token: astranis
-  name: astranis
+  name: Astranis
+  aliases:
+  - astranis
 - token: andurilindustries
   name: Anduril Industries
   aliases:
@@ -130,7 +136,9 @@ companies:
   aliases:
   - samsungsemiconductor
 - token: virtru
-  name: virtru
+  name: Virtru
+  aliases:
+  - virtru
 - token: harbingermotors
   name: Harbinger Motors Inc.
   aliases:
@@ -144,7 +152,9 @@ companies:
   aliases:
   - bamboohr17
 - token: triparc
-  name: triparc
+  name: TripArc
+  aliases:
+  - triparc
 - token: boxinc
   name: Box
   aliases:
@@ -154,7 +164,9 @@ companies:
   aliases:
   - sigmacomputing
 - token: checkr
-  name: checkr
+  name: Checkr
+  aliases:
+  - checkr
 - token: aloyoga
   name: ALO
   aliases:
@@ -164,7 +176,9 @@ companies:
   aliases:
   - gametimeunited
 - token: apptronik
-  name: apptronik
+  name: Apptronik
+  aliases:
+  - apptronik
 - token: fourhands
   name: Four Hands
   aliases:
@@ -174,9 +188,13 @@ companies:
   aliases:
   - silananotechnologies
 - token: verkada
-  name: verkada
+  name: Verkada
+  aliases:
+  - verkada
 - token: cresta
-  name: cresta
+  name: Cresta
+  aliases:
+  - cresta
 - token: theweathercompany
   name: The Weather Company
   aliases:
@@ -210,11 +228,17 @@ companies:
   aliases:
   - tenstorrentuniversity
 - token: celonis
-  name: celonis
+  name: Celonis
+  aliases:
+  - celonis
 - token: patientpoint
-  name: patientpoint
+  name: PatientPoint
+  aliases:
+  - patientpoint
 - token: zocdoc
-  name: zocdoc
+  name: Zocdoc
+  aliases:
+  - zocdoc
 - token: redwoodmaterials
   name: Redwood Materials
   aliases:
@@ -236,7 +260,9 @@ companies:
   aliases:
   - phoenixcontact
 - token: oceanx
-  name: oceanx
+  name: OceanX
+  aliases:
+  - oceanx
 - token: sonyinteractiveentertainmentglobal
   name: PlayStation Global
   aliases:
@@ -286,25 +312,33 @@ companies:
   aliases:
   - intrinsicrobotics
 - token: praxent
-  name: praxent
+  name: Praxent
+  aliases:
+  - praxent
 - token: planetlabs
   name: Planet
   aliases:
   - planetlabs
 - token: prolaio
-  name: prolaio
+  name: Prolaio
+  aliases:
+  - prolaio
 - token: adcouncil
   name: the Ad Council
   aliases:
   - adcouncil
 - token: twilio
-  name: twilio
+  name: Twilio
+  aliases:
+  - twilio
 - token: ivxhealth
   name: IVX Health
   aliases:
   - ivxhealth
 - token: mobilityware
-  name: mobilityware
+  name: MobilityWare
+  aliases:
+  - mobilityware
 - token: atlassand
   name: Atlas Energy Solutions
   aliases:
@@ -330,9 +364,13 @@ companies:
   aliases:
   - agwestfarmcredit
 - token: humansignal
-  name: humansignal
+  name: HumanSignal
+  aliases:
+  - humansignal
 - token: vixxo
-  name: vixxo
+  name: VIXXO
+  aliases:
+  - vixxo
 - token: expertnetwork
   name: Correlation One Expert Network
   aliases:
@@ -342,25 +380,33 @@ companies:
   aliases:
   - laskoproducts
 - token: exoduspoint
-  name: exoduspoint
+  name: ExodusPoint
+  aliases:
+  - exoduspoint
 - token: gelberhandshake
   name: Gelber Group Handshake
   aliases:
   - gelberhandshake
 - token: launchdarkly
-  name: launchdarkly
+  name: LaunchDarkly
+  aliases:
+  - launchdarkly
 - token: stratacareers
   name: Strata Decision Technology
   aliases:
   - stratacareers
 - token: edmentum
-  name: edmentum
+  name: Edmentum
+  aliases:
+  - edmentum
 - token: ampsortation
   name: 'AMP: AI-Powered Sortation for Waste and Recycling'
   aliases:
   - ampsortation
 - token: skyryse
-  name: skyryse
+  name: Skyryse
+  aliases:
+  - skyryse
 - token: fiveringsllc
   name: Five Rings LLC - Careers
   aliases:
@@ -370,15 +416,21 @@ companies:
   aliases:
   - tradingacademy2025
 - token: axios
-  name: axios
+  name: Axios
+  aliases:
+  - axios
 - token: philliesbaseballoperations
   name: Philadelphia Phillies - Baseball Operations
   aliases:
   - philliesbaseballoperations
 - token: formic
-  name: formic
+  name: Formic
+  aliases:
+  - formic
 - token: ivalua
-  name: ivalua
+  name: Ivalua
+  aliases:
+  - ivalua
 - token: gardacp
   name: Garda Capital Partners
   aliases:
@@ -396,7 +448,9 @@ companies:
   aliases:
   - criticalmass
 - token: mercury
-  name: mercury
+  name: Mercury
+  aliases:
+  - mercury
 - token: acluinternships
   name: ACLU - Internships
   aliases:
@@ -418,17 +472,25 @@ companies:
   aliases:
   - gelbergroup
 - token: schonfeld
-  name: schonfeld
+  name: Schonfeld
+  aliases:
+  - schonfeld
 - token: scopely
-  name: scopely
+  name: Scopely
+  aliases:
+  - scopely
 - token: maybellquantum
   name: Maybell Quantum Industries
   aliases:
   - maybellquantum
 - token: olsson
-  name: olsson
+  name: Olsson
+  aliases:
+  - olsson
 - token: tatari
-  name: tatari
+  name: Tatari
+  aliases:
+  - tatari
 - token: eikontherapeutics
   name: Eikon Therapeutics
   aliases:
@@ -450,7 +512,9 @@ companies:
   aliases:
   - drwuniversityjobs
 - token: calyxo
-  name: calyxo
+  name: Calyxo
+  aliases:
+  - calyxo
 - token: fspco-op012325
   name: Flagship Pioneering Co-Op Program
   aliases:
@@ -460,29 +524,41 @@ companies:
   aliases:
   - ezcaterinc
 - token: dorsia
-  name: dorsia
+  name: Dorsia
+  aliases:
+  - dorsia
 - token: upstreamusa
   name: Upstream USA
   aliases:
   - upstreamusa
 - token: truveta
-  name: truveta
+  name: Truveta
+  aliases:
+  - truveta
 - token: juvare
-  name: juvare
+  name: Juvare
+  aliases:
+  - juvare
 - token: hellbenderinc
   name: HELLBENDER Inc.
   aliases:
   - hellbenderinc
 - token: auctane
-  name: auctane
+  name: Auctane
+  aliases:
+  - auctane
 - token: knowbe4
-  name: knowbe4
+  name: KnowBe4
+  aliases:
+  - knowbe4
 - token: ada18
   name: Ada
   aliases:
   - ada18
 - token: commvault
-  name: commvault
+  name: Commvault
+  aliases:
+  - commvault
 - token: 1800contacts
   name: 1-800 Contacts
   aliases:
@@ -504,11 +580,17 @@ companies:
   aliases:
   - cmt
 - token: sonatus
-  name: sonatus
+  name: Sonatus
+  aliases:
+  - sonatus
 - token: pmg
-  name: pmg
+  name: PMG
+  aliases:
+  - pmg
 - token: graphcore
-  name: graphcore
+  name: Graphcore
+  aliases:
+  - graphcore
 - token: fccincinnati
   name: Fussball Club Cincinnati LLC (“FC Cincinnati”)
   aliases:
@@ -526,9 +608,13 @@ companies:
   aliases:
   - axq
 - token: comstock
-  name: comstock
+  name: Comstock
+  aliases:
+  - comstock
 - token: point72
-  name: point72
+  name: Point72
+  aliases:
+  - point72
 - token: tastylive
   name: tastylive
 - token: leagueinc
@@ -550,7 +636,9 @@ companies:
   aliases:
   - betterhelpcom
 - token: starburst
-  name: starburst
+  name: Starburst
+  aliases:
+  - starburst
 - token: apexcompanies
   name: Apex Companies
   aliases:
@@ -560,7 +648,9 @@ companies:
   aliases:
   - alamarbiosciences
 - token: nooks
-  name: nooks
+  name: Nooks
+  aliases:
+  - nooks
 - token: vulcanelements
   name: Vulcan Elements
   aliases:
@@ -590,9 +680,13 @@ companies:
   aliases:
   - alarmcom
 - token: trumid
-  name: trumid
+  name: Trumid
+  aliases:
+  - trumid
 - token: profluent
-  name: profluent
+  name: Profluent
+  aliases:
+  - profluent
 - token: clockworksystems
   name: Clockwork.io
   aliases:
@@ -606,13 +700,17 @@ companies:
   aliases:
   - financialtechnologypartners
 - token: kodiak
-  name: kodiak
+  name: Kodiak
+  aliases:
+  - kodiak
 - token: lightspeedsystems
   name: Lightspeed Systems
   aliases:
   - lightspeedsystems
 - token: logicgate
-  name: logicgate
+  name: LogicGate
+  aliases:
+  - logicgate
 - token: bracebridgecapital
   name: Bracebridge Capital
   aliases:
@@ -626,9 +724,13 @@ companies:
   aliases:
   - youcom
 - token: axon
-  name: axon
+  name: Axon
+  aliases:
+  - axon
 - token: neo4j
-  name: neo4j
+  name: Neo4j
+  aliases:
+  - neo4j
 - token: lgelectronics
   name: LG Electronics
   aliases:
@@ -638,7 +740,9 @@ companies:
   aliases:
   - diligentcorporation
 - token: armada
-  name: armada
+  name: Armada
+  aliases:
+  - armada
 - token: parallel
   name: Parallel Systems
   aliases:
@@ -660,7 +764,9 @@ companies:
   aliases:
   - strandtherapeutics
 - token: stockx
-  name: stockx
+  name: StockX
+  aliases:
+  - stockx
 - token: lucidmotors
   name: Lucid Motors
   aliases:
@@ -678,9 +784,13 @@ companies:
   aliases:
   - aevexaerospace
 - token: neuralink
-  name: neuralink
+  name: Neuralink
+  aliases:
+  - neuralink
 - token: gofundme
-  name: gofundme
+  name: GoFundMe
+  aliases:
+  - gofundme
 - token: metoxinternationalinc
   name: MetOx International, Inc.
   aliases:
@@ -690,33 +800,49 @@ companies:
   aliases:
   - horizonindustrieslimited
 - token: bandwidth
-  name: bandwidth
+  name: Bandwidth
+  aliases:
+  - bandwidth
 - token: digs
-  name: digs
+  name: Digs
+  aliases:
+  - digs
 - token: defenseunicorns
   name: Defense Unicorns
   aliases:
   - defenseunicorns
 - token: glydways
-  name: glydways
+  name: Glydways
+  aliases:
+  - glydways
 - token: horacemannservicecorporation
   name: Horace Mann
   aliases:
   - horacemannservicecorporation
 - token: zscaler
-  name: zscaler
+  name: Zscaler
+  aliases:
+  - zscaler
 - token: authenticbrandsgroup
   name: Authentic Brands Group
   aliases:
   - authenticbrandsgroup
 - token: affirm
-  name: affirm
+  name: Affirm
+  aliases:
+  - affirm
 - token: alku
-  name: alku
+  name: ALKU
+  aliases:
+  - alku
 - token: arvinas
-  name: arvinas
+  name: Arvinas
+  aliases:
+  - arvinas
 - token: geotab
-  name: geotab
+  name: Geotab
+  aliases:
+  - geotab
 - token: sanmar
   name: SanMar- External
   aliases:
@@ -726,25 +852,37 @@ companies:
   aliases:
   - togetherai
 - token: devrev
-  name: devrev
+  name: DevRev
+  aliases:
+  - devrev
 - token: drivewealth
-  name: drivewealth
+  name: DriveWealth
+  aliases:
+  - drivewealth
 - token: lumosfiber
   name: Lumos
   aliases:
   - lumosfiber
 - token: impiricus
-  name: impiricus
+  name: Impiricus
+  aliases:
+  - impiricus
 - token: pacvue
-  name: pacvue
+  name: Pacvue
+  aliases:
+  - pacvue
 - token: doublegood
   name: Double Good
   aliases:
   - doublegood
 - token: aircapture
-  name: aircapture
+  name: Aircapture
+  aliases:
+  - aircapture
 - token: cognitiv
-  name: cognitiv
+  name: Cognitiv
+  aliases:
+  - cognitiv
 - token: genevatrading
   name: Geneva Trading
   aliases:
@@ -758,13 +896,17 @@ companies:
   aliases:
   - vardaspace
 - token: meriton
-  name: meriton
+  name: Meriton
+  aliases:
+  - meriton
 - token: rexfordindustrial
   name: Rexford Industrial
   aliases:
   - rexfordindustrial
 - token: doximity
-  name: doximity
+  name: Doximity
+  aliases:
+  - doximity
 - token: honehealth
   name: Hone Health
   aliases:
@@ -782,7 +924,9 @@ companies:
   aliases:
   - gcmgrosvenor
 - token: newsbreak
-  name: newsbreak
+  name: NewsBreak
+  aliases:
+  - newsbreak
 - token: sonobello
   name: Sono Bello
   aliases:
@@ -792,7 +936,9 @@ companies:
   aliases:
   - forteracorporation
 - token: spacex
-  name: spacex
+  name: SpaceX
+  aliases:
+  - spacex
 - token: arcesiumllc
   name: Arcesium LLC
   aliases:
@@ -810,7 +956,9 @@ companies:
   aliases:
   - scaleai
 - token: eulerity
-  name: eulerity
+  name: Eulerity
+  aliases:
+  - eulerity
 - token: thehealthmanagementacademy
   name: The Health Management Academy
   aliases:
@@ -820,21 +968,29 @@ companies:
   aliases:
   - xairatherapeutics
 - token: axs
-  name: axs
+  name: AXS
+  aliases:
+  - axs
 - token: rtwinvestments
   name: RTW Investments
   aliases:
   - rtwinvestments
 - token: instawork
-  name: instawork
+  name: Instawork
+  aliases:
+  - instawork
 - token: didi
   name: DiDi Labs
   aliases:
   - didi
 - token: sonothera
-  name: sonothera
+  name: SonoThera
+  aliases:
+  - sonothera
 - token: newsela
-  name: newsela
+  name: Newsela
+  aliases:
+  - newsela
 - token: 10alabs
   name: 10a Labs
   aliases:
@@ -844,7 +1000,9 @@ companies:
   aliases:
   - palmettocleantech
 - token: spycloud
-  name: spycloud
+  name: SpyCloud
+  aliases:
+  - spycloud
 - token: piaggiofastforward
   name: Piaggio Fast Forward
   aliases:
@@ -854,21 +1012,29 @@ companies:
   aliases:
   - msfcareers
 - token: hudl
-  name: hudl
+  name: Hudl
+  aliases:
+  - hudl
 - token: guidepoint
-  name: guidepoint
+  name: Guidepoint
+  aliases:
+  - guidepoint
 - token: udemybedi
   name: BEDI Partnerships
   aliases:
   - udemybedi
 - token: roboforce
-  name: roboforce
+  name: RoboForce
+  aliases:
+  - roboforce
 - token: omnicomhealth
   name: Omnicom Health
   aliases:
   - omnicomhealth
 - token: koddi
-  name: koddi
+  name: Koddi
+  aliases:
+  - koddi
 - token: elevationscreditunion
   name: Elevations Credit Union
   aliases:
@@ -878,19 +1044,25 @@ companies:
   aliases:
   - botauto
 - token: specterops
-  name: specterops
+  name: SpecterOps
+  aliases:
+  - specterops
 - token: aquaticcapitalmanagement
   name: Aquatic Capital Management
   aliases:
   - aquaticcapitalmanagement
 - token: billiontoone
-  name: billiontoone
+  name: BillionToOne
+  aliases:
+  - billiontoone
 - token: efficientcomputer
   name: Efficient Computer
   aliases:
   - efficientcomputer
 - token: avepoint
-  name: avepoint
+  name: AvePoint
+  aliases:
+  - avepoint
 - token: cartesiansystems
   name: Cartesian Systems
   aliases:
@@ -916,15 +1088,21 @@ companies:
   aliases:
   - constructionresources
 - token: earnin
-  name: earnin
+  name: EarnIn
+  aliases:
+  - earnin
 - token: rackner
-  name: rackner
+  name: Rackner
+  aliases:
+  - rackner
 - token: figure
   name: Figure Lending
   aliases:
   - figure
 - token: attentive
-  name: attentive
+  name: Attentive
+  aliases:
+  - attentive
 - token: pendartechnologies
   name: Pendar Technologies
   aliases:
@@ -950,7 +1128,9 @@ companies:
   aliases:
   - radixuniversity
 - token: workato
-  name: workato
+  name: Workato
+  aliases:
+  - workato
 - token: rocketlawyer
   name: Rocket Lawyer
   aliases:
@@ -960,7 +1140,9 @@ companies:
   aliases:
   - thenewyorktimes
 - token: workstream
-  name: workstream
+  name: Workstream
+  aliases:
+  - workstream
 - token: asteralabs
   name: Astera Labs
   aliases:
@@ -974,9 +1156,13 @@ companies:
   aliases:
   - appian
 - token: blacksky
-  name: blacksky
+  name: BlackSky
+  aliases:
+  - blacksky
 - token: lightmatter
-  name: lightmatter
+  name: Lightmatter
+  aliases:
+  - lightmatter
 - token: jencapinc
   name: Jencap
   aliases:
@@ -986,7 +1172,9 @@ companies:
   aliases:
   - queracomputinginc
 - token: northspyre
-  name: northspyre
+  name: Northspyre
+  aliases:
+  - northspyre
 - token: podium81
   name: Podium
   aliases:
@@ -1012,13 +1200,17 @@ companies:
   aliases:
   - newtonresearch
 - token: avride
-  name: avride
+  name: Avride
+  aliases:
+  - avride
 - token: rhombuspower
   name: Rhombus Power, Inc.
   aliases:
   - rhombuspower
 - token: jumio
-  name: jumio
+  name: Jumio
+  aliases:
+  - jumio
 - token: spacekinetic
   name: Space Kinetic
   aliases:
@@ -1028,7 +1220,9 @@ companies:
   aliases:
   - industrialelectricmanufacturing
 - token: onapsis
-  name: onapsis
+  name: Onapsis
+  aliases:
+  - onapsis
 - token: globalizationpartners
   name: G-P
   aliases:
@@ -1066,9 +1260,13 @@ companies:
   aliases:
   - cobaltio
 - token: inizio
-  name: inizio
+  name: Inizio
+  aliases:
+  - inizio
 - token: vestwell
-  name: vestwell
+  name: Vestwell
+  aliases:
+  - vestwell
 - token: verainstituteofjustice
   name: Vera Institute of Justice
   aliases:
@@ -1078,19 +1276,29 @@ companies:
   aliases:
   - snorkelai
 - token: labelbox
-  name: labelbox
+  name: Labelbox
+  aliases:
+  - labelbox
 - token: tenon
-  name: tenon
+  name: Tenon
+  aliases:
+  - tenon
 - token: everlaw
-  name: everlaw
+  name: Everlaw
+  aliases:
+  - everlaw
 - token: oldcastlebuildingenvelope
   name: Oldcastle BuildingEnvelope
   aliases:
   - oldcastlebuildingenvelope
 - token: energyhub
-  name: energyhub
+  name: EnergyHub
+  aliases:
+  - energyhub
 - token: kikoff
-  name: kikoff
+  name: Kikoff
+  aliases:
+  - kikoff
 - token: xebiausa
   name: North America
   aliases:
@@ -1112,7 +1320,9 @@ companies:
   aliases:
   - skhynixamerica
 - token: sezzle
-  name: sezzle
+  name: Sezzle
+  aliases:
+  - sezzle
 - token: greenworkssunriseglobalmarketing
   name: Greenworks
   aliases:
@@ -1130,7 +1340,9 @@ companies:
   aliases:
   - smartlyio
 - token: docugami
-  name: docugami
+  name: Docugami
+  aliases:
+  - docugami
 - token: genscript
   name: GenScript/ProBio
   aliases:
@@ -1146,7 +1358,9 @@ companies:
 - token: fairlife
   name: fairlife
 - token: cortland
-  name: cortland
+  name: Cortland
+  aliases:
+  - cortland
 - token: jobsatphamily
   name: Phamily
   aliases:
@@ -1156,15 +1370,21 @@ companies:
   aliases:
   - brightai
 - token: planetscale
-  name: planetscale
+  name: PlanetScale
+  aliases:
+  - planetscale
 - token: thealleninstitute
   name: The Allen Institute for Artificial Intelligence
   aliases:
   - thealleninstitute
 - token: shein
-  name: shein
+  name: SHEIN
+  aliases:
+  - shein
 - token: technergetics
-  name: technergetics
+  name: Technergetics
+  aliases:
+  - technergetics
 - token: freeformfuturecorp
   name: Freeform
   aliases:
@@ -1182,7 +1402,9 @@ companies:
   aliases:
   - transmarketgroup
 - token: instead
-  name: instead
+  name: Instead
+  aliases:
+  - instead
 - token: nationalpublicradioinc
   name: NPR
   aliases:
@@ -1196,23 +1418,33 @@ companies:
   aliases:
   - coherehealth
 - token: fourkites
-  name: fourkites
+  name: FourKites
+  aliases:
+  - fourkites
 - token: vscfiresecurityinc
   name: VSC Fire & Security
   aliases:
   - vscfiresecurityinc
 - token: tribalscale
-  name: tribalscale
+  name: TribalScale
+  aliases:
+  - tribalscale
 - token: walleyecapital-external-students
   name: Walleye Capital Internships
   aliases:
   - walleyecapital-external-students
 - token: evolver
-  name: evolver
+  name: Evolver
+  aliases:
+  - evolver
 - token: amarok
-  name: amarok
+  name: AMAROK
+  aliases:
+  - amarok
 - token: offerup
-  name: offerup
+  name: OfferUp
+  aliases:
+  - offerup
 - token: mthreerecruitingportal
   name: mthree Recruiting Portal
   aliases:
@@ -1230,21 +1462,29 @@ companies:
   aliases:
   - tpcengineeringholdingsllc
 - token: bugcrowd
-  name: bugcrowd
+  name: Bugcrowd
+  aliases:
+  - bugcrowd
 - token: later
-  name: later
+  name: Later
+  aliases:
+  - later
 - token: studiokraftonboard
   name: KRAFTON Montréal Studio
   aliases:
   - studiokraftonboard
 - token: grvty
-  name: grvty
+  name: GRVTY
+  aliases:
+  - grvty
 - token: virtu
   name: Virtu Financial
   aliases:
   - virtu
 - token: rise8
-  name: rise8
+  name: Rise8
+  aliases:
+  - rise8
 - token: torcrobotics
   name: Torc Robotics
   aliases:
@@ -1278,7 +1518,9 @@ companies:
   aliases:
   - janestreet
 - token: orennia
-  name: orennia
+  name: Orennia
+  aliases:
+  - orennia
 - token: mwinternshipprogram
   name: Marshall Wace Internship Programmes
   aliases:
@@ -1292,19 +1534,25 @@ companies:
   aliases:
   - flowtraders
 - token: brevium
-  name: brevium
+  name: Brevium
+  aliases:
+  - brevium
 - token: worldsurfleague
   name: World Surf League
   aliases:
   - worldsurfleague
 - token: octaura
-  name: octaura
+  name: Octaura
+  aliases:
+  - octaura
 - token: drweng
   name: DRW
   aliases:
   - drweng
 - token: argmax
-  name: argmax
+  name: Argmax
+  aliases:
+  - argmax
 - token: voloridgeinvestmentmanagement
   name: Voloridge Investment Management
   aliases:
@@ -1322,7 +1570,9 @@ companies:
   aliases:
   - solidpower
 - token: phaidra
-  name: phaidra
+  name: Phaidra
+  aliases:
+  - phaidra
 - token: ctccampusboard
   name: CTC Campus - External, Not Advertised
   aliases:
@@ -1352,7 +1602,9 @@ companies:
   aliases:
   - xtxmarketstechnologies
 - token: uvimco
-  name: uvimco
+  name: UVIMCO
+  aliases:
+  - uvimco
 - token: instalilyai
   name: INSTALILY.AI
   aliases:
@@ -1366,7 +1618,9 @@ companies:
   aliases:
   - chicagotradingcampus
 - token: prophet
-  name: prophet
+  name: Prophet
+  aliases:
+  - prophet
 - token: incidentiq
   name: Incident IQ
   aliases:
@@ -1392,13 +1646,17 @@ companies:
   aliases:
   - assuredguaranty
 - token: schoolmint
-  name: schoolmint
+  name: SchoolMint
+  aliases:
+  - schoolmint
 - token: arevonenergyimpltest
   name: Arevon
   aliases:
   - arevonenergyimpltest
 - token: xantium
-  name: xantium
+  name: Xantium
+  aliases:
+  - xantium
 - token: readystate
   name: Readystate Asset Management
   aliases:
@@ -1416,7 +1674,9 @@ companies:
   aliases:
   - syskahennessy
 - token: eudia
-  name: eudia
+  name: Eudia
+  aliases:
+  - eudia
 - token: sage49
   name: Sage
   aliases:
@@ -1430,7 +1690,9 @@ companies:
   aliases:
   - morsecorpcoop
 - token: concentric
-  name: concentric
+  name: Concentric
+  aliases:
+  - concentric
 - token: compeerfinancial
   name: Compeer Financial
   aliases:
@@ -1464,9 +1726,13 @@ companies:
   aliases:
   - perpay
 - token: albedo
-  name: albedo
+  name: Albedo
+  aliases:
+  - albedo
 - token: mill
-  name: mill
+  name: Mill
+  aliases:
+  - mill
 - token: faradayfuture
   name: Faraday Future
   aliases:
@@ -1480,13 +1746,17 @@ companies:
   aliases:
   - fgsglobal
 - token: vaxcyte
-  name: vaxcyte
+  name: Vaxcyte
+  aliases:
+  - vaxcyte
 - token: garnerhealth
   name: Garner Health
   aliases:
   - garnerhealth
 - token: brave
-  name: brave
+  name: Brave
+  aliases:
+  - brave
 - token: viamrobotics
   name: Viam
   aliases:
@@ -1496,9 +1766,13 @@ companies:
   aliases:
   - chaosindustries
 - token: gallup
-  name: gallup
+  name: Gallup
+  aliases:
+  - gallup
 - token: amperesand
-  name: amperesand
+  name: Amperesand
+  aliases:
+  - amperesand
 - token: pacificfusion
   name: Pacific Fusion
   aliases:
@@ -1512,9 +1786,13 @@ companies:
   aliases:
   - themjcos
 - token: ridgeline
-  name: ridgeline
+  name: Ridgeline
+  aliases:
+  - ridgeline
 - token: tanium
-  name: tanium
+  name: Tanium
+  aliases:
+  - tanium
 - token: baidu
   name: Baidu USA
   aliases:
@@ -1528,15 +1806,21 @@ companies:
   aliases:
   - nationallifeinsurancecompany
 - token: singlestore
-  name: singlestore
+  name: SingleStore
+  aliases:
+  - singlestore
 - token: workshop
-  name: workshop
+  name: Workshop
+  aliases:
+  - workshop
 - token: doordashcanada
   name: DoorDash Canada
   aliases:
   - doordashcanada
 - token: ionq
-  name: ionq
+  name: IonQ
+  aliases:
+  - ionq
 - token: hometapjobs
   name: Hometap Jobs
   aliases:
@@ -1554,13 +1838,17 @@ companies:
   aliases:
   - nanopathinc
 - token: intersystems
-  name: intersystems
+  name: InterSystems
+  aliases:
+  - intersystems
 - token: aegworldwide
   name: AEG Worldwide
   aliases:
   - aegworldwide
 - token: covar
-  name: covar
+  name: CoVar
+  aliases:
+  - covar
 - token: emergentlabsinc
   name: Emergent Labs
   aliases:
@@ -1578,7 +1866,9 @@ companies:
   aliases:
   - headlandstechnologiesllc
 - token: ziprecruiter
-  name: ziprecruiter
+  name: ZipRecruiter
+  aliases:
+  - ziprecruiter
 - token: wurljobs
   name: Wurl
   aliases:
@@ -1612,11 +1902,17 @@ companies:
   aliases:
   - bgeinccampus
 - token: physicsx
-  name: physicsx
+  name: PhysicsX
+  aliases:
+  - physicsx
 - token: imc
-  name: imc
+  name: IMC
+  aliases:
+  - imc
 - token: speechmatics
-  name: speechmatics
+  name: Speechmatics
+  aliases:
+  - speechmatics
 - token: lhvuk
   name: LHV Bank
   aliases:
@@ -1630,7 +1926,9 @@ companies:
   aliases:
   - veeamsoftware
 - token: gensyn
-  name: gensyn
+  name: Gensyn
+  aliases:
+  - gensyn
 - token: mangroup
   name: Man Group
   aliases:
@@ -1640,13 +1938,17 @@ companies:
   aliases:
   - colabsoftware
 - token: capco
-  name: capco
+  name: Capco
+  aliases:
+  - capco
 - token: altentechnologyusa
   name: ALTEN Technology USA
   aliases:
   - altentechnologyusa
 - token: gradial
-  name: gradial
+  name: Gradial
+  aliases:
+  - gradial
 - token: '8451'
   name: 84.51°
   aliases:
@@ -1656,7 +1958,9 @@ companies:
   aliases:
   - crunchyroll
 - token: twitch
-  name: twitch
+  name: Twitch
+  aliases:
+  - twitch
 - token: onxmaps
   name: onX
   aliases:
@@ -1670,11 +1974,17 @@ companies:
   aliases:
   - layerzerolabs
 - token: axuall
-  name: axuall
+  name: Axuall
+  aliases:
+  - axuall
 - token: awetomaton
-  name: awetomaton
+  name: Awetomaton
+  aliases:
+  - awetomaton
 - token: interworks
-  name: interworks
+  name: InterWorks
+  aliases:
+  - interworks
 - token: archer56
   name: Archer
   aliases:
@@ -1684,31 +1994,45 @@ companies:
   aliases:
   - morsecorp
 - token: canonical
-  name: canonical
+  name: Canonical
+  aliases:
+  - canonical
 - token: airtable
-  name: airtable
+  name: Airtable
+  aliases:
+  - airtable
 - token: epickids
   name: Epic Kids Inc.
   aliases:
   - epickids
 - token: trace3
-  name: trace3
+  name: Trace3
+  aliases:
+  - trace3
 - token: icapitalnetwork
   name: iCapital
   aliases:
   - icapitalnetwork
 - token: opensesame
-  name: opensesame
+  name: OpenSesame
+  aliases:
+  - opensesame
 - token: onboardmeetings
   name: OnBoard
   aliases:
   - onboardmeetings
 - token: markforged
-  name: markforged
+  name: Markforged
+  aliases:
+  - markforged
 - token: proconex
-  name: proconex
+  name: Proconex
+  aliases:
+  - proconex
 - token: hiddenlayer
-  name: hiddenlayer
+  name: HiddenLayer
+  aliases:
+  - hiddenlayer
 - token: goremutualinsurance
   name: Gore Mutual Insurance
   aliases:
@@ -1726,7 +2050,9 @@ companies:
   aliases:
   - sphinxdefense
 - token: murj
-  name: murj
+  name: Murj
+  aliases:
+  - murj
 - token: thoughtworksreferral
   name: Referrals Only
   aliases:
@@ -1780,7 +2106,9 @@ companies:
   aliases:
   - weedmaps77
 - token: debtbook
-  name: debtbook
+  name: DebtBook
+  aliases:
+  - debtbook
 - token: tegnainc
   name: TEGNA Inc.
   aliases:
@@ -1798,17 +2126,25 @@ companies:
   aliases:
   - mammothbrands
 - token: xometry
-  name: xometry
+  name: Xometry
+  aliases:
+  - xometry
 - token: rapp
-  name: rapp
+  name: RAPP
+  aliases:
+  - rapp
 - token: renaissancelearning-nam
   name: Renaissance Learning North America
   aliases:
   - renaissancelearning-nam
 - token: tenstorrent
-  name: tenstorrent
+  name: Tenstorrent
+  aliases:
+  - tenstorrent
 - token: nmi
-  name: nmi
+  name: NMI
+  aliases:
+  - nmi
 - token: dlhcorporation
   name: DLH
   aliases:
@@ -1818,7 +2154,9 @@ companies:
   aliases:
   - sonypicturesimageworks
 - token: coursera
-  name: coursera
+  name: Coursera
+  aliases:
+  - coursera
 - token: nerostechnologies
   name: Neros Technologies
   aliases:
@@ -1828,15 +2166,21 @@ companies:
   aliases:
   - ngrokinc
 - token: anaplan
-  name: anaplan
+  name: Anaplan
+  aliases:
+  - anaplan
 - token: metron
-  name: metron
+  name: Metron
+  aliases:
+  - metron
 - token: goodwaygroup
   name: Goodway Group
   aliases:
   - goodwaygroup
 - token: alphasense
-  name: alphasense
+  name: AlphaSense
+  aliases:
+  - alphasense
 - token: scm
   name: Stevens Capital Management LP
   aliases:
@@ -1862,13 +2206,17 @@ companies:
   aliases:
   - scoutai
 - token: memic
-  name: memic
+  name: MEMIC
+  aliases:
+  - memic
 - token: oodlefinance
   name: Oodle Finance
   aliases:
   - oodlefinance
 - token: connectder
-  name: connectder
+  name: ConnectDER
+  aliases:
+  - connectder
 - token: arizeai
   name: Arize AI
   aliases:
@@ -1922,9 +2270,13 @@ companies:
   aliases:
   - arcboatcompany
 - token: ensemble
-  name: ensemble
+  name: Ensemble
+  aliases:
+  - ensemble
 - token: 2k
-  name: 2k
+  name: 2K
+  aliases:
+  - 2k
 - token: relativity
   name: Relativity Space
   aliases:
@@ -1934,9 +2286,13 @@ companies:
   aliases:
   - convene
 - token: smartsheet
-  name: smartsheet
+  name: Smartsheet
+  aliases:
+  - smartsheet
 - token: stratolaunch
-  name: stratolaunch
+  name: Stratolaunch
+  aliases:
+  - stratolaunch
 - token: accenturefederalservices
   name: Accenture Federal Services
   aliases:
@@ -1962,7 +2318,9 @@ companies:
   aliases:
   - datasystemsanalystsinc
 - token: stackadapt
-  name: stackadapt
+  name: StackAdapt
+  aliases:
+  - stackadapt
 - token: homesolutions
   name: Home Solutions
   aliases:
@@ -1984,11 +2342,17 @@ companies:
   aliases:
   - a3c41b8b71eff8c4
 - token: axle
-  name: axle
+  name: Axle
+  aliases:
+  - axle
 - token: vast
-  name: vast
+  name: Vast
+  aliases:
+  - vast
 - token: agoda
-  name: agoda
+  name: Agoda
+  aliases:
+  - agoda
 - token: aperiatechnologies
   name: Aperia Technologies, Inc
   aliases:
@@ -2000,19 +2364,29 @@ companies:
 - token: dv01
   name: dv01
 - token: ninjatrader
-  name: ninjatrader
+  name: NinjaTrader
+  aliases:
+  - ninjatrader
 - token: momentus
   name: Momentus Space LLC
   aliases:
   - momentus
 - token: 2u
-  name: 2u
+  name: 2U
+  aliases:
+  - 2u
 - token: openeye
-  name: openeye
+  name: OpenEye
+  aliases:
+  - openeye
 - token: flighthub
-  name: flighthub
+  name: FlightHub
+  aliases:
+  - flighthub
 - token: m3
-  name: m3
+  name: M3
+  aliases:
+  - m3
 - token: butternutbox
   name: Butternut Box
   aliases:
@@ -2022,17 +2396,25 @@ companies:
   aliases:
   - picoquantitativetrading
 - token: growthloop
-  name: growthloop
+  name: GrowthLoop
+  aliases:
+  - growthloop
 - token: thinkacademyus
   name: Think Academy US
   aliases:
   - thinkacademyus
 - token: wpp
-  name: wpp
+  name: WPP
+  aliases:
+  - wpp
 - token: mozilla
-  name: mozilla
+  name: Mozilla
+  aliases:
+  - mozilla
 - token: acuitymd
-  name: acuitymd
+  name: AcuityMD
+  aliases:
+  - acuitymd
 - token: catapultsports
   name: Catapult Sports
   aliases:
@@ -2042,25 +2424,37 @@ companies:
   aliases:
   - liveviewtechnologiesinc
 - token: wonderschool
-  name: wonderschool
+  name: Wonderschool
+  aliases:
+  - wonderschool
 - token: commerceiq
-  name: commerceiq
+  name: CommerceIQ
+  aliases:
+  - commerceiq
 - token: stackline
-  name: stackline
+  name: Stackline
+  aliases:
+  - stackline
 - token: civisanalytics
   name: Civis Analytics
   aliases:
   - civisanalytics
 - token: mixpanel
-  name: mixpanel
+  name: Mixpanel
+  aliases:
+  - mixpanel
 - token: omadahealth
   name: Omada Health
   aliases:
   - omadahealth
 - token: speechify
-  name: speechify
+  name: Speechify
+  aliases:
+  - speechify
 - token: testlio
-  name: testlio
+  name: Testlio
+  aliases:
+  - testlio
 - token: stackav
   name: Stack AV
   aliases:
@@ -2090,7 +2484,9 @@ companies:
   aliases:
   - stateaffairs
 - token: yext
-  name: yext
+  name: Yext
+  aliases:
+  - yext
 - token: silvus
   name: Silvus Technologies
   aliases:
@@ -2100,7 +2496,9 @@ companies:
   aliases:
   - trinityparktalent
 - token: greenhouse
-  name: greenhouse
+  name: Greenhouse
+  aliases:
+  - greenhouse
 - token: 9thwayinsignia
   name: 9th Way Insignia
   aliases:
@@ -2110,13 +2508,21 @@ companies:
   aliases:
   - addepar1
 - token: federato
-  name: federato
+  name: Federato
+  aliases:
+  - federato
 - token: radar
-  name: radar
+  name: RADAR
+  aliases:
+  - radar
 - token: topsort
-  name: topsort
+  name: Topsort
+  aliases:
+  - topsort
 - token: quince
-  name: quince
+  name: Quince
+  aliases:
+  - quince
 - token: chicagotrading
   name: CTC Lateral - Website & LinkedIn
   aliases:
@@ -2126,7 +2532,9 @@ companies:
   aliases:
   - skildai-careers
 - token: pagerduty
-  name: pagerduty
+  name: PagerDuty
+  aliases:
+  - pagerduty
 - token: dbeconorthamerica
   name: DB E.C.O. North America
   aliases:
@@ -2180,9 +2588,13 @@ companies:
   aliases:
   - arenaclub
 - token: celigo
-  name: celigo
+  name: Celigo
+  aliases:
+  - celigo
 - token: liberis
-  name: liberis
+  name: Liberis
+  aliases:
+  - liberis
 - token: avidxchangeinc
   name: AvidXchange, Inc.
   aliases:
@@ -2212,7 +2624,9 @@ companies:
   aliases:
   - interwellhealth
 - token: forbes
-  name: forbes
+  name: Forbes
+  aliases:
+  - forbes
 - token: guidepointsecurity
   name: GuidePoint Security
   aliases:
@@ -2226,7 +2640,9 @@ companies:
   aliases:
   - cpisecurity
 - token: waymark
-  name: waymark
+  name: Waymark
+  aliases:
+  - waymark
 - token: origisenergy
   name: Origis Energy
   aliases:
@@ -2244,7 +2660,9 @@ companies:
   aliases:
   - fashionnova
 - token: otter
-  name: otter
+  name: Otter
+  aliases:
+  - otter
 - token: elwoodtechnologies
   name: Elwood Technologies
   aliases:
@@ -2266,7 +2684,9 @@ companies:
   aliases:
   - adswerveinc
 - token: scotch
-  name: scotch
+  name: Scotch
+  aliases:
+  - scotch
 - token: klaviyojobs
   name: Klaviyo GMI
   aliases:
@@ -2284,9 +2704,13 @@ companies:
   aliases:
   - mw-tech-grad
 - token: ooma
-  name: ooma
+  name: Ooma
+  aliases:
+  - ooma
 - token: pallet
-  name: pallet
+  name: Pallet
+  aliases:
+  - pallet
 - token: dunnhumby
   name: dunnhumby
 - token: shifttechnology
@@ -2306,11 +2730,17 @@ companies:
   aliases:
   - rebuildmanufacturing
 - token: dialpad
-  name: dialpad
+  name: Dialpad
+  aliases:
+  - dialpad
 - token: ujet
-  name: ujet
+  name: UJET
+  aliases:
+  - ujet
 - token: censys
-  name: censys
+  name: Censys
+  aliases:
+  - censys
 - token: atomicmachines
   name: Atomic Machines
   aliases:
@@ -2324,13 +2754,17 @@ companies:
   aliases:
   - inflectionai
 - token: natera
-  name: natera
+  name: Natera
+  aliases:
+  - natera
 - token: mavenclinic
   name: Maven Clinic
   aliases:
   - mavenclinic
 - token: tripadvisor
-  name: tripadvisor
+  name: Tripadvisor
+  aliases:
+  - tripadvisor
 - token: sitrepsllc
   name: Sitreps
   aliases:
@@ -2364,7 +2798,9 @@ companies:
   aliases:
   - srsacquiom
 - token: simplisafe
-  name: simplisafe
+  name: SimpliSafe
+  aliases:
+  - simplisafe
 - token: roadrunner
   name: RoadRunner Recycling Inc.
   aliases:
@@ -2382,7 +2818,9 @@ companies:
   aliases:
   - pharomanagement
 - token: koalafi
-  name: koalafi
+  name: Koalafi
+  aliases:
+  - koalafi
 - token: gotion
   name: Gotion, Inc.
   aliases:
@@ -2392,7 +2830,9 @@ companies:
   aliases:
   - alphafmcroles
 - token: soci
-  name: soci
+  name: SOCi
+  aliases:
+  - soci
 - token: energysolutions
   name: Energy Solutions - USA
   aliases:
@@ -2410,7 +2850,9 @@ companies:
   aliases:
   - katalyst
 - token: charterup
-  name: charterup
+  name: CharterUP
+  aliases:
+  - charterup
 - token: taxreliefadvocates
   name: Tax Relief Advocates
   aliases:
@@ -2432,7 +2874,9 @@ companies:
   aliases:
   - clearwayjobs
 - token: woolpert
-  name: woolpert
+  name: Woolpert
+  aliases:
+  - woolpert
 - token: bottomlinetechnologies
   name: Bottomline
   aliases:
@@ -2446,17 +2890,25 @@ companies:
   aliases:
   - 3redpartners
 - token: carbonchain
-  name: carbonchain
+  name: CarbonChain
+  aliases:
+  - carbonchain
 - token: enova
   name: Enova International
   aliases:
   - enova
 - token: alpaca
-  name: alpaca
+  name: Alpaca
+  aliases:
+  - alpaca
 - token: carefeed
-  name: carefeed
+  name: Carefeed
+  aliases:
+  - carefeed
 - token: postscript
-  name: postscript
+  name: Postscript
+  aliases:
+  - postscript
 - token: uareai
   name: Uare.ai
   aliases:
@@ -2470,19 +2922,25 @@ companies:
   aliases:
   - birdygrey
 - token: mitratech
-  name: mitratech
+  name: Mitratech
+  aliases:
+  - mitratech
 - token: affirmedrxpbc
   name: AffirmedRx, PBC
   aliases:
   - affirmedrxpbc
 - token: reltio
-  name: reltio
+  name: Reltio
+  aliases:
+  - reltio
 - token: fanaticscollectibles
   name: Fanatics Collectibles
   aliases:
   - fanaticscollectibles
 - token: cadwell
-  name: cadwell
+  name: Cadwell
+  aliases:
+  - cadwell
 - token: heraldapi
   name: Herald
   aliases:
@@ -2508,33 +2966,53 @@ companies:
   aliases:
   - allcareers
 - token: verifone
-  name: verifone
+  name: Verifone
+  aliases:
+  - verifone
 - token: welbehealth
-  name: welbehealth
+  name: WelbeHealth
+  aliases:
+  - welbehealth
 - token: enigmaio
   name: Enigma
   aliases:
   - enigmaio
 - token: caseguard
-  name: caseguard
+  name: CaseGuard
+  aliases:
+  - caseguard
 - token: chowbus
-  name: chowbus
+  name: Chowbus
+  aliases:
+  - chowbus
 - token: worldquant
-  name: worldquant
+  name: WorldQuant
+  aliases:
+  - worldquant
 - token: applovin
-  name: applovin
+  name: AppLovin
+  aliases:
+  - applovin
 - token: assystinc
   name: ASSYST, Inc.
   aliases:
   - assystinc
 - token: hasbro
-  name: hasbro
+  name: Hasbro
+  aliases:
+  - hasbro
 - token: 10beauty
-  name: 10beauty
+  name: 10Beauty
+  aliases:
+  - 10beauty
 - token: mcadams
-  name: mcadams
+  name: McAdams
+  aliases:
+  - mcadams
 - token: okx
-  name: okx
+  name: OKX
+  aliases:
+  - okx
 - token: duettoresearch
   name: Duetto Research
   aliases:
@@ -2556,15 +3034,21 @@ companies:
   aliases:
   - fosphamarketing
 - token: dataiku
-  name: dataiku
+  name: Dataiku
+  aliases:
+  - dataiku
 - token: mechanicallicensingcollective
   name: Mechanical Licensing Collective
   aliases:
   - mechanicallicensingcollective
 - token: synack
-  name: synack
+  name: Synack
+  aliases:
+  - synack
 - token: tebra
-  name: tebra
+  name: Tebra
+  aliases:
+  - tebra
 - token: focalsystems
   name: Focal Systems
   aliases:
@@ -2580,7 +3064,9 @@ companies:
   aliases:
   - ludorobotics
 - token: mettel
-  name: mettel
+  name: MetTel
+  aliases:
+  - mettel
 - token: eosfitness
   name: EōS Fitness
   aliases:
@@ -2598,11 +3084,17 @@ companies:
   aliases:
   - intercom
 - token: opentable
-  name: opentable
+  name: OpenTable
+  aliases:
+  - opentable
 - token: attotude
-  name: attotude
+  name: AttoTude
+  aliases:
+  - attotude
 - token: monzo
-  name: monzo
+  name: Monzo
+  aliases:
+  - monzo
 - token: bertramcapitalmanagement
   name: Bertram Capital Management
   aliases:
@@ -2616,17 +3108,25 @@ companies:
   aliases:
   - quick-release
 - token: oneimaging
-  name: oneimaging
+  name: OneImaging
+  aliases:
+  - oneimaging
 - token: insurify
-  name: insurify
+  name: Insurify
+  aliases:
+  - insurify
 - token: blenheimchalcot
   name: Blenheim Chalcot
   aliases:
   - blenheimchalcot
 - token: map
-  name: map
+  name: MAP
+  aliases:
+  - map
 - token: perfectserve
-  name: perfectserve
+  name: PerfectServe
+  aliases:
+  - perfectserve
 - token: tintai
   name: Tint
   aliases:
@@ -2648,31 +3148,45 @@ companies:
   aliases:
   - agency
 - token: polyai
-  name: polyai
+  name: PolyAI
+  aliases:
+  - polyai
 - token: groupon
-  name: groupon
+  name: Groupon
+  aliases:
+  - groupon
 - token: fideres
-  name: fideres
+  name: Fideres
+  aliases:
+  - fideres
 - token: cision
-  name: cision
+  name: Cision
+  aliases:
+  - cision
 - token: financialtimes33
   name: Financial Times
   aliases:
   - financialtimes33
 - token: bakerhicks
-  name: bakerhicks
+  name: BakerHicks
+  aliases:
+  - bakerhicks
 - token: thinkcellsoftware
   name: think-cell Software
   aliases:
   - thinkcellsoftware
 - token: ebury
-  name: ebury
+  name: Ebury
+  aliases:
+  - ebury
 - token: davinciderivatives
   name: Da Vinci
   aliases:
   - davinciderivatives
 - token: optimove
-  name: optimove
+  name: Optimove
+  aliases:
+  - optimove
 - token: prolificacademicltd
   name: Prolific Academic Ltd
   aliases:
@@ -2684,7 +3198,9 @@ companies:
   aliases:
   - aisi
 - token: winton
-  name: winton
+  name: Winton
+  aliases:
+  - winton
 - token: rvohealth
   name: RVO Health
   aliases:
@@ -2694,9 +3210,13 @@ companies:
   aliases:
   - grassrootsanalytics
 - token: gitai
-  name: gitai
+  name: GITAI
+  aliases:
+  - gitai
 - token: amca
-  name: amca
+  name: Amca
+  aliases:
+  - amca
 - token: capstoneinvestmentadvisors
   name: Capstone Investment Advisors
   aliases:
@@ -2708,7 +3228,9 @@ companies:
   aliases:
   - gassouth
 - token: datacor
-  name: datacor
+  name: Datacor
+  aliases:
+  - datacor
 - token: riotgamesup
   name: Riot Games University Programs
   aliases:
@@ -2718,7 +3240,9 @@ companies:
   aliases:
   - zetaglobal
 - token: evolutioniq
-  name: evolutioniq
+  name: EvolutionIQ
+  aliases:
+  - evolutioniq
 - token: claudecorps
   name: Claude Corps
   aliases:
@@ -2732,17 +3256,25 @@ companies:
   aliases:
   - globalwebindex
 - token: asm
-  name: asm
+  name: ASM
+  aliases:
+  - asm
 - token: tifin
-  name: tifin
+  name: TIFIN
+  aliases:
+  - tifin
 - token: squarepointcapital
   name: Squarepoint Capital
   aliases:
   - squarepointcapital
 - token: aqr
-  name: aqr
+  name: AQR
+  aliases:
+  - aqr
 - token: block
-  name: block
+  name: Block
+  aliases:
+  - block
 - token: jumptrading
   name: Jump Trading
   aliases:
@@ -2752,7 +3284,9 @@ companies:
   aliases:
   - akunacapital
 - token: databricks
-  name: databricks
+  name: Databricks
+  aliases:
+  - databricks
 - token: trillium
   name: Open Roles
   aliases:
@@ -2774,11 +3308,17 @@ companies:
   aliases:
   - veritiongroupllc
 - token: coinbase
-  name: coinbase
+  name: Coinbase
+  aliases:
+  - coinbase
 - token: awardco
-  name: awardco
+  name: Awardco
+  aliases:
+  - awardco
 - token: gemini
-  name: gemini
+  name: Gemini
+  aliases:
+  - gemini
 - token: riotgames
   name: Riot Games
   aliases:
@@ -2788,13 +3328,21 @@ companies:
   aliases:
   - konradgroup
 - token: praetorian
-  name: praetorian
+  name: Praetorian
+  aliases:
+  - praetorian
 - token: highradius
-  name: highradius
+  name: HighRadius
+  aliases:
+  - highradius
 - token: slice
-  name: slice
+  name: Slice
+  aliases:
+  - slice
 - token: captiveaire
-  name: captiveaire
+  name: CaptiveAire
+  aliases:
+  - captiveaire
 - token: billtrust
   name: Billtrust US Careers
   aliases:
@@ -2820,7 +3368,9 @@ companies:
   aliases:
   - highmetric
 - token: chronograph
-  name: chronograph
+  name: Chronograph
+  aliases:
+  - chronograph
 - token: capvision
   name: True North Insights
   aliases:
@@ -2838,7 +3388,9 @@ companies:
   aliases:
   - redventures
 - token: mastercontrol
-  name: mastercontrol
+  name: MasterControl
+  aliases:
+  - mastercontrol
 - token: prizepicks
   name: PrizePicks
 - token: instacart
@@ -2946,7 +3498,9 @@ companies:
 - token: pointdigitalfinance
   name: Point Digital Finance, Inc.
 - token: blend
-  name: blend
+  name: Blend
+  aliases:
+  - blend
 - token: hubspotjobs
   name: HubSpot
 - token: khanacademy
@@ -2962,7 +3516,9 @@ companies:
   aliases:
   - asteraearlycareer2027
 - token: atoms
-  name: atoms
+  name: Atoms
+  aliases:
+  - atoms
 - token: iex-interns
   name: IEX Group (Interns)
   aliases:
@@ -3004,7 +3560,9 @@ companies:
 - token: westmonroe5
   name: West Monroe (Campus)
 - token: codepath
-  name: codepath
+  name: CodePath
+  aliases:
+  - codepath
 - token: courierhealth
   name: Courier Health
   aliases:
@@ -3014,4 +3572,6 @@ companies:
   aliases:
   - clenera
 - token: taxrise
-  name: taxrise
+  name: TaxRise
+  aliases:
+  - taxrise

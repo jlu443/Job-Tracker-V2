@@ -525,3 +525,25 @@ def test_upcoming_season_title_skips_age_limit_until_unseen():
     stale = (datetime.now(timezone.utc) - timedelta(days=20)).isoformat(timespec="seconds")
     conn.execute("UPDATE jobs SET last_seen = ?", (stale,))
     assert maintenance.purge_old(conn, 60) == 1
+
+
+def test_spelled_name_only_from_names_that_spell_the_slug():
+    from src.names import spelled_name
+    assert spelled_name("roberthalf", ["Robert Half", "Robert Half"]) == "Robert Half"
+    assert spelled_name("sifive", ["SiFive India Private", "Shanghai SiFive Technology"]) == "SiFive"
+    assert spelled_name("becu", ["Boeing Employees' Credit Union"]) == "BECU"
+    assert spelled_name("cibc", ["Canadian Imperial Bank of Commerce (Canada)"]) == "CIBC"
+    assert spelled_name("mckesson", ["JSC SCRI Holdings"]) is None        # a subsidiary
+    assert spelled_name("medtronic", ["COV Covidien", ""]) is None
+    assert spelled_name("barrios", ["Careers - Barrios"]) == "Barrios"
+    assert spelled_name("kiewit", ["Kiewit Jobs"]) == "Kiewit"
+
+
+def test_host_shaped_names_count_as_slugs():
+    from src.names import is_slug_name
+    assert is_slug_name("icims", {"host": "careers2-quanta.icims.com",
+                                  "name": "Careers2 Quanta.icims.com"})
+    assert is_slug_name("successfactors", {"host": "kiewitcareers.kiewit.com",
+                                           "name": "kiewitcareers.kiewit.com"})
+    assert not is_slug_name("icims", {"host": "careers2-quanta.icims.com", "name": "Quanta Services"})
+    assert not is_slug_name("workday", {"tenant": "abcsupply", "name": "ABC Supply"})
