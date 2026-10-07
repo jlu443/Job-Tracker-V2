@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import logging
 import os
+import re
 import sqlite3
 import time
 from collections import Counter
@@ -189,12 +190,16 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
 
     # The same job at another location (same company and title) announced in
     # the past week, or twice in this batch, is announced once.
-    recent = {(c, t) for c, t in conn.execute(
+    # Compared loosely: LinkedIn's "2027 Summer Intern - MS/PhD" is
+    # Greenhouse's "2027 Summer Intern, MS/PhD" (31 repeats, week of 10/01).
+    loose = lambda company, title: tuple(re.sub(r"[^a-z0-9]+", " ", (x or "").lower()).strip()
+                                         for x in (company, title))
+    recent = {loose(c, t) for c, t in conn.execute(
         "SELECT company, title FROM jobs WHERE announced_at >= ? AND company != ''",
         ((datetime.now(timezone.utc) - timedelta(days=7)).isoformat(timespec="seconds"),))}
     fresh = []
     for j in targets:
-        key = (j["company"], j["title"])
+        key = loose(j["company"], j["title"])
         if j["company"] and key in recent:
             continue
         recent.add(key)
