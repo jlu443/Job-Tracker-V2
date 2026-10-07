@@ -162,24 +162,33 @@ CATEGORIES = ("software", "data_ml", "hardware", "quant", "product", "other")
 # "Credit Analyst Program", "Payroll Analyst I", "Research Archives Intern"
 # were 165 of 1,479 data_ml announcements (2026-10-01..07). Such a title is
 # "other" unless it also names tech work.
-_NOT_TECH_DATA = re.compile(
-    r"^(?!.*\b(?:data|machine\s+learning|ml|ai|artificial\s+intelligence|software|analytics|"
-    r"engineer\w*|computational|bioinformatics|informatics|biostatistic\w*|statistic\w*|"
-    r"quantitative|developer|programmer|cyber\w*|algorithm\w*|modell?ing|it|applications?|"
-    r"systems?|gis|mapping)\b)"
+_NOT_TECH_WORK = (
     r".*\b(?:clinical|laborator\w*|lab|qc|quality\s+control|chromatograph\w*|microbio\w*|"
     r"pharmacolog\w*|in\s+vivo|accounting|accountant|accounts?\s+(?:payable|receivable)|"
     r"inventory|claims|commissions?|complaints|nurs\w*|pharmac\w*|archiv\w*|teaching|tutor|"
     r"administrative|retail|payroll|tax|audit\w*|financial\s+analyst|fp&a|credit\s+analyst|"
     r"procurement|purchasing|supply\s+chain|logistics|hr|human\s+resources|recruit\w*|legal|"
     r"paralegal|sales|marketing|communications|customer\s+service|phlebotom\w*|histolog\w*|"
-    r"patholog\w*|veterinar\w*|dental|medical\s+assistant)\b", re.IGNORECASE)
+    r"patholog\w*|veterinar\w*|dental|medical\s+assistant|technical\s+writ\w*)\b")
+_NOT_TECH_DATA = re.compile(
+    r"^(?!.*\b(?:data|machine\s+learning|ml|ai|artificial\s+intelligence|software|analytics|"
+    r"engineer\w*|computational|bioinformatics|informatics|biostatistic\w*|statistic\w*|"
+    r"quantitative|developer|programmer|cyber\w*|algorithm\w*|modell?ing|it|applications?|"
+    r"systems?|gis|mapping)\b)" + _NOT_TECH_WORK, re.IGNORECASE)
+# Software's weaker words ("application", "digital", "technical") likewise
+# hit "Registered Nurse ... Fast-Track Application", "Digital Marketing
+# Intern", "Technical Sales Development Program" (2026-10-07).
+_NOT_TECH_SOFTWARE = re.compile(
+    r"^(?!.*\b(?:software|swe|sde|developer|programmer|devops|sre|engineer\w*|technolog\w*|"
+    r"information\s+systems|web|mobile|cloud|infrastructure|security|cyber\w*|computer|embedded|firmware|qa|sdet|"
+    r"it|data|network\w*|database|coding|java|python)\b)" + _NOT_TECH_WORK, re.IGNORECASE)
 
 
 def categorize(title: str) -> str:
     for pattern, category in _CATEGORY_COMPILED:
         if pattern.search(title):
-            if category == "data_ml" and _NOT_TECH_DATA.search(title):
+            if (category == "data_ml" and _NOT_TECH_DATA.search(title)
+                    or category == "software" and _NOT_TECH_SOFTWARE.search(title)):
                 return "other"
             return category
     return "other"

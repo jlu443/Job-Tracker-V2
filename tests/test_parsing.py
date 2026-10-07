@@ -68,6 +68,12 @@ def test_role_keywords(title, role):
     ("Co-Op, Clinical Biomarker Biostatistics", "data_ml"),
     ("Clinical Data Analyst Intern", "data_ml"),
     ("Clinical Applications Analyst I (EPIC Inpatient Applications)", "data_ml"),
+    ("Registered Nurse New Graduate Fast-Track Application/Nurse Residency Program", "other"),
+    ("Digital Marketing Intern (Summer 2027)", "other"),
+    ("Technical Sales Development Program", "other"),
+    ("2027 Technical Writer Intern - Cape Canaveral FL", "other"),
+    ("IT Support Technician 1", "software"),
+    ("IS Internship - Retail Technology Services", "software"),
 ])
 def test_categories(title, category):
     assert classify.categorize(title) == category

@@ -288,8 +288,10 @@ def _unannounce_foreign_postings(conn: sqlite3.Connection) -> None:
 
 
 def _recategorize_lab_and_finance_titles(conn: sqlite3.Connection) -> None:
-    """Lab, finance and admin titles no longer count as data_ml (2026-10-07,
-    classify._NOT_TECH_DATA). Same refresh as migration 11."""
+    """Lab, finance and admin titles no longer count as data_ml, nor nursing,
+    marketing, sales or writing titles as software (2026-10-07,
+    classify._NOT_TECH_DATA / _NOT_TECH_SOFTWARE). Same refresh as
+    migration 11."""
     _recategorize_titles(conn)
 
 
