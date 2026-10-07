@@ -140,3 +140,22 @@ def test_lever_eu_boards_use_eu_api():
         "https://api.lever.co/v0/postings/anduril?mode=json"
     assert ats_specs._extract_lever("https://jobs.eu.lever.co/Cirrus/abc") == \
         [{"slug": "cirrus", "name": "cirrus", "region": "eu"}]
+
+
+def test_successfactors_status_and_guard(monkeypatch):
+    from src import enrich
+
+    class Resp:
+        def __init__(self, code, text=""):
+            self.status_code, self.text = code, text
+
+    job = {"apply_url": "https://jobs.l3harris.com/job/X/1427597700/", "source": "successfactors",
+           "job_id": "sf_l3harris_1427597700", "last_seen": "2026-10-06"}
+    for code, text, want in [(200, '<meta itemprop="datePosted" content="x">', True),
+                             (200, "<html>search results</html>", False),     # closed: page drops the job
+                             (404, "", False), (503, "", None)]:
+        monkeypatch.setattr(enrich._SESSION, "get", lambda url, timeout, c=code, t=text: Resp(c, t))
+        assert enrich.successfactors_status(job) is want
+    monkeypatch.setattr(enrich._SESSION, "get",
+                        lambda url, timeout: Resp(200, 'itemprop="datePosted"'))
+    assert enrich.still_open([job]) == {"sf_l3harris_1427597700"}

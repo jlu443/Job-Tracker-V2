@@ -116,7 +116,7 @@ def _search(host: str, name: str, term: str, max_pages: int, seen: dict,
     """Page through one search into `seen`; False if it failed or was cut off."""
     timeout = settings.get("request_timeout", 30)
     delay = settings.get("delay_between_requests", 0.5)
-    offset = 0
+    offset, total = 0, None
     for _ in range(max_pages):
         try:
             resp = _SESSION.get(f"https://{host}/search/", timeout=timeout,
@@ -125,7 +125,10 @@ def _search(host: str, name: str, term: str, max_pages: int, seen: dict,
         except requests.RequestException as exc:
             log.warning(f"  ! {name} term={term!r} startrow={offset}: {exc}")
             return False
-        rows, total = parse_search(resp.text)
+        rows, count = parse_search(resp.text)
+        # Tile layouts count the rows left from startrow (2136, 2036, ...);
+        # the first page's count is the total.
+        total = count if total is None else total
         added = 0
         for req_id, path, title, location in rows:
             jid = job_id_for(host, req_id)

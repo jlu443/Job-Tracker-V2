@@ -83,26 +83,49 @@ def workday_status(job: dict) -> bool | None:
     return None
 
 
+def successfactors_status(job: dict) -> bool | None:
+    """True if the job page is up. A closed job's page still answers 200 but
+    drops the posting (no datePosted); None when the request fails."""
+    try:
+        resp = _SESSION.get(job["apply_url"], timeout=_TIMEOUT)
+    except requests.RequestException:
+        return None
+    if resp.status_code in (404, 410):
+        return False
+    if resp.status_code != 200:
+        return None
+    return 'itemprop="datePosted"' in resp.text
+
+
+# Sources whose "complete" scrape can still miss open jobs, so a job is only
+# retired once its own page says so. Workday: the full sweep searches
+# keywords, but the every-run recency check also finds jobs of any title
+# ("Compensation Analyst I"); ~16% of jobs removed by absence were still open
+# (2026-10-03). SuccessFactors: listings page over an unstable order (the
+# same read returned 2,165 to 2,200 of L3Harris's jobs), so ~half of jobs
+# missing from one read were still open (2026-10-07).
+_STATUS = {"workday": workday_status, "successfactors": successfactors_status}
+
+
 def still_open(rows: list[dict], workers: int = 4, limit: int = 400) -> set[str]:
     """Ids among rows about to be marked removed whose job page is still up.
-
-    Workday's every-run recency check finds jobs of any title ("Compensation
-    Analyst I"), but the full sweep only searches keywords, so a job the
-    sweep can't find isn't necessarily closed. Measured 2026-10-03: ~16% of
-    Workday jobs removed this way were still open. Undecidable checks also
-    keep the row (retried next run)."""
-    wd = sorted((r for r in rows if r["source"] == "workday"), key=lambda r: r["last_seen"])
-    if not wd:
-        return set()
-    # Beyond the cap, keep them for now; the oldest-seen are checked first.
-    deferred = {r["job_id"] for r in wd[limit:]}
-    wd = wd[:limit]
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        status = list(pool.map(workday_status, wd))
-    keep = {r["job_id"] for r, s in zip(wd, status) if s is not False} | deferred
-    log.info(f"Checked {len(wd)} unseen Workday jobs: {len(wd) - len(keep)} closed, "
-             f"{sum(s is True for s in status)} still open, {sum(s is None for s in status)} unknown"
-             + (f", {len(deferred)} deferred" if deferred else ""))
+    Undecidable checks keep the row (retried next run), as do rows beyond
+    `limit` per source (the oldest-seen are checked first)."""
+    keep: set[str] = set()
+    for source, status_of in _STATUS.items():
+        todo = sorted((r for r in rows if r["source"] == source), key=lambda r: r["last_seen"])
+        if not todo:
+            continue
+        deferred = {r["job_id"] for r in todo[limit:]}
+        todo = todo[:limit]
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            status = list(pool.map(status_of, todo))
+        kept = {r["job_id"] for r, s in zip(todo, status) if s is not False} | deferred
+        keep |= kept
+        log.info(f"Checked {len(todo)} unseen {source} jobs: {len(todo) + len(deferred) - len(kept)} "
+                 f"closed, {sum(s is True for s in status)} still open, "
+                 f"{sum(s is None for s in status)} unknown"
+                 + (f", {len(deferred)} deferred" if deferred else ""))
     return keep
 
 

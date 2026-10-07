@@ -125,3 +125,25 @@ def test_keyword_fallback_for_large_listing(monkeypatch):
     jobs, complete = sf.fetch_company_jobs({"host": "careers.qorvo.com", "name": "Qorvo"},
                                            {"successfactors_full_sweep_max_pages": 10})
     assert complete and queries[0] == "" and set(queries[1:]) == set(sf._TERMS)
+
+
+def test_tile_count_is_rows_left_not_total(monkeypatch):
+    """L3Harris: aria-rowcount drops by a page each startrow (2136, 2036, ...).
+    Reading it as the total stopped at startrow 1200 and called that complete."""
+    tile = lambda i: (f'<li class="job-tile"><a class="jobTitle-link" '
+                      f'href="/job/Role/{1000000 + i}/">Role {i}</a></li>')
+
+    class Resp:
+        def __init__(self, start):
+            left = 5 - start
+            self.text = (f'<ul aria-rowcount="{left}">'
+                         + "".join(tile(i) for i in range(start, min(start + 2, 5))) + "</ul>")
+
+        def raise_for_status(self):
+            pass
+
+    monkeypatch.setattr(sf._SESSION, "get", lambda url, timeout, params: Resp(params["startrow"]))
+    monkeypatch.setattr(sf.time, "sleep", lambda s: None)
+    seen = {}
+    assert sf._search("jobs.l3harris.com", "L3Harris", "", 10, seen, {})
+    assert len(seen) == 5
