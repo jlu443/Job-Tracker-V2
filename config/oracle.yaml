@@ -971,3 +971,11 @@ companies:
 - host: icfcjb.fa.ocs.oraclecloud.com
   site: CX_1
   name: icfcjb
+- host: eeho.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Oracle
+  aliases:
+  - eeho
+- host: ehxr.fa.us2.oraclecloud.com
+  site: CX_xx
+  name: ehxr

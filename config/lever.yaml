@@ -967,3 +967,5 @@ companies:
 - slug: quantinuum
   name: Quantinuum
   region: eu
+- slug: provectus
+  name: provectus

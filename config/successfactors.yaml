@@ -289,3 +289,11 @@ companies:
   name: jobs.myflorida.com
 - host: careers.borderstates.com
   name: careers.borderstates.com
+- host: careers.anglogoldashanti.com
+  name: AngloGold Ashanti
+  aliases:
+  - careers.anglogoldashanti.com
+- host: careers.ll.mit.edu
+  name: careers.ll.mit.edu
+- host: careers.jenoptik.com
+  name: careers.jenoptik.com

@@ -1001,3 +1001,11 @@ companies:
   name: Houston Engineering, Inc.
   aliases:
   - HoustonEngineeringInc
+- company: Proforest
+  name: Proforest
+- company: Grimco
+  name: Grimco
+- company: WireCoWorldGroup
+  name: WireCo WorldGroup
+  aliases:
+  - WireCoWorldGroup

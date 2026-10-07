@@ -36,7 +36,9 @@ companies:
   aliases:
   - careers.garmin.com
 - host: spa.jibeapply.com
-  name: spa.jibeapply.com
+  name: Systems Planning and Analysis
+  aliases:
+  - spa.jibeapply.com
 - host: careers.noblis.org
   name: Noblis
   aliases:

@@ -1319,3 +1319,19 @@ companies:
   name: Interns Maserconsulting.icims.com
   aliases:
   - interns-maserconsulting
+- host: careers-daddario.icims.com
+  name: D'Addario
+  aliases:
+  - careers-daddario
+- host: externalcareers-ohsu.icims.com
+  name: Externalcareers Ohsu.icims.com
+  aliases:
+  - externalcareers-ohsu
+- host: careers2-quanta.icims.com
+  name: Careers2 Quanta.icims.com
+  aliases:
+  - careers2-quanta
+- host: careers-usa-cecoenviro.icims.com
+  name: Careers Usa Cecoenviro.icims.com
+  aliases:
+  - careers-usa-cecoenviro

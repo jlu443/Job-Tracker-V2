@@ -6905,3 +6905,7 @@ companies:
   - aurora-operations-inc
 - slug: parameter
   name: parameter
+- slug: parisi-labs
+  name: Parisi Labs
+  aliases:
+  - parisi-labs

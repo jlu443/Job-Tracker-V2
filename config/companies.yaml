@@ -9069,3 +9069,17 @@ companies:
   wd: wd501
   site: Careers
   name: jbhunt
+- tenant: bb
+  wd: wd3
+  site: Student
+  name: Blackberry
+  aliases:
+  - bb
+- tenant: penncolor
+  wd: wd5
+  site: Penn-Environmental-Remediation
+  name: penncolor
+- tenant: aaon
+  wd: wd108
+  site: AAON
+  name: aaon

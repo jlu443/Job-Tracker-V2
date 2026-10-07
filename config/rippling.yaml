@@ -533,3 +533,17 @@ companies:
   name: barntools
 - slug: cyngn
   name: cyngn
+- slug: bonsairoboticsmain
+  name: Bonsai Robotics
+  aliases:
+  - bonsairoboticsmain
+- slug: createmusicgroup
+  name: Create Music Group
+  aliases:
+  - createmusicgroup
+- slug: overland-ai
+  name: Overland Ai
+  aliases:
+  - overland-ai
+- slug: vulcanforms
+  name: vulcanforms

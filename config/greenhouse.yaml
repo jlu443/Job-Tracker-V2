@@ -3005,3 +3005,13 @@ companies:
   name: West Monroe (Campus)
 - token: codepath
   name: codepath
+- token: courierhealth
+  name: Courier Health
+  aliases:
+  - courierhealth
+- token: clenera
+  name: Clēnera, LLC
+  aliases:
+  - clenera
+- token: taxrise
+  name: taxrise
