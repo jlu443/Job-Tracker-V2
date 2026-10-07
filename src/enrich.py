@@ -319,6 +319,14 @@ def _description_for(job: dict) -> str:
         return job.get("description", "")
     try:
         return fetcher(job)
+    except requests.HTTPError as exc:
+        # The posting was taken down (iCIMS answers 410 Gone): retire the
+        # row rather than retrying it every run, as for LinkedIn.
+        if exc.response is not None and exc.response.status_code in (404, 410):
+            job["closed"] = True
+            return ""
+        log.warning(f"  ! enrich fetch failed for {job['job_id']}: {exc}")
+        return ""
     except (requests.RequestException, ValueError, KeyError, AttributeError) as exc:
         log.warning(f"  ! enrich fetch failed for {job['job_id']}: {exc}")
         return ""

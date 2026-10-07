@@ -159,3 +159,18 @@ def test_successfactors_status_and_guard(monkeypatch):
     monkeypatch.setattr(enrich._SESSION, "get",
                         lambda url, timeout: Resp(200, 'itemprop="datePosted"'))
     assert enrich.still_open([job]) == {"sf_l3harris_1427597700"}
+
+
+def test_gone_detail_page_retires_the_job(monkeypatch):
+    import requests
+    from src import enrich
+
+    def gone(job):
+        resp = requests.Response()
+        resp.status_code = 410
+        raise requests.HTTPError("410 Gone", response=resp)
+
+    monkeypatch.setitem(enrich._FETCHERS, "icims", gone)
+    job = {"job_id": "icims_careers-calamp_4326", "source": "icims",
+           "apply_url": "https://careers-calamp.icims.com/jobs/4326/job"}
+    assert enrich._description_for(job) == "" and job["closed"] is True
