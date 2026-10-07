@@ -351,3 +351,22 @@ def test_greenhouse_level_fields():
 ])
 def test_us_job(title, location, us):
     assert geo.is_us_job(title, location) is us
+
+
+@pytest.mark.parametrize("loc,verdict", [
+    ("Framingham, MA 01701", True),
+    ("MI-Detroit", True),                              # PwC
+    ("US - Mt. Vernon - IN", True),
+    ("Cruiserath - IE", False),
+    ("IT - Torino - Caselle Nord", False),
+    ("Ottawa, CA", False),
+    ("IN - Chennai", False),
+    ("MONTRÉAL, Quebec, Canada", False),               # no "AL" inside MONTRÉAL
+    ("Albuquerque, New Mexico", True),                 # not "Mexico"
+    ("Central New Mexico, Albuquerque, NM", True),
+    ("Bangalore, KA, IN", False),
+    ("Main Campus", None),
+    ("", None),
+])
+def test_us_verdict(loc, verdict):
+    assert geo.us_verdict(loc) is verdict
