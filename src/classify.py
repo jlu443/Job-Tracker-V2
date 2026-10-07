@@ -278,10 +278,30 @@ def _get_pipeline():
     return _pipeline
 
 
+# A new-grad match on a word that isn't about level ("... Requires WA
+# Residency") doesn't outweigh stated seniority, unless the title also says
+# it's junior ("Junior to Senior Power BI Developer").
+_JUNIOR_STATED = re.compile(r"\b(?:junior|jr\.?|entry[\s-]*level|new\s*grad\w*|graduates?|"
+                            r"grads?|ncg|early\s+(?:in\s+)?careers?|campus|university|college|"
+                            r"apprentice\w*|rotation\w*|20\d\d|"
+                            # one posting for several levels from associate up:
+                            # "Associate Engineer/Engineer/Senior Engineer"
+                            r"associate(?:\s+[\w&-]+){0,2}\s*(?:/|or\b|to\b)|/\s*associate\b|"
+                            r"associate\s+(\w+)\s*,\s*\1)",
+                            re.IGNORECASE)
+# Stated seniority for that check; not "III"/"IV", which in "Technician
+# I-IV" is a range starting at entry level.
+_SENIOR_WORD = re.compile(r"\b(?:senior|sr\.?|(?<!technical )(?<!trading )(?<!research )staff|"
+                          r"principal|lead|distinguished|director|head\s+of|vp)\b", re.IGNORECASE)
+
+
 def classify_by_keyword(title: str) -> str | None:
     """Return a role type, or None if no rule matches (inconclusive)."""
     for pattern, label in _COMPILED:
         if pattern.search(title):
+            if (label == "new_grad" and _SENIOR_WORD.search(title)
+                    and not _JUNIOR_STATED.search(title)):
+                return "senior"
             return label
     return None
 

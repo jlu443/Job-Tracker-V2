@@ -295,6 +295,17 @@ def _recategorize_lab_and_finance_titles(conn: sqlite3.Connection) -> None:
     _recategorize_titles(conn)
 
 
+def _relabel_stated_seniority(conn: sqlite3.Connection) -> None:
+    """Stated seniority now beats a new-grad word that isn't about level
+    ("Senior HRIS Analyst ... Requires WA Residency", "Residency Program
+    Director", 2026-10-07). Stored new-grad rows the rules now call senior
+    are relabeled; prune() drops them. Curated-list rows keep their label."""
+    rows = conn.execute("SELECT job_id, title FROM jobs WHERE role_type = 'new_grad' "
+                        "AND source != 'simplify'").fetchall()
+    conn.executemany("UPDATE jobs SET role_type = 'senior' WHERE job_id = ?",
+                     [(r[0],) for r in rows if classify.classify_by_keyword(r[1]) == "senior"])
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -311,6 +322,7 @@ MIGRATIONS = [
     (13, _recanonicalize_icims_portals),
     (14, _unannounce_foreign_postings),
     (15, _recategorize_lab_and_finance_titles),
+    (16, _relabel_stated_seniority),
 ]
 
 

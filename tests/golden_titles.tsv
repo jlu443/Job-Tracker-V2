@@ -13,6 +13,11 @@
 # it's a flat title, so the title alone says nothing about level.
 no	Member of Technical Staff
 no	Associate Member of Trading Staff
+# Stated seniority beat a non-level new-grad word (fixed 2026-10-07)
+no	Senior HRIS Analyst (Hybrid Schedule in Bellevue, WA / Requires WA Residency)
+no	Internal Medicine Residency Program Director
+no	Associate Principal Engineer, Systems Architecture
+new_grad	Associate Engineer/Engineer/Senior Engineer (Construction Services)
 # "2027 Grads" (plural) wasn't read as new grad (fixed 2026-10-06)
 new_grad	Software Engineer (C++ or Python) – 2027 Grads
 new_grad	Hardware Design Engineer - 2027 Grads
