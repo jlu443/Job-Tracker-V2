@@ -287,6 +287,12 @@ def _unannounce_foreign_postings(conn: sqlite3.Connection) -> None:
                      [(r[0],) for r in rows if not geo.is_us_job(r[1], r[2] or "")])
 
 
+def _recategorize_lab_and_finance_titles(conn: sqlite3.Connection) -> None:
+    """Lab, finance and admin titles no longer count as data_ml (2026-10-07,
+    classify._NOT_TECH_DATA). Same refresh as migration 11."""
+    _recategorize_titles(conn)
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -302,6 +308,7 @@ MIGRATIONS = [
     (12, _name_unnamed_aggregator_rows),
     (13, _recanonicalize_icims_portals),
     (14, _unannounce_foreign_postings),
+    (15, _recategorize_lab_and_finance_titles),
 ]
 
 

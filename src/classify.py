@@ -157,9 +157,30 @@ _CATEGORY_COMPILED = [(re.compile(p, re.IGNORECASE), c) for p, c in _CATEGORY_RU
 CATEGORIES = ("software", "data_ml", "hardware", "quant", "product", "other")
 
 
+# "Analyst", "scientist" and "research" put a title in data_ml, which also
+# caught lab, finance and admin roles: "Clinical Laboratory Scientist I",
+# "Credit Analyst Program", "Payroll Analyst I", "Research Archives Intern"
+# were 165 of 1,479 data_ml announcements (2026-10-01..07). Such a title is
+# "other" unless it also names tech work.
+_NOT_TECH_DATA = re.compile(
+    r"^(?!.*\b(?:data|machine\s+learning|ml|ai|artificial\s+intelligence|software|analytics|"
+    r"engineer\w*|computational|bioinformatics|informatics|biostatistic\w*|statistic\w*|"
+    r"quantitative|developer|programmer|cyber\w*|algorithm\w*|modell?ing|it|applications?|"
+    r"systems?|gis|mapping)\b)"
+    r".*\b(?:clinical|laborator\w*|lab|qc|quality\s+control|chromatograph\w*|microbio\w*|"
+    r"pharmacolog\w*|in\s+vivo|accounting|accountant|accounts?\s+(?:payable|receivable)|"
+    r"inventory|claims|commissions?|complaints|nurs\w*|pharmac\w*|archiv\w*|teaching|tutor|"
+    r"administrative|retail|payroll|tax|audit\w*|financial\s+analyst|fp&a|credit\s+analyst|"
+    r"procurement|purchasing|supply\s+chain|logistics|hr|human\s+resources|recruit\w*|legal|"
+    r"paralegal|sales|marketing|communications|customer\s+service|phlebotom\w*|histolog\w*|"
+    r"patholog\w*|veterinar\w*|dental|medical\s+assistant)\b", re.IGNORECASE)
+
+
 def categorize(title: str) -> str:
     for pattern, category in _CATEGORY_COMPILED:
         if pattern.search(title):
+            if category == "data_ml" and _NOT_TECH_DATA.search(title):
+                return "other"
             return category
     return "other"
 

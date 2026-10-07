@@ -58,6 +58,16 @@ def test_role_keywords(title, role):
     ("Electrical Apprentice Signal Trainee", "other"),
     ("Growth Marketing Intern - Website & ABM", "other"),
     ("Data Validation Intern", "data_ml"),
+    # Lab / finance / admin roles that "analyst" or "scientist" pulled in
+    ("Clinical Laboratory Scientist I - Weekend AM", "other"),
+    ("2027 Credit Analyst Program - Commercial Banking (Milwaukee, WI)", "other"),
+    ("Payroll Analyst I", "other"),
+    ("2027 Intern - Research Archives", "other"),
+    ("QC Scientist I", "other"),
+    # ...unless the title also names tech work
+    ("Co-Op, Clinical Biomarker Biostatistics", "data_ml"),
+    ("Clinical Data Analyst Intern", "data_ml"),
+    ("Clinical Applications Analyst I (EPIC Inpatient Applications)", "data_ml"),
 ])
 def test_categories(title, category):
     assert classify.categorize(title) == category
