@@ -66,11 +66,12 @@ def purge_old(conn: sqlite3.Connection, max_age_days: int,
                         "last_seen FROM jobs").fetchall()
     ids = []
     for jid, source, title, posted, relisted, first_seen, last_seen in rows:
-        if source in exempt_sources:
-            if last_seen < unseen:
+        outlives = dates.outlives_age_limit(source, title, max(posted, relisted), exempt_sources)
+        if source in exempt_sources and outlives:
+            if last_seen < unseen:            # retired once unseen, whatever its age
                 ids.append(jid)
         elif ((max(posted, relisted) if posted else first_seen[:10]) < cutoff
-              and not (dates.names_upcoming_season(title) and last_seen >= unseen)):
+              and not (outlives and last_seen >= unseen)):   # only ever extends a life
             ids.append(jid)
     conn.executemany("INSERT OR REPLACE INTO purged (job_id, purged_on) VALUES (?, ?)",
                      [(i, now) for i in ids])

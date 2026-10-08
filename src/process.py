@@ -132,6 +132,8 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         enrich.enrich_jobs(to_fetch[:cap])
         if len(to_fetch) > cap:
             log.info(f"  enrichment capped at {cap}; {len(to_fetch) - cap} left for the backlog")
+        # Job pages can supply the post date a listing lacked.
+        repost.mark_stale(targets, settings)
     db.update_enrichment(conn, targets)
 
     # Work through open jobs whose description was never read, so the Sheet's

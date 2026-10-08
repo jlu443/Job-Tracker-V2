@@ -227,7 +227,7 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
         seen_ids.add(p.job_id)
         # Exempt from the age limit: sources whose listings run for months,
         # and titles recruiting for a season still ahead ("Summer 2027").
-        exempt = p.source in age_exempt or dates.names_upcoming_season(p.title)
+        exempt = dates.outlives_age_limit(p.source, p.title, p.posted_on, age_exempt)
         # A tombstone stops an aged-out listing from coming back as "new".
         # Exempt listings are deleted only once unseen, so seeing one again
         # means it's open again.

@@ -547,3 +547,25 @@ def test_host_shaped_names_count_as_slugs():
                                            "name": "kiewitcareers.kiewit.com"})
     assert not is_slug_name("icims", {"host": "careers2-quanta.icims.com", "name": "Quanta Services"})
     assert not is_slug_name("workday", {"tenant": "abcsupply", "name": "ABC Supply"})
+
+
+def test_exempt_source_limits():
+    """Curated listings outlive the age limit, but not past a year or for a
+    season that's over ("New Grad 2025: Software Engineer")."""
+    from src import dates
+    ex = frozenset({"simplify"})
+    ago = lambda n: (date.today() - timedelta(days=n)).isoformat()
+    assert dates.outlives_age_limit("simplify", "Software Engineer Intern", ago(99), ex)
+    assert not dates.outlives_age_limit("simplify", "Software Engineer Intern", ago(400), ex)
+    assert not dates.outlives_age_limit("simplify", "New Grad 2025: Software Engineer", ago(90), ex)
+    assert not dates.outlives_age_limit("greenhouse", "Software Engineer Intern", ago(90), ex)
+    season = date.today().year + 1
+    assert dates.outlives_age_limit("greenhouse", f"Intern - Summer {season}", ago(400), ex)
+
+
+def test_stale_once_the_job_page_gives_the_date():
+    from src import repost
+    jobs = [{"posted_on": "2024-10-07", "repost": ""}, {"posted_on": "", "repost": ""},
+            {"posted_on": date.today().isoformat(), "repost": ""}]
+    assert repost.mark_stale(jobs, {"reposts": {"stale_after_days": 30}}) == 1
+    assert [j["repost"] for j in jobs] == ["stale", "", ""]

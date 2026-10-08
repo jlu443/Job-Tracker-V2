@@ -165,3 +165,18 @@ def annotate(new_jobs: list[dict], relisted_from: dict[str, tuple[str, str]],
         age = dates.age_days(j.get("posted_on", ""))
         if age is not None and age >= stale_days:
             j.update(repost="stale", repost_detail=f"posted {j['posted_on']}")
+
+
+def mark_stale(jobs: list[dict], settings: dict) -> int:
+    """Flag jobs still unflagged whose post date is stale. For dates learned
+    after annotate(): iCIMS / SuccessFactors listings carry none, and the
+    job page read during enrichment fills it in (an iCIMS "Engineering
+    Intern - Summer 2027" first posted 2024-10-07 was announced as new)."""
+    stale_days = (settings.get("reposts") or {}).get("stale_after_days", 30)
+    n = 0
+    for j in jobs:
+        age = dates.age_days(j.get("posted_on", ""))
+        if not j.get("repost") and age is not None and age >= stale_days:
+            j.update(repost="stale", repost_detail=f"posted {j['posted_on']}")
+            n += 1
+    return n

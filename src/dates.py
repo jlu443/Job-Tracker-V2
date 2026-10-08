@@ -71,3 +71,28 @@ def names_upcoming_season(title: str, anchor: date | None = None) -> bool:
     """"Software Engineer Intern (Summer 2027)" in October 2026: recruiting
     for a season that hasn't happened yet, however long ago it was posted."""
     return season_year(title) in upcoming_season_years(anchor)
+
+
+def names_past_season(title: str, anchor: date | None = None) -> bool:
+    """"New Grad 2025: Software Engineer" in October 2026: a season that's over."""
+    year = season_year(title)
+    return year is not None and year < min(upcoming_season_years(anchor))
+
+
+# Exempt sources keep a listing past the age limit for up to this long; a
+# curated list's year-old "active" listings were never updated (460 on
+# 2026-10-08, e.g. Roblox "New Grad 2025: Software Engineer").
+EXEMPT_MAX_DAYS = 365
+
+
+def outlives_age_limit(source: str, title: str, posted_on: str,
+                       exempt_sources: frozenset) -> bool:
+    """A listing kept past max_listing_age_days while still open: one naming
+    an upcoming season ("Summer 2027"), or from a source whose listings run
+    for months, unless it names a season that's over or is over a year old."""
+    if names_upcoming_season(title):
+        return True
+    if source not in exempt_sources or names_past_season(title):
+        return False
+    age = age_days(posted_on)
+    return age is None or age <= EXEMPT_MAX_DAYS
