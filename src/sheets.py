@@ -94,10 +94,12 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
         # Tech functions only: "other" (sales, legal, pharmacy, mechanical...)
         # was 61% of open rows on 2026-10-03, never announced, and the main
         # reason these tabs were slow.
+        # One row per role here too: ~5,100 of 27,000 rows repeated a role
+        # posted in several cities (2026-10-08).
         for role, label in ROLE_TABS:
-            tabs[f"{label} · All Open"] = [
-                _row(j) for j in jobs if j["status"] == "active" and j["role_type"] == role
-                and j.get("category") != "other"]
+            tabs[f"{label} · All Open"] = collapse(
+                [j for j in jobs if j["status"] == "active" and j["role_type"] == role
+                 and j.get("category") != "other"])
     return tabs
 
 
@@ -131,8 +133,8 @@ KEY_ROWS = [
     ["Tabs", "Internships / New Grad · This Week", "Jobs announced 1-7 days ago (today's "
      "are only on Today).", "", ""],
     ["Tabs", "Internships / New Grad · All Open", "Every open tech job (software, data/ML, "
-     "hardware, quant, product) in the 60-day window, refreshed once a day. Non-tech "
-     "roles are tracked but not listed.", "", ""],
+     "hardware, quant, product) in the 60-day window, one row per role (cities merged), "
+     "refreshed once a day. Non-tech roles are tracked but not listed.", "", ""],
     ["Tabs", "PhD & Research", "Open PhD and research-track (MS/PhD) internships.", "", ""],
     ["Tabs", "Visa Sponsors", "Companies with open PhD/research internships and their "
      "visa record. 🟢 likely = 50+ H-1B approvals FY21-23 (USCIS); 🟡 some history; "
