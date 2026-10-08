@@ -63,7 +63,12 @@ _STATE_NAMES_WITH_FOREIGN_WORDS = {n for n in _US_STATE_NAMES
                                    if any(w in _NON_US for w in n.split())}
 _COUNTRY_CODES = {"GB", "UK", "IE", "FR", "CN", "JP", "AU", "SG", "NL", "ES",
                   "IT", "PL", "BR", "MX", "IL", "SE", "CH", "PT", "RO", "KR",
-                  "TW", "HK", "PH", "NZ", "AE", "CZ", "AT", "BE", "DK", "NO", "FI"}
+                  "TW", "HK", "PH", "NZ", "AE", "CZ", "AT", "BE", "DK", "NO", "FI",
+                  # ISO codes that aren't also US state codes ("Ho Chi Minh, VN")
+                  "VN", "TH", "MY", "KH", "LK", "BD", "PK", "NP", "ZA", "NG", "KE", "EG",
+                  "TR", "GR", "HU", "SK", "SI", "HR", "RS", "BG", "UA", "LT", "LV", "EE",
+                  "IS", "LU", "CY", "CL", "PE", "UY", "EC", "CR", "DO", "GT", "SA", "QA",
+                  "KW", "BH", "OM", "JO", "LB", "RU", "BY", "KZ", "UZ"}
 
 
 def _phrases(loc: str) -> set[str]:

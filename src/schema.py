@@ -306,6 +306,17 @@ def _relabel_stated_seniority(conn: sqlite3.Connection) -> None:
                      [(r[0],) for r in rows if classify.classify_by_keyword(r[1]) == "senior"])
 
 
+def _relabel_campus_student_jobs(conn: sqlite3.Connection) -> None:
+    """Tutors, course and teaching assistants, resident assistants came in
+    through a board's "Student" label (2026-10-08: 97 open rows). They're
+    campus jobs, not internships: relabel 'mid'; prune() drops them."""
+    rows = conn.execute("SELECT job_id, title FROM jobs "
+                        "WHERE role_type IN ('intern', 'new_grad')").fetchall()
+    conn.executemany("UPDATE jobs SET role_type = 'mid' WHERE job_id = ?",
+                     [(r[0],) for r in rows if classify._CAMPUS_STUDENT_JOB.search(r[1])
+                      and classify.classify_by_keyword(r[1]) not in ("intern", "new_grad")])
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -323,6 +334,7 @@ MIGRATIONS = [
     (14, _unannounce_foreign_postings),
     (15, _recategorize_lab_and_finance_titles),
     (16, _relabel_stated_seniority),
+    (17, _relabel_campus_student_jobs),
 ]
 
 

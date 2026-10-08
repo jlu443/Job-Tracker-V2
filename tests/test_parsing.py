@@ -86,6 +86,8 @@ def test_categories(title, category):
     ("Staff Software Engineer", "new_grad", "senior"),
     ("Software Engineer Intern", "new_grad", "intern"),
     ("Software Engineer", "new_grad", "new_grad"),
+    ("School of Computer Science Teaching Assistant Positions Winter 2027", "intern", "mid"),
+    ("Tutor - Math Learning Center", "intern", "mid"),
 ])
 def test_curated_label_vs_title(title, hint, role):
     assert classify.role_with_hint(title, hint) == role
@@ -372,6 +374,8 @@ def test_us_job(title, location, us):
     ("Central New Mexico, Albuquerque, NM", True),
     ("Bangalore, KA, IN", False),
     ("Main Campus", None),
+    ("Ho Chi Minh, VN", False),
+    ("Chicago, IL", True),
     ("", None),
 ])
 def test_us_verdict(loc, verdict):

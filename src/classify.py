@@ -244,11 +244,20 @@ def hint_from_level(value: str) -> str:
     return "new_grad" if _GRAD_LEVEL.search(value or "") else ""
 
 
+# Campus student jobs a board files under "Student": not internships
+# ("School of Computer Science Teaching Assistant Positions", McGill).
+_CAMPUS_STUDENT_JOB = re.compile(r"\b(?:teaching\s+assistant\w*|tas?\s+positions?|grader|"
+                                 r"tutor\w*|peer\s+mentor|residen(?:t|ce)\s+(?:advisor|assistant)|"
+                                 r"course\s+assistant|demonstrator|invigilator)\b", re.IGNORECASE)
+
+
 def role_with_hint(title: str, hint: str) -> str:
     """Role for a posting whose source asserts `hint` (intern/new_grad)."""
     by_title = classify_by_keyword(title)
     if by_title in ("intern", "new_grad"):
         return by_title
+    if _CAMPUS_STUDENT_JOB.search(title):
+        return by_title or "mid"
     return "senior" if _EXPLICIT_SENIOR.search(title) else hint
 
 
