@@ -1339,3 +1339,19 @@ companies:
   name: Careers Usa Cecoenviro.icims.com
   aliases:
   - careers-usa-cecoenviro
+- host: careers-kaukahi.icims.com
+  name: Kaukahi
+  aliases:
+  - careers-kaukahi
+- host: wholesale-harborfoods.icims.com
+  name: Harbor Foods
+  aliases:
+  - wholesale-harborfoods
+- host: interns-brookings.icims.com
+  name: Brookings
+  aliases:
+  - interns-brookings
+- host: careers-indeed.icims.com
+  name: Careers Indeed.icims.com
+  aliases:
+  - careers-indeed

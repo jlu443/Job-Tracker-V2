@@ -640,8 +640,9 @@ companies:
 - tenant: acciona
   wd: wd3
   site: acciona_employment_channel
-  name: ACCIONA
+  name: Acciona
   aliases:
+  - ACCIONA
   - acciona
 - tenant: ngc
   wd: wd1
@@ -1796,8 +1797,9 @@ companies:
 - tenant: albemarle
   wd: wd5
   site: External
-  name: Albemarle
+  name: Ketjen
   aliases:
+  - Albemarle
   - albemarle
 - tenant: transamerica
   wd: wd5
@@ -2570,7 +2572,9 @@ companies:
 - tenant: relx
   wd: wd3
   site: ElsevierJobs
-  name: relx
+  name: RELX
+  aliases:
+  - relx
 - tenant: fivebelow
   wd: wd1
   site: fivebelowcareers
@@ -2874,7 +2878,9 @@ companies:
 - tenant: dowjones
   wd: wd1
   site: New_York_Post_Careers
-  name: dowjones
+  name: Dow Jones
+  aliases:
+  - dowjones
 - tenant: brookfield
   wd: wd5
   site: bpandc
@@ -6634,8 +6640,9 @@ companies:
 - tenant: albemarle
   wd: wd5
   site: ketjenexternal
-  name: Albemarle
+  name: Ketjen
   aliases:
+  - Albemarle
   - albemarle
 - tenant: masco
   wd: wd1
@@ -10209,3 +10216,41 @@ companies:
   name: AAON
   aliases:
   - aaon
+- tenant: applebank
+  wd: wd5
+  site: applebankcareers
+  name: Apple Bank
+  aliases:
+  - applebank
+- tenant: centricsoftware
+  wd: wd501
+  site: Centric
+  name: Centric Software
+  aliases:
+  - centricsoftware
+- tenant: kendallgroup
+  wd: wd503
+  site: Kendall_Careers
+  name: Kendall Group
+  aliases:
+  - kendallgroup
+- tenant: permianres
+  wd: wd12
+  site: Permian_Resources_Careers
+  name: permianres
+- tenant: experity
+  wd: wd108
+  site: Experity_Careers
+  name: Experity
+  aliases:
+  - experity
+- tenant: independencepetgroup
+  wd: wd12
+  site: Careers
+  name: independencepetgroup
+- tenant: fractal
+  wd: wd1
+  site: Careers
+  name: Fractal
+  aliases:
+  - fractal

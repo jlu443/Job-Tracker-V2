@@ -3575,3 +3575,15 @@ companies:
   name: TaxRise
   aliases:
   - taxrise
+- token: goodfire
+  name: Goodfire
+  aliases:
+  - goodfire
+- token: grahamcapitalmanagement
+  name: Graham Capital Management, L.P.
+  aliases:
+  - grahamcapitalmanagement
+- token: esri
+  name: Esri
+- token: otterai
+  name: Otter.ai

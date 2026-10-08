@@ -1642,7 +1642,9 @@ companies:
 - slug: evolve
   name: evolve
 - slug: exa
-  name: exa
+  name: Exa
+  aliases:
+  - exa
 - slug: expa
   name: expa
 - slug: expressable
@@ -2156,7 +2158,9 @@ companies:
 - slug: happl
   name: happl
 - slug: happyrobot.ai
-  name: happyrobot.ai
+  name: Happyrobot
+  aliases:
+  - happyrobot.ai
 - slug: happyscribe.com
   name: happyscribe.com
 - slug: harmattan-ai
@@ -4894,7 +4898,9 @@ companies:
   aliases:
   - sprinter-health
 - slug: spruceid
-  name: spruceid
+  name: SpruceID
+  aliases:
+  - spruceid
 - slug: squads
   name: squads
 - slug: squint.ai
@@ -7537,3 +7543,17 @@ companies:
   name: Parisi Labs
   aliases:
   - parisi-labs
+- slug: chalk
+  name: Chalk
+  aliases:
+  - chalk
+- slug: Skyband%20Systems
+  name: Skyband Systems
+- slug: alt
+  name: alt
+- slug: Pelico
+  name: Pelico
+- slug: Orbital-Robotics
+  name: Orbital Robotics
+  aliases:
+  - Orbital-Robotics
