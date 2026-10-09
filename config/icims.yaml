@@ -1355,3 +1355,7 @@ companies:
   name: Careers Indeed.icims.com
   aliases:
   - careers-indeed
+- host: jobs-nffinc.icims.com
+  name: Jobs Nffinc.icims.com
+  aliases:
+  - jobs-nffinc

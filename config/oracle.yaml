@@ -1000,3 +1000,8 @@ companies:
   name: Fa Epuh Saasfaprod1.fa.ocs.oraclecloud.com
   aliases:
   - fa-epuh-saasfaprod1
+- host: iaziqy.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Uber
+  aliases:
+  - iaziqy

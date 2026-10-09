@@ -2214,7 +2214,9 @@ companies:
   aliases:
   - hebbia-ai
 - slug: hedra
-  name: hedra
+  name: Hedra
+  aliases:
+  - hedra
 - slug: heidihealth.com.au
   name: heidihealth.com.au
 - slug: helius
@@ -7557,3 +7559,9 @@ companies:
   name: Orbital Robotics
   aliases:
   - Orbital-Robotics
+- slug: clark
+  name: Clark
+  aliases:
+  - clark
+- slug: queueinc
+  name: queueinc

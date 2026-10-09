@@ -1183,3 +1183,11 @@ companies:
   name: Provectus
   aliases:
   - provectus
+- slug: viget
+  name: Viget
+  aliases:
+  - viget
+- slug: trueml
+  name: trueml
+- slug: workwave
+  name: workwave

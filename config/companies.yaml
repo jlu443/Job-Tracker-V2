@@ -640,9 +640,10 @@ companies:
 - tenant: acciona
   wd: wd3
   site: acciona_employment_channel
-  name: Acciona
+  name: ACCIONA
   aliases:
   - ACCIONA
+  - Acciona
   - acciona
 - tenant: ngc
   wd: wd1
@@ -2074,7 +2075,9 @@ companies:
 - tenant: pattersoncompanies
   wd: wd501
   site: PDCO
-  name: pattersoncompanies
+  name: Patterson Companies
+  aliases:
+  - pattersoncompanies
 - tenant: roberthalf
   wd: wd1
   site: roberthalfcareers
@@ -10254,3 +10257,37 @@ companies:
   name: Fractal
   aliases:
   - fractal
+- tenant: mufgub
+  wd: wd3
+  site: mufg-earlycareers
+  name: MUFG
+  aliases:
+  - mufgub
+- tenant: cmu
+  wd: wd115
+  site: SEI
+  name: Carnegie Mellon University
+  aliases:
+  - cmu
+- tenant: wintrust
+  wd: wd1
+  site: Search
+  name: Wintrust
+  aliases:
+  - wintrust
+- tenant: insmed
+  wd: wd504
+  site: EXTERNAL
+  name: Insmed
+  aliases:
+  - insmed
+- tenant: atlanticmedia
+  wd: wd1
+  site: Careers
+  name: atlanticmedia
+- tenant: servicetitan
+  wd: wd1
+  site: ServiceTitan
+  name: ServiceTitan
+  aliases:
+  - servicetitan

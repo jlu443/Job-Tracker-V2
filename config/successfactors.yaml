@@ -311,3 +311,11 @@ companies:
   name: JENOPTIK
   aliases:
   - careers.jenoptik.com
+- host: careers.liebherr.com
+  name: Liebherr
+  aliases:
+  - careers.liebherr.com
+- host: jobsearch.alstom.com
+  name: Alstom
+  aliases:
+  - jobsearch.alstom.com
