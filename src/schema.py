@@ -317,6 +317,19 @@ def _relabel_campus_student_jobs(conn: sqlite3.Connection) -> None:
                       and classify.classify_by_keyword(r[1]) not in ("intern", "new_grad")])
 
 
+def _relabel_managers(conn: sqlite3.Connection) -> None:
+    """"Manager" is too senior for this feed, whatever a source's label says
+    (Capital One's "Manager, Product Management" on Simplify's new-grad
+    list; decided 2026-10-09). Re-apply classify.role_with_hint to stored
+    entry-level rows; those it no longer calls entry-level are relabeled
+    and prune() drops them."""
+    rows = conn.execute("SELECT job_id, title, role_type FROM jobs "
+                        "WHERE role_type IN ('intern', 'new_grad')").fetchall()
+    conn.executemany("UPDATE jobs SET role_type = ? WHERE job_id = ?",
+                     [(new, r[0]) for r in rows
+                      if (new := classify.role_with_hint(r[1], r[2])) not in ("intern", "new_grad")])
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -335,6 +348,7 @@ MIGRATIONS = [
     (15, _recategorize_lab_and_finance_titles),
     (16, _relabel_stated_seniority),
     (17, _relabel_campus_student_jobs),
+    (18, _relabel_managers),
 ]
 
 

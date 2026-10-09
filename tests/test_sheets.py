@@ -145,3 +145,13 @@ def test_discord_place(loc, place):
 
 def test_key_rows_shape():
     assert all(len(r) == 5 for r in sheets.KEY_ROWS)
+
+
+def test_all_open_lists_us_jobs_only():
+    conn = db.connect(":memory:")
+    db.sync(conn, [_job("gh_1", "Software Engineer Intern", "Austin, TX"),
+                   _job("gh_2", "Software Engineer Intern", "London, UK"),
+                   _job("gh_3", "Werkstudent Software (m/w/d)", "Hamburg")],
+            lambda p: "intern", set(), set())
+    tabs = sheets.build_tabs(conn, include_all=True)
+    assert [r[-1] for r in tabs["Internships · All Open"]] == ["gh_1"]

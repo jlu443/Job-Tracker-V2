@@ -418,7 +418,8 @@ def test_migration_6_relabels_campus_and_fellowship_staff(tmp_path):
     conn = db.connect(path)
     assert dict(conn.execute("SELECT job_id, role_type FROM jobs").fetchall()) == \
         {"gh_1": "mid", "gh_2": "senior", "gh_3": "new_grad", "gh_4": "mid",
-         "gh_5": "mid", "gh_6": "intern", "sim_1": "new_grad"}
+         "gh_5": "mid", "gh_6": "intern",
+         "sim_1": "senior"}    # migration 18: stated seniority beats a curated label
 
 
 def test_enrich_backlog_gives_up_after_empty_reads_and_closes_404s(tmp_path):
@@ -474,7 +475,8 @@ def test_migration_7_relabels_senior_level_one(tmp_path):
     conn.close()
     conn = db.connect(path)
     assert dict(conn.execute("SELECT job_id, role_type FROM jobs").fetchall()) == \
-        {"gh_1": "senior", "gh_2": "new_grad", "sim_1": "new_grad"}
+        {"gh_1": "senior", "gh_2": "new_grad",
+         "sim_1": "senior"}    # migration 18: stated seniority beats a curated label
 
 
 def test_migration_9_gives_curated_rows_their_scraper_id(tmp_path):

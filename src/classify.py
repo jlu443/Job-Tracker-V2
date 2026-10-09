@@ -225,9 +225,15 @@ def role_hint_from_description(title: str, description: str) -> str:
 # Seniority a title states outright. A curated list's intern/new_grad label
 # gives way only to these: "Senior Full Stack Engineer" slipped into a list
 # is senior, but a listed new-grad "Product Manager" or "AI Fellow" is not.
+# "Manager" counts too (decided 2026-10-09): Simplify's new-grad list
+# carries post-MBA roles like Capital One's "Manager, Product Management",
+# too senior for this feed. Entry titles the rules already place first
+# ("Associate Product Manager", "Product Manager Intern"); a "Manager in
+# Training" isn't one.
+_MANAGER = r"(?:manager|mgr)(?![\s-]*in[\s-]+training)"
 _EXPLICIT_SENIOR = re.compile(
     r"\b(senior|sr\.?|(?<!technical )(?<!trading )(?<!research )staff|principal|lead|"
-    r"distinguished|director|head\s+of|vp|iii|iv)\b", re.IGNORECASE)
+    r"distinguished|director|head\s+of|vp|iii|iv|" + _MANAGER + r")\b", re.IGNORECASE)
 
 
 # An ATS's own level / employment-type value: "Summer Internship",
@@ -251,6 +257,10 @@ _CAMPUS_STUDENT_JOB = re.compile(r"\b(?:teaching\s+assistant\w*|tas?\s+positions
                                  r"course\s+assistant|demonstrator|invigilator)\b", re.IGNORECASE)
 
 
+_ENTRY_MANAGER = re.compile(r"\b(?:associate\s+(?:\w+\s+)?(?:product|program|project)\s+manager|"
+                            r"apm)\b", re.IGNORECASE)
+
+
 def role_with_hint(title: str, hint: str) -> str:
     """Role for a posting whose source asserts `hint` (intern/new_grad)."""
     by_title = classify_by_keyword(title)
@@ -258,7 +268,9 @@ def role_with_hint(title: str, hint: str) -> str:
         return by_title
     if _CAMPUS_STUDENT_JOB.search(title):
         return by_title or "mid"
-    return "senior" if _EXPLICIT_SENIOR.search(title) else hint
+    if _EXPLICIT_SENIOR.search(title) and not _ENTRY_MANAGER.search(title):
+        return "senior"
+    return hint
 
 
 def is_entry_level(title: str) -> bool:
@@ -292,6 +304,7 @@ def _get_pipeline():
 # it's junior ("Junior to Senior Power BI Developer").
 _JUNIOR_STATED = re.compile(r"\b(?:junior|jr\.?|entry[\s-]*level|new\s*grad\w*|graduates?|"
                             r"grads?|ncg|early\s+(?:in\s+)?careers?|campus|university|college|"
+                            r"associate\s+(?:\w+\s+)?(?:product|program|project)\s+manager|apm|"
                             r"apprentice\w*|rotation\w*|20\d\d|"
                             # one posting for several levels from associate up:
                             # "Associate Engineer/Engineer/Senior Engineer"
@@ -301,7 +314,8 @@ _JUNIOR_STATED = re.compile(r"\b(?:junior|jr\.?|entry[\s-]*level|new\s*grad\w*|g
 # Stated seniority for that check; not "III"/"IV", which in "Technician
 # I-IV" is a range starting at entry level.
 _SENIOR_WORD = re.compile(r"\b(?:senior|sr\.?|(?<!technical )(?<!trading )(?<!research )staff|"
-                          r"principal|lead|distinguished|director|head\s+of|vp)\b", re.IGNORECASE)
+                          r"principal|lead|distinguished|director|head\s+of|vp|" + _MANAGER
+                          + r")\b", re.IGNORECASE)
 
 
 def classify_by_keyword(title: str) -> str | None:

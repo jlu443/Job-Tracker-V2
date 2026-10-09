@@ -80,7 +80,10 @@ def test_categories(title, category):
 
 
 @pytest.mark.parametrize("title,hint,role", [
-    ("Product Manager", "new_grad", "new_grad"),          # "manager" alone isn't seniority
+    ("Product Manager", "new_grad", "senior"),            # "Manager" is too senior (2026-10-09)
+    ("Manager, Product Management - Enterprise Product & Experience", "new_grad", "senior"),
+    ("Associate Product Manager", "new_grad", "new_grad"),
+    ("Product Manager-in-Training", "new_grad", "new_grad"),
     ("AI Fellow - Member of Technical Staff", "new_grad", "new_grad"),
     ("Senior Full Stack Software Engineer", "new_grad", "senior"),
     ("Staff Software Engineer", "new_grad", "senior"),
