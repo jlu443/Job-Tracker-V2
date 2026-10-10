@@ -1013,3 +1013,11 @@ companies:
   name: WireCo WorldGroup
   aliases:
   - WireCoWorldGroup
+- company: CircleLogistics1
+  name: Circle Logistics
+  aliases:
+  - CircleLogistics1
+- company: LiftedanUpworkCompany
+  name: Lifted, an Upwork Company™
+  aliases:
+  - LiftedanUpworkCompany

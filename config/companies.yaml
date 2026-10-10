@@ -1853,8 +1853,9 @@ companies:
 - tenant: hitachi
   wd: wd1
   site: hitachi
-  name: Hitachi
+  name: HITACHI
   aliases:
+  - Hitachi
   - hitachi
 - tenant: cvshealth
   wd: wd1
@@ -10291,3 +10292,29 @@ companies:
   name: ServiceTitan
   aliases:
   - servicetitan
+- tenant: workday
+  wd: wd5
+  site: Workday_Early_Career
+  name: Workday
+  aliases:
+  - workday
+- tenant: otis
+  wd: wd504
+  site: REC_Ext_Gateway
+  name: Otis
+  aliases:
+  - otis
+- tenant: devoted
+  wd: wd1
+  site: Devoted
+  name: Devoted
+  aliases:
+  - devoted
+- tenant: csusystem
+  wd: wd12
+  site: fortcollins_careers
+  name: csusystem
+- tenant: pacourts
+  wd: wd5
+  site: PACourts
+  name: pacourts

@@ -3595,3 +3595,13 @@ companies:
   name: Keeper Security
   aliases:
   - keepersecurity
+- token: tenet3
+  name: Tenet3
+  aliases:
+  - tenet3
+- token: adyen
+  name: Adyen
+  aliases:
+  - adyen
+- token: sagesure
+  name: SageSure

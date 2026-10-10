@@ -1191,3 +1191,9 @@ companies:
   name: trueml
 - slug: workwave
   name: workwave
+- slug: perrknight
+  name: Perr&Knight
+  aliases:
+  - perrknight
+- slug: atomcomputing
+  name: atomcomputing

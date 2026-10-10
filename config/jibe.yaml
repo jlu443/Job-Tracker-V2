@@ -347,3 +347,7 @@ companies:
   name: DocuSign
   aliases:
   - careers.docusign.com
+- host: discounttire.jibeapply.com
+  name: America's Tire
+  aliases:
+  - discounttire.jibeapply.com

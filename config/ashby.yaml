@@ -3126,7 +3126,9 @@ companies:
   aliases:
   - metaview
 - slug: meter
-  name: meter
+  name: Meter
+  aliases:
+  - meter
 - slug: method
   name: method
 - slug: method-crm
@@ -7565,3 +7567,9 @@ companies:
   - clark
 - slug: queueinc
   name: queueinc
+- slug: careers.mural
+  name: careers.mural
+- slug: veho-tech-inc
+  name: Veho Tech Inc
+  aliases:
+  - veho-tech-inc

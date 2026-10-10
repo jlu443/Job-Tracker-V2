@@ -116,7 +116,9 @@ companies:
   - ehzq
 - host: ebgj.fa.us2.oraclecloud.com
   site: CX_1
-  name: ebgj
+  name: Pella
+  aliases:
+  - ebgj
 - host: ejhp.fa.us6.oraclecloud.com
   site: CX_2
   name: Sherwin-Williams
