@@ -16,7 +16,7 @@ from collections import Counter
 from datetime import datetime, timedelta, timezone
 
 from . import (accuracy, classify, db, dedupe, enrich, geo, health, maintenance, notify, profile,
-               repost, sheets)
+               plain_titles, repost, sheets)
 from .collect import ATS_SCRAPERS, Collected
 
 log = logging.getLogger(__name__)
@@ -55,6 +55,12 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     all_postings, dupes = dedupe.dedupe_postings(all_postings, known)
     if dupes:
         log.info(f"Dropped {dupes} duplicate postings (same job via another source).")
+
+    # Plain titles ("Software Engineer") on sources without descriptions in
+    # their listings: the description can say new-grad.
+    all_postings, described, described_capped = plain_titles.find_new_grads(
+        conn, all_postings, known, settings.get("plain_title_reads_per_run", 500),
+        settings.get("max_listing_age_days"))
 
     # Classify only genuinely new postings, in one batched pass — calling the
     # zero-shot model per title serially is what blows up CI runtime.
@@ -108,6 +114,15 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         log.info("Not announced: " + ", ".join(f"{n} {why}" for why, n in skipped.items())
               + ("  (bootstrap = first scrape of a new board; backlog stored silently)"
                  if skipped.get("bootstrap") else ""))
+
+    # Plain-titled new-grad jobs are read in a backlog at first: only
+    # freshly posted ones are news (as after a classifier change).
+    if described:
+        before = len(fresh)
+        fresh = [j for j in fresh if j["job_id"] not in described
+                 or plain_titles.fresh_enough(j, described_capped)]
+        if len(fresh) != before:
+            log.info(f"Not announced: {before - len(fresh)} plain-titled new-grad backlog")
 
     targets = notify.announceable(fresh, settings)
 
@@ -237,6 +252,7 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
             log.info(f"Purged {purged} listings older than "
                   f"{settings['max_listing_age_days']} days.")
     maintenance.recheck_workday_removals(conn)
+    plain_titles.prune(conn, settings.get("max_listing_age_days") or 60)
     pruned = maintenance.prune(conn, settings.get("prune_removed_after_days", 30), store_roles)
     if pruned:
         log.info(f"Pruned {pruned} rows that are no longer kept.")

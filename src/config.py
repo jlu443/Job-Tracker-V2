@@ -43,6 +43,7 @@ SCHEMA: dict = {
     "enrich_backlog_per_run": int,
     "icims_date_backfill_per_run": int,
     "country_lookups_per_run": int,
+    "plain_title_reads_per_run": int,
     "exclude_no_sponsorship": bool,
     "profile": {"enabled": bool, "grad_year": (int, type(None)), "needs_sponsorship": bool,
                 "us_citizen": bool, "locations": list},

@@ -108,6 +108,11 @@ enrich_backlog_per_run: 1000
 # job page names the country. Each run reads this many such pages for open
 # rows (one per company and place), so the Sheet's US filter can place them.
 country_lookups_per_run: 200
+# New-grad jobs often have plain titles ("Software Engineer"); only the
+# description says so. Workday, Oracle, iCIMS, SmartRecruiters,
+# SuccessFactors and Eightfold listings carry no description, so each run
+# reads this many new US tech postings' pages (each id once, newest first).
+plain_title_reads_per_run: 500
 # When true, jobs whose description explicitly rules out visa sponsorship
 # (or requires US citizenship) are dropped from Discord/Sheets announcements.
 exclude_no_sponsorship: false

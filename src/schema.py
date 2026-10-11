@@ -50,6 +50,12 @@ CREATE TABLE IF NOT EXISTS boards (
     first_scraped TEXT NOT NULL,
     PRIMARY KEY (source, company)
 );
+-- Plain-titled postings ("Software Engineer") whose description was read to
+-- tell whether they're new-grad (src/plain_titles.py); each is read once.
+CREATE TABLE IF NOT EXISTS described (
+    job_id     TEXT PRIMARY KEY,
+    checked_on TEXT NOT NULL
+);
 CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs(status);
 CREATE INDEX IF NOT EXISTS idx_jobs_role   ON jobs(role_type);
 """
