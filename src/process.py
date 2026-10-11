@@ -15,7 +15,7 @@ import time
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 
-from . import (accuracy, classify, db, dedupe, enrich, health, maintenance, notify, profile,
+from . import (accuracy, classify, db, dedupe, enrich, geo, health, maintenance, notify, profile,
                repost, sheets)
 from .collect import ATS_SCRAPERS, Collected
 
@@ -128,13 +128,22 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
         # Descriptions already read at scrape time aren't fetched again
         # (LinkedIn's page is, for its applicant count).
         to_fetch = [j for j in targets if not j.get("checked_at") or j["source"] == "linkedin"]
-        to_fetch.sort(key=lambda j: j.get("posted_on") or "", reverse=True)
+        # Jobs whose location can't be placed first: their page names the
+        # country, which decides whether they're announced at all.
+        to_fetch.sort(key=lambda j: (geo.us_verdict(j.get("location") or "") is None
+                                     and not j.get("country"), j.get("posted_on") or ""),
+                      reverse=True)
         enrich.enrich_jobs(to_fetch[:cap])
         if len(to_fetch) > cap:
             log.info(f"  enrichment capped at {cap}; {len(to_fetch) - cap} left for the backlog")
         # Job pages can supply the post date a listing lacked.
         repost.mark_stale(targets, settings)
     db.update_enrichment(conn, targets)
+    # A job page can name a country abroad for a bare "Crawley" location.
+    before = len(targets)
+    targets = notify.announceable(targets, settings)
+    if len(targets) != before:
+        log.info(f"Not announced: {before - len(targets)} abroad per their job page")
 
     # Work through open jobs whose description was never read, so the Sheet's
     # sponsorship / citizenship / clearance columns fill in over a few runs.
@@ -165,6 +174,10 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
                 enrich.enrich_jobs(undated, label=f"undated {source} jobs (post-date backfill)")
                 db.update_enrichment(conn, undated)
                 db.mark_undated(conn, [j["job_id"] for j in undated if not j.get("posted_on")])
+
+    # Place stored Workday rows whose location is a bare city, before the
+    # Sheet is built from them.
+    maintenance.learn_countries(conn, settings.get("country_lookups_per_run", 200))
 
     # A detail page that says the posting is gone (LinkedIn 404) isn't news.
     targets = [j for j in targets if not j.get("closed")]

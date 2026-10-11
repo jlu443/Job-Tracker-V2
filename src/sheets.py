@@ -75,7 +75,9 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
     jobs.sort(key=phd.posted_sort_key, reverse=True)
     # Today / This Week list what was announced, not everything first seen:
     # a newly added board's silently stored backlog isn't news.
-    announced = [j for j in jobs if j["status"] == "active" and j.get("announced_at")]
+    # A job page read after the announcement can still reveal it's abroad.
+    announced = [j for j in jobs if j["status"] == "active" and j.get("announced_at")
+                 and geo.is_us_job(j["title"], j.get("location") or "", j.get("country") or "")]
     since = lambda h: (now - timedelta(hours=h)).isoformat(timespec="seconds")
     # One row per role on the short lists: a job posted in 12 cities is one
     # opening to apply to, with its locations merged.
@@ -101,7 +103,7 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
             tabs[f"{label} · All Open"] = collapse(
                 [j for j in jobs if j["status"] == "active" and j["role_type"] == role
                  and j.get("category") != "other"
-                 and geo.is_us_job(j["title"], j.get("location") or "")])
+                 and geo.is_us_job(j["title"], j.get("location") or "", j.get("country") or "")])
     return tabs
 
 

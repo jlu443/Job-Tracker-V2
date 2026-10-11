@@ -104,6 +104,10 @@ enrich_max_per_run: 400
 # research internships first). ~0.25s each with 8 parallel fetches, so
 # ~4 min for 1000; the backlog is cleared in about a day.
 enrich_backlog_per_run: 1000
+# Workday locations are often a bare city ("Crawley") or "2 Locations"; the
+# job page names the country. Each run reads this many such pages for open
+# rows (one per company and place), so the Sheet's US filter can place them.
+country_lookups_per_run: 200
 # When true, jobs whose description explicitly rules out visa sponsorship
 # (or requires US citizenship) are dropped from Discord/Sheets announcements.
 exclude_no_sponsorship: false

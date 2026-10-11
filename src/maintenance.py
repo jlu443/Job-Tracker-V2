@@ -136,3 +136,57 @@ def recheck_workday_removals(conn: sqlite3.Connection, per_run: int = 800) -> No
     db._meta_set(conn, "workday_recheck_cursor", rows[-1]["last_seen"])
     conn.commit()
     log.info(f"Workday removal repair: reopened {len(live)} of {len(rows)} re-checked jobs")
+
+
+def learn_countries(conn: sqlite3.Connection, limit: int = 200) -> int:
+    """Read the country off the job page of open Workday rows whose location
+    can't be placed ("Crawley", "Main Campus", "2 Locations"), a batch per
+    run: 12,470 of 35,132 open rows on 2026-10-10. One page per company and
+    named place answers for all its jobs there (db.share_countries).
+    Announced rows first, then tech roles, then newest. Returns rows placed."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    from . import enrich, geo
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute(
+        "SELECT job_id, company, title, location, apply_url FROM jobs "
+        "WHERE status = 'active' AND source = 'workday' AND country = '' "
+        "AND role_type IN ('intern', 'new_grad') "
+        "ORDER BY (announced_at != '') DESC, (category != 'other') DESC, first_seen DESC")
+    picks, places = [], set()
+    for r in rows:
+        if geo.us_verdict(r["location"] or "") is not None:
+            continue                      # the location already decides
+        if not db._VAGUE_LOCATION.match(r["location"] or ""):
+            if (r["company"], r["location"]) in places:
+                continue
+            places.add((r["company"], r["location"]))
+        picks.append(dict(r))
+        if len(picks) >= limit:
+            break
+    if not picks:
+        return 0
+
+    def country_of(job: dict) -> str:
+        try:
+            info = enrich._workday_detail(job)
+        except enrich.requests.HTTPError as exc:
+            gone = exc.response is not None and exc.response.status_code in (403, 404, 410)
+            return "-" if gone else ""
+        except (enrich.requests.RequestException, ValueError):
+            return ""                     # retried next run
+        return enrich.workday_country(info) if info else "-"
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        for job, country in zip(picks, pool.map(country_of, picks)):
+            job["country"] = country
+    done = [j for j in picks if j["country"]]
+    conn.executemany("UPDATE jobs SET country = ? WHERE job_id = ?",
+                     [(j["country"], j["job_id"]) for j in done])
+    n = len(done) + db.share_countries(conn, done)
+    conn.commit()
+    abroad = sum(1 for j in done if geo.known_country(j["country"])
+                 and j["country"] not in geo.US_COUNTRY_CODES)
+    log.info(f"Countries from Workday job pages: {len(done)} of {len(picks)} read "
+             f"({abroad} abroad); {n} rows placed")
+    return n

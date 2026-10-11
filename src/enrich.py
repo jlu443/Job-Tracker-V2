@@ -25,7 +25,7 @@ from urllib.parse import urlparse
 
 import requests
 
-from . import (classify, eightfold_scraper, http_pool, icims_scraper, phd,
+from . import (classify, eightfold_scraper, geo, http_pool, icims_scraper, phd,
                successfactors_scraper)
 
 log = logging.getLogger(__name__)
@@ -45,17 +45,43 @@ def _strip_html(text: str) -> str:
 # --- per-source description fetchers ----------------------------------------
 # Each takes the job dict and returns plain-ish text ("" when unavailable).
 
-def _fetch_workday(job: dict) -> str:
-    # apply_url:  https://{tenant}.{wd}.myworkdayjobs.com/{site}/job/...
-    # detail API: https://{host}/wday/cxs/{tenant}/{site}/job/...
+def _workday_detail(job: dict) -> dict:
+    """The job page's jobPostingInfo ({} for an unparseable apply_url).
+    apply_url:  https://{tenant}.{wd}.myworkdayjobs.com/{site}/job/...
+    detail API: https://{host}/wday/cxs/{tenant}/{site}/job/..."""
     u = urlparse(job["apply_url"])
     tenant = (u.hostname or "").split(".")[0]
     site, _, rest = u.path.lstrip("/").partition("/")
     if not (tenant and site and rest):
-        return ""
-    url = f"https://{u.hostname}/wday/cxs/{tenant}/{site}/{rest}"
-    data = _SESSION.get(url, timeout=_TIMEOUT).json()
-    return _strip_html((data.get("jobPostingInfo") or {}).get("jobDescription", ""))
+        return {}
+    resp = _SESSION.get(f"https://{u.hostname}/wday/cxs/{tenant}/{site}/{rest}",
+                        timeout=_TIMEOUT)
+    resp.raise_for_status()
+    return resp.json().get("jobPostingInfo") or {}
+
+
+def workday_country(info: dict) -> str:
+    """ISO alpha-2 country of a Workday job page, '-' when it doesn't say.
+    A multi-location posting ("2 Locations") names only its primary
+    location's country; it counts as US if any other location reads as US."""
+    country = ((info.get("jobRequisitionLocation") or {}).get("country") or {}).get("alpha2Code")
+    if not country:
+        # Some pages name the country without a code; "XX" = abroad, unnamed.
+        named = geo.us_verdict((info.get("country") or {}).get("descriptor") or "")
+        if named is None:
+            return "-"
+        country = "US" if named else "XX"
+    if country not in geo.US_COUNTRY_CODES and any(
+            geo.us_verdict(loc) for loc in info.get("additionalLocations") or []):
+        return "US"
+    return country
+
+
+def _fetch_workday(job: dict) -> str:
+    info = _workday_detail(job)
+    if info:
+        job["country"] = workday_country(info)
+    return _strip_html(info.get("jobDescription", ""))
 
 
 def workday_status(job: dict) -> bool | None:

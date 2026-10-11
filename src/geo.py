@@ -172,10 +172,26 @@ def clearly_us(location: str) -> bool:
     return any(c.upper() in _US_STATES and c.upper() != "DE" for c in comps[1:])
 
 
-def is_us_job(title: str, location: str) -> bool:
+# Country codes a job page can give that are the US (Puerto Rico and the
+# territories, like "PR" among _US_STATES).
+US_COUNTRY_CODES = {"US", "PR", "GU", "VI", "AS", "MP"}
+
+
+def known_country(country: str) -> bool:
+    """A job page's ISO alpha-2 country, as opposed to '' (never looked) or
+    '-' (looked; the page didn't say)."""
+    return bool(re.fullmatch(r"[A-Z]{2}", country or ""))
+
+
+def is_us_job(title: str, location: str, country: str = "") -> bool:
     """is_us(location), unless the title says the job is abroad: a foreign
     place ("Intern (London)") or a European posting convention without a
-    location that clearly names the US."""
+    location that clearly names the US. A country read from the job page
+    (`country`, ISO alpha-2) decides outright: Workday's location is often a
+    bare "Crawley" or "2 Locations" that is_us() can't place (24% of the
+    week's announcements to 2026-10-10)."""
+    if known_country(country):
+        return country in US_COUNTRY_CODES
     if not is_us(location) or title_names_foreign_place(title):
         return False
     return not (_FOREIGN_TITLE.search(title or "") and not clearly_us(location))

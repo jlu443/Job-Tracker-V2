@@ -80,6 +80,9 @@ COLUMNS = {
     "checked_at": "TEXT NOT NULL DEFAULT ''",
     # Description reads that came back empty; the backlog gives up after a few.
     "enrich_tries": "INTEGER NOT NULL DEFAULT 0",
+    # ISO alpha-2 country from the job page (Workday); '' = not looked up,
+    # '-' = looked up, the page didn't say. Decides geo.is_us_job.
+    "country": "TEXT NOT NULL DEFAULT ''",
 }
 
 

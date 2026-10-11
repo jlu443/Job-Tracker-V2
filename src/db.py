@@ -7,6 +7,7 @@ every byte here is re-committed on every run.
 
 from __future__ import annotations
 
+import re
 import sqlite3
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -173,20 +174,42 @@ def update_enrichment(conn: sqlite3.Connection, jobs: list[dict]) -> None:
         "applicants = ?, repost = ?, repost_of = ?, research_track = ?, "
         "checked_at = COALESCE(NULLIF(?, ''), checked_at), "
         "enrich_tries = enrich_tries + ?, "
+        "country = COALESCE(NULLIF(?, ''), country), "
         "posted_on = CASE WHEN posted_on = '' THEN ? ELSE posted_on END WHERE job_id = ?",
         [(j.get("sponsorship", ""), j.get("clearance", ""), j.get("grad_year", ""),
           j.get("citizenship", ""), j.get("opt_cpt", ""), j.get("pay", ""),
           j.get("applicants", ""), j.get("repost", ""),
           j.get("repost_of", ""), j.get("research_track", ""), j.get("checked_at", ""),
           int(bool(j.get("enrich_attempted")) and not j.get("checked_at")),
-          j.get("posted_on", ""), j["job_id"]) for j in jobs],
+          j.get("country", ""), j.get("posted_on", ""), j["job_id"]) for j in jobs],
     )
+    share_countries(conn, jobs)
     # A detail page that says the posting is gone (LinkedIn 404).
     closed = [j["job_id"] for j in jobs if j.get("closed")]
     if closed:
         conn.executemany("UPDATE jobs SET status = 'removed', last_seen = ? WHERE job_id = ?",
                          [(_now(), jid) for jid in closed])
     conn.commit()
+
+
+# Locations that don't pin down one place: a country learned for one job
+# there says nothing about another job there.
+_VAGUE_LOCATION = re.compile(r"^\s*(?:\d+\s+locations?|remote\w*|hybrid|virtual|"
+                             r"multiple\s+locations?|various|anywhere|flexible)?\s*$", re.I)
+
+
+def share_countries(conn: sqlite3.Connection, jobs: list[dict]) -> int:
+    """A country read from one job page holds for the company's other jobs
+    at the same named place ("Crawley": United Kingdom), so one page
+    fetch places them all. Returns the rows updated."""
+    pairs = {(j["company"], j["location"], j["country"]) for j in jobs
+             if len(j.get("country") or "") == 2 and j.get("company")
+             and not _VAGUE_LOCATION.match(j.get("location") or "")}
+    n = 0
+    for company, location, country in pairs:
+        n += conn.execute("UPDATE jobs SET country = ? WHERE company = ? AND location = ? "
+                          "AND country = ''", (country, company, location)).rowcount
+    return n
 
 
 def sync(conn: sqlite3.Connection, postings: list, role_for,
@@ -220,6 +243,9 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
         "SELECT job_id, posted_on, relisted_on FROM jobs")}
     known = posted_before.keys()
     bumped: list[dict] = []
+    # Countries learned from job pages, for new jobs at the same place.
+    places = {(r[0], r[1]): r[2] for r in conn.execute(
+        "SELECT company, location, country FROM jobs WHERE length(country) = 2")}
 
     for p in postings:
         if p.job_id in seen_ids:
@@ -256,17 +282,19 @@ def sync(conn: sqlite3.Connection, postings: list, role_for,
                 "direct_url": p.direct_url,
                 "checked_at": now if p.checked else "",
                 "research_track": p.research_track or phd.track(p.title),
+                "country": "" if _VAGUE_LOCATION.match(p.location or "")
+                           else places.get((p.company, p.location), ""),
             }
             conn.execute(
                 "INSERT INTO jobs (job_id, company, title, apply_url, location, "
                 "role_type, posted_on, source, sponsorship, clearance, citizenship, "
                 "opt_cpt, grad_year, pay, direct_url, checked_at, first_seen, last_seen, "
-                "status, job_key, category, research_track) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'active',?,?,?)",
+                "status, job_key, category, research_track, country) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,'active',?,?,?,?)",
                 (p.job_id, p.company, p.title, p.apply_url, p.location, role,
                  p.posted_on, p.source, p.sponsorship, p.clearance, p.citizenship,
                  p.opt_cpt, p.grad_year, p.pay, p.direct_url, job["checked_at"], now, now,
-                 job["job_key"], job["category"], job["research_track"]),
+                 job["job_key"], job["category"], job["research_track"], job["country"]),
             )
             new_jobs.append(job)
         else:
