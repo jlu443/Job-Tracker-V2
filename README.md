@@ -147,6 +147,9 @@ To enable:
      the v2 script is deployed.
    - `GOOGLE_SHEET_URL` — the sheet's normal browser link, for the daily
      Discord digest
+   - `GOOGLE_SPECIALIZATIONS_WEBHOOK_URL` — a second spreadsheet's Apps Script
+     web-app URL (same script, its own deployment) for the Specializations
+     sheet below
    - `DISCORD_ALERT_WEBHOOK_URL` — optional separate channel for health alerts
    - `JOBSPY_PROXY` — residential proxy; without it Glassdoor/ZipRecruiter are
      skipped in CI (they block GitHub's datacenter IPs). Indeed and LinkedIn
@@ -224,6 +227,18 @@ Sheet1, renamed) explains the row colours, role tints, closed-listing marks,
 columns and tabs. Internships and new-grad roles have separate tabs:
 `Internships · Today / This Week / All Open` and `New Grad · Today / This
 Week / All Open`; the old combined tabs are removed automatically.
+
+**Specializations sheet.** A second spreadsheet lists every open US
+internship and new-grad job by field, announced or not, with a tab per field
+and time window: `Tech`, `Business`, `Healthcare`, `Science & Research`,
+`Data & AI/ML` and `Cybersecurity`, each as `· 24 Hours` (posted today or
+yesterday), `· This Week` and `· This Month` (each includes the shorter
+ones; month tabs refresh daily). One field per job
+([src/specializations.py](src/specializations.py)). Setup: create a Google
+Sheet, paste [docs/apps_script.gs](docs/apps_script.gs) into its Apps Script,
+deploy it as a web app, and save the URL as the
+`GOOGLE_SPECIALIZATIONS_WEBHOOK_URL` secret. Status / My Applications work
+there too, separately from the main sheet.
 
 **Discord digest.** New jobs are posted as one digest every
 `discord.digest_hours` (3): a header with counts and an emoji legend, then

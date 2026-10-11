@@ -155,3 +155,33 @@ def test_all_open_lists_us_jobs_only():
             lambda p: "intern", set(), set())
     tabs = sheets.build_tabs(conn, include_all=True)
     assert [r[-1] for r in tabs["Internships · All Open"]] == ["gh_1"]
+
+
+def test_specialization_tabs_by_field_and_window():
+    from datetime import date
+    conn = db.connect(":memory:")
+    posts = [JobPosting("gh_1", "Acme", "Software Engineer Intern", "https://x/1", "Austin, TX",
+                        "2026-10-10", "greenhouse"),
+             JobPosting("gh_2", "Acme", "Finance Intern", "https://x/2", "Austin, TX",
+                        "2026-10-06", "greenhouse"),
+             JobPosting("gh_3", "Acme", "Pharmacy Intern", "https://x/3", "Austin, TX",
+                        "2026-09-20", "greenhouse"),
+             JobPosting("gh_4", "Acme", "Finance Intern", "https://x/4", "London, UK",
+                        "2026-10-10", "greenhouse"),                    # abroad
+             JobPosting("gh_5", "Acme", "Civil Engineer Intern", "https://x/5", "Austin, TX",
+                        "2026-10-10", "greenhouse"),                    # no field
+             JobPosting("gh_6", "Acme", "Data Analyst I", "https://x/6", "Austin, TX",
+                        "2026-08-01", "greenhouse")]                    # past a month
+    db.sync(conn, posts, lambda p: "intern", set(), set())
+    tabs = sheets.build_specialization_tabs(conn, sheets.SPEC_WINDOWS, today=date(2026, 10, 11))
+    ids = lambda tab: [r[-1] for r in tabs[tab]]
+    assert len(tabs) == 18 and list(tabs)[:3] == ["Tech · 24 Hours", "Tech · This Week",
+                                                  "Tech · This Month"]
+    assert ids("Tech · 24 Hours") == ["gh_1"] and ids("Tech · This Month") == ["gh_1"]
+    assert ids("Business · 24 Hours") == [] and ids("Business · This Week") == ["gh_2"]
+    assert ids("Healthcare · This Week") == [] and ids("Healthcare · This Month") == ["gh_3"]
+    assert ids("Data & AI/ML · This Month") == []
+    assert len(tabs["Tech · 24 Hours"][0]) == len(sheets.SPEC_COLUMNS)
+    # Daily-refresh mode: no month tabs.
+    assert not any(t.endswith("This Month") for t in
+                   sheets.build_specialization_tabs(conn, sheets.SPEC_WINDOWS[:-1]))

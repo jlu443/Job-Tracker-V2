@@ -242,6 +242,7 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     # one digest every few hours instead of a post per hourly run.
     db.mark_announced(conn, [j["job_id"] for j in targets])
     sheets.publish(conn, settings)
+    sheets.publish_specializations(conn, settings)
     discord_digest(conn, settings)
 
     if settings.get("max_listing_age_days"):

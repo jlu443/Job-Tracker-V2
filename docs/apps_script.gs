@@ -11,6 +11,10 @@
  *   Visa Sponsors               companies' H-1B record and posting stances
  *   My Applications             every job you give a Status; never trimmed
  *
+ * The same script also runs the Specializations sheet (a second spreadsheet
+ * with "<Field> · 24 Hours / This Week / This Month" tabs): deploy it there
+ * too and save that deployment's URL as GOOGLE_SPECIALIZATIONS_WEBHOOK_URL.
+ *
  * All tabs except Key and My Applications are rebuilt from the tracker's
  * database on each run. Set a job's Status (dropdown, first column) on any tab: the row
  * is copied to My Applications immediately, and your Status is re-applied

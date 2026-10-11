@@ -18,11 +18,11 @@ from __future__ import annotations
 import logging
 import os
 import sqlite3
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import requests
 
-from . import db, dedupe, geo, h1b, phd
+from . import db, dedupe, geo, h1b, phd, specializations
 
 log = logging.getLogger(__name__)
 
@@ -251,6 +251,25 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
         tabs.append((PHD_TAB, PHD_COLUMNS, build_phd_tab(conn, settings)))
         tabs.append((SPONSOR_TAB, sponsor_columns(), build_sponsor_tab(conn, settings)))
 
+    written = _replace_tabs(webhook, tabs)
+    if any(tab.endswith("All Open") for tab in written):
+        db._meta_set(conn, "sheets_all_open_at_v5", db._now())
+        conn.commit()
+
+    if version >= 4:
+        try:
+            _post(webhook, {"action": "write_key", "rows": KEY_ROWS})
+            _post(webhook, {"action": "delete_tabs", "tabs": RETIRED_TABS})
+        except requests.RequestException as exc:
+            log.warning(f"  ! Google Sheets tab cleanup failed: {exc}")
+
+    if version >= 3:
+        _mark_closed_applications(webhook, conn)
+
+
+def _replace_tabs(webhook: str, tabs: list[tuple[str, list[str], list[list]]]) -> set[str]:
+    """Rewrite each (tab, columns, rows); returns the tabs written."""
+    written = set()
     for tab, columns, rows in tabs:
         try:
             result = _post(webhook, {"action": "replace_tab", "tab": tab,
@@ -262,27 +281,20 @@ def publish(conn: sqlite3.Connection, settings: dict) -> None:
             log.warning(f"  ! Google Sheets tab {tab!r}: {result.get('error')}")
             continue
         log.info(f"Sheet tab {tab!r}: {len(rows)} rows")
-        if tab.endswith("All Open"):
-            db._meta_set(conn, "sheets_all_open_at_v5", db._now())
-            conn.commit()
+        written.add(tab)
+    return written
 
-    if version >= 4:
-        try:
-            _post(webhook, {"action": "write_key", "rows": KEY_ROWS})
-            _post(webhook, {"action": "delete_tabs", "tabs": RETIRED_TABS})
-        except requests.RequestException as exc:
-            log.warning(f"  ! Google Sheets tab cleanup failed: {exc}")
 
-    if version >= 3:
-        # Jobs taken down, or aged out of the DB's window, get marked closed
-        # in My Applications so a saved application never silently goes stale.
-        try:
-            saved = _post(webhook, {"action": "list_applications"}).get("ids") or []
-            closed = closed_among(conn, saved)
-            result = _post(webhook, {"action": "listing_status", "closed": closed})
-            log.info(f"My Applications: {result.get('marked', 0)} saved jobs marked closed")
-        except requests.RequestException as exc:
-            log.warning(f"  ! Google Sheets listing status failed: {exc}")
+def _mark_closed_applications(webhook: str, conn: sqlite3.Connection) -> None:
+    """Jobs taken down, or aged out of the DB's window, get marked closed in
+    My Applications so a saved application never silently goes stale."""
+    try:
+        saved = _post(webhook, {"action": "list_applications"}).get("ids") or []
+        closed = closed_among(conn, saved)
+        result = _post(webhook, {"action": "listing_status", "closed": closed})
+        log.info(f"My Applications: {result.get('marked', 0)} saved jobs marked closed")
+    except requests.RequestException as exc:
+        log.warning(f"  ! Google Sheets listing status failed: {exc}")
 
 
 def closed_among(conn: sqlite3.Connection, job_ids: list[str]) -> list[str]:
@@ -295,3 +307,114 @@ def closed_among(conn: sqlite3.Connection, job_ids: list[str]) -> list[str]:
             f"SELECT job_id FROM jobs WHERE status = 'active' AND job_id IN "
             f"({','.join('?' * len(chunk))})", chunk)}
     return [j for j in job_ids if j not in open_ids]
+
+
+# --- Specializations sheet ---------------------------------------------------
+# A second spreadsheet (same Apps Script, its own deployment) with a tab per
+# field and time window: "Tech · 24 Hours", "Tech · This Week", "Tech · This
+# Month", "Business · 24 Hours", ... (src/specializations.py). Every open US
+# intern / new-grad job in the field, whether or not it was announced, by
+# post date (first-seen date when the source gives none). A window includes
+# the shorter ones. Set GOOGLE_SPECIALIZATIONS_WEBHOOK_URL to enable.
+
+SPEC_WINDOWS = [("24 Hours", 1), ("This Week", 7), ("This Month", 30)]
+# "Category" is the tech function, mostly "other" outside Tech.
+SPEC_COLUMNS = [c for c in COLUMNS if c != "Category"]
+_CATEGORY_AT = COLUMNS.index("Category")
+
+
+def _spec_row(j: dict) -> list:
+    row = _row(j)
+    return row[:_CATEGORY_AT] + row[_CATEGORY_AT + 1:]
+
+
+def build_specialization_tabs(conn: sqlite3.Connection, windows: list[tuple[str, int]],
+                              today=None) -> dict[str, list[list]]:
+    """{"<Field> · <Window>": rows} for every field and the given windows,
+    grouped by field, newest posted first, one row per role."""
+    today = today or datetime.now(timezone.utc).date()
+    conn.row_factory = sqlite3.Row
+    jobs = [dict(r) for r in conn.execute(
+        "SELECT * FROM jobs WHERE status = 'active' AND role_type IN ('intern', 'new_grad')")]
+    jobs.sort(key=phd.posted_sort_key, reverse=True)
+    by_field: dict[str, list[tuple[int, dict]]] = {}
+    longest = max(days for _, days in windows)
+    for j in jobs:
+        if not geo.is_us_job(j["title"], j.get("location") or "", j.get("country") or ""):
+            continue
+        field = specializations.specialization(j["title"], j.get("category") or "")
+        if not field:
+            continue
+        try:
+            age = (today - date.fromisoformat(phd.posted_sort_key(j)[0][:10])).days
+        except ValueError:
+            continue
+        if age <= longest:
+            by_field.setdefault(field, []).append((age, j))
+    tabs = {}
+    for field, label in specializations.SPECIALIZATIONS:
+        mine = by_field.get(field, [])
+        for name, days in windows:
+            tabs[f"{label} · {name}"] = [_spec_row(j) for j in dedupe.collapse_roles(
+                [j for age, j in mine if age <= days])]
+    return tabs
+
+
+SPEC_KEY_ROWS = [r for r in KEY_ROWS if r[0] in ("Row colours", "Role cell", "My Applications",
+                                                 "Status")] + [
+    ["Tabs", "<Field> · 24 Hours", "Open jobs in the field posted today or yesterday "
+     "(UTC; sources give a date, not a time), one row per role (cities merged).", "", ""],
+    ["Tabs", "<Field> · This Week", "Posted in the last 7 days (includes the 24 Hours "
+     "tab's jobs).", "", ""],
+    ["Tabs", "<Field> · This Month", "Posted in the last 30 days (includes the shorter "
+     "tabs' jobs). Refreshed once a day.", "", ""],
+    ["Fields", "Tech", "Software, hardware / electrical, IT, product management.", "", ""],
+    ["Fields", "Data & AI/ML", "Data science, data engineering, analytics, BI, machine "
+     "learning and AI.", "", ""],
+    ["Fields", "Cybersecurity", "Security engineering and analysis, SOC, identity and "
+     "access, GRC, digital forensics.", "", ""],
+    ["Fields", "Healthcare", "Nursing, pharmacy, clinical, therapy, dental, medical lab, "
+     "public health.", "", ""],
+    ["Fields", "Science & Research", "Lab and research science: biology, chemistry, "
+     "physics, environmental and earth sciences, R&D.", "", ""],
+    ["Fields", "Business", "Finance, banking, accounting, consulting, marketing, sales, "
+     "operations, supply chain, HR, legal, quant research and trading.", "", ""],
+    ["Fields", "One field per job", "Checked in the order Cybersecurity, Data & AI/ML, Tech, "
+     "Healthcare, Science & Research, Business. Internships and new-grad roles in the US "
+     "only; other fields (civil / mechanical engineering, trades, teaching) aren't "
+     "listed.", "", ""],
+]
+
+
+def publish_specializations(conn: sqlite3.Connection, settings: dict) -> None:
+    webhook = os.environ.get("GOOGLE_SPECIALIZATIONS_WEBHOOK_URL")
+    if not webhook:
+        log.info("GOOGLE_SPECIALIZATIONS_WEBHOOK_URL not set — skipping the "
+                 "Specializations sheet.")
+        return
+    try:
+        version = _post(webhook, {"action": "ping"}).get("version")
+    except requests.RequestException as exc:
+        log.warning(f"  ! Specializations sheet unreachable: {exc}")
+        return
+    if not isinstance(version, int) or version < _SCRIPT_VERSION:
+        log.warning("  ! Specializations sheet: paste docs/apps_script.gs into its Apps "
+                    "Script and deploy it. Skipping.")
+        return
+    # The month tabs are big; like All Open, they're rewritten once a day.
+    refresh_hours = settings.get("sheets", {}).get("all_open_refresh_hours", 24)
+    last = db._meta_get(conn, "spec_sheet_month_at")
+    include_month = (not last or datetime.fromisoformat(last)
+                     < datetime.now(timezone.utc) - timedelta(hours=refresh_hours))
+    windows = SPEC_WINDOWS if include_month else SPEC_WINDOWS[:-1]
+    tabs = [(tab, SPEC_COLUMNS, rows)
+            for tab, rows in build_specialization_tabs(conn, windows).items()]
+    written = _replace_tabs(webhook, tabs)
+    if include_month and any(t.endswith(SPEC_WINDOWS[-1][0]) for t in written):
+        db._meta_set(conn, "spec_sheet_month_at", db._now())
+        conn.commit()
+    try:
+        _post(webhook, {"action": "write_key", "rows": SPEC_KEY_ROWS})
+    except requests.RequestException as exc:
+        log.warning(f"  ! Specializations sheet key failed: {exc}")
+    _mark_closed_applications(webhook, conn)

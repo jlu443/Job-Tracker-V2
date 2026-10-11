@@ -104,6 +104,7 @@ jobs:
           DISCORD_ALERT_WEBHOOK_URL: ${{ secrets.DISCORD_ALERT_WEBHOOK_URL }}  # optional
           GOOGLE_SHEETS_WEBHOOK_URL: ${{ secrets.GOOGLE_SHEETS_WEBHOOK_URL }}
           GOOGLE_SHEET_URL: ${{ secrets.GOOGLE_SHEET_URL }}  # optional, for the daily digest link
+          GOOGLE_SPECIALIZATIONS_WEBHOOK_URL: ${{ secrets.GOOGLE_SPECIALIZATIONS_WEBHOOK_URL }}  # optional
         run: python -m src.main --from-parts parts
 
       - name: Upload database
