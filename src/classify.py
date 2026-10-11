@@ -127,6 +127,29 @@ _STRONG_TECH = (r"software|swe|sde|developers?|programm(?:er|ing)|devops|sre|sit
                 r"(?:systems?|solutions?|computer)\s+architecture|digital\s+technolog\w*|"
                 r"modell?ing\s+(?:&|and)\s+simulation|identity\s+(?:(?:&|and)\s+)?access|"
                 r"service\s+desk|help\s*desk")
+# Engineering, science, care and business disciplines that aren't computing.
+_NON_COMPUTING = (
+    r"mechanical|civil|chemical|industrial|"
+    r"manufacturing|process|structur\w*|environmental|propulsion|thermal|materials|biomedical|"
+    r"petroleum|mining|nuclear|construction|field\s+(?:service|engineer\w*|operations|"
+    r"technician|applications)|sales|marketing|legal|finance|financial|accounting|"
+    r"recruit\w*|hr|human\s+resources|traffic|bridge|highway|roadway|transportation|transit|"
+    r"rail\w*|track\s+design|geotechnical|water|wastewater|hvac|production|"
+    r"operations\s+engineer\w*|power\s+(?:delivery|generation|plant|systems?)|"
+    r"transmission\s+line|substation|utility|utilities|land\s+development|site\s+development|"
+    r"urban|facilit\w*|factory|quality|supplier|reliability|safety|maintenance|equipment|"
+    r"planning|planner|project\s+engineer\w*|superintendent|estimat\w*|asset\s+management|"
+    r"obsolescence|supportability|logistics|aerospace|aeronautic\w*|airframe|stress|"
+    r"design\s+assurance|regulatory|technicians?|operators?|architectur\w*|landscape|"
+    r"surveying|drafting|cad|welding|tooling|fire\s+protection|food|agricultur\w*|"
+    r"chemist\w*|chemistry|biolog\w*|physics|lng|oil|gas|energy\s+storage|battery|"
+    r"bearings?|seals?|packaging|plumbing|lighting|acoustic\w*|geolog\w*|audit\w*|"
+    r"assurance|tax|banking|wealth|insurance|actuar\w*|underwrit\w*|compliance|"
+    # Care and lab work: "Ultrasound Technologist", "MRI Technologist" fell
+    # through to the "technolog..." catch-all (2026-10-11).
+    r"technologists?|ultrasound|sonograph\w*|mri|radiolog\w*|x-ray|surgical|clinical|"
+    r"medical|nurs\w*|pharmac\w*|dental|veterinar\w*|antibiotic\w*|microbio\w*|"
+    r"immunolog\w*|molecular|cell|drug\s+discovery")
 _CATEGORY_RULES: list[tuple[str, str]] = [
     # Quant: not "Investment Banking", "Capital Markets", "Wealth Management
     # ... Market", "Credit Analyst Program".
@@ -160,6 +183,13 @@ _CATEGORY_RULES: list[tuple[str, str]] = [
     (r"^(?!.*\b(?:" + _STRONG_TECH + r"|deep\s+learning|computational|nlp|llm|vision|"
      r"algorithm\w*|statistic\w*|bioinformatics|informatics|quantitative|perception|"
      r"robotics)\b)(?!.*\b(?:research|applied|decision)\s+scien).*\bscientists?\b", "other"),
+    # Research in a non-computing field: "Research Technician - Antibiotic
+    # Discovery", "Postdoctoral Researcher (Geotechnical Engineering)".
+    (r"^(?!.*\b(?:" + _STRONG_TECH + r"|deep\s+learning|computational|nlp|llm|vision|"
+     r"algorithm\w*|statistic\w*|bioinformatics|informatics|quantitative|perception|"
+     r"robotics|analytics|computing|recommendation\w*|autonom\w*|av|research\s+scientists?)\b)"
+     r"(?=.*\b(?:" + _NON_COMPUTING + r")\b).*\b(research\w*|postdoc\w*|"
+     r"post[\s-]?doctoral|r\s*&\s*d)\b", "other"),
     (r"\b(machine\s+learning|ml|ai|artificial\s+intelligence|deep\s+learning|gen\s*ai|"
      r"data\s+scien\w*|data\s+engineer\w*|data\s+analy\w*|analytics|"
      # Not "Data Entry Coordinator", "Data Center ...", "Data Annotation
@@ -181,23 +211,7 @@ _CATEGORY_RULES: list[tuple[str, str]] = [
     (r"\b(security\s+(?:guard|officer))\b", "other"),
     # Engineering and business disciplines that aren't computing, unless
     # the title also names computing work ("Manufacturing Software Engineer").
-    (r"^(?!.*\b(?:" + _STRONG_TECH + r")\b).*\b(mechanical|civil|chemical|industrial|"
-     r"manufacturing|process|structur\w*|environmental|propulsion|thermal|materials|biomedical|"
-     r"petroleum|mining|nuclear|construction|field\s+(?:service|engineer\w*|operations|"
-     r"technician|applications)|sales|marketing|legal|finance|financial|accounting|"
-     r"recruit\w*|hr|human\s+resources|traffic|bridge|highway|roadway|transportation|transit|"
-     r"rail\w*|track\s+design|geotechnical|water|wastewater|hvac|production|"
-     r"operations\s+engineer\w*|power\s+(?:delivery|generation|plant|systems?)|"
-     r"transmission\s+line|substation|utility|utilities|land\s+development|site\s+development|"
-     r"urban|facilit\w*|factory|quality|supplier|reliability|safety|maintenance|equipment|"
-     r"planning|planner|project\s+engineer\w*|superintendent|estimat\w*|asset\s+management|"
-     r"obsolescence|supportability|logistics|aerospace|aeronautic\w*|airframe|stress|"
-     r"design\s+assurance|regulatory|technicians?|operators?|architectur\w*|landscape|"
-     r"surveying|drafting|cad|welding|tooling|fire\s+protection|food|agricultur\w*|"
-     r"chemist\w*|chemistry|biolog\w*|physics|lng|oil|gas|energy\s+storage|battery|"
-     r"bearings?|seals?|packaging|plumbing|lighting|acoustic\w*|geolog\w*|audit\w*|"
-     r"assurance|tax|banking|wealth|insurance|actuar\w*|underwrit\w*|compliance)\b",
-     "other"),
+    (r"^(?!.*\b(?:" + _STRONG_TECH + r")\b).*\b(" + _NON_COMPUTING + r")\b", "other"),
     (r"\b(software|swe|sde|developer|programmer|devops|sre|site\s+reliability|"
      r"back[\s-]?end|front[\s-]?end|full[\s-]?stack|web|mobile|ios|android|"
      r"cloud|platform|infrastructure|security|cyber\w*|computer\s+science|"
