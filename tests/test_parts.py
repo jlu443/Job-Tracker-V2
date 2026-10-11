@@ -57,3 +57,17 @@ def test_trim_for_handoff_keeps_known_and_storable_and_counts_first(tmp_path):
     merged = collect.load_parts([str(tmp_path / "p.json.gz")])
     assert merged.source_counts == {"greenhouse": 3, "simplify": 1}
     assert collect.trim_for_handoff(c, conn, {"store_roles": ["intern"], "use_llm_fallback": True}) == 0
+
+
+def test_trim_for_handoff_keeps_plain_titles_process_will_read():
+    from src import db
+    conn = db.connect(":memory:")
+    conn.execute("INSERT INTO described VALUES ('wd_a_read', '2026-10-10T00:00:00+00:00')")
+    c = collect.Collected([_p("wd_a_plain", "workday", title="Software Engineer"),
+                           _p("wd_a_read", "workday", title="Software Engineer"),
+                           _p("wd_a_sales", "workday", title="Account Executive"),
+                           _p("gh_plain", "greenhouse", title="Software Engineer")],
+                          set(), set(), {}, {"workday": 3, "greenhouse": 1})
+    collect.trim_for_handoff(c, conn, {"store_roles": ["intern", "new_grad"]})
+    # Greenhouse reads descriptions at scrape time; a read posting isn't re-read.
+    assert [p.job_id for p in c.postings] == ["wd_a_plain"]

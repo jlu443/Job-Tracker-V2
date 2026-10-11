@@ -20,7 +20,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from . import (ashby_scraper, bigtech_scrapers, classify, db, eightfold_scraper, greenhouse_scraper,
                icims_scraper, jibe_scraper, jobspy_scraper, lever_scraper, oracle_scraper,
-               rippling_scraper, scraper, simplify_scraper, smartrecruiters_scraper,
+               plain_titles, rippling_scraper, scraper, simplify_scraper, smartrecruiters_scraper,
                successfactors_scraper)
 from .config import CONFIG_DIR, load_yaml
 from .posting import JobPosting
@@ -228,13 +228,17 @@ def trim_for_handoff(c: Collected, conn, settings: dict) -> int:
     stored (senior/mid, ~85% of what the full boards return). Jobs already in
     the DB are kept (their last_seen and closure tracking need them). Returns
     how many were dropped. Skipped when the zero-shot fallback may reclassify
-    titles the keyword rules leave as "mid"."""
+    titles the keyword rules leave as "mid". Plain titles whose description
+    process() will read (src/plain_titles.py) are kept too."""
     store = settings.get("store_roles")
     if not store or settings.get("use_llm_fallback"):
         return 0
     store, known = set(store), db.existing_ids(conn)
+    read = plain_titles.read_ids(conn)
+    max_age = settings.get("max_listing_age_days")
     before = len(c.postings)
-    c.postings = [p for p in c.postings if p.job_id in known or keyword_role(p) in store]
+    c.postings = [p for p in c.postings if p.job_id in known or keyword_role(p) in store
+                  or plain_titles.wanted(p, known, read, max_age)]
     return before - len(c.postings)
 
 

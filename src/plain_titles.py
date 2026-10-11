@@ -31,20 +31,26 @@ log = logging.getLogger(__name__)
 SOURCES = {"workday", "oracle", "icims", "smartrecruiters", "successfactors", "eightfold"}
 
 
+def wanted(p, known: set[str], read: set[str], max_age_days: int | None = None) -> bool:
+    """Whether a posting is worth a description read: new, not read before,
+    on a listing-only source, US, tech, with a title that doesn't say level."""
+    if (p.source not in SOURCES or p.job_id in known or p.job_id in read
+            or p.role_hint or classify.classify_by_keyword(p.title) is not None
+            or classify.categorize(p.title) == "other"
+            or not geo.is_us_job(p.title, p.location)):
+        return False
+    age = dates.age_days(p.posted_on)
+    return max_age_days is None or age is None or age <= max_age_days
+
+
+def read_ids(conn: sqlite3.Connection) -> set[str]:
+    return {r[0] for r in conn.execute("SELECT job_id FROM described")}
+
+
 def candidates(postings: list, known: set[str], read: set[str],
                max_age_days: int | None = None) -> list:
     """Postings worth a description read, newest posted first."""
-    out = []
-    for p in postings:
-        if (p.source not in SOURCES or p.job_id in known or p.job_id in read
-                or p.role_hint or classify.classify_by_keyword(p.title) is not None
-                or classify.categorize(p.title) == "other"
-                or not geo.is_us_job(p.title, p.location)):
-            continue
-        age = dates.age_days(p.posted_on)
-        if max_age_days is not None and age is not None and age > max_age_days:
-            continue
-        out.append(p)
+    out = [p for p in postings if wanted(p, known, read, max_age_days)]
     out.sort(key=lambda p: p.posted_on or "", reverse=True)
     return out
 
@@ -71,7 +77,7 @@ def find_new_grads(conn: sqlite3.Connection, postings: list, known: set[str],
     """Return (postings, ids now hinted new_grad, whether the cap was hit).
     Postings the descriptions mark new-grad come back with role_hint set and
     their description attached, so enrichment doesn't fetch it again."""
-    read = {r[0] for r in conn.execute("SELECT job_id FROM described")}
+    read = read_ids(conn)
     todo = candidates(postings, known, read, max_age_days)
     capped = len(todo) > limit
     todo = todo[:limit]
