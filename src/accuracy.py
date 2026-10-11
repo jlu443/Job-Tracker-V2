@@ -66,7 +66,7 @@ def load_truth(settings: dict) -> list[dict]:
 
 
 def _configured_boards() -> dict[str, dict]:
-    """ATS name → {board key: company name} for boards in config."""
+    """ATS name -> {board key: company name} for boards in config."""
     out = {}
     for spec in ats_specs.ATS_SPECS:
         companies, _ = ats_specs.load_existing(spec)
@@ -151,7 +151,7 @@ def measure(truth: list[dict], conn: sqlite3.Connection, max_age: int | None = N
         got = classify.classify_by_keyword(item.get("title", ""))
         role[(item["role"], got or "none")] += 1
         if got not in ("intern", "new_grad") and len(role_misses) < 15:
-            role_misses.append(f"[{item['role']}→{got or 'none'}] {item.get('title')}")
+            role_misses.append(f"[{item['role']}->{got or 'none'}] {item.get('title')}")
     n = len(truth)
     entry = sum(v for (want, got), v in role.items() if got in ("intern", "new_grad"))
     exact = sum(v for (want, got), v in role.items() if got == want)

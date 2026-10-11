@@ -347,6 +347,14 @@ def _recategorize_weak_words(conn: sqlite3.Connection) -> None:
     _recategorize_titles(conn)
 
 
+def _relabel_non_level_words(conn: sqlite3.Connection) -> None:
+    """"Student Information Systems", "APM Software", "Graduate &
+    Undergraduate Brand Management" and a senior "Placement" no longer read
+    as entry level, and "Vice President" is senior (2026-10-11). Same
+    refresh as migration 18."""
+    _relabel_managers(conn)
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -367,6 +375,7 @@ MIGRATIONS = [
     (17, _relabel_campus_student_jobs),
     (18, _relabel_managers),
     (19, _recategorize_weak_words),
+    (20, _relabel_non_level_words),
 ]
 
 

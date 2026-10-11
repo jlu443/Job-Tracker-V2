@@ -20,6 +20,12 @@ ROLE_TYPES = ("intern", "new_grad", "mid", "senior")
 # silently (unless freshly posted) instead of announcing weeks-old postings.
 VERSION = 7
 
+# "APM" the entry role (Associate Product Manager), not the product category
+# (Application / Asset Performance Management): "Sales Manager – APM
+# Software Sales", "APM / Bentley AssetWise Engineer" (2026-10-11).
+_APM = (r"apm(?!\s*/(?!\s*product)|\s+(?:software|solutions?|tools?|platforms?|products?|"
+        r"engineer\w*|developer|specialist|consultant|sales|implementation)\b)")
+
 # Ordered most-specific first. First matching pattern wins.
 _RULES: list[tuple[str, str]] = [
     # Staff who run fellowships, ahead of the intern rule's "fellowship":
@@ -44,7 +50,7 @@ _RULES: list[tuple[str, str]] = [
      r"undergrad(?:uate)?\s+(?:research\w*|student|assistant)|fellows\s+program|"
      r"student(?!\s+(?:success|engagement|affairs|services?|living|"
      r"health|financial|support|teacher|life|housing|involvement|activities|records|"
-     r"accounts|aid|union|center|conduct|enrollment|loans?|accessibility|wellness|"
+     r"accounts|aid|union|center|conduct|enrollment|loans?|accessibility|wellness|information|"
      r"retention|advis\w*|recruit\w*|admissions?|development|care|programs?\s+"
      r"(?:coordinator|manager|director))\b)|apprentice(?:ship)?|fellowship|externship|"
      r"graduate\s+(?:research\s+)?assistant)\b",
@@ -67,7 +73,8 @@ _RULES: list[tuple[str, str]] = [
      r"early\s*(?:career|talent|in\s+career)|entry[\s-]*level|emerging\s+talent|"
      r"level\s*0|"
      # "Graduate Performance Engineer", "Quant Developer, Graduate", "(Grad)"
-     r"graduate(?!\s+(?:degree|school|studies))|grads?|"
+     # Not "Senior Analyst, Graduate & Undergraduate Brand Management".
+     r"graduate(?!\s+(?:degree|school|studies)|\s*(?:&|and)\s+undergrad)|grads?|"
      r"(?:university|college)\s+hire|"
      r"class\s+of\s+20\d\d|rotation(?:al)?\s+(?:program|engineer)|"
      r"leadership\s+development\s+program|residency|junior|jr\.?|"
@@ -76,7 +83,7 @@ _RULES: list[tuple[str, str]] = [
      # ...but not "Senior Associate Scientist": the senior rule decides those.
      r"(?<!senior )(?<!sr\. )(?<!sr )(?<!lead )(?<!principal )(?<!staff )"
      r"associate(?:\s+[\w/&-]+){0,2}?\s+(?:engineer|developer|analyst|scientist|"
-     r"consultant|product\s+manager|programmer)|apm|"
+     r"consultant|product\s+manager|programmer)|" + _APM + r"|"
      # named entry programs: "Career Accelerator Program", "AI Resident"
      r"(?:career\s+)?accelerator\s+program|launch\s+program|analyst\s+program|"
      r"development\s+program|graduate\s+scheme|(?:ai|ml|aiml|research)\s+resident)\b",
@@ -92,7 +99,8 @@ _RULES: list[tuple[str, str]] = [
      "new_grad"),
     # "Member of Technical Staff" is a flat title at AI labs, not a level.
     (r"\b(senior|sr\.?|(?<!technical )(?<!trading )(?<!research )staff|principal|lead|"
-     r"architect|distinguished|director|head\s+of|vp|manager|mgr|fellow)\b", "senior"),
+     r"architect|distinguished|director|head\s+of|vp|vice\s+president|manager|mgr|fellow)\b",
+     "senior"),
     (r"\b(iii|iv|v)\b", "senior"),
     (r"\b(ii|2)\b", "mid"),
     (r"\b\d{2,}\+?\s*years?\b", "senior"),  # "5+ years", "10 years"
@@ -294,7 +302,8 @@ def role_hint_from_description(title: str, description: str) -> str:
 _MANAGER = r"(?:manager|mgr)(?![\s-]*in[\s-]+training)"
 _EXPLICIT_SENIOR = re.compile(
     r"\b(senior|sr\.?|(?<!technical )(?<!trading )(?<!research )staff|principal|lead|"
-    r"distinguished|director|head\s+of|vp|iii|iv|" + _MANAGER + r")\b", re.IGNORECASE)
+    r"distinguished|director|head\s+of|vp|vice\s+president|iii|iv|" + _MANAGER + r")\b",
+    re.IGNORECASE)
 
 
 # An ATS's own level / employment-type value: "Summer Internship",
@@ -319,7 +328,7 @@ _CAMPUS_STUDENT_JOB = re.compile(r"\b(?:teaching\s+assistant\w*|tas?\s+positions
 
 
 _ENTRY_MANAGER = re.compile(r"\b(?:associate\s+(?:\w+\s+)?(?:product|program|project)\s+manager|"
-                            r"apm)\b", re.IGNORECASE)
+                            + _APM + r")\b", re.IGNORECASE)
 
 
 def role_with_hint(title: str, hint: str) -> str:
@@ -363,10 +372,11 @@ def _get_pipeline():
 # A new-grad match on a word that isn't about level ("... Requires WA
 # Residency") doesn't outweigh stated seniority, unless the title also says
 # it's junior ("Junior to Senior Power BI Developer").
-_JUNIOR_STATED = re.compile(r"\b(?:junior|jr\.?|entry[\s-]*level|new\s*grad\w*|graduates?|"
+_JUNIOR_STATED = re.compile(r"\b(?:junior|jr\.?|entry[\s-]*level|new\s*grad\w*|"
+                            r"graduates?(?!\s*(?:&|and)\s+undergrad)|"
                             r"grads?|ncg|early\s+(?:in\s+)?careers?|campus|university|college|"
-                            r"associate\s+(?:\w+\s+)?(?:product|program|project)\s+manager|apm|"
-                            r"apprentice\w*|rotation\w*|20\d\d|"
+                            r"associate\s+(?:\w+\s+)?(?:product|program|project)\s+manager|"
+                            + _APM + r"|apprentice\w*|rotation\w*|20\d\d|"
                             # one posting for several levels from associate up:
                             # "Associate Engineer/Engineer/Senior Engineer"
                             r"associate(?:\s+[\w&-]+){0,2}\s*(?:/|or\b|to\b)|/\s*associate\b|"
@@ -375,16 +385,31 @@ _JUNIOR_STATED = re.compile(r"\b(?:junior|jr\.?|entry[\s-]*level|new\s*grad\w*|g
 # Stated seniority for that check; not "III"/"IV", which in "Technician
 # I-IV" is a range starting at entry level.
 _SENIOR_WORD = re.compile(r"\b(?:senior|sr\.?|(?<!technical )(?<!trading )(?<!research )staff|"
-                          r"principal|lead|distinguished|director|head\s+of|vp|" + _MANAGER
+                          r"principal|lead|distinguished|director|head\s+of|vp|vice\s+president|"
+                          + _MANAGER
                           + r")\b", re.IGNORECASE)
+
+
+_RANK = re.compile(r"\b(?:senior|sr\.?|principal|distinguished|director|head\s+of|vp|"
+                   r"vice\s+president)\b", re.IGNORECASE)
 
 
 def classify_by_keyword(title: str) -> str | None:
     """Return a role type, or None if no rule matches (inconclusive)."""
     for pattern, label in _COMPILED:
-        if pattern.search(title):
+        m = pattern.search(title)
+        if m:
             if (label == "new_grad" and _SENIOR_WORD.search(title)
                     and not _JUNIOR_STATED.search(title)):
+                return "senior"
+            # "Placement" is a UK internship but also a line of business
+            # ("Sr Analyst, Placement - Life"): stated rank wins. Not
+            # "manager": "Industrial Placement - Project Manager" is a UK
+            # internship.
+            if (label == "intern" and m.group(0).lower().startswith("placement")
+                    and _RANK.search(title)
+                    and not re.search(r"\b(?:intern\w*|co-?op|student|apprentice\w*)\b", title,
+                                      re.I)):
                 return "senior"
             return label
     return None

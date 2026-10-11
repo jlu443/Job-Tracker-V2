@@ -266,6 +266,8 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     disabled = set(settings.get("disabled_sources") or ())
     expected = ({s for s, _, _ in ATS_SCRAPERS if s not in disabled}
                 | {"simplify"} | set((settings.get("jobspy") or {}).get("sites") or ()))
+    maintenance.retire_orphans(conn, expected | db.AGGREGATOR_SOURCES,
+                               settings.get("aggregator_ttl_days", 21))
     problems = health.check(conn, run_at, time.time() - run_started, settings, expected)
     if problems:
         log.info("Health check: " + "; ".join(problems))

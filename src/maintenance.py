@@ -190,3 +190,19 @@ def learn_countries(conn: sqlite3.Connection, limit: int = 200) -> int:
     log.info(f"Countries from Workday job pages: {len(done)} of {len(picks)} read "
              f"({abroad} abroad); {n} rows placed")
     return n
+
+
+def retire_orphans(conn: sqlite3.Connection, live_sources: set[str], unseen_days: int) -> int:
+    """Open rows from a source nothing scrapes any more (Workable, removed
+    2026-10-01; one disabled in settings) are never seen again, so nothing
+    would ever retire them: 110 Workable rows were still "open" on
+    2026-10-10. Retire them once unseen for unseen_days."""
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=unseen_days)).isoformat(timespec="seconds")
+    live = sorted(live_sources)
+    n = conn.execute(
+        f"UPDATE jobs SET status = 'removed' WHERE status = 'active' AND last_seen < ? "
+        f"AND source NOT IN ({','.join('?' * len(live))})", [cutoff, *live]).rowcount
+    conn.commit()
+    if n:
+        log.info(f"Retired {n} open rows from sources no longer scraped")
+    return n

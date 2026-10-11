@@ -571,3 +571,32 @@ def test_stale_once_the_job_page_gives_the_date():
             {"posted_on": date.today().isoformat(), "repost": ""}]
     assert repost.mark_stale(jobs, {"reposts": {"stale_after_days": 30}}) == 1
     assert [j["repost"] for j in jobs] == ["stale", "", ""]
+
+
+def test_migrations_19_20_refresh_categories_and_roles(tmp_path):
+    path = str(tmp_path / "m19.db")
+    conn = db.connect(path)
+    db.sync(conn, [_p("gh_1", title="Fraud Analyst I"),
+                   _p("gh_2", title="Data Analyst I"),
+                   _p("gh_3", title="Vice President, Product Management - Student Information Systems"),
+                   _p("gh_4", title="Software Engineer Intern")],
+            lambda p: "intern", set(), set())
+    conn.execute("UPDATE jobs SET category = 'data_ml' WHERE job_id = 'gh_1'")
+    conn.execute("UPDATE meta SET value = '18' WHERE key = 'schema_version'")
+    conn.commit()
+    conn.close()
+    conn = db.connect(path)
+    rows = {r[0]: (r[1], r[2]) for r in conn.execute("SELECT job_id, category, role_type FROM jobs")}
+    assert rows == {"gh_1": ("other", "intern"), "gh_2": ("data_ml", "intern"),
+                    "gh_3": ("product", "senior"), "gh_4": ("software", "intern")}
+
+
+def test_retire_orphans_only_unseen_rows_of_unscraped_sources():
+    conn = _mem()
+    db.sync(conn, [_p("wk_1", source="workable"), _p("wk_2", source="workable"),
+                   _p("gh_1")], lambda p: "intern", set(), set())
+    old = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat(timespec="seconds")
+    conn.execute("UPDATE jobs SET last_seen = ? WHERE job_id IN ('wk_1', 'gh_1')", (old,))
+    assert maintenance.retire_orphans(conn, {"greenhouse"}, 21) == 1
+    assert dict(conn.execute("SELECT job_id, status FROM jobs").fetchall()) == \
+        {"wk_1": "removed", "wk_2": "active", "gh_1": "active"}
