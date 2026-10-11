@@ -333,6 +333,14 @@ def _relabel_managers(conn: sqlite3.Connection) -> None:
                       if (new := classify.role_with_hint(r[1], r[2])) not in ("intern", "new_grad")])
 
 
+def _recategorize_weak_words(conn: sqlite3.Connection) -> None:
+    """A lone "analyst", "scientist", "product", "markets" or "engineer" no
+    longer makes a title tech (2026-10-11): 31% of a sample of
+    announcements weren't. Same refresh as migration 11; the Sheet's
+    Today / This Week tabs drop announced rows that are now 'other'."""
+    _recategorize_titles(conn)
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -352,6 +360,7 @@ MIGRATIONS = [
     (16, _relabel_stated_seniority),
     (17, _relabel_campus_student_jobs),
     (18, _relabel_managers),
+    (19, _recategorize_weak_words),
 ]
 
 

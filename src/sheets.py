@@ -75,8 +75,10 @@ def build_tabs(conn: sqlite3.Connection, include_all: bool,
     jobs.sort(key=phd.posted_sort_key, reverse=True)
     # Today / This Week list what was announced, not everything first seen:
     # a newly added board's silently stored backlog isn't news.
-    # A job page read after the announcement can still reveal it's abroad.
+    # A job page read after the announcement can still reveal it's abroad,
+    # and a rule change can show it isn't a tech job.
     announced = [j for j in jobs if j["status"] == "active" and j.get("announced_at")
+                 and j.get("category") != "other"
                  and geo.is_us_job(j["title"], j.get("location") or "", j.get("country") or "")]
     since = lambda h: (now - timedelta(hours=h)).isoformat(timespec="seconds")
     # One row per role on the short lists: a job posted in 12 cities is one

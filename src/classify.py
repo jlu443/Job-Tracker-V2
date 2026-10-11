@@ -103,15 +103,36 @@ _COMPILED = [(re.compile(p, re.IGNORECASE), label) for p, label in _RULES]
 # Job function. Ordered: first match wins, so specific families come before
 # the generic "engineer" catch-all, and non-software engineering disciplines
 # are claimed before it can mislabel them as software.
+# Weak words ("analyst", "scientist", "product", "markets", "engineer") need
+# company: on their own they put 31% of a 240-title sample of announcements
+# (2026-09-27..10-10) in a tech function that wasn't ("Fraud Analyst I",
+# "Associate Scientist, Molecular Function", "Product Development
+# Technician", "Wealth Management Client Associate - Boston Market",
+# "Facilities Engineer I"). tests/golden_categories.tsv holds that sample.
+#
+# Words that make a title tech whatever else it says.
+_STRONG_TECH = (r"software|swe|sde|developers?|programm(?:er|ing)|devops|sre|site\s+reliability|"
+                r"back[\s-]?end|front[\s-]?end|full[\s-]?stack|web|mobile|ios|android|cloud|"
+                r"cyber\w*|security|computer|embedded|firmware|sdet|it|information\s+"
+                r"(?:technology|systems)|data|database|java|python|c\+\+|network(?!ing\s+event)\w*|"
+                r"ai|ml|machine\s+learning|gis|systems?\s+(?:engineer\w*|analyst|architect\w*)|"
+                r"(?:systems?|solutions?|computer)\s+architecture|digital\s+technolog\w*|"
+                r"modell?ing\s+(?:&|and)\s+simulation|identity\s+(?:(?:&|and)\s+)?access|"
+                r"service\s+desk|help\s*desk")
 _CATEGORY_RULES: list[tuple[str, str]] = [
-    (r"\b(quant|quantitative|trading|trader|markets?|derivatives|securities|"
-     r"fixed\s+income|investment\w*|model\s+risk|credit\s+risk|stress\s+testing)\b", "quant"),
+    # Quant: not "Investment Banking", "Capital Markets", "Wealth Management
+    # ... Market", "Credit Analyst Program".
+    (r"\b(quant|quants|quantitative|trading|traders?|algorithmic|market[\s-]+mak\w*|strats?|"
+     r"model\s+(?:risk|validation)|credit\s+risk)\b", "quant"),
     (r"\b(asic|fpga|rtl|silicon|circuit|analog|mixed[\s-]signal|hardware|"
      r"physical\s+design|design\s+verification|dft|photonics|semiconductor|"
-     r"pcb|signal\s+(?:and|&)\s+power\s+integrity|electromechanical|"
-     # "Electrical Designer", "Electrical Validation Intern"; not
-     # "Electrical Apprentice" or "Electrical Construction ... Intern".
-     r"electrical(?:\s*(?:and|&|/)\s*\w+)?\s+(?:engineer\w*|design\w*|validation|test\w*|"
+     r"pcb|signal\s+(?:and|&)\s+power\s+integrity|signal\s+integrity|electromechanical|"
+     r"serdes|high[\s-]speed\s+(?:digital|serial|interface\w*|io|i/o)|"
+     # "Electrical Designer", "Electrical Validation Intern", "Electrical
+     # Component Engineer"; not "Electrical Apprentice" or "Electrical
+     # Construction ... Intern".
+     r"electrical(?:\s*(?:and|&|/)\s*\w+)?\s+(?:(?:component|circuit|power|controls?|product|"
+     r"instrumentation)\s+)?(?:engineer\w*|design\w*|validation|test\w*|"
      r"integration|systems?|analysis|intern|co-?op)|"
      # "AMS Validation", "Functional Validation", "Formal Verification"; not
      # "Model Validation" (quant, above) or "Data Validation".
@@ -119,36 +140,72 @@ _CATEGORY_RULES: list[tuple[str, str]] = [
      r"formal\s+verification|rfic|radio\s+frequency|ic\s+(?:design\w*|test|layout)|"
      r"optical|optics|photonic\w*|dram|field[\s-]programmable|harness\w*|sensors?|"
      r"telematics|"
-     r"cpu|gpu\s+architecture|soc|rf|transistor|avionics|electronics?|"
-     r"mechatronics|power\s+electronics|gpu|design\s+for\s+test|packaging|"
-     r"reliability)\b", "hardware"),
-    (r"\b(machine\s+learning|ml|ai|artificial\s+intelligence|deep\s+learning|"
-     r"data\s+scien\w*|data\s+engineer\w*|data\s+analy\w*|data|analytics|"
-     r"computer\s+vision|vision|nlp|natural\s+language|llm|research\w*|r\s*&\s*d|"
-     r"applied\s+scientist|scientist|business\s+intelligence|algorithm\w*|"
-     r"autonom\w*|robotic\w*|perception|statistic\w*|model(?:ing|ling)|"
-     r"analyst|insights?|computational|bioinformatics|geospatial|applied\s+scien\w*|"
-     r"informatics|biostatistic\w*|power\s+bi|motion\s+planning|biometrics)\b", "data_ml"),
-    (r"\b(product\s+manag\w*|apm|technical\s+program\s+manag\w*|tpm|product|"
-     r"offering)\b", "product"),
+     r"cpu|gpu\s+architecture|soc|rf|transistor|avionics|electronics?|microelectronic\w*|"
+     r"mechatronics|power\s+electronics|gpu|design\s+for\s+test|"
+     # Chip packaging and reliability; not a consumer-goods "Packaging
+     # Engineer" or a plant's "Reliability Engineer".
+     r"(?:advanced|semiconductor|chip|ic|substrate)\s+packaging|"
+     r"(?:hardware|silicon|chip|board|component|semiconductor)\s+reliability)\b", "hardware"),
+    # Lab and other non-computing scientists: "Associate Scientist I",
+    # "Scientist I - Microbiology", "Forensic Scientist"; not "Research
+    # Scientist" or "Scientist, Machine Learning".
+    (r"^(?!.*\b(?:" + _STRONG_TECH + r"|deep\s+learning|computational|nlp|llm|vision|"
+     r"algorithm\w*|statistic\w*|bioinformatics|informatics|quantitative|perception|"
+     r"robotics)\b)(?!.*\b(?:research|applied|decision)\s+scien).*\bscientists?\b", "other"),
+    (r"\b(machine\s+learning|ml|ai|artificial\s+intelligence|deep\s+learning|gen\s*ai|"
+     r"data\s+scien\w*|data\s+engineer\w*|data\s+analy\w*|analytics|"
+     # Not "Data Entry Coordinator", "Data Center ...", "Data Annotation
+     # Analyst", "Data Processing Support".
+     r"data(?!\s+(?:entry|cent(?:er|re)s?|collect\w*|annotat\w*|label\w*|processing|capture|"
+     r"technician|operator|input))|"
+     r"computer\s+vision|vision|image\s+processing|nlp|natural\s+language|llm|research\w*|"
+     r"applied\s+scien\w*|(?:computer|computational|decision|perception|robotics)\s+scientists?|"
+     r"business\s+intelligence|bi(?!-)|algorithm\w*|autonom\w*|robotic\w*|perception|"
+     r"statistic\w*|computational|bioinformatics|geospatial|informatics|biostatistic\w*|"
+     r"power\s+bi|motion\s+planning|biometrics|operations\s+research|"
+     # "Clinical Applications Analyst (EPIC ...)"
+     r"applications?\s+analyst)\b", "data_ml"),
+    # Not "Product Development Technician", "Product Chemistry", "New
+    # Product Development", "Product Engineer".
+    (r"\b(product\s+(?:manag\w*|owner|design\w*|analyst|strateg\w*|growth|marketing\s+manag\w*|"
+     r"intern\w*|co-?op)|apm|technical\s+program\s+manag\w*|tpm|offering\s+manag\w*|ux|"
+     r"user\s+experience)\b", "product"),
     (r"\b(security\s+(?:guard|officer))\b", "other"),
+    # Engineering and business disciplines that aren't computing, unless
+    # the title also names computing work ("Manufacturing Software Engineer").
+    (r"^(?!.*\b(?:" + _STRONG_TECH + r")\b).*\b(mechanical|civil|chemical|industrial|"
+     r"manufacturing|process|structur\w*|environmental|propulsion|thermal|materials|biomedical|"
+     r"petroleum|mining|nuclear|construction|field\s+(?:service|engineer\w*|operations|"
+     r"technician|applications)|sales|marketing|legal|finance|financial|accounting|"
+     r"recruit\w*|hr|human\s+resources|traffic|bridge|highway|roadway|transportation|transit|"
+     r"rail\w*|track\s+design|geotechnical|water|wastewater|hvac|production|"
+     r"operations\s+engineer\w*|power\s+(?:delivery|generation|plant|systems?)|"
+     r"transmission\s+line|substation|utility|utilities|land\s+development|site\s+development|"
+     r"urban|facilit\w*|factory|quality|supplier|reliability|safety|maintenance|equipment|"
+     r"planning|planner|project\s+engineer\w*|superintendent|estimat\w*|asset\s+management|"
+     r"obsolescence|supportability|logistics|aerospace|aeronautic\w*|airframe|stress|"
+     r"design\s+assurance|regulatory|technicians?|operators?|architectur\w*|landscape|"
+     r"surveying|drafting|cad|welding|tooling|fire\s+protection|food|agricultur\w*|"
+     r"chemist\w*|chemistry|biolog\w*|physics|lng|oil|gas|energy\s+storage|battery|"
+     r"bearings?|seals?|packaging|plumbing|lighting|acoustic\w*|geolog\w*|audit\w*|"
+     r"assurance|tax|banking|wealth|insurance|actuar\w*|underwrit\w*|compliance)\b",
+     "other"),
     (r"\b(software|swe|sde|developer|programmer|devops|sre|site\s+reliability|"
      r"back[\s-]?end|front[\s-]?end|full[\s-]?stack|web|mobile|ios|android|"
      r"cloud|platform|infrastructure|security|cyber\w*|computer\s+science|"
      r"embedded|firmware|qa|sdet|test\s+automation|forward\s+deployed|"
-     r"it|applications?|automation|technical\s+staff|coding|digital|"
-     r"information\s+(?:technology|systems)|java|python|c\+\+|golang|technical|"
-     r"computing|gis|architect\w*|sap|mainframe|iot|website\s+develop\w*|database|"
+     r"it|applications?|automation|technical\s+(?:staff|support|consultant|solutions)|coding|"
+     r"digital\s+(?:&\s+|and\s+)?(?:technolog\w*|tech|solutions|engineer\w*|transformation|"
+     r"innovation|platforms?|services)|network(?:ing|\s+(?:engineer\w*|admin\w*|security|"
+     r"operations?|infrastructure|technician|analyst))|"
+     r"modell?ing\s+(?:&|and)\s+simulation|identity\s+(?:(?:&|and)\s+)?access|"
+     r"service\s+desk|help\s*desk|"
+     r"information\s+(?:technology|systems)|java|python|c\+\+|golang|"
+     r"computing|gis|(?:software|solutions?|cloud|data|enterprise|systems?|security|network|"
+     r"it|technical|application)\s+architect\w*|(?:systems?|solutions?|computer)\s+architecture|"
+     r"systems?\s+analyst|sap|mainframe|iot|website\s+develop\w*|database|"
      r"game\s+design\w*|"
      r"unity|unreal|quantum)\b", "software"),
-    (r"\b(mechanical|civil|chemical|industrial|manufacturing|process|"
-     r"structural|environmental|propulsion|thermal|materials|biomedical|"
-     r"petroleum|mining|nuclear|construction|field\s+service|sales|"
-     r"marketing|legal|finance|accounting|recruit\w*|hr|human\s+resources|"
-     r"traffic|bridge|highway|roadway|transportation|geotechnical|water|"
-     r"wastewater|hvac|production|operations\s+engineer\w*|power\s+delivery|"
-     r"substation|utility|utilities|land\s+development|urban)\b",
-     "other"),
     (r"\b(systems?\s+engineer\w*|solutions?\s+engineer|engineer\w*|"
      r"technolog\w*)\b", "software"),
 ]
@@ -169,7 +226,11 @@ _NOT_TECH_WORK = (
     r"administrative|retail|payroll|tax|audit\w*|financial\s+analyst|fp&a|credit\s+analyst|"
     r"procurement|purchasing|supply\s+chain|logistics|hr|human\s+resources|recruit\w*|legal|"
     r"paralegal|sales|marketing|communications|customer\s+service|phlebotom\w*|histolog\w*|"
-    r"patholog\w*|veterinar\w*|dental|medical\s+assistant|technical\s+writ\w*)\b")
+    r"patholog\w*|veterinar\w*|dental|medical\s+assistant|technical\s+writ\w*|"
+    # research outside computing ("Research Analyst 1 - Ophthalmology",
+    # "Research Farm Summer Intern", "R&D Immunology")
+    r"ophthalm\w*|oncolog\w*|cancer|immunolog\w*|biolog\w*|chemi\w*|molecular|cell|farm|"
+    r"agricultur\w*|environmental|justice|policy|social|psycholog\w*|education|econom\w*)\b")
 _NOT_TECH_DATA = re.compile(
     r"^(?!.*\b(?:data|machine\s+learning|ml|ai|artificial\s+intelligence|software|analytics|"
     r"engineer\w*|computational|bioinformatics|informatics|biostatistic\w*|statistic\w*|"

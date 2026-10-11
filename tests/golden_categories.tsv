@@ -1,0 +1,249 @@
+# Golden categories: real announced titles (random 300 of the 4,638 announced
+# 2026-09-27..10-10) with the job function a person would give them, checked
+# by tests/test_golden_categories.py. Curated lists only hold tech jobs, so
+# this is the only measure of non-tech jobs labeled tech (false positives).
+#
+# label<TAB>title. Labels: software | data_ml | hardware | quant | product |
+# other (not announced). Titles whose function the title alone can't tell
+# ("Engineering Internships - Summer 2027", "Systems Engineer Intern") are
+# left out.
+other	Junior Clinical Research Associate
+other	Co-op Engineer: Structures - Spring/Summer 2027
+data_ml	AI & Data Science Intern - GPSU/NE
+other	Analyst I, Service Contracts
+software	Associate DevOps Developer
+data_ml	AI/ML Engineer Intern - Autonomous Vehicle: Simulation
+other	Student Assistant 1, Archival Technical Services
+hardware	Electrical/Instrumentation Engineering Intern
+software	2027 Summer Intern, MS/PhD, Software Engineer, Eval Data Infra
+other	Associate Analyst, Corporate Actions - Specialized Service Team
+other	Research Lab Technician I
+hardware	R&D Electrical Engineer Intern
+software	Entry Level Software Developer-Rochester, MN
+data_ml	Associate Consultant - Data & Analytics
+hardware	Radiation Effects Associate Engineer (Winter 2027)
+other	ALM ANALYST I
+data_ml	junior Bi Analyst/data analyst/Java Developer
+software	Engineer I - Software
+hardware	ASIC Physical Design Engineer
+other	Product Chemistry Associate Scientist
+data_ml	AI DSP Applied Research Co-op
+other	Energy Storage-Quality Engineer I and II
+other	3D & LiDAR Data Annotation Analyst
+other	VMRD Richland Research Farm Summer Intern
+data_ml	Informatics Analyst I/II/III/IV
+other	Cell Culture Development Associate Scientist
+software	Technical Support Engineer Grad
+software	Associate Software Engineer--Python & Data Analytics
+software	Intern-IT
+software	Web Application Developer – Early Career
+other	Data Processing Support – Student Experience (Open to Work Study and Non-Work Study)
+other	Associate Planning Engineer
+other	Design Assurance Engineer I
+software	Network Engineering Intern (Student Wage)
+other	Associate Engineer/Engineer - Transmission Line Design
+hardware	Abschlussarbeit Optical Development Beam Path HPAC (SS27)
+data_ml	[2027] Senior Machine Learning Engineer - PhD Early Career
+other	AML COMPLIANCE ANALYST I-3
+hardware	Electrical Design Intern
+software	Software Intern
+software	Internship, Software Integration Engineer, Service Tooling (Winter/Spring 2027)
+software	Software Development Intern - Summer 2027 Internship
+hardware	Semiconductor Design Engineer New Grad - DRAM Products Group
+other	Medical Laboratory Scientist I, Microbiology - Evening
+other	Intern - TSE R&D Equipment Project Manager
+other	Data Entry Coordinator 2
+software	Entry-Level Software Engineer - Huntsville, Alabama with Security Clearance
+other	Architecture Internships - Summer 2027
+software	Intern Application Developer – Azure and Microsoft - 2027
+software	Super Day - Software Engineer, New Grad
+software	Software Engineering Intern, Nsight Systems - 2026
+software	Leadership Program Engineering - Embedded Software
+other	Scientist I - Microbiology
+data_ml	Image Processing Engineer Intern
+software	Associate Software QA Engineer
+hardware	Summer 2027 Electrical Engineering Intern- Topeka, KS
+other	Lab Junior Scientist
+other	Co-op, Market Research & Insights
+software	Software Engineer, New Grad 2027
+software	2027 Summer Intern- Information Technology
+software	Applications Development Engineering Intern - BBP
+software	Internship, Software Engineer, AI Hardware Infrastructure (Winter/Spring 2027)
+software	Junior level Oracle Business System Analyst (Order Management and Supply Chain)
+data_ml	Machine Learning Engineer Intern (Recommendations and Search) - 2027 Start (PhD)
+software	Software PhD Internships
+software	Site Reliability Engineer I - Sales Operations
+software	Graduate Software Developer Intern
+software	Software Engineer 2027 Summer Intern
+other	Actuarial Analyst (Actuarial Development Program) - December 2026 Grads/May 2027 Grads
+data_ml	Internship - Data Warehouse & Analytics Consultant
+other	Safety and Reliability Intern (Onsite)
+software	IT Programmer Analyst Intern
+data_ml	Perception Intern
+data_ml	ML Engineer, Product
+hardware	2027 Internship - Optics and Photonics Group
+software	Software Developer Spring Co-Op 2027 (Bellevue)
+other	Marketing Business Analyst - 6 months internship
+software	Cybersecurity Engineer I w/Secret IT-I or Tier 5 Clearance
+software	Associate Software Engineer - Consumer Application
+software	Software Engineering Intern - DAL
+data_ml	AI/ML PhD Intern (Summer 2027)
+software	Embedded Security Software Engineer 1
+software	IT User Support Specialist 1
+software	Backend Software Engineer Graduate (TikTok-PGC-Creator Strategy) - 2027 Start
+other	Facilities Engineer I - Full Time (Tropicana Laughlin)
+product	Product Design PhD Internships
+other	Post Doc, R&D Immunology - Population Analytics & Insights
+software	Software Internship - Systems Engineering
+product	Apprentice - IT Product Management (Remote)
+software	Cyber Risk Management Analyst Junior
+other	Scientist I / II, Liquid Chromatography (LC), tLNP Analytical R&D
+product	Product Management Internship - Summer 2027
+quant	Trading System Engineer - New Grad
+hardware	High Speed Serdes Validation Engineer
+other	Research Associate: Environmental Justice Fellowship - EJ Disrupt Design and Action-Based Research
+other	Transportation Logistics Analyst Intern - Summer 2027
+other	Human Resources Development Program Analyst/Associate
+other	Quality Jr. Engineer III
+other	Mechanical Engineer Intern - New Product Development
+hardware	Optical Fiber Engineering Intern - Summer 2027
+other	Co-op Engineer: Track Design/Rail - Spring/Summer 2027
+other	Asset Management Engineer Co-Op
+other	Co-op or Intern, Financial Reporting & Insights - Red Deer (May 2027)
+other	2027 Credit Analyst Program - Business Banking (Milwaukee, WI)
+software	Software Engineer – Early Career Digital Technology Rising Leaders Program
+data_ml	Data Science Undergraduate Intern
+software	IT Application Development Intern (Inforce) – Summer 2027
+data_ml	2027 AI Engineer Apprentice - Level 6 Machine Learning
+data_ml	Clinical Data Science Intern
+software	Systems Software Engineering Intern
+other	Summer 2027 Intern-Intern for Product Development Lab (Chemistry)
+data_ml	AI Prompt Engineer Intern
+other	WAVY Unpaid Digital Intern, Spring 2027
+hardware	Power Electronics Engineer I (Onsite)
+product	Product Design Undergrad Internships
+other	Product Development Technician I, 1st Shift
+other	Prefab Project Engineering Summer 2026 Internship
+other	Associate Principle Facilities Engineer
+software	Software Engineer Intern - CWL
+product	Product Growth Intern (MBA), Summer 2027
+hardware	ATD QEV Product Engineer
+data_ml	Developer I - BI & Analytics
+software	AfroTech - IT Internship/Co-op & Entry Level Full Time Opportunities
+hardware	Electrical Engineer, Associate
+data_ml	Robotics Engineer, R&D Engineering Development Program
+other	Corporate Finance & Accounting Development Program Analyst/Associate
+other	Associate Scientist I, Research
+data_ml	Junior data scientist/Junior java Full stack software developer
+hardware	AI GPU Arch Perf Optimization Intern
+software	#BECA-AHE SW Design, Coding and Integration Engineer
+software	TS - Application Security Intern - 2027
+software	Associate Java Developer
+other	Merrill Wealth Management Client Associate – Advisor Development Program: Los Angeles Market
+other	2027 Obsolescence Management Engineer Apprentice - Level 6 Applied Professional Engineering Apprenticeship
+other	Analyst Category Experience
+hardware	Electrical Engineer I - Computing Products (Onsite)
+software	Nuclear Emergency Support Team Software Developer 1/2
+software	Cloud Software Security (CSS) Summer Internship, Undergraduate Intern
+other	Finance Analyst Intern - Southeast District (Summer 2026) 1 1
+other	MSAT Development Services Scientist I
+other	Merrill Wealth Management Client Associate – Advisor Development Program: Sacramento Market
+software	Software Engineer Asc - Early Career
+other	Assurance Intern, Technology Risk Assurance - Summer 2027 (Atlanta)
+other	Associate Scientist/Scientist I, Molecular Function
+software	Software Engineer, Internship - Infrastructure
+software	Software Development Internship | Summer 2027
+software	Software Engineer Intern (Recommendation Infrastructure) - 2026 Start (PhD)
+software	Software Engineer Internship - Summer 2027
+other	Internship – Continuous Improvement Analyst (Year-Round)
+other	Associate Analyst, Compensation
+other	Category Insights Analyst
+hardware	Associate Mixed Signal Design Engineer
+other	Landscape Architectural Student
+data_ml	GenAI & Machine Learning - 2027 Summer Internship (Chicago Hybrid)
+software	Software Engineer I, Build Review & Test
+other	Corporate & Institutional Banking Development Program Analyst/Associate – Commercial & Corporate Banking (East)
+software	Summer 2027 Internship - Information Technology
+hardware	Electrical Component Engineer I (Onsite)
+other	System Safety Engineer I
+other	Medical Laboratory Scientist I- 16 hrs/weeks
+other	Clinical Laboratory Scientist I - 2nd Shift
+software	Technology Intern
+quant	2027 Quantitative Developer Intern
+other	Intern - Power Generation Engineering - LNG Division
+software	Full Stack Software Engineer, Junior
+software	Summer 2027 Software Development Intern
+software	Cybersecurity - Intern
+data_ml	Marketing Data Analytics Engineer (CA)
+other	Engineer I - III (1021) - Transit Facilities
+other	Technical Vehicle Test Operator - Wittmann, AZ (Contract)
+other	Engineer I - Site Development
+software	Digital Technology Intern (Summer 2027)
+other	Entry Level Equipment Engineer
+other	Product Lifecycle Supply Chain Project Specialist I (Intern) - United States
+other	Engineer Intern (Rail Design)
+quant	Summer 2027 Quantitative Research Intern - PhD/Postdoctoral
+software	Software Engineering Full-Time Campus Hire (NYC)
+other	Marketing Coordinator - Data Center Mission Critical
+software	2027 Software Engineering Intern Dulles VA
+software	I.T. Data Administration Intern
+software	Software Engineer 1 (Embedded)
+other	Fraud Analyst I - Communications M-F 8:00-5:00 PM Sat 9:00 AM-3-PM
+hardware	Digital Hardware Design Engineer 1
+software	Linux Software Development Intern
+data_ml	Machine Learning Engineer Intern (E-Commerce Recommendation Video) - 2027 Start (PhD）
+other	Merrill Wealth Management Client Associate – Advisor Development Program: Suburban Boston Market
+software	Apprentice - IT Helpdesk Campus Support
+other	End Markets Intern, Communications Infrastructure and Datacenter (Summer 2027)
+data_ml	Associate Marketing Data Scientist
+software	Software Engineer - Forward Deployed Engineer
+other	Dowty Aerospace Engineering Degree Apprentice, 2027 intake
+software	Junior Software Engineering Program - Associate Engineer
+other	Economics Intern - Multiple Teams
+software	Software Engineer Intern - Summer 2027
+data_ml	(PALM) and Artificial Intelligence Co-Op
+software	Software Engineer Intern ( Summer 2027)
+software	Associate Technical Consultant - Cloud - Performance Engineering,Jmeter,Sql
+data_ml	Phd Researcher, Machine Learning for Construction
+other	EPC Project Engineer/Superintendent Intern- Summer 2027
+software	Software Engineer I - Remote - Nationwide
+data_ml	Data Engineer Internship
+software	Junior Oracle Infrastructure & Database Engineer
+other	Associate Analyst, MAC and Network Payor Compliance
+software	Software Development Engineer Graduate (Intent-Based Networking) - 2027 Start
+product	Product Management Intern, Agentic Integrations
+other	Associate Analyst MENA
+other	Content Solutions Analyst I (Certified Lab Coder)
+data_ml	DATA SCIENTIST ANALYST I
+software	Software Development Intern - Spring 2027
+software	Software Engineer C++ (junior-mid)
+data_ml	Machine Learning Engineer Intern (Risk & Integrity) - 2027 Start (PhD)
+data_ml	Computational Chemistry and Data Analytics - Academic Graduate Appointee
+other	Test Technician - Engineering Department
+other	Bearings & Seals Engineer I (Onsite)
+data_ml	2027 Internship - Data Science & Autonomous Systems - Critical Infrastructure Protection
+data_ml	2027 Early Careers: Analyst, Data Office: Data Engineering – United States, Multiple Locations
+data_ml	Associate Operations Research Analyst (Offutt AFB)
+other	Supply Chain Analyst Internship- Summer 2027
+other	Research Lab Technician I, Drosophila research
+product	Digital Product Manager Intern
+hardware	Electrical Engineering Intern - Test Solutions
+data_ml	2027 Rotational Engineer - AI
+data_ml	Finance AI Engineering Intern - Onsite
+hardware	Electrical Hardware Engineer 1 Graduate
+software	Entry Level Software Developer-Different locations
+data_ml	Junior Data Scientist
+other	Fraud Analyst I - Communications Mon-Fri 11:00 am to 8:00 pm Sat 9:00am- 3:00 pm
+software	Software Associate Engineer - (Remote)
+software	Summer 2027 Internship Program – Software Engineering Intern
+data_ml	R&D PhD Summer Intern: Data Science & AI, Grooming
+software	Spring & Summer 2027 Software Engineering Co-op
+software	Co-op, IT Analyst: Spring
+data_ml	Summer Internship - Customer Experience Analytics
+software	Summer 2027 AIM Hedging Software Developer Internship | Fully Onsite
+other	2027 Graduate Supportability Engineer
+other	Robot Wrangler
+data_ml	Data Scientist - Jr.
+data_ml	2027 AI Engineer Apprentice - AI and Data Science Graduate Level Apprenticeship
+other	Co-Op, Platform Biology Integration
+other	CUPE - W2027 - TA - PHY1124 - Fundamentals of Physics for Engineers - In Class Demonstrations
