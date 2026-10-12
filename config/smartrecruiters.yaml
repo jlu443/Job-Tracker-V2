@@ -280,8 +280,9 @@ companies:
   aliases:
   - HarvardUniversity
 - company: CrownInnovationsInc
-  name: Crown Innovations, Inc.
+  name: Crown Innovations
   aliases:
+  - Crown Innovations, Inc.
   - CrownInnovationsInc
 - company: OxfamAmerica2
   name: Oxfam America
@@ -1021,3 +1022,11 @@ companies:
   name: Lifted, an Upwork Company™
   aliases:
   - LiftedanUpworkCompany
+- company: TBD20261012CrownInnovationsInc
+  name: TBD_2026_10_12_Crown Innovations, Inc.
+  aliases:
+  - TBD20261012CrownInnovationsInc
+- company: SquareTrade1
+  name: SquareTrade
+  aliases:
+  - SquareTrade1

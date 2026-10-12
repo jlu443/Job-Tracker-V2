@@ -3605,3 +3605,5 @@ companies:
   - adyen
 - token: sagesure
   name: SageSure
+- token: thehutgroup
+  name: THG

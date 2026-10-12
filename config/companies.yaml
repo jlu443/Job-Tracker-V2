@@ -10318,3 +10318,15 @@ companies:
   wd: wd5
   site: PACourts
   name: pacourts
+- tenant: kainos
+  wd: wd3
+  site: kainos
+  name: Kainos
+  aliases:
+  - kainos
+- tenant: aderant
+  wd: wd5
+  site: Aderant_External_Careers
+  name: Aderant
+  aliases:
+  - aderant

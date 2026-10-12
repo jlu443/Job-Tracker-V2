@@ -611,3 +611,7 @@ companies:
   - overland-ai
 - slug: vulcanforms
   name: vulcanforms
+- slug: truecar
+  name: truecar
+- slug: commandlink
+  name: commandlink
