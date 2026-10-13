@@ -1007,3 +1007,8 @@ companies:
   name: Uber
   aliases:
   - iaziqy
+- host: fa-etgw-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: TriNet
+  aliases:
+  - fa-etgw-saasfaprod1

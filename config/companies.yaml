@@ -10330,3 +10330,27 @@ companies:
   name: Aderant
   aliases:
   - aderant
+- tenant: prologis
+  wd: wd5
+  site: Prologis_External_Careers
+  name: Prologis
+  aliases:
+  - prologis
+- tenant: lmcu
+  wd: wd5
+  site: lmcucareersite
+  name: Lake Michigan Credit Union
+  aliases:
+  - lmcu
+- tenant: shift4payments
+  wd: wd108
+  site: Shift4_External_CareerSite
+  name: Shift4 Payments
+  aliases:
+  - shift4payments
+- tenant: veritone
+  wd: wd1
+  site: Veritone_Career_Site
+  name: Veritone
+  aliases:
+  - veritone

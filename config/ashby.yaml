@@ -6272,7 +6272,9 @@ companies:
 - slug: gooddata
   name: gooddata
 - slug: goodlord
-  name: goodlord
+  name: Goodlord
+  aliases:
+  - goodlord
 - slug: GovSignals
   name: GovSignals
 - slug: gratia
@@ -7581,3 +7583,5 @@ companies:
   name: pureapp
 - slug: mecka.ai
   name: mecka.ai
+- slug: monday.com
+  name: monday.com

@@ -1197,3 +1197,15 @@ companies:
   - perrknight
 - slug: atomcomputing
   name: atomcomputing
+- slug: azul
+  name: Azul Systems
+  aliases:
+  - azul
+- slug: conversica
+  name: Conversica
+  aliases:
+  - conversica
+- slug: brillio-2
+  name: Brillio
+  aliases:
+  - brillio-2

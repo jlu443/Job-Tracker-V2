@@ -1030,3 +1030,7 @@ companies:
   name: SquareTrade
   aliases:
   - SquareTrade1
+- company: IngramContentGroup1
+  name: Ingram Content Group
+  aliases:
+  - IngramContentGroup1

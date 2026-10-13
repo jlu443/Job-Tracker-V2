@@ -615,3 +615,5 @@ companies:
   name: truecar
 - slug: commandlink
   name: commandlink
+- slug: chartmetric
+  name: chartmetric
