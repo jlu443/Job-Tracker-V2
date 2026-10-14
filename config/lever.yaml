@@ -1209,3 +1209,11 @@ companies:
   name: Brillio
   aliases:
   - brillio-2
+- slug: rhombus-systems
+  name: Rhombus
+  aliases:
+  - rhombus-systems
+- slug: pditechnologies
+  name: PDI Technologies
+  aliases:
+  - pditechnologies

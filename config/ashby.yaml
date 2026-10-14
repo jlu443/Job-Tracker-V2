@@ -748,7 +748,9 @@ companies:
 - slug: Bounce
   name: Bounce
 - slug: brainco
-  name: brainco
+  name: Brain Co.
+  aliases:
+  - brainco
 - slug: Braintrust
   name: Braintrust
 - slug: BranchInsurance
@@ -7585,3 +7587,9 @@ companies:
   name: mecka.ai
 - slug: monday.com
   name: monday.com
+- slug: nestmed
+  name: nestmed
+- slug: Glasslake
+  name: Glasslake
+- slug: iterable
+  name: iterable

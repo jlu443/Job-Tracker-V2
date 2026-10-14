@@ -351,3 +351,7 @@ companies:
   name: America's Tire
   aliases:
   - discounttire.jibeapply.com
+- host: careers.hrblock.com
+  name: H&R Block
+  aliases:
+  - careers.hrblock.com

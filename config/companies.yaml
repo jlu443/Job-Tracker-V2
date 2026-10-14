@@ -640,7 +640,7 @@ companies:
 - tenant: acciona
   wd: wd3
   site: acciona_employment_channel
-  name: ACCIONA
+  name: Acciona
   aliases:
   - ACCIONA
   - Acciona
@@ -4208,7 +4208,9 @@ companies:
 - tenant: relx
   wd: wd3
   site: RiskSolutions
-  name: relx
+  name: RELX
+  aliases:
+  - relx
 - tenant: hancockwhitney
   wd: wd5
   site: Careers
@@ -10354,3 +10356,51 @@ companies:
   name: Veritone
   aliases:
   - veritone
+- tenant: vrtx
+  wd: wd501
+  site: vertex_intern
+  name: Vertex Pharmaceuticals
+  aliases:
+  - vrtx
+- tenant: unitytech
+  wd: wd1
+  site: Unity
+  name: Unity
+  aliases:
+  - unitytech
+- tenant: wasatchproperty
+  wd: wd1
+  site: MarketStarCareers
+  name: MarketStar
+  aliases:
+  - wasatchproperty
+- tenant: cbrands
+  wd: wd5
+  site: CBI_External_Careers
+  name: Constellation Brands
+  aliases:
+  - cbrands
+- tenant: clarioclinical
+  wd: wd1
+  site: clarioclinical_careers
+  name: Clairo
+  aliases:
+  - clarioclinical
+- tenant: cmu
+  wd: wd115
+  site: CMU
+  name: Carnegie Mellon University
+  aliases:
+  - cmu
+- tenant: novonesis
+  wd: wd103
+  site: Novonesis_Careers
+  name: novonesis
+- tenant: totalwine
+  wd: wd1
+  site: twm
+  name: totalwine
+- tenant: pax8inc
+  wd: wd12
+  site: Pax8Careers
+  name: pax8inc

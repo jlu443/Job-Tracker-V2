@@ -3613,3 +3613,25 @@ companies:
   - memx
 - token: inhousespring24
   name: ISN In-House
+- token: groma
+  name: Groma
+  aliases:
+  - groma
+- token: justworks
+  name: Justworks
+  aliases:
+  - justworks
+- token: trovebrands
+  name: Trove Brands
+  aliases:
+  - trovebrands
+- token: carbonrobotics
+  name: Carbon Robotics
+- token: d2l
+  name: D2L
+- token: isn
+  name: ISN Software Corporation
+- token: acadianassetmanagementllc
+  name: Acadian Asset Management LLC
+- token: datsolutions
+  name: DAT
