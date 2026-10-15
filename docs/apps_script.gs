@@ -11,10 +11,6 @@
  *   Visa Sponsors               companies' H-1B record and posting stances
  *   My Applications             every job you give a Status; never trimmed
  *
- * The same script also runs the Specializations sheet (a second spreadsheet
- * with "<Field> · 24 Hours / This Week / This Month" tabs): deploy it there
- * too and save that deployment's URL as GOOGLE_SPECIALIZATIONS_WEBHOOK_URL.
- *
  * All tabs except Key and My Applications are rebuilt from the tracker's
  * database on each run. Set a job's Status (dropdown, first column) on any tab: the row
  * is copied to My Applications immediately, and your Status is re-applied
@@ -28,7 +24,8 @@
  *      -> Deploy. (Editing the existing deployment keeps the same /exec URL,
  *      so GOOGLE_SHEETS_WEBHOOK_URL doesn't change.)
  *      First-time setup instead: Deploy -> New deployment -> "Web app",
- *      Execute as: Me, Who has access: Anyone; copy the /exec URL into the
+ *      Execute as: Me, Who has access: Anyone (anything narrower makes every
+ *      call fail with 401); copy the /exec URL into the
  *      GOOGLE_SHEETS_WEBHOOK_URL secret.
  */
 
