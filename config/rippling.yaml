@@ -617,3 +617,5 @@ companies:
   name: commandlink
 - slug: chartmetric
   name: chartmetric
+- slug: foreup
+  name: foreup

@@ -1363,3 +1363,11 @@ companies:
   name: Careers Oraucareers.icims.com
   aliases:
   - careers-oraucareers
+- host: careers-kyocera.icims.com
+  name: Kyocera
+  aliases:
+  - careers-kyocera
+- host: careers-ermcoeci.icims.com
+  name: Careers Ermcoeci.icims.com
+  aliases:
+  - careers-ermcoeci

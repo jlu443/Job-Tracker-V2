@@ -3700,8 +3700,9 @@ companies:
 - tenant: spectris
   wd: wd3
   site: PMS_Careers
-  name: Spectris
+  name: Particle Measuring Systems
   aliases:
+  - Spectris
   - spectris
 - tenant: starfish
   wd: wd501
@@ -5338,8 +5339,9 @@ companies:
 - tenant: spectris
   wd: wd3
   site: HBK_Careers
-  name: Spectris
+  name: Particle Measuring Systems
   aliases:
+  - Spectris
   - spectris
 - tenant: heinz
   wd: wd1
@@ -7349,7 +7351,9 @@ companies:
 - tenant: spectris
   wd: wd3
   site: Malvern_Panalytical_Careers
-  name: spectris
+  name: Particle Measuring Systems
+  aliases:
+  - spectris
 - tenant: convatec
   wd: wd1
   site: convatec
@@ -10404,3 +10408,27 @@ companies:
   wd: wd12
   site: Pax8Careers
   name: pax8inc
+- tenant: spscommerce
+  wd: wd108
+  site: SPS
+  name: SPS Commerce
+  aliases:
+  - spscommerce
+- tenant: whataburger
+  wd: wd5
+  site: WAB_CAREERS
+  name: Whataburger
+  aliases:
+  - whataburger
+- tenant: heinz
+  wd: wd1
+  site: KraftHeinz_Careers_BC
+  name: Kraft Heinz
+  aliases:
+  - heinz
+- tenant: kei
+  wd: wd1
+  site: GlobalKimballCareers
+  name: KEI
+  aliases:
+  - kei

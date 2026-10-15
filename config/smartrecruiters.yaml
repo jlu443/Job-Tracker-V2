@@ -1038,3 +1038,9 @@ companies:
   name: Cricut
 - company: ELITEBRAIN
   name: ELITEBRAIN
+- company: AntonPaar1
+  name: Anton Paar
+  aliases:
+  - AntonPaar1
+- company: Carlisle
+  name: Carlisle

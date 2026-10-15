@@ -319,3 +319,13 @@ companies:
   name: Alstom
   aliases:
   - jobsearch.alstom.com
+- host: careers.agcocorp.com
+  name: AGCO
+  aliases:
+  - careers.agcocorp.com
+- host: jobs.hilmarcheese.com
+  name: Hilmar Cheese
+  aliases:
+  - jobs.hilmarcheese.com
+- host: jobs.jlab.org
+  name: jobs.jlab.org

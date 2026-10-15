@@ -1196,7 +1196,9 @@ companies:
   aliases:
   - perrknight
 - slug: atomcomputing
-  name: atomcomputing
+  name: Atom Computing
+  aliases:
+  - atomcomputing
 - slug: azul
   name: Azul Systems
   aliases:

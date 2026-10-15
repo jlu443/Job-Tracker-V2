@@ -7593,3 +7593,9 @@ companies:
   name: Glasslake
 - slug: iterable
   name: iterable
+- slug: pramaana-labs
+  name: Pramaana Labs
+  aliases:
+  - pramaana-labs
+- slug: constructor
+  name: constructor
