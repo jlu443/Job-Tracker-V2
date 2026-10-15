@@ -2,13 +2,14 @@ name: scrape-jobs
 
 on:
   schedule:
-    # Fallback only. The hourly trigger is external: cron-job.org POSTs to
-    # .../actions/workflows/scrape.yml/dispatches each hour (a fine-grained
+    # Fallback only. The real trigger is external: cron-job.org POSTs to
+    # .../actions/workflows/scrape.yml/dispatches every 30 minutes (matching
+    # settings.run_interval_minutes; a fine-grained
     # token with Actions read/write on this repo), because GitHub's own
     # scheduler delivered hourly runs only every 4-7 hours. If that trigger
     # stops (e.g. the token expires), this keeps runs going.
     - cron: "37 */3 * * *"
-  workflow_dispatch: {}   # the external hourly trigger, and manual runs
+  workflow_dispatch: {}   # the external 30-minute trigger, and manual runs
 
 # contents: write lets the job replace the DB asset on the release, and push
 # the rare keepalive commit.

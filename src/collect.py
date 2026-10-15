@@ -151,7 +151,9 @@ def scrape_ats(settings: dict, postings: list, complete_scopes: set, conn,
     wall time is the slowest source rather than the sum of all of them.
     """
     rotation = settings.get("long_tail_rotation") or {}
-    slot = int(time.time() // 3600)   # advances once per hourly run
+    # Advances once per scheduled run, so back-to-back runs sweep different
+    # slices (two runs in one slot would sweep the same boards twice).
+    slot = int(time.time() // (60 * settings.get("run_interval_minutes", 60)))
     plan = []
     disabled = set(settings.get("disabled_sources") or ())
     for source, config_file, module in ATS_SCRAPERS:

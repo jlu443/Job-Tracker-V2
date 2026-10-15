@@ -32,6 +32,7 @@ SCHEMA: dict = {
     "ci_shards": ("each", int),
     "retry_incomplete": ("each", {"delay": _NUM, "workers": int}),
     "disabled_sources": list,
+    "run_interval_minutes": int,
     "long_tail_rotation": ("each", _ROTATION),
     "request_timeout": _NUM,
     "delay_between_requests": _NUM,

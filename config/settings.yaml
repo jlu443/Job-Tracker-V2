@@ -64,14 +64,18 @@ retry_incomplete:
 # ATS sources to skip entirely (e.g. while a site is blocking us).
 disabled_sources: []
 
+# Minutes between scheduled runs (cron-job.org's trigger). The rotation below
+# counts in runs of this length, so changing it means rescaling those counts.
+run_interval_minutes: 30
+
 long_tail_rotation:
-  # Boards with open entry-level jobs every 2nd run (postings stay open for
-  # weeks, so a 2-hour detection delay costs nothing); the rest every 6th.
+  # Full sweeps in runs (of run_interval_minutes): Workday boards every 12
+  # runs = 6 hours, iCIMS every 8 = 4 hours, as when runs were hourly.
   # Measured 2026-09-30: every-run Workday took 19 min, iCIMS 13 min.
   # Workday / iCIMS: this is the *full sweep* cadence; every board also gets
   # the recency check below on every run.
-  workday: {hot: 6, tail: 6}
-  icims: {hot: 4, tail: 4}
+  workday: {hot: 12, tail: 12}
+  icims: {hot: 8, tail: 8}
 
 # Politeness
 request_timeout: 30     # seconds
@@ -128,7 +132,7 @@ profile:
 
 # Discord: new jobs are collected and posted as one digest every N hours.
 discord:
-  digest_hours: 3
+  digest_hours: 0.5      # every run (runs are 30 min apart)
 
 # Only announce jobs in these functions (classify.categorize / curated-list
 # category). Remove the key to announce every function (sales, legal, ...).
