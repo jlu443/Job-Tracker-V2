@@ -25,8 +25,8 @@ from urllib.parse import urlparse
 
 import requests
 
-from . import (classify, eightfold_scraper, geo, http_pool, icims_scraper, phd,
-               successfactors_scraper)
+from . import (bamboohr_scraper, classify, eightfold_scraper, geo, http_pool, icims_scraper,
+               jazzhr_scraper, phd, successfactors_scraper)
 
 log = logging.getLogger(__name__)
 
@@ -299,6 +299,14 @@ def _fetch_successfactors(job: dict) -> str:
     return text
 
 
+def _fetch_bamboohr(job: dict) -> str:
+    # Listings carry no post date; the detail endpoint does.
+    text, posted = bamboohr_scraper.fetch_detail(job["apply_url"], _TIMEOUT)
+    if posted and not job.get("posted_on"):
+        job["posted_on"] = posted
+    return _strip_html(text)
+
+
 def _fetch_smartrecruiters(job: dict) -> str:
     m = re.search(r"smartrecruiters\.com/([^/]+)/(\d+)", job["apply_url"])
     if not m:
@@ -321,9 +329,11 @@ _FETCHERS = {
     "successfactors": _fetch_successfactors,
     "icims": _fetch_icims,
     "smartrecruiters": _fetch_smartrecruiters,
+    "bamboohr": _fetch_bamboohr,
+    "jazzhr": lambda job: jazzhr_scraper.fetch_description(job["apply_url"], _TIMEOUT),
 }
 _ID_PREFIX_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever",
-                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims", "ef": "eightfold", "sf": "successfactors",
+                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims", "ef": "eightfold", "sf": "successfactors", "bhr": "bamboohr", "jazz": "jazzhr",
                      "sr": "smartrecruiters"}
 
 

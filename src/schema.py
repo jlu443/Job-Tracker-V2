@@ -364,6 +364,15 @@ def _refresh_rules_2026_10_16(conn: sqlite3.Connection) -> None:
     _recategorize_titles(conn)
 
 
+def _reread_successfactors_descriptions(conn: sqlite3.Connection) -> None:
+    """SuccessFactors job pages whose description doesn't close with
+    </span></div> read as empty and the backlog gave up on them after a
+    few tries (2026-10-16: 11 of 15 sampled reads). The parser now finds
+    them; let the backlog read those open rows again."""
+    conn.execute("UPDATE jobs SET enrich_tries = 0 WHERE source = 'successfactors' "
+                 "AND status = 'active' AND checked_at = ''")
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -386,6 +395,7 @@ MIGRATIONS = [
     (19, _recategorize_weak_words),
     (20, _relabel_non_level_words),
     (21, _refresh_rules_2026_10_16),
+    (22, _reread_successfactors_descriptions),
 ]
 
 

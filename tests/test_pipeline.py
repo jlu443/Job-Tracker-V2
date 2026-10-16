@@ -600,3 +600,17 @@ def test_retire_orphans_only_unseen_rows_of_unscraped_sources():
     assert maintenance.retire_orphans(conn, {"greenhouse"}, 21) == 1
     assert dict(conn.execute("SELECT job_id, status FROM jobs").fetchall()) == \
         {"wk_1": "removed", "wk_2": "active", "gh_1": "active"}
+
+
+def test_curated_links_to_company_front_ends_map_to_scraped_ids():
+    # 2026-10-16: these pointed at jobs we store under first-party ids
+    assert dedupe.canonical_job_id("https://careers.qualcomm.com/careers/job/446704474013") \
+        == "ef_qualcomm_446704474013"
+    assert dedupe.canonical_job_id("https://apply.careers.microsoft.com/careers?query=intern"
+                                   "&start=0&pid=1970393556922931") == "ef_microsoft_1970393556922931"
+    assert dedupe.canonical_job_id("https://careers.amd.com/careers-home/jobs/91180") \
+        == dedupe.canonical_job_id("https://careers.amd.com/jobs/91180?icims=1") \
+        == "jibe_careers.amd.com_91180"
+    assert dedupe.canonical_job_id("https://ats.rippling.com/en-GB/rippling/jobs/"
+                                   "3fd9615a-d0c7-458c-a0fc-5d9d7f0ce77c") \
+        == "rip_3fd9615a-d0c7-458c-a0fc-5d9d7f0ce77c"

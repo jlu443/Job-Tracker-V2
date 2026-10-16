@@ -1,0 +1,827 @@
+companies:
+- slug: specialisterne
+  name: Specialisterne
+  aliases:
+  - specialisterne
+- slug: k1im
+  name: K1
+  aliases:
+  - k1im
+- slug: esvolta
+  name: esVolta
+  aliases:
+  - esvolta
+- slug: deka
+  name: deka
+- slug: palomarproducts
+  name: Palomar Products
+  aliases:
+  - palomarproducts
+- slug: jbb
+  name: JB&B
+  aliases:
+  - jbb
+- slug: gainsystems
+  name: GAINSystems
+  aliases:
+  - gainsystems
+- slug: hyundaiautoeveramerica
+  name: Hyundai AutoEver America
+  aliases:
+  - hyundaiautoeveramerica
+- slug: arrcusinc
+  name: Arrcus Inc
+  aliases:
+  - arrcusinc
+- slug: scentair
+  name: ScentAir
+  aliases:
+  - scentair
+- slug: spacedynamicslaboratory
+  name: Space Dynamics Laboratory
+  aliases:
+  - spacedynamicslaboratory
+- slug: rantecpowersystemsinc
+  name: Rantec Power Systems Inc.
+  aliases:
+  - rantecpowersystemsinc
+- slug: beesweetcitrus
+  name: Bee Sweet Citrus
+  aliases:
+  - beesweetcitrus
+- slug: fintools
+  name: Montgomery Investment Technology, Inc.
+  aliases:
+  - fintools
+- slug: spherixglobalinsights
+  name: SPHERIX GLOBAL INSIGHTS US INC
+  aliases:
+  - spherixglobalinsights
+- slug: tapengineering
+  name: TAP Engineering
+  aliases:
+  - tapengineering
+- slug: cloudfitsoftware
+  name: CloudFit Software
+  aliases:
+  - cloudfitsoftware
+- slug: 3dblabs
+  name: 3dB Labs
+  aliases:
+  - 3dblabs
+- slug: bespoketechinc
+  name: Bespoke Technologies, Inc.
+  aliases:
+  - bespoketechinc
+- slug: techinsights
+  name: TechInsights
+  aliases:
+  - techinsights
+- slug: blackcape
+  name: Black Cape
+  aliases:
+  - blackcape
+- slug: zgfarchitects
+  name: ZGF Architects
+  aliases:
+  - zgfarchitects
+- slug: stellarscience
+  name: Stellar Science
+  aliases:
+  - stellarscience
+- slug: carbonengineering
+  name: Carbon Engineering Ltd.
+  aliases:
+  - carbonengineering
+- slug: naveruhubinc
+  name: Naver U.Hub INC
+  aliases:
+  - naveruhubinc
+- slug: innovationworks
+  name: Innovation Works, Inc.
+  aliases:
+  - innovationworks
+- slug: prospectequities
+  name: Prospect Equities
+  aliases:
+  - prospectequities
+- slug: rodanenergysolutionsinc
+  name: rodanenergysolutionsinc
+- slug: neboagency
+  name: Nebo
+  aliases:
+  - neboagency
+- slug: intelligenesis
+  name: IntelliGenesis
+  aliases:
+  - intelligenesis
+- slug: geoowl
+  name: Geo Owl
+  aliases:
+  - geoowl
+- slug: pointblueconservationscience
+  name: Point Blue Conservation Science
+  aliases:
+  - pointblueconservationscience
+- slug: gulfmanagement
+  name: Gulf Management
+  aliases:
+  - gulfmanagement
+- slug: openroadmedia
+  name: Open Road Integrated Media
+  aliases:
+  - openroadmedia
+- slug: egbc
+  name: Engineers and Geoscientists BC
+  aliases:
+  - egbc
+- slug: hiebing
+  name: Hiebing
+  aliases:
+  - hiebing
+- slug: foxconnggroup
+  name: Foxconn Industrial Internet
+  aliases:
+  - foxconnggroup
+- slug: nro
+  name: National Reconnaissance Office
+  aliases:
+  - nro
+- slug: metecs
+  name: METECS
+  aliases:
+  - metecs
+- slug: simisinc
+  name: SimIS
+  aliases:
+  - simisinc
+- slug: rjleegroupinc
+  name: RJ Lee Group
+  aliases:
+  - rjleegroupinc
+- slug: emergingtech
+  name: Emerging Tech
+  aliases:
+  - emergingtech
+- slug: aerotech
+  name: Aerotech
+  aliases:
+  - aerotech
+- slug: grassvalley
+  name: Grass Valley
+  aliases:
+  - grassvalley
+- slug: ragleinc
+  name: Ragle Inc
+  aliases:
+  - ragleinc
+- slug: engeniousdesign
+  name: Engenious Design
+  aliases:
+  - engeniousdesign
+- slug: afterschoolmatters
+  name: After School Matters
+  aliases:
+  - afterschoolmatters
+- slug: arminstitute
+  name: Advanced Robotics for Manufacturing
+  aliases:
+  - arminstitute
+- slug: roush
+  name: ROUSH
+  aliases:
+  - roush
+- slug: educationunlimited
+  name: Education Unlimited
+  aliases:
+  - educationunlimited
+- slug: thecarycompany
+  name: The Cary Company
+  aliases:
+  - thecarycompany
+- slug: innovativesystems
+  name: Innovative Systems
+  aliases:
+  - innovativesystems
+- slug: sunbirdsoftwareinc
+  name: Sunbird Software Inc.
+  aliases:
+  - sunbirdsoftwareinc
+- slug: aramcoservices
+  name: Aramco Americas
+  aliases:
+  - aramcoservices
+- slug: novatechengineering
+  name: Nova-Tech
+  aliases:
+  - novatechengineering
+- slug: diligencevault
+  name: DiligenceVault
+  aliases:
+  - diligencevault
+- slug: versa
+  name: VersaDesk
+  aliases:
+  - versa
+- slug: d3engineering
+  name: D3 Embedded
+  aliases:
+  - d3engineering
+- slug: allenlundcompany
+  name: Allen Lund Company
+  aliases:
+  - allenlundcompany
+- slug: phase2
+  name: Phase 2
+  aliases:
+  - phase2
+- slug: echelon
+  name: Echelon Insights
+  aliases:
+  - echelon
+- slug: hayselectricalservices
+  name: Hays Electrical Services
+  aliases:
+  - hayselectricalservices
+- slug: quantumsignalai
+  name: Quantum Signal AI
+  aliases:
+  - quantumsignalai
+- slug: kqed
+  name: KQED
+  aliases:
+  - kqed
+- slug: njdepartmentofenvironmentalprotection
+  name: NJ Department of Environmental Protection
+  aliases:
+  - njdepartmentofenvironmentalprotection
+- slug: healthpeak
+  name: Healthpeak Properties
+  aliases:
+  - healthpeak
+- slug: intelliforceitsolutionsgroup
+  name: intelliforceitsolutionsgroup
+- slug: firstadvantage
+  name: First Advantage
+  aliases:
+  - firstadvantage
+- slug: giftogram
+  name: Giftogram
+  aliases:
+  - giftogram
+- slug: acclaimtechnicalservices
+  name: Acclaim Technical Services
+  aliases:
+  - acclaimtechnicalservices
+- slug: genalyte
+  name: Genalyte
+  aliases:
+  - genalyte
+- slug: busek
+  name: Busek
+  aliases:
+  - busek
+- slug: lamons
+  name: Lamons
+  aliases:
+  - lamons
+- slug: crackajackdigitalsolutionsllc
+  name: CrackaJack Digital Solutions LLC
+  aliases:
+  - crackajackdigitalsolutionsllc
+- slug: pegatrontechnologiesllc
+  name: Pegatron Technologies LLC
+  aliases:
+  - pegatrontechnologiesllc
+- slug: truckcabmanufacturersinc
+  name: Truck Cab Manufacturers, Inc.
+  aliases:
+  - truckcabmanufacturersinc
+- slug: wmeexpress
+  name: WME Express
+  aliases:
+  - wmeexpress
+- slug: archetypestrategy
+  name: The Archetype Strategy
+  aliases:
+  - archetypestrategy
+- slug: lentechinc
+  name: Lentech Inc.
+  aliases:
+  - lentechinc
+- slug: ignitehumancapital
+  name: Ignite Human Capital
+  aliases:
+  - ignitehumancapital
+- slug: innoflightinc
+  name: Innoflight LLC
+  aliases:
+  - innoflightinc
+- slug: digitalfoundry
+  name: Digital Foundry, Inc.
+  aliases:
+  - digitalfoundry
+- slug: lpanalyst
+  name: LP Analyst
+  aliases:
+  - lpanalyst
+- slug: intellipro
+  name: IntelliPro Group Inc.
+  aliases:
+  - intellipro
+- slug: rrhrsolutions
+  name: R&R Human Resources Solutions
+  aliases:
+  - rrhrsolutions
+- slug: poncaworks
+  name: Ponca City Development Authority
+  aliases:
+  - poncaworks
+- slug: sherwooddesignengineers
+  name: Sherwood Design Engineers
+  aliases:
+  - sherwooddesignengineers
+- slug: gabletek
+  name: GABLETEK
+  aliases:
+  - gabletek
+- slug: foxconnqedge
+  name: Q-Edge Corporation, Foxconn
+  aliases:
+  - foxconnqedge
+- slug: digitalunitedllc
+  name: Digital United
+  aliases:
+  - digitalunitedllc
+- slug: cennox
+  name: Cennox
+  aliases:
+  - cennox
+- slug: wgnstar
+  name: WGNSTAR
+  aliases:
+  - wgnstar
+- slug: simplifycompliance
+  name: BLR | Leadership Platforms | CCMI
+  aliases:
+  - simplifycompliance
+- slug: bravas
+  name: Bravas
+  aliases:
+  - bravas
+- slug: truckingpeople
+  name: TRUCKING PEOPLE
+  aliases:
+  - truckingpeople
+- slug: mcgillstlaurent
+  name: CWP Energy
+  aliases:
+  - mcgillstlaurent
+- slug: independentsoftware
+  name: Independent Software
+  aliases:
+  - independentsoftware
+- slug: petersontechnologies
+  name: Peterson Technologies
+  aliases:
+  - petersontechnologies
+- slug: gliacelltechnologies
+  name: GliaCell Technologies
+  aliases:
+  - gliacelltechnologies
+- slug: dtprosusa
+  name: DT Professional Services
+  aliases:
+  - dtprosusa
+- slug: validity
+  name: Validity
+  aliases:
+  - validity
+- slug: amsive
+  name: Amsive
+  aliases:
+  - amsive
+- slug: southernstatesllc
+  name: Southern States, LLC
+  aliases:
+  - southernstatesllc
+- slug: axtriainc
+  name: Axtria
+  aliases:
+  - axtriainc
+- slug: harmonytech
+  name: HarmonyTech
+  aliases:
+  - harmonytech
+- slug: itcdefense
+  name: ITC Defense
+  aliases:
+  - itcdefense
+- slug: bookerdimaio
+  name: Booker DiMaio, LLC
+  aliases:
+  - bookerdimaio
+- slug: eaiti
+  name: EAi Technologies
+  aliases:
+  - eaiti
+- slug: analyticallc
+  name: Analytica
+  aliases:
+  - analyticallc
+- slug: xtscareers
+  name: Xcellent Technology Solutions
+  aliases:
+  - xtscareers
+- slug: vpitechnology
+  name: Ludlum Measurements
+  aliases:
+  - vpitechnology
+- slug: advyzon
+  name: Advyzon
+  aliases:
+  - advyzon
+- slug: circuitboardmedics
+  name: Circuit Board Medics
+  aliases:
+  - circuitboardmedics
+- slug: setofx
+  name: Set of X
+  aliases:
+  - setofx
+- slug: flyspaceprod
+  name: Flyspace Productions LLC
+  aliases:
+  - flyspaceprod
+- slug: evertz
+  name: Evertz Microsystems Limited
+  aliases:
+  - evertz
+- slug: shopline
+  name: SHOPLINE
+  aliases:
+  - shopline
+- slug: wonderbotz
+  name: WonderBotz
+  aliases:
+  - wonderbotz
+- slug: mamoru
+  name: Mamoru
+  aliases:
+  - mamoru
+- slug: arteratechnologies
+  name: Artera Technologies
+  aliases:
+  - arteratechnologies
+- slug: fxcareers
+  name: WebFX
+  aliases:
+  - fxcareers
+- slug: csptest2025
+  name: CornerStone Partners
+  aliases:
+  - csptest2025
+- slug: trofholztechnologies
+  name: Trofholz Technologies
+  aliases:
+  - trofholztechnologies
+- slug: alexandriainsights
+  name: Alexandria Insights
+  aliases:
+  - alexandriainsights
+- slug: rinconconsultants
+  name: Rincon Consultants, Inc
+  aliases:
+  - rinconconsultants
+- slug: novatechc1
+  name: NovaTech Automation
+  aliases:
+  - novatechc1
+- slug: asrinternationalcorp
+  name: ASR INTERNATIONAL
+  aliases:
+  - asrinternationalcorp
+- slug: intellisensesystemsinc
+  name: intellisensesystemsinc
+- slug: aircontrolconcepts
+  name: AIR Control Concepts
+  aliases:
+  - aircontrolconcepts
+- slug: bcrta
+  name: Butler County Regional Transit Authority
+  aliases:
+  - bcrta
+- slug: ldiconnect
+  name: LDI Connect
+  aliases:
+  - ldiconnect
+- slug: resourcedatainc
+  name: Resource Data
+  aliases:
+  - resourcedatainc
+- slug: vivsofttechnologiesfa
+  name: VivSoft Technologies
+  aliases:
+  - vivsofttechnologiesfa
+- slug: ketkentuckyeducationaltelevision
+  name: KET-Kentucky Educational Television
+  aliases:
+  - ketkentuckyeducationaltelevision
+- slug: rpigroup
+  name: RPI Group Inc
+  aliases:
+  - rpigroup
+- slug: defensestorm
+  name: DefenseStorm
+  aliases:
+  - defensestorm
+- slug: targray
+  name: Targray
+  aliases:
+  - targray
+- slug: bestgateengineering
+  name: Bestgate Engineering
+  aliases:
+  - bestgateengineering
+- slug: synecsolu
+  name: Synectic Solutions
+  aliases:
+  - synecsolu
+- slug: ardmoreroderick
+  name: Ardmore Roderick
+  aliases:
+  - ardmoreroderick
+- slug: foxconnassemblyllc
+  name: Foxconn Industrial Internet
+  aliases:
+  - foxconnassemblyllc
+- slug: peaktwentyone
+  name: Peak 21
+  aliases:
+  - peaktwentyone
+- slug: joinus
+  name: Finn Partners
+  aliases:
+  - joinus
+- slug: solvarus
+  name: Solvarus
+  aliases:
+  - solvarus
+- slug: infinitive
+  name: Infinitive
+  aliases:
+  - infinitive
+- slug: protechgroup
+  name: Protech Group
+  aliases:
+  - protechgroup
+- slug: virtualtechnologygroupllc
+  name: Virtual Technologies Group
+  aliases:
+  - virtualtechnologygroupllc
+- slug: valitanallc
+  name: Valitana
+  aliases:
+  - valitanallc
+- slug: imanagecom
+  name: iManage
+  aliases:
+  - imanagecom
+- slug: ctcgroup
+  name: CTC Group
+  aliases:
+  - ctcgroup
+- slug: bookofthemonth
+  name: Book of the Month
+  aliases:
+  - bookofthemonth
+- slug: sigmadesign
+  name: Sigma Design
+  aliases:
+  - sigmadesign
+- slug: ilsos
+  name: Illinois Secretary of State
+  aliases:
+  - ilsos
+- slug: heliosww
+  name: Helios WorldWide
+  aliases:
+  - heliosww
+- slug: hraadvisors
+  name: HR&A Advisors
+  aliases:
+  - hraadvisors
+- slug: goodpower
+  name: GoodPower
+  aliases:
+  - goodpower
+- slug: academyofmotionpictureartsandsciences
+  name: academyofmotionpictureartsandsciences
+- slug: allthingshrllc
+  name: allthingshrllc
+- slug: betterbusinessbureauofaustin
+  name: BBB Heart of Texas
+  aliases:
+  - betterbusinessbureauofaustin
+- slug: brilliantearth
+  name: brilliantearth
+- slug: cassia
+  name: cassia
+- slug: cityofsomerville
+  name: cityofsomerville
+- slug: cityofwindsor
+  name: cityofwindsor
+- slug: ctstatecommunitycollege
+  name: ctstatecommunitycollege
+- slug: directagents
+  name: directagents
+- slug: dmdsystems
+  name: dmdsystems
+- slug: executiveaviation
+  name: Executive Aviation
+  aliases:
+  - executiveaviation
+- slug: fincons
+  name: fincons
+- slug: fusemachines
+  name: fusemachines
+- slug: greenwoodcounty
+  name: greenwoodcounty
+- slug: grossmansolutions
+  name: grossmansolutions
+- slug: hireheroesusa
+  name: hireheroesusa
+- slug: horizonquantum
+  name: horizonquantum
+- slug: humi
+  name: humi
+- slug: jibjab
+  name: jibjab
+- slug: jointtechnologysolutioninc
+  name: Joint Technology Solution, Inc.
+  aliases:
+  - jointtechnologysolutioninc
+- slug: lastmilehealth
+  name: lastmilehealth
+- slug: localprogress
+  name: localprogress
+- slug: loftcs
+  name: loftcs
+- slug: lovelytics
+  name: lovelytics
+- slug: ltv
+  name: ltv
+- slug: oceanmd
+  name: oceanmd
+- slug: opulo
+  name: opulo
+- slug: oscarpro
+  name: oscarpro
+- slug: parkinsoncanada
+  name: parkinsoncanada
+- slug: partnershipforlosangelesschools
+  name: partnershipforlosangelesschools
+- slug: peopleofcoloragainstaidsnetwork
+  name: People of Color Against AIDS Network
+  aliases:
+  - peopleofcoloragainstaidsnetwork
+- slug: propiolanguageservices
+  name: Propio Language Services
+  aliases:
+  - propiolanguageservices
+- slug: rapidfinance
+  name: rapidfinance
+- slug: reveale0
+  name: Reveal USA
+  aliases:
+  - reveale0
+- slug: rsisecurity
+  name: RSI Security
+  aliases:
+  - rsisecurity
+- slug: salesroads
+  name: salesroads
+- slug: scattermesh
+  name: scattermesh
+- slug: scene
+  name: scene
+- slug: sendoso
+  name: sendoso
+- slug: sentinelgroup
+  name: sentinelgroup
+- slug: snapsheet
+  name: snapsheet
+- slug: suitespottechnology
+  name: suitespottechnology
+- slug: sureswiftcapital
+  name: sureswiftcapital
+- slug: symsstrategicgroup
+  name: Syms Strategic Group, LLC (SSG)
+  aliases:
+  - symsstrategicgroup
+- slug: tennesseecomptrollerofthetreasury
+  name: tennesseecomptrollerofthetreasury
+- slug: thegreatescaperoom
+  name: thegreatescaperoom
+- slug: trinityesllc
+  name: trinityesllc
+- slug: universityofmary
+  name: universityofmary
+- slug: valuetainment
+  name: valuetainment
+- slug: vertohealth
+  name: vertohealth
+- slug: westchestertownshipoh
+  name: westchestertownshipoh
+- slug: westernconnecticutstateuniversity
+  name: westernconnecticutstateuniversity
+- slug: yorkvilleuniversity
+  name: yorkvilleuniversity
+- slug: 2020onsite
+  name: 2020onsite
+- slug: 2blivinginc
+  name: 2blivinginc
+- slug: 36pix
+  name: 36Pix
+  aliases:
+  - 36pix
+- slug: 7brewtxflok
+  name: 7Crew Enterprises
+  aliases:
+  - 7brewtxflok
+- slug: aadmi
+  name: aadmi
+- slug: aamco
+  name: aamco
+- slug: abba
+  name: abba
+- slug: aboutplay
+  name: aboutplay
+- slug: acceleratedental
+  name: acceleratedental
+- slug: accesseducationaladvisor
+  name: accesseducationaladvisor
+- slug: acfinternational
+  name: acfinternational
+- slug: acluofnorthcarolina
+  name: acluofnorthcarolina
+- slug: aclupahr
+  name: aclupahr
+- slug: acmefreight
+  name: acmefreight
+- slug: acore
+  name: ACORE
+  aliases:
+  - acore
+- slug: activeminds
+  name: activeminds
+- slug: activeprospect
+  name: activeprospect
+- slug: actnano
+  name: actnano
+- slug: acutepeturgentcare
+  name: acutepeturgentcare
+- slug: adudasonsinc
+  name: adudasonsinc
+- slug: advantagemediagroup
+  name: advantagemediagroup
+- slug: aequilibrium
+  name: aequilibrium
+- slug: aerialgroup
+  name: The Aerial, BVI
+  aliases:
+  - aerialgroup
+- slug: ahbl
+  name: ahbl
+- slug: ajc
+  name: ajc
+- slug: akesafetyequipment
+  name: akesafetyequipment
+- slug: alfreduniversity
+  name: alfreduniversity
+- slug: aliz
+  name: aliz
+- slug: allmysons
+  name: allmysons
+- slug: alluvionic
+  name: alluvionic
+- slug: alphapoint
+  name: AlphaPoint
+  aliases:
+  - alphapoint
+- slug: alterationspecialists
+  name: alterationspecialists
+- slug: ameraflexsealingproductsinc
+  name: ameraflexsealingproductsinc
+- slug: americanjournalexpertsaje
+  name: americanjournalexpertsaje
+- slug: americanoversight
+  name: American Oversight
+  aliases:
+  - americanoversight
+- slug: americor
+  name: americor
+- slug: amigosdeguadalupe
+  name: Amigos de Guadalupe
+  aliases:
+  - amigosdeguadalupe

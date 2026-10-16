@@ -76,6 +76,12 @@ long_tail_rotation:
   # the recency check below on every run.
   workday: {hot: 12, tail: 12}
   icims: {hot: 8, tail: 8}
+  # Thousands of small-company boards (found through Common Crawl,
+  # 2026-10-16), most never posting an internship: boards that have had an
+  # entry-level job every run, the rest every 12 runs (6 hours).
+  bamboohr: {hot: 1, tail: 12}
+  jazzhr: {hot: 1, tail: 12}
+  rippling: {hot: 1, tail: 12}
 
 # Politeness
 request_timeout: 30     # seconds

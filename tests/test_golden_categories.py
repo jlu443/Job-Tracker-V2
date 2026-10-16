@@ -60,6 +60,8 @@ def test_announce_precision_and_recall():
     ("Postdoctoral Associate - Cardioimmunology Research", "other"),
     ("Mobile Software Engineer Intern", "software"),
     ("Genomic Data Scientist", "data_ml"),
+    ("MBA Strategy & Operations Intern - Rolling Application", "other"),
+    ("Application Developer Intern", "software"),
 ])
 def test_past_mistakes(title, category):
     assert classify.categorize(title) == category

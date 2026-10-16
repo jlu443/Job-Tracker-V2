@@ -40,7 +40,7 @@ log = logging.getLogger(__name__)
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _ID_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever", "ash": "ashby",
               "sr": "smartrecruiters", "wk": "workable", "orc": "oracle", "icims": "icims", "ef": "eightfold", "sf": "successfactors",
-              "jibe": "jibe", "rip": "rippling", "tt": "tiktok", "bd": "bytedance", "amzn": "amazon",
+              "jibe": "jibe", "rip": "rippling", "bhr": "bamboohr", "jazz": "jazzhr", "tt": "tiktok", "bd": "bytedance", "amzn": "amazon",
               "apple": "apple"}
 
 

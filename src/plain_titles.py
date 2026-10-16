@@ -28,7 +28,8 @@ from . import classify, dates, enrich, geo
 
 log = logging.getLogger(__name__)
 
-SOURCES = {"workday", "oracle", "icims", "smartrecruiters", "successfactors", "eightfold"}
+SOURCES = {"workday", "oracle", "icims", "smartrecruiters", "successfactors", "eightfold",
+           "bamboohr", "jazzhr"}
 
 
 def wanted(p, known: set[str], read: set[str], max_age_days: int | None = None) -> bool:

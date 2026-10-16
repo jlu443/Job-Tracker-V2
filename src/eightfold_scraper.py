@@ -36,6 +36,12 @@ _TERMS = ("intern", "university", "early career", "entry level")
 # qualcomm.eightfold.ai/careers/job/446716226621
 _URL = re.compile(r"https?://(?:([a-z0-9-]+)\.eightfold\.ai|apply\.careers\.([a-z0-9-]+)\.com)"
                   r"/careers/job/(\d+)", re.I)
+# Curated lists also link a company's own front end (2026-10-16: 15 Qualcomm,
+# 6 Microsoft listings didn't map to the ids we scrape):
+#   careers.qualcomm.com/careers/job/446704474013
+#   apply.careers.microsoft.com/careers?query=intern&...&pid=1970393556922931
+_FRONT_URL = re.compile(r"https?://careers\.([a-z0-9-]+)\.com/careers/job/(\d+)", re.I)
+_PID_URL = re.compile(r"https?://apply\.careers\.([a-z0-9-]+)\.com/careers\?[^#]*\bpid=(\d+)", re.I)
 
 
 def job_id_for(tenant: str, position_id) -> str:
@@ -44,7 +50,10 @@ def job_id_for(tenant: str, position_id) -> str:
 
 def canonical_id(url: str) -> str | None:
     m = _URL.search(url or "")
-    return job_id_for(m.group(1) or m.group(2), m.group(3)) if m else None
+    if m:
+        return job_id_for(m.group(1) or m.group(2), m.group(3))
+    m = _FRONT_URL.search(url or "") or _PID_URL.search(url or "")
+    return job_id_for(m.group(1), m.group(2)) if m else None
 
 
 def _date(ts) -> str:

@@ -84,7 +84,16 @@ _JIBE_RE = re.compile(r"https?://(?P<host>(?:[\w-]+\.)+[a-z]{2,})/jobs/\d+/?\?(?
                       re.IGNORECASE)
 
 
-_RIPPLING_RE = re.compile(r"ats\.rippling\.com/(?P<slug>[\w-]+)/jobs", re.IGNORECASE)
+# Optional locale: ats.rippling.com/en-GB/rippling/jobs/... (2026-10-16:
+# Rippling's own board was never found because of it).
+_RIPPLING_RE = re.compile(r"ats\.rippling\.com/(?:[a-z]{2}(?:-[A-Za-z]{2})?/)?(?P<slug>[\w-]+)/jobs",
+                          re.IGNORECASE)
+
+
+_BAMBOOHR_RE = re.compile(r"https?://(?P<slug>[a-z0-9-]+)\.bamboohr\.com/(?:careers|jobs)",
+                          re.IGNORECASE)
+_JAZZHR_RE = re.compile(r"https?://(?P<slug>[a-z0-9-]+)\.applytojob\.com/apply", re.IGNORECASE)
+_SUBDOMAIN_BAD = {"www", "api", "app", "help", "support", "status", "blog", "marketing"}
 
 
 _ICIMS_BAD = {"www", "api", "developer", "community", "care", "status"}
@@ -227,6 +236,32 @@ def _validate_jibe(c: dict) -> bool:
     return bool(data and data.get("totalCount"))
 
 
+def _extract_bamboohr(text: str) -> list[dict]:
+    return [{"slug": s, "name": s} for s in
+            (m.group("slug").lower() for m in _BAMBOOHR_RE.finditer(text))
+            if s not in _SUBDOMAIN_BAD]
+
+
+def _extract_jazzhr(text: str) -> list[dict]:
+    return [{"slug": s, "name": s} for s in
+            (m.group("slug").lower() for m in _JAZZHR_RE.finditer(text))
+            if s not in _SUBDOMAIN_BAD]
+
+
+def _validate_bamboohr(c: dict) -> bool:
+    data = request_json("GET", f"https://{c['slug']}.bamboohr.com/careers/list")
+    return isinstance(data, dict) and isinstance(data.get("result"), list)
+
+
+def _validate_jazzhr(c: dict) -> bool:
+    try:
+        resp = requests.get(f"https://{c['slug']}.applytojob.com/apply", headers=HEADERS,
+                            timeout=25)
+    except requests.RequestException:
+        return False
+    return resp.ok and "resumator" in resp.text and "list-group-item" in resp.text
+
+
 def _validate_rippling(c: dict) -> bool:
     data = request_json("GET", f"https://ats.rippling.com/api/v2/board/{c['slug']}/jobs")
     return bool(data and data.get("totalItems"))
@@ -331,6 +366,12 @@ ATS_SPECS: list[ATSSpec] = [
     ATSSpec("icims", "icims.yaml", _extract_icims, _validate_icims,
             lambda c: c["host"],
             ("*.icims.com/jobs/*",)),
+    ATSSpec("bamboohr", "bamboohr.yaml", _extract_bamboohr, _validate_bamboohr,
+            lambda c: c["slug"],
+            ("*.bamboohr.com/careers*",)),
+    ATSSpec("jazzhr", "jazzhr.yaml", _extract_jazzhr, _validate_jazzhr,
+            lambda c: c["slug"],
+            ("*.applytojob.com/apply*",)),
 ]
 
 

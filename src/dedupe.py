@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import re
 
-from . import eightfold_scraper, successfactors_scraper
+from . import bamboohr_scraper, eightfold_scraper, jazzhr_scraper, successfactors_scraper
 
 # Trailing legal suffixes stripped from company names before comparison.
 _SUFFIXES = {"inc", "llc", "ltd", "corp", "co", "corporation", "incorporated",
@@ -92,10 +92,14 @@ _URL_IDS: list[tuple[re.Pattern, str]] = [
                 r"(\d{12,})"), "bd_{0}"),
     (re.compile(r"amazon\.jobs/(?:[\w-]+/)?jobs/(\d+)"), "amzn_{0}"),
     (re.compile(r"jobs\.apple\.com/[\w-]+/details/(\d+)"), "apple_{0}"),
-    (re.compile(r"ats\.rippling\.com/[\w-]+/jobs/([0-9a-f-]{36})"), "rip_{0}"),
+    # optional locale: ats.rippling.com/en-GB/rippling/jobs/<uuid>
+    (re.compile(r"ats\.rippling\.com/(?:[a-z]{2}(?:-[A-Za-z]{2})?/)?[\w-]+/jobs/([0-9a-f-]{36})"),
+     "rip_{0}"),
 ]
 # Jibe career sites (careers.X.com): curated lists cite them with ?icims=1.
-_JIBE = re.compile(r"https?://((?:[\w-]+\.)+[a-z]{2,})/jobs/(\d+)/?\?(?:[^#]*&)?icims=1", re.I)
+_JIBE = re.compile(r"https?://((?:[\w-]+\.)+[a-z]{2,})/(?:jobs/(\d+)/?\?(?:[^#]*&)?icims=1|"
+                   # the site's own job page: careers.amd.com/careers-home/jobs/91180
+                   r"careers-home/jobs/(\d+))", re.I)
 _WORKDAY = re.compile(
     # Tail after the *last* underscore, as scraper.job_id_for() takes it.
     r"https?://([\w-]+)\.wd\d+\.myworkdayjobs\.com/(?:[\w-]+/)*job/[^?#]*_([A-Za-z0-9-]+)"
@@ -134,7 +138,8 @@ def canonical_job_id(url: str) -> str | None:
     m = _ORACLE.search(url)
     if m:
         return f"orc_{m.group(1).lower()}_{m.group(2)}"
-    ef = eightfold_scraper.canonical_id(url) or successfactors_scraper.canonical_id(url)
+    ef = (eightfold_scraper.canonical_id(url) or successfactors_scraper.canonical_id(url)
+          or bamboohr_scraper.canonical_id(url) or jazzhr_scraper.canonical_id(url))
     if ef:
         return ef
     m = _ICIMS.search(url)
@@ -142,7 +147,7 @@ def canonical_job_id(url: str) -> str | None:
         return f"icims_{icims_portal(m.group(1))}_{m.group(2)}"
     m = _JIBE.search(url)
     if m:
-        return f"jibe_{m.group(1).lower()}_{m.group(2)}"
+        return f"jibe_{m.group(1).lower()}_{m.group(2) or m.group(3)}"
     for pattern, fmt in _URL_IDS:
         m = pattern.search(url)
         if m:

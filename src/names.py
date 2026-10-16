@@ -15,6 +15,7 @@ Only slug-names are replaced; a hand-written name is never touched. The old
 name is kept under `aliases`, and main.py renames stored rows on the next run.
 
     python -m src.names            # fill names in config/*.yaml
+    python -m src.names bamboohr jazzhr    # only these ATSes
 """
 
 from __future__ import annotations
@@ -35,7 +36,8 @@ log = logging.getLogger(__name__)
 _ID_FIELD = {"workday": "tenant", "greenhouse": "token", "lever": "slug",
              "ashby": "slug", "smartrecruiters": "company",
              "oracle": "host", "icims": "host", "jibe": "host", "rippling": "slug",
-             "eightfold": "tenant", "successfactors": "host"}
+             "eightfold": "tenant", "successfactors": "host", "bamboohr": "slug",
+             "jazzhr": "slug"}
 _SESSION = requests.Session()
 _SESSION.headers["User-Agent"] = "Mozilla/5.0 (job-tracker-names)"
 
@@ -93,6 +95,15 @@ def _api_name(source: str, company: dict) -> str | None:
                 if content else None
         if source == "workday":
             return spelled_name(company["tenant"], _workday_entities(company))
+        if source == "bamboohr":
+            r = _SESSION.get(f"https://{company['slug']}.bamboohr.com/careers/company-info",
+                             headers={"Accept": "application/json"}, timeout=20)
+            return ((r.json().get("result") or {}).get("name") or "").strip() or None                 if r.ok else None
+        if source == "jazzhr":
+            from . import jazzhr_scraper
+            r = _SESSION.get(f"https://{company['slug']}.applytojob.com/apply", timeout=20)
+            m = jazzhr_scraper._BRAND.search(r.text) if r.ok else None
+            return jazzhr_scraper._text(m.group(1)) or None if m else None
         if source in ("successfactors", "icims"):
             # Page titles ("Kiewit Jobs", "Careers - Barrios") spell the
             # company part of the host: kiewitcareers.kiewit.com -> "kiewit",
@@ -185,7 +196,10 @@ def main() -> int:
     log.info("Collecting names from curated lists ...")
     curated = _curated_names(settings)
 
+    only = set(sys.argv[1:])
     for spec in ats_specs.ATS_SPECS:
+        if only and spec.name not in only:
+            continue
         companies, _ = ats_specs.load_existing(spec)
         todo = [c for c in companies if is_slug_name(spec.name, c)]
         with ThreadPoolExecutor(max_workers=8) as pool:
