@@ -640,7 +640,7 @@ companies:
 - tenant: acciona
   wd: wd3
   site: acciona_employment_channel
-  name: Acciona
+  name: ACCIONA
   aliases:
   - ACCIONA
   - Acciona
@@ -10407,7 +10407,9 @@ companies:
 - tenant: pax8inc
   wd: wd12
   site: Pax8Careers
-  name: pax8inc
+  name: Pax8, Inc
+  aliases:
+  - pax8inc
 - tenant: spscommerce
   wd: wd108
   site: SPS

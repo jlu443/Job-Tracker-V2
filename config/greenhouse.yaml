@@ -3641,3 +3641,15 @@ companies:
   - sirenopt
 - token: businessolver
   name: Businessolver
+- token: wikimedia
+  name: Wikimedia Foundation
+  aliases:
+  - wikimedia
+- token: wfclainc
+  name: Angel City
+  aliases:
+  - wfclainc
+- token: qualtrics
+  name: Qualtrics
+- token: accordiencegroup
+  name: Accordience Group

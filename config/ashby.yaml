@@ -2912,7 +2912,9 @@ companies:
 - slug: lumen.energy
   name: lumen.energy
 - slug: luminai
-  name: luminai
+  name: Luminai
+  aliases:
+  - luminai
 - slug: Luminovo
   name: Luminovo
 - slug: lunar-solar-group

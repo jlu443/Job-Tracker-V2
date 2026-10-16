@@ -1219,3 +1219,7 @@ companies:
   name: PDI Technologies
   aliases:
   - pditechnologies
+- slug: cfsenergy
+  name: Commonwealth Fusion Systems
+  aliases:
+  - cfsenergy
