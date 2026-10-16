@@ -179,7 +179,18 @@ def fetch_detail(url: str, timeout: int = 30) -> tuple[str, str]:
     resp.raise_for_status()
     page = resp.text
     desc = _DESC.search(page)
-    text = html.unescape(_TAG.sub(" ", desc.group(1))) if desc else ""
+    if desc:
+        body = desc.group(1)
+    else:
+        # Sites whose description doesn't close with </span></div> (Super
+        # Micro, MIT, Belden: 11 of 15 sampled reads came back empty,
+        # 2026-10-16): read up to the apply button / similar-jobs block.
+        start = page.find('class="jobdescription"')
+        body = page[start:start + 40000] if start >= 0 else ""
+        cut = min((i for i in (body.find("applylink"), body.find("similar-jobs"),
+                               body.find("similar")) if i > 0), default=len(body))
+        body = body[body.find(">") + 1:cut] if body else ""
+    text = html.unescape(_TAG.sub(" ", body)) if body else ""
     posted = ""
     d = _DATE.search(page)
     if d:

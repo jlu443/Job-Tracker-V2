@@ -147,3 +147,21 @@ def test_tile_count_is_rows_left_not_total(monkeypatch):
     seen = {}
     assert sf._search("jobs.l3harris.com", "L3Harris", "", 10, seen, {})
     assert len(seen) == 5
+
+
+def test_detail_reads_descriptions_without_the_usual_closing(monkeypatch):
+    # Super Micro / MIT layout (2026-10-16): no </span></div> after the text
+    page = ('<meta itemprop="datePosted" content="Wed Oct 14 07:00:00 UTC 2026">'
+            '<span itemprop="description" class="jobdescription"><div><b>Job Req ID: 1</b></div>'
+            '<p>New graduates welcome.</p></span><span>x</span>'
+            '<a class="btn applylink" href="#">Apply</a>')
+
+    class Resp:
+        text = page
+
+        def raise_for_status(self):
+            pass
+    monkeypatch.setattr(sf._SESSION, "get", lambda *a, **k: Resp())
+    text, posted = sf.fetch_detail("https://jobs.example.com/job/x/1430217600/")
+    assert "New graduates welcome." in text and "Apply" not in text
+    assert posted == "2026-10-14"
