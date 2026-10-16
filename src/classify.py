@@ -26,6 +26,15 @@ VERSION = 7
 _APM = (r"apm(?!\s*/(?!\s*product)|\s+(?:software|solutions?|tools?|platforms?|products?|"
         r"engineer\w*|developer|specialist|consultant|sales|implementation)\b)")
 
+# Stated level a title can carry that the senior words miss: "Software
+# Engineer, Mid" (not "Mid-Atlantic", "Mid-Market", "Midwest"), and academic
+# ranks ("Assistant or Associate Professor"; not the "Faculty of Medicine").
+# A description that welcomes new graduates doesn't make these entry level
+# (2026-10-16: both came in through plain-title description reads).
+_MID = (r"(?<!to\s)(?<!to-)mid(?:[\s-]*level)?(?![\s-]*(?:atlantic|west\w*|south\w*|america\w*|"
+        r"market|size\w*|stream|year|day|shift|town|land|continent|range|career|corporate\w*))")
+_ACADEMIC = r"professor\w*|(?<!of\s)faculty(?!\s+of)|lecturer\w*"
+
 # Ordered most-specific first. First matching pattern wins.
 _RULES: list[tuple[str, str]] = [
     # Staff who run fellowships, ahead of the intern rule's "fellowship":
@@ -51,6 +60,7 @@ _RULES: list[tuple[str, str]] = [
      r"student(?!\s+(?:success|engagement|affairs|services?|living|"
      r"health|financial|support|teacher|life|housing|involvement|activities|records|"
      r"accounts|aid|union|center|conduct|enrollment|loans?|accessibility|wellness|information|"
+     r"organizations?|government|clubs?|"
      r"retention|advis\w*|recruit\w*|admissions?|development|care|programs?\s+"
      r"(?:coordinator|manager|director))\b)|apprentice(?:ship)?|fellowship|externship|"
      r"graduate\s+(?:research\s+)?assistant)\b",
@@ -99,10 +109,10 @@ _RULES: list[tuple[str, str]] = [
      "new_grad"),
     # "Member of Technical Staff" is a flat title at AI labs, not a level.
     (r"\b(senior|sr\.?|(?<!technical )(?<!trading )(?<!research )staff|principal|lead|"
-     r"architect|distinguished|director|head\s+of|vp|vice\s+president|manager|mgr|fellow)\b",
-     "senior"),
+     r"architect|distinguished|director|head\s+of|vp|vice\s+president|manager|mgr|fellow|"
+     + _ACADEMIC + r")\b", "senior"),
     (r"\b(iii|iv|v)\b", "senior"),
-    (r"\b(ii|2)\b", "mid"),
+    (r"\b(ii|2|" + _MID + r")\b", "mid"),
     (r"\b\d{2,}\+?\s*years?\b", "senior"),  # "5+ years", "10 years"
 ]
 
@@ -118,9 +128,13 @@ _COMPILED = [(re.compile(p, re.IGNORECASE), label) for p, label in _RULES]
 # Technician", "Wealth Management Client Associate - Boston Market",
 # "Facilities Engineer I"). tests/golden_categories.tsv holds that sample.
 #
+# "Mobile" apps, not a mobile glass / home / crane service ("Automotive Mobile
+# Glass Technician Apprentice", 2026-10-16).
+_MOBILE = (r"mobile(?!\s+(?:glass|home|crane|equipment|unit|technician|mechanic|medical|"
+           r"clinic|service|repair|detailing))")
 # Words that make a title tech whatever else it says.
 _STRONG_TECH = (r"software|swe|sde|developers?|programm(?:er|ing)|devops|sre|site\s+reliability|"
-                r"back[\s-]?end|front[\s-]?end|full[\s-]?stack|web|mobile|ios|android|cloud|"
+                r"back[\s-]?end|front[\s-]?end|full[\s-]?stack|web|" + _MOBILE + r"|ios|android|cloud|"
                 r"cyber\w*|security|computer|embedded|firmware|sdet|it|information\s+"
                 r"(?:technology|systems)|data|database|java|python|c\+\+|network(?!ing\s+event)\w*|"
                 r"ai|ml|machine\s+learning|gis|systems?\s+(?:engineer\w*|analyst|architect\w*)|"
@@ -149,7 +163,11 @@ _NON_COMPUTING = (
     # through to the "technolog..." catch-all (2026-10-11).
     r"technologists?|ultrasound|sonograph\w*|mri|radiolog\w*|x-ray|surgical|clinical|"
     r"medical|nurs\w*|pharmac\w*|dental|veterinar\w*|antibiotic\w*|microbio\w*|"
-    r"immunolog\w*|molecular|cell|drug\s+discovery")
+    r"\w*immunolog\w*|molecular|cell|drug\s+discovery|"
+    # 2026-10-16: "Power Engineering Intern", "Metrology Engineering Intern",
+    # "Postdoctoral Associate - Cardioimmunology Research"
+    r"power\s+engineer\w*|metrolog\w*|cardio\w*|endocrin\w*|oncolog\w*|physiolog\w*|"
+    r"neuroscien\w*|genetic\w*|genomic\w*")
 _CATEGORY_RULES: list[tuple[str, str]] = [
     # Quant: not "Investment Banking", "Capital Markets", "Wealth Management
     # ... Market", "Credit Analyst Program".
@@ -213,7 +231,7 @@ _CATEGORY_RULES: list[tuple[str, str]] = [
     # the title also names computing work ("Manufacturing Software Engineer").
     (r"^(?!.*\b(?:" + _STRONG_TECH + r")\b).*\b(" + _NON_COMPUTING + r")\b", "other"),
     (r"\b(software|swe|sde|developer|programmer|devops|sre|site\s+reliability|"
-     r"back[\s-]?end|front[\s-]?end|full[\s-]?stack|web|mobile|ios|android|"
+     r"back[\s-]?end|front[\s-]?end|full[\s-]?stack|web|" + _MOBILE + r"|ios|android|"
      r"cloud|platform|infrastructure|security|cyber\w*|computer\s+science|"
      r"embedded|firmware|qa|sdet|test\s+automation|forward\s+deployed|"
      r"it|applications?|automation|technical\s+(?:staff|support|consultant|solutions)|coding|"
@@ -316,8 +334,8 @@ def role_hint_from_description(title: str, description: str) -> str:
 _MANAGER = r"(?:manager|mgr)(?![\s-]*in[\s-]+training)"
 _EXPLICIT_SENIOR = re.compile(
     r"\b(senior|sr\.?|(?<!technical )(?<!trading )(?<!research )staff|principal|lead|"
-    r"distinguished|director|head\s+of|vp|vice\s+president|iii|iv|" + _MANAGER + r")\b",
-    re.IGNORECASE)
+    r"distinguished|director|head\s+of|vp|vice\s+president|iii|iv|" + _ACADEMIC + r"|"
+    + _MID + r"|" + _MANAGER + r")\b", re.IGNORECASE)
 
 
 # An ATS's own level / employment-type value: "Summer Internship",

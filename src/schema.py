@@ -355,6 +355,15 @@ def _relabel_non_level_words(conn: sqlite3.Connection) -> None:
     _relabel_managers(conn)
 
 
+def _refresh_rules_2026_10_16(conn: sqlite3.Connection) -> None:
+    """"Mid", "Professor" / "Faculty" / "Lecturer" are stated levels; "Student
+    Organizations" isn't an internship; mobile-glass, power-engineering,
+    metrology and clinical-research titles aren't tech (2026-10-16). Same
+    refreshes as migrations 18 and 11."""
+    _relabel_managers(conn)
+    _recategorize_titles(conn)
+
+
 # (version, function). Append new ones; never renumber or edit applied ones.
 MIGRATIONS = [
     (2, _migrate_v2),
@@ -376,6 +385,7 @@ MIGRATIONS = [
     (18, _relabel_managers),
     (19, _recategorize_weak_words),
     (20, _relabel_non_level_words),
+    (21, _refresh_rules_2026_10_16),
 ]
 
 

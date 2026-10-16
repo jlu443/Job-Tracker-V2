@@ -1,5 +1,5 @@
 """Countries from Workday job pages decide the US filter for unplaceable
-locations ("Crawley", "2 Locations")."""
+locations ("Broughton", "2 Locations")."""
 from src import db, enrich, geo, maintenance, notify
 from src.posting import JobPosting
 
@@ -16,12 +16,12 @@ def _info(code, descriptor="", additional=None):
 
 
 def test_known_country_decides_is_us_job():
-    assert geo.is_us_job("AI Engineer Apprentice", "Crawley") is True      # can't tell
-    assert geo.is_us_job("AI Engineer Apprentice", "Crawley", "GB") is False
+    assert geo.is_us_job("AI Engineer Apprentice", "Broughton") is True      # can't tell
+    assert geo.is_us_job("AI Engineer Apprentice", "Broughton", "GB") is False
     assert geo.is_us_job("Software Intern", "2 Locations", "US") is True
     assert geo.is_us_job("Software Intern", "Aguadilla", "PR") is True
     # '-' = page read, no country: the location decides as before
-    assert geo.is_us_job("Software Intern", "Crawley", "-") is True
+    assert geo.is_us_job("Software Intern", "Broughton", "-") is True
     assert geo.is_us_job("Software Intern", "London, UK", "-") is False
 
 
@@ -36,11 +36,11 @@ def test_workday_country():
 
 def test_country_is_shared_by_place_and_inherited_by_new_rows(tmp_path):
     conn = db.connect(str(tmp_path / "c.db"))
-    db.sync(conn, [_wd("wd_t_1", "Crawley"), _wd("wd_t_2", "Crawley"),
+    db.sync(conn, [_wd("wd_t_1", "Broughton"), _wd("wd_t_2", "Broughton"),
                    _wd("wd_t_3", "2 Locations"), _wd("wd_t_4", "2 Locations"),
-                   _wd("wd_t_5", "Crawley", company="Airbus")],
+                   _wd("wd_t_5", "Broughton", company="Airbus")],
             lambda p: "intern", set(), set())
-    db.update_enrichment(conn, [{"job_id": "wd_t_1", "company": "Thales", "location": "Crawley",
+    db.update_enrichment(conn, [{"job_id": "wd_t_1", "company": "Thales", "location": "Broughton",
                                  "country": "GB"},
                                 {"job_id": "wd_t_3", "company": "Thales",
                                  "location": "2 Locations", "country": "CA"}])
@@ -48,14 +48,14 @@ def test_country_is_shared_by_place_and_inherited_by_new_rows(tmp_path):
     # Same company and place: shared. "2 Locations" and another company: not.
     assert country == {"wd_t_1": "GB", "wd_t_2": "GB", "wd_t_3": "CA", "wd_t_4": "",
                        "wd_t_5": ""}
-    res = db.sync(conn, [_wd("wd_t_6", "Crawley")], lambda p: "intern", set(), set())
+    res = db.sync(conn, [_wd("wd_t_6", "Broughton")], lambda p: "intern", set(), set())
     assert res.new_jobs[0]["country"] == "GB"
     assert notify.announceable(res.new_jobs, {}) == []
 
 
 def test_learn_countries_reads_one_page_per_place(tmp_path, monkeypatch):
     conn = db.connect(str(tmp_path / "l.db"))
-    db.sync(conn, [_wd("wd_t_1", "Crawley"), _wd("wd_t_2", "Crawley"),
+    db.sync(conn, [_wd("wd_t_1", "Broughton"), _wd("wd_t_2", "Broughton"),
                    _wd("wd_t_3", "Austin, TX"), _wd("wd_t_4", "3 Locations"),
                    _wd("wd_t_5", "Main Campus")],
             lambda p: "intern", set(), set())
@@ -69,7 +69,7 @@ def test_learn_countries_reads_one_page_per_place(tmp_path, monkeypatch):
 
     monkeypatch.setattr(enrich, "_workday_detail", detail)
     assert maintenance.learn_countries(conn) == 3
-    # Not Austin (placed by its location); one of the two Crawley jobs.
+    # Not Austin (placed by its location); one of the two Broughton jobs.
     assert len(asked) == 3 and {"wd_t_4", "wd_t_5"} < set(asked) and "wd_t_3" not in asked
     country = dict(conn.execute("SELECT job_id, country FROM jobs"))
     assert country == {"wd_t_1": "GB", "wd_t_2": "GB", "wd_t_3": "", "wd_t_4": "US",

@@ -383,3 +383,35 @@ def test_us_job(title, location, us):
 ])
 def test_us_verdict(loc, verdict):
     assert geo.us_verdict(loc) is verdict
+
+
+@pytest.mark.parametrize("loc,us", [
+    # 2026-10-16: countries and provinces the list lacked
+    ("Bratislava, Bratislavsky kraj, Slovakia", False),
+    ("Surrey, BC", False),
+    ("Toronto, ON", False),
+    ("Milan", False),
+    # A US state code no country shares decides, whatever the city's name
+    ("Milan, MI", True),
+    ("Dublin, OH", True),
+    ("Paris, TX", True),
+    ("London, KY", True),
+    ("Waterloo, IA", True),
+    # US towns named like countries / foreign cities
+    ("Malta, New York", True),
+    ("Ontario, California", True),
+    ("Lebanon, NJ, USA", True),
+])
+def test_is_us_more_places(loc, us):
+    assert geo.is_us(loc) is us
+
+
+@pytest.mark.parametrize("title,want", [
+    ("Software Engineer, Mid", "senior"),              # 2026-10-16
+    ("Personnel Security Specialist - Mid", "senior"),
+    ("Assistant/Associate Professor, Division of Biostatistics", "senior"),
+    ("Entry- to Mid-Level Model-Based Systems Engineer", "new_grad"),
+    ("Field Engineer - Mid-Atlantic", "new_grad"),
+])
+def test_stated_level_beats_source_label(title, want):
+    assert classify.role_with_hint(title, "new_grad") == want

@@ -50,6 +50,45 @@ _NON_US = {
     "barcelona", "madrid", "lisbon", "sydney", "melbourne", "tokyo", "seoul",
     "shanghai", "beijing", "shenzhen", "taipei", "manila", "sao paulo",
     "mexico city", "guadalajara", "cambridge, uk", "edinburgh", "manchester",
+    # The rest of the world's countries (2026-10-16: "Bratislava, Bratislavsky
+    # kraj, Slovakia" passed). Left out: names that are also US places a
+    # location might name without a state ("Lebanon, NJ" has one, but
+    # "Georgia", "Jordan", "Peru", "Panama City" can stand alone).
+    "slovakia", "slovenia", "croatia", "bosnia", "montenegro", "albania",
+    "north macedonia", "kosovo", "moldova", "belarus", "russia",
+    "iceland", "luxembourg", "cyprus", "liechtenstein", "monaco", "andorra",
+    "armenia", "azerbaijan", "kazakhstan", "uzbekistan", "kyrgyzstan", "mongolia",
+    "pakistan", "bangladesh", "sri lanka", "nepal", "bhutan", "maldives", "myanmar",
+    "cambodia", "laos", "brunei", "macau", "macao", "iraq", "iran", "syria",
+    "kuwait", "qatar", "bahrain", "oman", "yemen", "morocco", "algeria", "tunisia",
+    "libya", "ghana", "ethiopia", "uganda", "tanzania", "rwanda", "senegal",
+    "cameroon", "zambia", "zimbabwe", "botswana", "namibia", "mozambique",
+    "mauritius", "ecuador", "bolivia", "paraguay", "uruguay", "venezuela",
+    "guatemala", "honduras", "el salvador", "nicaragua", "dominican republic",
+    "bahamas", "barbados", "fiji", "papua new guinea",
+    "deutschland", "espana", "italia", "nederland", "schweiz", "osterreich",
+    # More cities abroad that locations name alone ("Milan", "Prague"). Not
+    # ones a US city shares (Birmingham, Bristol, Cambridge, Lima, Reading,
+    # Rome GA, Valencia CA, Vienna VA, Athens GA, Geneva IL, ...).
+    "milan", "milano", "turin", "bologna", "prague",
+    "budapest", "bucharest", "brussels", "antwerp", "copenhagen", "oslo",
+    "helsinki", "istanbul", "ankara", "dubai", "abu dhabi", "riyadh",
+    "doha", "lagos", "nairobi", "johannesburg", "cape town", "buenos aires",
+    "bogota", "medellin", "montevideo", "auckland", "kuala lumpur", "penang",
+    "jakarta", "bangkok", "ho chi minh", "hanoi", "osaka", "kyoto", "yokohama",
+    "nagoya", "chengdu", "hangzhou", "guangzhou", "nanjing", "wuhan", "suzhou",
+    "xiamen", "tianjin", "dalian", "glasgow", "belfast",
+    "nottingham", "crawley", "stevenage", "frankfurt",
+    "cologne", "stuttgart", "dusseldorf", "leipzig", "nuremberg",
+    "karlsruhe", "lyon", "toulouse", "marseille", "grenoble", "nantes", "lille",
+    "eindhoven", "rotterdam", "utrecht", "the hague", "delft",
+    "lausanne", "basel", "porto", "malaga", "bilbao",
+    "gdansk", "wroclaw", "poznan", "cluj", "sofia", "zagreb",
+    "ljubljana", "bratislava", "kyiv", "kiev", "tallinn", "riga", "vilnius",
+    "haifa", "jerusalem", "herzliya", "calgary", "winnipeg",
+    "mississauga", "kitchener", "burnaby", "ahmedabad",
+    "kolkata", "coimbatore", "kochi", "chandigarh", "jaipur", "karachi", "lahore",
+    "islamabad", "dhaka", "colombo", "cebu", "makati", "taguig", "busan", "pangyo",
 }
 # ISO country codes seen in "City, Region, CC" strings. Deliberately excludes
 # codes that are also US state abbreviations (CA, DE, IN, ...) — those are
@@ -66,6 +105,8 @@ _COUNTRY_CODES = {"GB", "UK", "IE", "FR", "CN", "JP", "AU", "SG", "NL", "ES",
                   "TW", "HK", "PH", "NZ", "AE", "CZ", "AT", "BE", "DK", "NO", "FI",
                   # ISO codes that aren't also US state codes ("Ho Chi Minh, VN")
                   "VN", "TH", "MY", "KH", "LK", "BD", "PK", "NP", "ZA", "NG", "KE", "EG",
+                  # Canadian provinces ("Surrey, BC", "Toronto, ON")
+                  "BC", "ON", "QC", "AB", "MB", "NS", "NB", "YT", "NT", "NU",
                   "TR", "GR", "HU", "SK", "SI", "HR", "RS", "BG", "UA", "LT", "LV", "EE",
                   "IS", "LU", "CY", "CL", "PE", "UY", "EC", "CR", "DO", "GT", "SA", "QA",
                   "KW", "BH", "OM", "JO", "LB", "RU", "BY", "KZ", "UZ"}
@@ -110,6 +151,11 @@ def us_verdict(location: str) -> bool | None:
     # Workday style "Alzenau,DEU" / "Austin,USA": ISO-3166 alpha-3 country.
     if len(comps) >= 2 and re.fullmatch(r"[A-Z]{3}", comps[-1]):
         return last == "USA"
+    # "City, ST" with a US state code no country shares is the US, whatever
+    # the city is called ("Paris, TX", "Dublin, OH", "Milan, MI").
+    if (len(comps) == 2 and comps[-1] in _US_STATES
+            and comps[-1] not in _STATE_COUNTRY_CODES):
+        return True
     # "City, Region, CC": a trailing 2-letter code is a country code, unless
     # it's a US state that isn't also one ("Central New Mexico, Albuquerque,
     # NM"; but "Bangalore, KA, IN" is India).
