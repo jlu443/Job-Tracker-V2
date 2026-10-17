@@ -1853,8 +1853,9 @@ companies:
 - tenant: hitachi
   wd: wd1
   site: hitachi
-  name: HITACHI
+  name: Hitachi
   aliases:
+  - HITACHI
   - Hitachi
   - hitachi
 - tenant: cvshealth
@@ -2542,7 +2543,9 @@ companies:
 - tenant: roberthalf
   wd: wd1
   site: protivitiexperiencedcareers
-  name: roberthalf
+  name: Protiviti
+  aliases:
+  - roberthalf
 - tenant: vanguard
   wd: wd5
   site: contractors_restricted
@@ -6356,7 +6359,9 @@ companies:
 - tenant: roberthalf
   wd: wd1
   site: ProtivitiNA
-  name: roberthalf
+  name: Protiviti
+  aliases:
+  - roberthalf
 - tenant: synchronyfinancial
   wd: wd5
   site: careers
@@ -10442,3 +10447,15 @@ companies:
   wd: wd503
   site: ExternalCareerSite
   name: Varsity Brands
+- tenant: hilbgroup
+  wd: wd5
+  site: HG-Careers
+  name: Hilb Group
+  aliases:
+  - hilbgroup
+- tenant: aliaxis
+  wd: wd3
+  site: aliaxis
+  name: Alliaxis
+  aliases:
+  - aliaxis

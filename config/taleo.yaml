@@ -14,3 +14,53 @@ companies:
 - host: beallsinc.taleo.net
   section: bealls+outlet+mobile
   name: Bealls
+- host: massanf.taleo.net
+  section: ex
+  name: Commonwealth of Massachusetts
+  aliases:
+  - massanf
+- host: cinfin.taleo.net
+  section: ex
+  name: Cincinnati Financial
+  aliases:
+  - cinfin
+- host: lbl.taleo.net
+  section: '5'
+  name: Lawrence Berkeley National Laboratory
+  aliases:
+  - lbl
+- host: mtstatejobs.taleo.net
+  section: '200'
+  name: State of Montana
+  aliases:
+  - mtstatejobs
+- host: wvu.taleo.net
+  section: faculty
+  name: West Virginia University
+  aliases:
+  - wvu
+- host: aarcorp.taleo.net
+  section: aar_mobile
+  name: AAR
+  aliases:
+  - aarcorp
+- host: baesystems.taleo.net
+  section: '2'
+  name: BAE Systems
+  aliases:
+  - baesystems
+- host: utsw.taleo.net
+  section: '2'
+  name: UT Southwestern Medical Center
+  aliases:
+  - utsw
+- host: aicpa.taleo.net
+  section: aicpa_mobilecs
+  name: AICPA
+  aliases:
+  - aicpa
+- host: beallsinc.taleo.net
+  section: bealls+inc+external
+  name: Bealls
+  aliases:
+  - beallsinc

@@ -42,3 +42,5 @@ companies:
   name: uclahealth.avature.net
 - base: https://ashfieldhealthcare.avature.net/careers
   name: ashfieldhealthcare.avature.net
+- base: https://frequentis.avature.net/careers
+  name: frequentis.avature.net

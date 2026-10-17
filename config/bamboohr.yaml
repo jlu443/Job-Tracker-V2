@@ -7274,7 +7274,9 @@ companies:
   aliases:
   - migmawei
 - slug: millercreative
-  name: millercreative
+  name: Miller Creative, Inc.
+  aliases:
+  - millercreative
 - slug: milparkeducationlive
   name: Milpark Education Pty Ltd
   aliases:
@@ -18845,3 +18847,19 @@ companies:
   name: Zoological Society of Milwaukee
   aliases:
   - zoologicalofmilwaukee
+- slug: birdrock
+  name: Bird Rock Systems
+  aliases:
+  - birdrock
+- slug: ascendanalytics
+  name: Ascend Analytics
+  aliases:
+  - ascendanalytics
+- slug: fallstech
+  name: Falls Technology
+  aliases:
+  - fallstech
+- slug: cmtservicesinc
+  name: CMT Services Inc
+  aliases:
+  - cmtservicesinc

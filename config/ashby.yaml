@@ -390,7 +390,9 @@ companies:
   aliases:
   - assembledhq
 - slug: assorthealth
-  name: assorthealth
+  name: Assort Health
+  aliases:
+  - assorthealth
 - slug: assured
   name: assured
 - slug: astera
@@ -7602,4 +7604,6 @@ companies:
 - slug: constructor
   name: constructor
 - slug: agzen
-  name: agzen
+  name: AgZen
+  aliases:
+  - agzen

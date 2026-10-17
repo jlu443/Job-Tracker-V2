@@ -1023,9 +1023,10 @@ companies:
   aliases:
   - LiftedanUpworkCompany
 - company: TBD20261012CrownInnovationsInc
-  name: TBD_2026_10_12_Crown Innovations, Inc.
+  name: Crown Innovations
   aliases:
   - TBD20261012CrownInnovationsInc
+  - TBD_2026_10_12_Crown Innovations, Inc.
 - company: SquareTrade1
   name: SquareTrade
   aliases:

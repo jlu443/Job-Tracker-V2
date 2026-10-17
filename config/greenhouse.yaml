@@ -3655,3 +3655,7 @@ companies:
   name: Accordience Group
 - token: dominodatalab
   name: Domino Data Lab
+- token: honeycomb
+  name: Honeycomb.io
+  aliases:
+  - honeycomb
