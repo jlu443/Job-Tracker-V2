@@ -33,14 +33,14 @@ from statistics import median
 
 import requests
 
-from . import ats_specs, classify, dates, dedupe, simplify_scraper
+from . import ats_specs, classify, dates, dedupe, geo, simplify_scraper
 
 log = logging.getLogger(__name__)
 
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _ID_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever", "ash": "ashby",
               "sr": "smartrecruiters", "wk": "workable", "orc": "oracle", "icims": "icims", "ef": "eightfold", "sf": "successfactors",
-              "jibe": "jibe", "rip": "rippling", "bhr": "bamboohr", "jazz": "jazzhr", "tt": "tiktok", "bd": "bytedance", "amzn": "amazon",
+              "jibe": "jibe", "rip": "rippling", "bhr": "bamboohr", "jazz": "jazzhr", "av": "avature", "jv": "jobvite", "pl": "paylocity", "tl": "taleo", "tt": "tiktok", "bd": "bytedance", "amzn": "amazon",
               "apple": "apple"}
 
 
@@ -103,8 +103,19 @@ def measure(truth: list[dict], conn: sqlite3.Connection, max_age: int | None = N
     cov = defaultdict(Counter)
     missed_examples = defaultdict(list)
     lag_days, date_err = [], []
+    # One number for "how much of the answer key do we find ourselves": US
+    # listings within the age window (the feed is US-only), on any platform,
+    # scraped or not.
+    us_total = us_found = 0
     for item in truth:
         jid = dedupe.canonical_job_id(item.get("url", ""))
+        age = dates.age_days(dates.epoch_to_iso(item.get("date_posted")))
+        in_window = not (max_age and age is not None and age > max_age
+                         and not dates.names_upcoming_season(item.get("title", "")))
+        if in_window and any(geo.is_us_job(item.get("title", ""), loc or "")
+                             for loc in item.get("locations") or [""]):
+            us_total += 1
+            us_found += bool(jid and jid in first_party)
         if not jid:
             cov["unsupported"]["listings"] += 1
             continue
@@ -170,6 +181,7 @@ def measure(truth: list[dict], conn: sqlite3.Connection, max_age: int | None = N
                 for ats, c in cov.items() if ats != "unsupported"}
     return {
         "truth_listings": n,
+        "us_found_share": round(us_found / us_total, 3) if us_total else None,
         "in_scope_recall": {ats: round(cov[ats]["found"] / s, 3)
                             for ats, s in in_scope.items() if s},
         "coverage": {k: dict(v) for k, v in sorted(cov.items())},
@@ -218,7 +230,10 @@ def record_daily(conn: sqlite3.Connection, settings: dict) -> dict | None:
 
 
 def log_report(report: dict) -> None:
-    log.info(f"\nGround truth: {report['truth_listings']} curated intern/new-grad listings\n")
+    log.info(f"\nGround truth: {report['truth_listings']} curated intern/new-grad listings")
+    if report.get("us_found_share") is not None:
+        log.info(f"Found by our own scrapers: {report['us_found_share']:.1%} of US listings "
+                 f"within the age window, any platform\n")
     log.info("Coverage (our first-party scrapers vs curated jobs on each ATS):")
     log.info("  in-scope = found + scraper-miss + title-rules (jobs we should have)")
     log.info(f"  {'ats':<16}{'listings':>9}{'found':>7}{'in-scope':>9}{'recall':>8}  {'scraper-miss':>12}"

@@ -37,7 +37,8 @@ _ID_FIELD = {"workday": "tenant", "greenhouse": "token", "lever": "slug",
              "ashby": "slug", "smartrecruiters": "company",
              "oracle": "host", "icims": "host", "jibe": "host", "rippling": "slug",
              "eightfold": "tenant", "successfactors": "host", "bamboohr": "slug",
-             "jazzhr": "slug"}
+             "jazzhr": "slug", "avature": "base",
+             "jobvite": "slug", "paylocity": "guid", "taleo": "host"}
 _SESSION = requests.Session()
 _SESSION.headers["User-Agent"] = "Mozilla/5.0 (job-tracker-names)"
 
@@ -99,6 +100,11 @@ def _api_name(source: str, company: dict) -> str | None:
             r = _SESSION.get(f"https://{company['slug']}.bamboohr.com/careers/company-info",
                              headers={"Accept": "application/json"}, timeout=20)
             return ((r.json().get("result") or {}).get("name") or "").strip() or None                 if r.ok else None
+        if source == "jobvite":
+            # "<title>Weisiger Group Careers</title>": the company before "Careers"
+            r = _SESSION.get(f"https://jobs.jobvite.com/{company['slug']}/jobs", timeout=20)
+            m = re.search(r"<title[^>]*>\s*(.+?)\s+(?:Careers|Jobs)\b", r.text) if r.ok else None
+            return html.unescape(m.group(1)).strip() or None if m else None
         if source == "jazzhr":
             from . import jazzhr_scraper
             r = _SESSION.get(f"https://{company['slug']}.applytojob.com/apply", timeout=20)

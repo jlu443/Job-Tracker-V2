@@ -145,7 +145,10 @@ def test_relative_dates():
      "wd_fau_REQ22952"),
     ("https://www.linkedin.com/jobs/view/4471636508", "li_4471636508"),
     ("https://www.linkedin.com/jobs/view/software-engineer-at-acme-4471636508", "li_4471636508"),
-    ("https://careers.medpace.com/jobs/12564", None),
+    # A Jibe site we scrape, cited without ?icims=1 (2026-10-17); the same
+    # shape on a host we don't scrape stays unmapped.
+    ("https://careers.medpace.com/jobs/12564", "jibe_careers.medpace.com_12564"),
+    ("https://careers.example.com/jobs/12564", None),
 ])
 def test_canonical_job_id(url, job_id):
     assert dedupe.canonical_job_id(url) == job_id
@@ -321,8 +324,15 @@ def test_reused_greenhouse_posting_dated_by_last_update():
                                "2026-08-04", "2026-10-01") == "2026-08-04"
     assert reused_posting_date("Academy Coffee Chats - Class of 2029 (US)",
                                f"{date.today().year}-08-24", "2099-01-01") ==         f"{date.today().year}-08-24"     # early, not re-used
-    assert reused_posting_date("Software Engineer Intern", "2024-01-05", "2026-10-01") == \
-        "2024-01-05"                     # no season named: can't tell
+    # No season named: an entry-level posting over a year old and edited
+    # since is being re-run (Verkada's "Hardware Engineer (Winter Co-op)",
+    # 2026-10-17); a senior one, or one never edited, keeps its date.
+    assert reused_posting_date("Hardware Engineer (Winter Co-op)", "2024-03-20",
+                               "2026-09-28") == "2026-09-28"
+    assert reused_posting_date("Senior Software Engineer", "2024-01-05", "2026-10-01") == \
+        "2024-01-05"
+    assert reused_posting_date("Software Engineer Intern", "2024-01-05", "2024-01-05") == \
+        "2024-01-05"
 
 
 def test_upcoming_season_titles():

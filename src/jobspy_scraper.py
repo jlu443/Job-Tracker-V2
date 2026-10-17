@@ -25,6 +25,7 @@ import hashlib
 import logging
 import os
 import re
+import time
 from functools import lru_cache
 from urllib.parse import unquote
 
@@ -84,7 +85,8 @@ _ACCOUNT_HOST = re.compile(r"https?://([\w-]+)\.(?:bamboohr\.com|applytojob\.com
 _ACCOUNT_PATH = re.compile(r"https?://(?:apply\.workable\.com|jobs\.jobvite\.com)/(?!j/)([\w-]+)",
                            re.I)
 # Boards keyed by a company slug, so an unconfigured one still names it.
-_SLUG_SOURCES = ("greenhouse", "lever", "ashby", "smartrecruiters", "rippling", "bamboohr", "jazzhr")
+_SLUG_SOURCES = ("greenhouse", "lever", "ashby", "smartrecruiters", "rippling", "bamboohr", "jazzhr",
+                 "jobvite")
 
 
 # Configured names still left as a slug or host ("accelintjobboardtest",
@@ -157,7 +159,16 @@ def fetch_jobs(settings: dict) -> list[JobPosting]:
         return []
 
     sites = board_settings.get("sites", ["indeed"])
-    search_terms = board_settings.get("search_terms", settings.get("search_terms", []))
+    search_terms = list(board_settings.get("search_terms", settings.get("search_terms", [])))
+    # Extra terms take turns: each run searches one slice of them. With a
+    # 72-hour search window, a term searched every few runs still sees every
+    # posting, without lengthening each run (LinkedIn's four core searches
+    # take ~3.5 min).
+    extra = board_settings.get("rotating_terms") or []
+    if extra:
+        every = max(1, int(board_settings.get("rotate_every", 3)))
+        slot = int(time.time() // (60 * settings.get("run_interval_minutes", 60))) % every
+        search_terms += [t for i, t in enumerate(extra) if i % every == slot]
     location = board_settings.get("location", "United States")
     results_per_term = board_settings.get("results_per_term", 50)
     hours_old = board_settings.get("hours_old", 72)

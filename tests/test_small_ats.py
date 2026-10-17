@@ -80,3 +80,83 @@ def test_discovery_finds_boards_in_links():
     assert [c["slug"] for c in found["bamboohr"]] == ["specteraerospace"]
     assert [c["slug"] for c in found["jazzhr"]] == ["k1im"]
     assert [c["slug"] for c in found["rippling"]] == ["rippling"]
+
+
+AVATURE_PAGE = """
+<article class="article article--result" id="article--1">
+  <h3 class="article__header__text__title"><a class="link link_result"
+     href="https://jobs.ea.com/en_US/careers/JobDetail/Analytics-Intern/216232"> Analytics Intern </a></h3>
+  <div class="article__header__text__subtitle"><span class="list-item-location">Austin, United States</span></div>
+</article>
+<article class="article--result">
+  <h3><a href="https://koch.avature.net/en_US/careers/JobDetail/PIPELINE-RELIABILITY-INTERN/196283">
+     PIPELINE RELIABILITY INTERN </a></h3>
+  <div class="article__content__field"><div class="article__content__field__label"> Location: </div>
+  <div class="article__content__field__value"> Rosemount, Minnesota </div></div>
+</article>
+<article class="article--result">
+  <h3><a class="link" href="https://careers.twosigma.com/careers/JobDetail/NY-Quant-Researcher/14000">
+     Quantitative Researcher </a></h3>
+  <p class="paragraph"><strong>Location</strong> <span class="paragraph_inner-span">New York</span></p>
+  <p class="paragraph"><strong>Experience Level</strong> <span class="paragraph_inner-span">Internship</span></p>
+</article>
+"""
+
+
+def test_avature_results_in_each_layout():
+    from src import avature_scraper
+    jobs = avature_scraper.parse_results(AVATURE_PAGE, "X")
+    assert [(j.job_id, j.title, j.location, j.role_hint) for j in jobs] == [
+        ("av_jobs.ea.com_216232", "Analytics Intern", "Austin, United States", ""),
+        ("av_koch_196283", "PIPELINE RELIABILITY INTERN", "Rosemount, Minnesota", ""),
+        ("av_twosigma_14000", "Quantitative Researcher", "New York", "intern"),
+    ]
+    # curated links on the avature.net name map to the same ids
+    assert dedupe.canonical_job_id("https://twosigma.avature.net/careers/JobDetail/14000") \
+        == "av_twosigma_14000"
+    found = ats_specs.extract_all("https://apply.deloitte.com/en_US/careers/JobDetail/x/370741",
+                                  ats_specs.ATS_SPECS)
+    assert found["avature"] == [{"base": "https://apply.deloitte.com/en_US/careers",
+                                 "name": "apply.deloitte.com"}]
+
+
+JOBVITE_PAGE = """
+<table class="jv-job-list"><tbody>
+<tr><td class="jv-job-list-name"> <a href="/tylertech/job/o5APAfwO">DevOps Engineer Intern, Summer 2027</a> </td>
+    <td class="jv-job-list-location"> Plano, Texas </td></tr>
+<tr><td class="jv-job-list-name"> <a href="/tylertech/job/odCGAfwP">Receptionist</a> </td>
+    <td class="jv-job-list-location"> <div class="jv-meta"> 2 Locations </div> </td></tr>
+</tbody></table>
+"""
+
+
+def test_jobvite_list_and_ids():
+    from src import jobvite_scraper
+    jobs = jobvite_scraper.parse_list(JOBVITE_PAGE, "Tyler Technologies")
+    assert [(j.job_id, j.title, j.location) for j in jobs] == [
+        ("jv_tylertech_o5APAfwO", "DevOps Engineer Intern, Summer 2027", "Plano, Texas"),
+        ("jv_tylertech_odCGAfwP", "Receptionist", "2 Locations"),
+    ]
+    assert dedupe.canonical_job_id("https://jobs.jobvite.com/tylertech/job/o5APAfwO?nl=1&fr=false") \
+        == "jv_tylertech_o5APAfwO"
+    found = ats_specs.extract_all("https://jobs.jobvite.com/src-inc/jobs and "
+                                  "https://jobs.jobvite.com/nutanix/job/oQLOAfwJ", ats_specs.ATS_SPECS)
+    assert [c["slug"] for c in found["jobvite"]] == ["src-inc", "nutanix"]
+
+
+def test_taleo_and_paylocity_ids():
+    from src import taleo_scraper
+    assert dedupe.canonical_job_id(
+        "https://textron.taleo.net/careersection/textron/jobdetail.ftl?job=342550") \
+        == "tl_textron_342550"
+    assert taleo_scraper.job_id_for("textron.taleo.net", "342550") == "tl_textron_342550"
+    assert taleo_scraper._locations('["US-Maryland-Hunt Valley", "US-Texas-Austin"]') \
+        == "Hunt Valley, Maryland, US; Austin, Texas, US"
+    assert dedupe.canonical_job_id(
+        "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4361617") == "pl_4361617"
+    found = ats_specs.extract_all(
+        "https://textron.taleo.net/careersection/textron/jobdetail.ftl?job=342550 "
+        "https://recruiting.paylocity.com/Recruiting/Jobs/All/5bc712a4-af9e-4b78-a8c7-a17c4cbac043",
+        ats_specs.ATS_SPECS)
+    assert found["taleo"][0]["host"] == "textron.taleo.net" and found["taleo"][0]["section"] == "textron"
+    assert found["paylocity"][0]["guid"] == "5bc712a4-af9e-4b78-a8c7-a17c4cbac043"

@@ -3653,3 +3653,5 @@ companies:
   name: Qualtrics
 - token: accordiencegroup
   name: Accordience Group
+- token: dominodatalab
+  name: Domino Data Lab

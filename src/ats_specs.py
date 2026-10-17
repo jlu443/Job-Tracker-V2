@@ -5,9 +5,11 @@ patterns), how to confirm it exists (one API call), and where it's stored
 
 from __future__ import annotations
 
+import functools
 import os
 import re
 import time
+import urllib.robotparser
 from dataclasses import dataclass
 from typing import Callable
 from urllib.parse import unquote
@@ -25,6 +27,27 @@ MAX_RETRIES = 4
 
 
 INITIAL_BACKOFF = 2
+
+
+@functools.lru_cache(maxsize=4096)
+def _robots(origin: str) -> urllib.robotparser.RobotFileParser | None:
+    try:
+        resp = requests.get(f"{origin}/robots.txt", headers=HEADERS, timeout=15)
+    except requests.RequestException:
+        return None
+    parser = urllib.robotparser.RobotFileParser()
+    parser.parse(resp.text.splitlines() if resp.ok else [])
+    return parser
+
+
+def robots_allow(url: str) -> bool:
+    """Whether the site's robots.txt lets a generic crawler fetch `url`.
+    Platforms added from 2026-10-17 only take boards that allow it (Koch's
+    Avature search and Netflix's Eightfold API don't; Meta prohibits
+    automated collection outright)."""
+    m = re.match(r"(https?://[^/]+)", url)
+    parser = _robots(m.group(1)) if m else None
+    return parser is None or parser.can_fetch("*", url)
 
 
 def request_json(method: str, url: str, *, payload: dict | None = None,
@@ -94,6 +117,15 @@ _BAMBOOHR_RE = re.compile(r"https?://(?P<slug>[a-z0-9-]+)\.bamboohr\.com/(?:care
                           re.IGNORECASE)
 _JAZZHR_RE = re.compile(r"https?://(?P<slug>[a-z0-9-]+)\.applytojob\.com/apply", re.IGNORECASE)
 _SUBDOMAIN_BAD = {"www", "api", "app", "help", "support", "status", "blog", "marketing"}
+_JOBVITE_RE = re.compile(r"jobs\.jobvite\.com/(?P<slug>[\w-]+)/(?:jobs?|search)(?![\w-])", re.IGNORECASE)
+_JOBVITE_BAD = {"api", "careers", "www", "static"}
+_PAYLOCITY_RE = re.compile(r"recruiting\.paylocity\.com/Recruiting/Jobs/All/(?P<guid>[0-9a-f-]{36})",
+                           re.IGNORECASE)
+_TALEO_RE = re.compile(r"https?://(?P<host>[\w-]+\.taleo\.net)/careersection/(?P<section>[\w+%-]+)/"
+                       r"(?:jobdetail|jobsearch|moresearch)\.ftl", re.IGNORECASE)
+# Avature: {base}/JobDetail/... or {base}/SearchJobs, base = https://host[/xx_XX]/careers
+_AVATURE_RE = re.compile(r"(?P<base>https?://(?P<host>[\w.-]+)(?:/[a-z]{2}_[A-Z]{2})?/careers)"
+                         r"/(?:JobDetail|SearchJobs)\b")
 
 
 _ICIMS_BAD = {"www", "api", "developer", "community", "care", "status"}
@@ -109,7 +141,10 @@ _GH_RES = [
 _GH_BAD = {"v1", "boards", "jobs", "embed", "js", "generic", "internal"}
 
 
-_LV_RE = re.compile(r"jobs\.(eu\.)?lever\.co/([A-Za-z0-9_-]+)", re.I)
+# Lever's API is case-sensitive ("CesiumAstro" answers, "cesiumastro" is a
+# 404) and some accounts have dots ("thea.energy"): 10 curated jobs sat on
+# boards discovery had lowercased or cut short (2026-10-17).
+_LV_RE = re.compile(r"jobs\.(eu\.)?lever\.co/([A-Za-z0-9_-]+(?:\.[A-Za-z0-9_-]+)*)", re.I)
 
 
 _ASHBY_RE = re.compile(r"jobs\.ashbyhq\.com/([A-Za-z0-9_.%-]+)", re.I)
@@ -149,7 +184,7 @@ def _extract_greenhouse(text: str) -> list[dict]:
 
 
 def _extract_lever(text: str) -> list[dict]:
-    return [{"slug": m.group(2).lower(), "name": m.group(2).lower(),
+    return [{"slug": m.group(2), "name": m.group(2).lower(),
              **({"region": "eu"} if m.group(1) else {})}
             for m in _LV_RE.finditer(text)]
 
@@ -248,12 +283,87 @@ def _extract_jazzhr(text: str) -> list[dict]:
             if s not in _SUBDOMAIN_BAD]
 
 
+def _extract_jobvite(text: str) -> list[dict]:
+    return [{"slug": s, "name": s} for s in
+            (m.group("slug").lower() for m in _JOBVITE_RE.finditer(text)) if s not in _JOBVITE_BAD]
+
+
+def _validate_jobvite(c: dict) -> bool:
+    if not robots_allow(f"https://jobs.jobvite.com/{c['slug']}/jobs"):
+        return False
+    try:
+        resp = requests.get(f"https://jobs.jobvite.com/{c['slug']}/jobs", headers=HEADERS,
+                            timeout=25)
+    except requests.RequestException:
+        return False
+    return resp.ok and "jv-job-list" in resp.text
+
+
+def _extract_paylocity(text: str) -> list[dict]:
+    return [{"guid": m.group("guid").lower(), "name": m.group("guid").lower()}
+            for m in _PAYLOCITY_RE.finditer(text)]
+
+
+def _validate_paylocity(c: dict) -> bool:
+    if not robots_allow(f"https://recruiting.paylocity.com/Recruiting/Jobs/All/{c['guid']}"):
+        return False
+    try:
+        resp = requests.get(f"https://recruiting.paylocity.com/Recruiting/Jobs/All/{c['guid']}",
+                            headers=HEADERS, timeout=25)
+    except requests.RequestException:
+        return False
+    return resp.ok and '"Jobs"' in resp.text
+
+
+def _extract_taleo(text: str) -> list[dict]:
+    return [{"host": m.group("host").lower(), "section": m.group("section"),
+             "name": m.group("host").split(".")[0].lower()}
+            for m in _TALEO_RE.finditer(text) if m.group("section").lower() != "rest"]
+
+
+def _validate_taleo(c: dict) -> bool:
+    """A section whose search page names its portal (not a login redirect)."""
+    url = f"https://{c['host']}/careersection/{c['section']}/jobsearch.ftl"
+    if not robots_allow(url):
+        return False
+    try:
+        resp = requests.get(url, params={"lang": "en"}, headers=HEADERS, timeout=25)
+    except requests.RequestException:
+        return False
+    return resp.ok and "jobsearch.ftl" in resp.url and bool(re.search(r'portal[=:"\s]+\d{6,}',
+                                                                        resp.text))
+
+
+def _extract_avature(text: str) -> list[dict]:
+    return [{"base": m.group("base"), "name": m.group("host").lower()}
+            for m in _AVATURE_RE.finditer(text)]
+
+
+def _validate_avature(c: dict) -> bool:
+    """A search page (or, failing that, the careers root) that lists jobs."""
+    if not robots_allow(f"{c['base']}/SearchJobs?search=intern"):
+        return False
+    for url in (f"{c['base']}/SearchJobs", c["base"]):
+        try:
+            resp = requests.get(url, params={"search": "intern"} if url.endswith("SearchJobs")
+                                else None, headers=HEADERS, timeout=25)
+        except requests.RequestException:
+            continue
+        if resp.ok and "/careers/JobDetail/" in resp.text:
+            return True
+    return False
+
+
 def _validate_bamboohr(c: dict) -> bool:
+    if not robots_allow(f"https://{c['slug']}.bamboohr.com/careers/list"):
+        return False
     data = request_json("GET", f"https://{c['slug']}.bamboohr.com/careers/list")
     return isinstance(data, dict) and isinstance(data.get("result"), list)
 
 
 def _validate_jazzhr(c: dict) -> bool:
+    if not robots_allow(f"https://{c['slug']}.applytojob.com/apply"):
+        return False
     try:
         resp = requests.get(f"https://{c['slug']}.applytojob.com/apply", headers=HEADERS,
                             timeout=25)
@@ -342,7 +452,7 @@ ATS_SPECS: list[ATSSpec] = [
             lambda c: c["token"],
             ("boards.greenhouse.io/*", "job-boards.greenhouse.io/*")),
     ATSSpec("lever", "lever.yaml", _extract_lever, _validate_lever,
-            lambda c: c["slug"],
+            lambda c: c["slug"].lower(),
             ("jobs.lever.co/*",)),
     ATSSpec("ashby", "ashby.yaml", _extract_ashby, _validate_ashby,
             lambda c: c["slug"].lower(),
@@ -372,7 +482,26 @@ ATS_SPECS: list[ATSSpec] = [
     ATSSpec("jazzhr", "jazzhr.yaml", _extract_jazzhr, _validate_jazzhr,
             lambda c: c["slug"],
             ("*.applytojob.com/apply*",)),
+    ATSSpec("jobvite", "jobvite.yaml", _extract_jobvite, _validate_jobvite,
+            lambda c: c["slug"],
+            ("jobs.jobvite.com/*",)),
+    ATSSpec("paylocity", "paylocity.yaml", _extract_paylocity, _validate_paylocity,
+            lambda c: c["guid"],
+            ("recruiting.paylocity.com/Recruiting/Jobs/All/*",)),
+    ATSSpec("taleo", "taleo.yaml", _extract_taleo, _validate_taleo,
+            lambda c: (c["host"], c["section"].lower()),
+            ("*.taleo.net/careersection/*",)),
+    # Keyed by site (twosigma.avature.net and careers.twosigma.com are one).
+    ATSSpec("avature", "avature.yaml", _extract_avature, _validate_avature,
+            lambda c: _avature_key(c["base"]),
+            ("*.avature.net/*",)),
 ]
+
+
+def _avature_key(base: str) -> str:
+    from .avature_scraper import site_key
+    m = re.match(r"https?://([\w.-]+)", base)
+    return site_key(m.group(1)) if m else base
 
 
 def extract_all(text: str, specs: list[ATSSpec]) -> dict[str, list[dict]]:

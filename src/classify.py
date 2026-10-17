@@ -18,7 +18,7 @@ ROLE_TYPES = ("intern", "new_grad", "mid", "senior")
 # Bump whenever the rules change what counts as intern/new_grad. The first run
 # on a new version stores jobs it newly recognizes on already-known boards
 # silently (unless freshly posted) instead of announcing weeks-old postings.
-VERSION = 7
+VERSION = 8   # 8: re-opened Greenhouse postings re-dated, wider Workday recency check
 
 # "APM" the entry role (Associate Product Manager), not the product category
 # (Application / Asset Performance Management): "Sales Manager – APM

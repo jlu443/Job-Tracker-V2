@@ -25,8 +25,9 @@ from urllib.parse import urlparse
 
 import requests
 
-from . import (bamboohr_scraper, classify, eightfold_scraper, geo, http_pool, icims_scraper,
-               jazzhr_scraper, phd, successfactors_scraper)
+from . import (avature_scraper, bamboohr_scraper, classify, eightfold_scraper, geo, http_pool,
+               icims_scraper, jazzhr_scraper, jobvite_scraper, paylocity_scraper, phd,
+               successfactors_scraper, taleo_scraper)
 
 log = logging.getLogger(__name__)
 
@@ -331,9 +332,13 @@ _FETCHERS = {
     "smartrecruiters": _fetch_smartrecruiters,
     "bamboohr": _fetch_bamboohr,
     "jazzhr": lambda job: jazzhr_scraper.fetch_description(job["apply_url"], _TIMEOUT),
+    "avature": lambda job: avature_scraper.fetch_description(job["apply_url"], _TIMEOUT),
+    "jobvite": lambda job: jobvite_scraper.fetch_description(job["apply_url"], _TIMEOUT),
+    "paylocity": lambda job: paylocity_scraper.fetch_description(job["apply_url"], _TIMEOUT),
+    "taleo": lambda job: taleo_scraper.fetch_description(job["apply_url"], _TIMEOUT),
 }
 _ID_PREFIX_SOURCE = {"wd": "workday", "gh": "greenhouse", "lv": "lever",
-                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims", "ef": "eightfold", "sf": "successfactors", "bhr": "bamboohr", "jazz": "jazzhr",
+                     "ash": "ashby", "li": "linkedin", "orc": "oracle", "icims": "icims", "ef": "eightfold", "sf": "successfactors", "bhr": "bamboohr", "jazz": "jazzhr", "av": "avature", "jv": "jobvite", "pl": "paylocity", "tl": "taleo",
                      "sr": "smartrecruiters"}
 
 

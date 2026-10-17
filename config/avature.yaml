@@ -1,0 +1,44 @@
+companies:
+- base: https://jobs.ea.com/en_US/careers
+  name: Electronic Arts
+- base: https://apply.deloitte.com/en_US/careers
+  name: Deloitte
+- base: https://careers.twosigma.com/careers
+  name: Two Sigma
+  list_paths:
+  - InternshipsAndEarlyCareers
+  - OpenRoles
+- base: https://jobsearch.harman.com/en_US/careers
+  name: jobsearch.harman.com
+- base: https://synopsys.avature.net/careers
+  name: synopsys.avature.net
+- base: https://cdcn.avature.net/careers
+  name: cdcn.avature.net
+- base: https://amswh.avature.net/careers
+  name: amswh.avature.net
+- base: https://auspost.avature.net/careers
+  name: auspost.avature.net
+- base: https://bloomberg.avature.net/careers
+  name: bloomberg.avature.net
+- base: https://cyclecarriage.avature.net/careers
+  name: cyclecarriage.avature.net
+- base: https://dhlconsulting.avature.net/careers
+  name: dhlconsulting.avature.net
+- base: https://fonterrakf.avature.net/careers
+  name: fonterrakf.avature.net
+- base: https://nva.avature.net/careers
+  name: nva.avature.net
+- base: https://onecall.avature.net/careers
+  name: onecall.avature.net
+- base: https://radpartners.avature.net/careers
+  name: radpartners.avature.net
+- base: https://resourcebank.avature.net/careers
+  name: resourcebank.avature.net
+- base: https://tescoinsuranceandmoneyservices.avature.net/careers
+  name: tescoinsuranceandmoneyservices.avature.net
+- base: https://transcom.avature.net/careers
+  name: transcom.avature.net
+- base: https://uclahealth.avature.net/careers
+  name: uclahealth.avature.net
+- base: https://ashfieldhealthcare.avature.net/careers
+  name: ashfieldhealthcare.avature.net

@@ -138,8 +138,11 @@ def test_lever_eu_boards_use_eu_api():
         "https://api.eu.lever.co/v0/postings/cirrus?mode=json"
     assert lever_scraper.api_url({"slug": "anduril"}) == \
         "https://api.lever.co/v0/postings/anduril?mode=json"
+    # The account keeps its case (Lever's API is case-sensitive) and dots.
     assert ats_specs._extract_lever("https://jobs.eu.lever.co/Cirrus/abc") == \
-        [{"slug": "cirrus", "name": "cirrus", "region": "eu"}]
+        [{"slug": "Cirrus", "name": "cirrus", "region": "eu"}]
+    assert ats_specs._extract_lever("https://jobs.lever.co/thea.energy/abc")[0]["slug"] == \
+        "thea.energy"
 
 
 def test_successfactors_status_and_guard(monkeypatch):

@@ -40,7 +40,8 @@ _URL = re.compile(r"https?://(?:([a-z0-9-]+)\.eightfold\.ai|apply\.careers\.([a-
 # 6 Microsoft listings didn't map to the ids we scrape):
 #   careers.qualcomm.com/careers/job/446704474013
 #   apply.careers.microsoft.com/careers?query=intern&...&pid=1970393556922931
-_FRONT_URL = re.compile(r"https?://careers\.([a-z0-9-]+)\.com/careers/job/(\d+)", re.I)
+_FRONT_URL = re.compile(r"https?://(?:careers\.([a-z0-9-]+)\.com|explore\.jobs\.([a-z0-9-]+)\.net)"
+                        r"/careers/job/(\d+)", re.I)
 _PID_URL = re.compile(r"https?://apply\.careers\.([a-z0-9-]+)\.com/careers\?[^#]*\bpid=(\d+)", re.I)
 
 
@@ -52,7 +53,10 @@ def canonical_id(url: str) -> str | None:
     m = _URL.search(url or "")
     if m:
         return job_id_for(m.group(1) or m.group(2), m.group(3))
-    m = _FRONT_URL.search(url or "") or _PID_URL.search(url or "")
+    m = _FRONT_URL.search(url or "")
+    if m:
+        return job_id_for(m.group(1) or m.group(2), m.group(3))
+    m = _PID_URL.search(url or "")
     return job_id_for(m.group(1), m.group(2)) if m else None
 
 
@@ -63,11 +67,16 @@ def _date(ts) -> str:
         return ""
 
 
-def _search(host: str, timeout: int, params: dict) -> requests.Response:
+def _search(host: str, timeout: int, params: dict, api: str = "pcsx") -> requests.Response:
     """One search request; Eightfold answers bursts with 429, so wait it out
-    (Retry-After, else 10/20/40s) a few times before giving up."""
+    (Retry-After, else 10/20/40s) a few times before giving up. Older sites
+    (Netflix: "PCSX is not enabled", 2026-10-17) answer the v2 API instead:
+    /api/apply/v2/jobs, positions at the top level, t_create for the date."""
+    path = "/api/apply/v2/jobs" if api == "v2" else "/api/pcsx/search"
+    if api == "v2":
+        params = {**params, "num": _PAGE}
     for attempt in range(4):
-        resp = _SESSION.get(f"https://{host}/api/pcsx/search", timeout=timeout, params=params)
+        resp = _SESSION.get(f"https://{host}{path}", timeout=timeout, params=params)
         if resp.status_code != 429 or attempt == 3:
             return resp
         wait = resp.headers.get("Retry-After", "")
@@ -89,10 +98,11 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
         offset = 0
         for _ in range(max_pages):
             try:
+                api = company.get("api", "pcsx")
                 resp = _search(host, timeout, {"domain": domain, "query": term,
-                                               "location": "United States", "start": offset})
+                                               "location": "United States", "start": offset}, api)
                 resp.raise_for_status()
-                data = resp.json().get("data") or {}
+                data = resp.json() if api == "v2" else resp.json().get("data") or {}
             except (requests.RequestException, ValueError) as exc:
                 log.warning(f"  ! {name} term={term!r} offset={offset}: {exc}")
                 complete = False
@@ -107,9 +117,10 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
                     continue
                 seen[jid] = JobPosting(
                     job_id=jid, company=name, title=(p.get("name") or "").strip(),
-                    apply_url=f"https://{host}{p.get('positionUrl') or f'/careers/job/{pid}'}",
+                    apply_url=p.get("canonicalPositionUrl")
+                    or f"https://{host}{p.get('positionUrl') or f'/careers/job/{pid}'}",
                     location="; ".join(p.get("standardizedLocations") or p.get("locations") or []),
-                    posted_on=_date(p.get("postedTs")), source="eightfold")
+                    posted_on=_date(p.get("postedTs") or p.get("t_create")), source="eightfold")
             relevant = sum(classify.is_entry_level(p.get("name") or "") for p in positions)
             offset += _PAGE
             if not positions or offset >= (data.get("count") or 0) or relevant < min_relevant:
@@ -120,6 +131,13 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
 
 def fetch_description(job: dict, timeout: int = 30) -> str:
     """Plain-ish text of one position (HTML stripped by the caller)."""
+    v2 = re.search(r"https?://(explore\.jobs\.([a-z0-9-]+)\.net)/careers/job/(\d+)",
+                   job.get("apply_url", ""), re.I)
+    if v2:      # v2-API sites (Netflix): the job's own v2 record
+        resp = _SESSION.get(f"https://{v2.group(1)}/api/apply/v2/jobs/{v2.group(3)}",
+                            timeout=timeout, params={"domain": f"{v2.group(2).lower()}.com"})
+        resp.raise_for_status()
+        return resp.json().get("job_description") or ""
     m = _URL.search(job.get("apply_url", ""))
     if not m:
         return ""

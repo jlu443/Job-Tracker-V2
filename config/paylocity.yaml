@@ -1,0 +1,31 @@
+companies:
+- guid: 07da01d3-e918-4687-9c6b-b7ae0125d86d
+  name: Meyer Distributing
+- guid: a823f57c-b9a5-4ee3-95e0-35a6f1f00206
+  name: Enovation Controls LLC
+- guid: ad3e0e79-4734-4233-87e3-a338665c0814
+  name: Hyper Solutions Inc Internal
+- guid: 46d18b3a-a43d-44eb-bb0c-3e1cacb5fd21
+  name: Solerity
+- guid: 5bc712a4-af9e-4b78-a8c7-a17c4cbac043
+  name: LUZCO TECHNOLOGIES LLC
+- guid: 5fa9e5d7-bb1d-4f88-ba0b-4eecc1af560a
+  name: ABEC Inc
+- guid: 03d28297-d3eb-4490-a5a8-e525e673a55a
+  name: North Atlantic Industries, Inc
+- guid: acf634cc-bb17-43ff-950e-ad7dfb8b47de
+  name: Transcard Payments LLC
+- guid: 12776fae-4a6e-4875-99e9-78e5a8621042
+  name: Fervo Energy Company
+- guid: aac2a503-7f38-4705-a190-4c9cc43a0794
+  name: Delta Dental of Iowa
+- guid: ee9db45e-97f3-4183-afeb-3447d508dd0a
+  name: Unilode Aviation
+- guid: 34ebcf7f-cf28-4e77-b9d9-0ef9631c4ce0
+  name: SoundOff Signal
+- guid: c719c45a-5165-498d-828c-fa725512b89a
+  name: Western National & family of companies
+- guid: b686a0a6-c7ce-40e7-875f-5844cc829829
+  name: Monti Inc.
+- guid: 57afc459-3130-4f92-b284-cd0828819ff0
+  name: Space Tango LLC

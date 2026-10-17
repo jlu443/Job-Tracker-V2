@@ -2,7 +2,7 @@
 
 Finds US **internships and new-grad roles** in tech: software, data/ML,
 hardware, quant and product. It reads them straight from company job boards,
-**~12,800 boards across 13 applicant-tracking systems** plus five big
+**~13,300 boards across 17 applicant-tracking systems** plus five big
 employers' own career sites. It also takes in community-curated lists and
 LinkedIn / Indeed. Every 30 minutes it announces what's new to a **Discord
 channel** and refreshes a shared **Google Sheet** with status tracking.
@@ -12,7 +12,7 @@ accuracy every day against hand-curated lists.
 
 | At a glance (2026-10-15) | |
 |---|---|
-| Job boards watched | 12,786: BambooHR 4,728 · Ashby 2,833 · Workday 1,760 · Greenhouse 971 · Rippling 902 · iCIMS 342 · Lever 319 · SmartRecruiters 294 · JazzHR 246 · Oracle 208 · Jibe 89 · SuccessFactors 84 · Eightfold 5 · TikTok, ByteDance, Amazon, Apple, Atlassian |
+| Job boards watched | 13,258: BambooHR 4,728 · Ashby 2,834 · Workday 1,762 · Greenhouse 972 · Rippling 902 · Jobvite 410 · iCIMS 342 · Lever 337 · SmartRecruiters 294 · JazzHR 246 · Oracle 208 · Jibe 89 · SuccessFactors 84 · Avature 20 · Paylocity 15 · Taleo 5 · Eightfold 5 · TikTok, ByteDance, Amazon, Apple, Atlassian |
 | Open US tech roles tracked | 17,595 (10,774 internships, 6,821 new-grad) at 3,268 companies |
 | How often | Every 30 minutes; a new posting reaches Discord and the Sheet in about 30–45 minutes |
 | Reliability | 399 of 404 runs succeeded since 2026-10-01 (98.8%); median run 11 min |
@@ -50,7 +50,7 @@ go to the employer's own page when an aggregator reveals it.
 
 ```
 config/*.yaml ─▶ scrape ─▶ dedupe ─▶ classify ─▶ SQLite ─▶ triage ─▶ enrich ─▶ Discord + Sheet
-12,786 boards   (18 scrapers  (exact id,  (role +    (new /     (new vs     (description:
+13,258 boards   (22 scrapers  (exact id,  (role +    (new /     (new vs     (description:
                  + curated     then fuzzy  function)  updated /  backlog /   visa, clearance,
                  lists +       company/                removed)   repost)     pay, country)
                  LinkedIn,     title/city)
@@ -60,17 +60,17 @@ config/*.yaml ─▶ scrape ─▶ dedupe ─▶ classify ─▶ SQLite ─▶ t
 Every scraper calls the platform's own public endpoint directly; there's no
 browser. For example, every Workday career site exposes
 `POST https://{tenant}.{wd}.myworkdayjobs.com/wday/cxs/{tenant}/{site}/jobs`.
-iCIMS, SuccessFactors and JazzHR have no usable JSON API, so their
-server-rendered listing pages are parsed instead.
+iCIMS, SuccessFactors, JazzHR, Jobvite and Avature have no usable JSON API,
+so their server-rendered listing pages are parsed instead.
 
 | Step | Code | What it does |
 |---|---|---|
-| Scrape | [scraper.py](src/scraper.py) (Workday), [greenhouse](src/greenhouse_scraper.py), [lever](src/lever_scraper.py), [ashby](src/ashby_scraper.py), [smartrecruiters](src/smartrecruiters_scraper.py), [oracle](src/oracle_scraper.py), [eightfold](src/eightfold_scraper.py), [successfactors](src/successfactors_scraper.py), [icims](src/icims_scraper.py), [jibe](src/jibe_scraper.py), [rippling](src/rippling_scraper.py), [bamboohr](src/bamboohr_scraper.py), [jazzhr](src/jazzhr_scraper.py), [bigtech](src/bigtech_scrapers.py) | One module per platform; sources run in parallel, boards within a source concurrently. **Every Workday and iCIMS board gets a quick "what's new?" check every run.** The full keyword sweep, which also catches closed listings, rotates through boards: every 6 h for Workday, every 4 h for iCIMS. The thousands of small-company BambooHR, JazzHR and Rippling boards are read every run once they've had an entry-level job, otherwise every 6 h. A Workday facet pass reads each board's own intern / early-career filters |
+| Scrape | [scraper.py](src/scraper.py) (Workday), [greenhouse](src/greenhouse_scraper.py), [lever](src/lever_scraper.py), [ashby](src/ashby_scraper.py), [smartrecruiters](src/smartrecruiters_scraper.py), [oracle](src/oracle_scraper.py), [eightfold](src/eightfold_scraper.py), [successfactors](src/successfactors_scraper.py), [icims](src/icims_scraper.py), [jibe](src/jibe_scraper.py), [rippling](src/rippling_scraper.py), [bamboohr](src/bamboohr_scraper.py), [jazzhr](src/jazzhr_scraper.py), [jobvite](src/jobvite_scraper.py), [avature](src/avature_scraper.py), [paylocity](src/paylocity_scraper.py), [taleo](src/taleo_scraper.py), [bigtech](src/bigtech_scrapers.py) | One module per platform; sources run in parallel, boards within a source concurrently. **Every Workday and iCIMS board gets a quick "what's new?" check every run.** The full keyword sweep, which also catches closed listings, rotates through boards: every 6 h for Workday, every 4 h for iCIMS. The thousands of small-company BambooHR, JazzHR and Rippling boards are read every run once they've had an entry-level job, otherwise every 6 h. A Workday facet pass reads each board's own intern / early-career filters |
 | Curated lists | [simplify_scraper.py](src/simplify_scraper.py) | SimplifyJobs-format intern/new-grad lists (~8.8k active), covering employers no scraper reaches (Tesla, Google, Jane Street, ...) |
 | Aggregators | [jobspy_scraper.py](src/jobspy_scraper.py) | LinkedIn and Indeed through JobSpy; Glassdoor/ZipRecruiter only with a residential proxy (`JOBSPY_PROXY`) |
 | Dedupe | [dedupe.py](src/dedupe.py) | Any apply URL (curated list, LinkedIn, Indeed) is mapped to the job id our own scraper would give it, so copies collapse exactly; then a fuzzy company + title + city match. The company's own listing always wins |
 | Classify | [classify.py](src/classify.py) | Title → `intern / new_grad / mid / senior` and a job function (`software, data_ml, hardware, quant, product, other`). Deterministic rules, checked against hand-labeled sets on every run (see below). A board's own level label (Greenhouse/Lever/Ashby level fields, Workday intern filters) and a curated list's label count too, unless the title states seniority ("Senior", "Manager") |
-| Plain titles | [plain_titles.py](src/plain_titles.py) | About half of new-grad jobs are titled just "Software Engineer"; only the description says "new graduates" or "0–2 years". For Workday, Oracle, iCIMS, SmartRecruiters, SuccessFactors, Eightfold, BambooHR and JazzHR (whose listings carry no description), each run reads up to 500 new US tech postings' descriptions, each only once |
+| Plain titles | [plain_titles.py](src/plain_titles.py) | About half of new-grad jobs are titled just "Software Engineer"; only the description says "new graduates" or "0–2 years". For the platforms whose listings carry no description (Workday, Oracle, iCIMS, SmartRecruiters, SuccessFactors, Eightfold, BambooHR, JazzHR, Jobvite, Avature, Paylocity, Taleo), each run reads up to 500 new US tech postings' descriptions, each only once |
 | Persist | [db.py](src/db.py), [schema.py](src/schema.py) | SQLite upsert; numbered, tested migrations (22 so far) |
 | Triage | [repost.py](src/repost.py) | Decides what's news. A new board's backlog, and jobs a rule change newly recognizes, are stored quietly. Reposts are labeled: re-listed roles; LinkedIn bumps (LinkedIn ids are sequential, so an old id with a new date is a repost); same id re-dated; post dates 30+ days old (not announced) |
 | Enrich | [enrich.py](src/enrich.py) | Reads each announceable job's description: visa sponsorship, US citizenship, clearance, OPT/CPT, grad year, pay, PhD/research track. Workday job pages also give the **country** of jobs listed as a bare "Crawley" or "2 Locations" |
@@ -227,6 +227,6 @@ CREATE TABLE jobs (
 
 - **US only, internships and new-grad only, tech functions only** for announcements and the Sheet. The DB keeps other functions for measurement.
 - **No logged-in scraping.** LinkedIn shows "Reposted" only to logged-in users; reposts are inferred from id age instead, so no personal account is at risk.
-- **No bot-protection bypass.** Tesla blocks non-browser clients and is left to the curated lists, as is Google, which has no public JSON search.
+- **No bot-protection bypass, and robots.txt is respected for every platform added since 2026-10-17.** Tesla and Citadel block non-browser clients; Meta prohibits automated collection; Google, Intuit and some Avature sites (Koch, ...) disallow it in robots.txt. Their jobs still arrive through the curated lists.
 - **Workable was removed.** It blocks GitHub Actions IPs for 15+ hours; its listings still arrive through the curated lists.
 - **No per-person filters by default.** The Discord channel and Sheet are shared.

@@ -1223,3 +1223,75 @@ companies:
   name: Commonwealth Fusion Systems
   aliases:
   - cfsenergy
+- slug: Grid
+  name: Grid
+  aliases:
+  - grid
+- slug: MBRDNA
+  name: Mercedes-Benz
+  aliases:
+  - mbrdna
+- slug: EnergyVault
+  name: Energy Vault
+  aliases:
+  - energyvault
+- slug: BestEgg
+  name: Best Egg
+  aliases:
+  - bestegg
+- slug: Aprio
+  name: Aprio
+  aliases:
+  - aprio
+- slug: CesiumAstro
+  name: CesiumAstro
+  aliases:
+  - cesiumastro
+- slug: AIFund
+  name: AI Fund
+  aliases:
+  - aifund
+- slug: arcteryx.com
+  name: Arc'teryx Equipment
+  aliases:
+  - arcteryx.com
+- slug: NJStateOfficeofInnovation
+  name: New Jersey Innovation Authority
+  aliases:
+  - njstateofficeofinnovation
+- slug: Nomagic
+  name: Nomagic
+  aliases:
+  - nomagic
+- slug: thea.energy
+  name: Thea Energy
+  aliases:
+  - thea.energy
+- slug: MachinaLabs
+  name: Machina Labs
+  aliases:
+  - machinalabs
+- slug: researchinnovations.com
+  name: Research Innovations
+  aliases:
+  - researchinnovations.com
+- slug: pattern
+  name: Pattern
+  aliases:
+  - pattern
+- slug: Clearer
+  name: Clearer.io
+  aliases:
+  - clearer
+- slug: SimbeRobotics
+  name: Simbe Robotics
+  aliases:
+  - simberobotics
+- slug: Trend-Health-Partners
+  name: Trend Health Partners
+  aliases:
+  - trend-health-partners
+- slug: istaridigital.ai
+  name: Istari Digital
+  aliases:
+  - istaridigital.ai

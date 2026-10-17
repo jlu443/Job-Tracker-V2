@@ -5,6 +5,9 @@
 # "all jobs" (no filter) — remove it if you only want keyword-matched roles.
 search_terms:
   - intern
+  # Co-ops aren't "interns" to keyword search ("Hardware Engineer Co-op",
+  # Danaher; 2026-10-17)
+  - co-op
   - new grad
   - university
   - early career
@@ -44,8 +47,10 @@ successfactors_full_sweep_max_pages: 300
 # keyword sweep then only needs to run on the rotation above.
 # window_days 1: runs are hourly, so a day of margin is enough; measured
 # 2026-10-03 at 12% fewer Workday requests than 2 days, nothing missed.
+# max_pages 20 (was 8): RTX posted ~230 jobs in a day and Northrop ~160
+# (2026-10-17), past 8 pages of 20, so some never reached the check.
 recency_check:
-  workday: {window_days: 1, max_pages: 8}
+  workday: {window_days: 1, max_pages: 20}
   icims: {window_days: 2, max_pages: 5}
 
 # Sources split across parallel CI scrape jobs (.github/workflows/scrape.yml
@@ -82,6 +87,9 @@ long_tail_rotation:
   bamboohr: {hot: 1, tail: 12}
   jazzhr: {hot: 1, tail: 12}
   rippling: {hot: 1, tail: 12}
+  jobvite: {hot: 1, tail: 12}
+  # Avature sites search five terms each (Deloitte ~80 s); 20 sites
+  avature: {hot: 1, tail: 4}
 
 # Politeness
 request_timeout: 30     # seconds
@@ -94,6 +102,7 @@ scrape_workers_by_source:
   smartrecruiters: 16
   oracle: 16          # each tenant is its own host
   icims: 2            # one shared edge; requests are also globally spaced
+  paylocity: 1        # one shared host that answers bursts with 429
 
 # Classification: keyword pass is always on. The zero-shot fallback (facebook/bart-large-mnli)
 # only runs for ambiguous titles when this is true. Model downloads ~1.6GB on first use.
@@ -208,6 +217,20 @@ jobspy:
     - software engineering internship
     - new grad software engineer
     - entry level software engineer
+  # Not software: data / ML, hardware and analyst roles (all four terms above
+  # are software ones; 80% of aggregator announcements were software,
+  # 2026-10-17). One third of these per run.
+  rotating_terms:
+    - data science intern
+    - machine learning intern
+    - data analyst intern
+    - hardware engineering intern
+    - electrical engineering intern
+    - new grad data scientist
+    - entry level data analyst
+    - new grad hardware engineer
+    - quantitative analyst intern
+  rotate_every: 3
   location: United States
   results_per_term: 100
   hours_old: 72    # only jobs posted in the last 3 days

@@ -59,6 +59,7 @@ SCHEMA: dict = {
     "prune_removed_after_days": int,
     "curated_lists": {"enabled": bool, "repos": list},
     "jobspy": {"enabled": bool, "sites": list, "search_terms": list, "location": str,
+               "rotating_terms": list, "rotate_every": int,
                "results_per_term": int, "hours_old": int},
     "health": {"history_runs": int, "drop_ratio": _NUM, "min_baseline": int,
                "max_run_minutes": _NUM},

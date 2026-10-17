@@ -10434,3 +10434,11 @@ companies:
   name: KEI
   aliases:
   - kei
+- tenant: itw
+  wd: wd5
+  site: External
+  name: Illinois Tool Works
+- tenant: varsitybrands
+  wd: wd503
+  site: ExternalCareerSite
+  name: Varsity Brands

@@ -18,11 +18,11 @@ import zlib
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
-from . import (ashby_scraper, bamboohr_scraper, bigtech_scrapers, classify, db,
-               eightfold_scraper, greenhouse_scraper, icims_scraper, jazzhr_scraper,
-               jibe_scraper, jobspy_scraper, lever_scraper, oracle_scraper, plain_titles,
+from . import (ashby_scraper, avature_scraper, bamboohr_scraper, bigtech_scrapers, classify,
+               db, eightfold_scraper, greenhouse_scraper, icims_scraper, jazzhr_scraper,
+               jibe_scraper, jobspy_scraper, jobvite_scraper, paylocity_scraper, lever_scraper, oracle_scraper, plain_titles,
                rippling_scraper, scraper, simplify_scraper, smartrecruiters_scraper,
-               successfactors_scraper)
+               successfactors_scraper, taleo_scraper)
 from .config import CONFIG_DIR, load_yaml
 from .posting import JobPosting
 
@@ -51,6 +51,10 @@ ATS_SCRAPERS = [
     ("rippling",        "rippling.yaml",         rippling_scraper),
     ("bamboohr",        "bamboohr.yaml",         bamboohr_scraper),
     ("jazzhr",          "jazzhr.yaml",           jazzhr_scraper),
+    ("avature",         "avature.yaml",          avature_scraper),
+    ("jobvite",         "jobvite.yaml",          jobvite_scraper),
+    ("paylocity",       "paylocity.yaml",        paylocity_scraper),
+    ("taleo",           "taleo.yaml",            taleo_scraper),
     ("tiktok",          "tiktok.yaml",           _One(bigtech_scrapers.fetch_tiktok)),
     ("bytedance",       "bytedance.yaml",        _One(bigtech_scrapers.fetch_bytedance)),
     ("amazon",          "amazon.yaml",           _One(bigtech_scrapers.fetch_amazon)),

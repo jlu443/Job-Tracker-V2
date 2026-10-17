@@ -13,6 +13,7 @@ import html
 import logging
 import re
 import time
+from datetime import timedelta
 
 import requests
 
@@ -60,6 +61,14 @@ def reused_posting_date(title: str, first_published: str, updated: str) -> str:
     year = dates.season_year(title)
     before = f"{min(year - 1, dates.today().year)}-01-01" if year else ""
     if updated and first_published and first_published < before:
+        return updated
+    # Without a season in the title: an internship / new-grad posting first
+    # published over a year ago and still open is re-opened each season
+    # (Verkada's "Hardware Engineer (Winter Co-op)": 2024-03-20, updated
+    # 2026-09-28), and the 60-day age limit dropped it as old.
+    year_ago = (dates.today() - timedelta(days=365)).isoformat()
+    if (updated and first_published and first_published < year_ago and updated > first_published
+            and classify.is_entry_level(title)):
         return updated
     return first_published
 

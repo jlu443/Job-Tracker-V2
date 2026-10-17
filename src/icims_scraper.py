@@ -36,8 +36,11 @@ log = logging.getLogger(__name__)
 # coming from a non-browser client, but serves this one normally.
 _SESSION = http_pool.make_session({"User-Agent": "Mozilla/5.0 (job-tracker)"})
 # "graduate" is useless here: it matches every description with a degree
-# requirement.
-_TERMS = ("intern", "entry level", "new grad")
+# requirement. Results are date-ordered and capped at 10 pages, so a portal
+# full of one kind of internship (Enterprise's hundreds of branch "Management
+# Trainee Intern" postings) buries its tech ones; the narrower terms reach
+# them, and "co-op" finds co-ops (SIG, Peraton, ITT; 2026-10-17).
+_TERMS = ("intern", "entry level", "new grad", "co-op", "software intern", "engineering intern")
 _MIN_INTERVAL = 0.4        # seconds between any two iCIMS requests
 _CHALLENGE_BACKOFF = 60
 

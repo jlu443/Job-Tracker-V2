@@ -45,3 +45,25 @@ def test_configured_board_name_beats_the_text(monkeypatch):
         ("Acme Robotics", True)
     assert guess_company("About Other Name\n", "https://boards.greenhouse.io/acmerobotics/jobs/1") \
         == "Acme Robotics"
+
+
+def test_rotating_terms_take_turns(monkeypatch):
+    from src import jobspy_scraper
+    searched = []
+    monkeypatch.setattr(jobspy_scraper, "_JOBSPY_AVAILABLE", True)
+    monkeypatch.setattr(jobspy_scraper, "_scrape",
+                        lambda **kw: searched.append(kw["search_term"]) or None, raising=False)
+    settings = {"run_interval_minutes": 30,
+                "jobspy": {"sites": ["indeed"], "search_terms": ["core"],
+                           "rotating_terms": ["a", "b", "c", "d"], "rotate_every": 3}}
+    seen = set()
+    for slot in range(3):
+        searched.clear()
+        monkeypatch.setattr(jobspy_scraper.time, "time", lambda s=slot: s * 1800 + 1)
+        try:
+            jobspy_scraper.fetch_jobs(settings)
+        except Exception:
+            pass
+        assert searched[0] == "core"
+        seen |= set(searched[1:])
+    assert seen == {"a", "b", "c", "d"}

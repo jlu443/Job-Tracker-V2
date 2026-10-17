@@ -30,13 +30,32 @@ def job_id_for(host: str, job_id: str) -> str:
     return f"jibe_{host.lower()}_{job_id}"
 
 
+def _total(host: str, timeout: int) -> int | None:
+    try:
+        resp = _SESSION.get(f"https://{host}/api/jobs", timeout=timeout,
+                            params={"page": 1, "limit": 1})
+        return int(resp.json().get("totalCount") or 0) if resp.ok else None
+    except (requests.RequestException, ValueError, TypeError):
+        return None
+
+
 def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
     host = company["host"]
     name = company.get("name", host)
     timeout = settings.get("request_timeout", 30)
     seen: dict[str, JobPosting] = {}
     complete = True
-    for term in company.get("search_terms", _TERMS):
+    terms = company.get("search_terms")
+    if terms is None:
+        # Small and mid-size sites are read whole (no keyword): titles like
+        # Garmin's "Software Engineer 1" match no entry-level term, and the
+        # listing carries the description that marks them new-grad (21 of 23
+        # missed curated Jibe jobs, 2026-10-17). H&R Block's 18,863 seasonal
+        # jobs and the like stay on keyword search.
+        total = _total(host, timeout)
+        whole = total is not None and total <= settings.get("jibe_full_listing_max_jobs", 1500)
+        terms = ("",) if whole else _TERMS
+    for term in terms:
         for page in range(1, 21):
             try:
                 resp = _SESSION.get(f"https://{host}/api/jobs", timeout=timeout,

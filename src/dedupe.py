@@ -15,9 +15,12 @@ announced twice. Two layers deal with that:
 
 from __future__ import annotations
 
+import functools
+import os
 import re
 
-from . import bamboohr_scraper, eightfold_scraper, jazzhr_scraper, successfactors_scraper
+from . import (avature_scraper, bamboohr_scraper, eightfold_scraper, jazzhr_scraper,
+               jobvite_scraper, paylocity_scraper, successfactors_scraper, taleo_scraper)
 
 # Trailing legal suffixes stripped from company names before comparison.
 _SUFFIXES = {"inc", "llc", "ltd", "corp", "co", "corporation", "incorporated",
@@ -80,6 +83,24 @@ _URL_IDS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"greenhouse\.io/[\w-]+/jobs/(\d+)"), "gh_{0}"),
     (re.compile(r"[?&]gh_jid=(\d+)"), "gh_{0}"),
     (re.compile(r"greenhouse\.io/embed/job_app\?(?:[^#]*&)?token=(\d+)"), "gh_{0}"),
+    # Company career pages over a Greenhouse board we scrape, citing its job
+    # id (2026-10-17: 17 Jane Street, 5 IMC, 5 Optiver curated links)
+    (re.compile(r"janestreet\.com/join-jane-street/position/(\d{7,})"), "gh_{0}"),
+    (re.compile(r"imc\.com/[\w/-]*careers/jobs/(\d{7,})"), "gh_{0}"),
+    (re.compile(r"optiver\.com/working-at-optiver/career-opportunities/(\d{7,})"), "gh_{0}"),
+    # Phenom career sites over a Workday site we scrape, citing its
+    # requisition id (Adobe 11, ITW 8, Varsity Brands 5)
+    (re.compile(r"careers\.adobe\.com/[\w/-]*job/ADOB\w{2}(R\d+)EXTERNAL", re.I), "wd_adobe_{0}"),
+    (re.compile(r"careers\.itw\.com/[\w/-]*job/(JR\d+)", re.I), "wd_itw_{0}"),
+    (re.compile(r"careers\.varsitybrands\.com/[\w/-]*job/(JR\d+)", re.I), "wd_varsitybrands_{0}"),
+    # More company pages citing their board's job id (2026-10-17)
+    (re.compile(r"stripe\.com/jobs/listing/[^/?#]+/(\d{7,})"), "gh_{0}"),
+    (re.compile(r"databricks\.com/company/careers/[^?#]*?-(\d{10})\b"), "gh_{0}"),
+    (re.compile(r"careers\.duolingo\.com/jobs/(\d{7,})"), "gh_{0}"),
+    (re.compile(r"careers\.twitch\.com/[\w/-]*career-posts/(\d{7,})"), "gh_{0}"),
+    (re.compile(r"careers\.appian\.com/jobs/(\d{7,})"), "gh_{0}"),
+    (re.compile(r"careers\.servicenow\.com/jobs/(\d{12,})"), "sr_{0}"),
+    (re.compile(r"careers\.sig\.com/(?:[\w-]+/)?jobs/(\d+)"), "icims_careers-sig_{0}"),
     (re.compile(r"jobs\.(?:eu\.)?lever\.co/[\w.-]+/([0-9a-f-]{36})"), "lv_{0}"),
     (re.compile(r"jobs\.ashbyhq\.com/[^/]+/([0-9a-f-]{36})"), "ash_{0}"),
     (re.compile(r"(?:jobs|careers)\.smartrecruiters\.com/[^/]+/(\d{6,})"), "sr_{0}"),
@@ -112,7 +133,8 @@ _WORKDAY_SITE = re.compile(
     r"[^?#]*_([A-Za-z0-9-]+)(?:/apply(?:/[\w-]*)?)?/?(?:[?#]|$)")
 _ORACLE = re.compile(
     r"https?://([a-z0-9-]+)\.fa(?:\.[a-z0-9-]+)?\.oraclecloud\.com/hcmUI/CandidateExperience/"
-    r"[\w-]+/sites/[\w-]+/(?:job|requisitions/preview)/(\d+)", re.I)
+    # ".../sites/Honeywell/jobs/job/116510" too (2026-10-17)
+    r"[\w-]+/sites/[\w-]+/(?:jobs/)?(?:job|requisitions/preview)/(\d+)", re.I)
 _ICIMS = re.compile(r"https?://([a-z0-9-]+)\.icims\.com/jobs/(\d+)", re.I)
 # One employer, several iCIMS portals sharing job numbers; scraped from its
 # own feed (bigtech_scrapers.fetch_atlassian) as icims_atlassian_<n>.
@@ -122,6 +144,13 @@ _ICIMS_PORTALS = {"careers-americas": "atlassian", "campus-americas": "atlassian
 def icims_portal(subdomain: str) -> str:
     sub = subdomain.lower()
     return "atlassian" if "atlassian" in sub else _ICIMS_PORTALS.get(sub, sub)
+
+
+@functools.lru_cache(maxsize=1)
+def _jibe_hosts() -> frozenset[str]:
+    from .config import CONFIG_DIR, load_yaml
+    companies = load_yaml(os.path.join(CONFIG_DIR, "jibe.yaml")).get("companies") or []
+    return frozenset(c["host"].lower() for c in companies if c.get("host"))
 
 
 def canonical_job_id(url: str) -> str | None:
@@ -139,7 +168,9 @@ def canonical_job_id(url: str) -> str | None:
     if m:
         return f"orc_{m.group(1).lower()}_{m.group(2)}"
     ef = (eightfold_scraper.canonical_id(url) or successfactors_scraper.canonical_id(url)
-          or bamboohr_scraper.canonical_id(url) or jazzhr_scraper.canonical_id(url))
+          or bamboohr_scraper.canonical_id(url) or jazzhr_scraper.canonical_id(url)
+          or avature_scraper.canonical_id(url) or jobvite_scraper.canonical_id(url)
+          or paylocity_scraper.canonical_id(url) or taleo_scraper.canonical_id(url))
     if ef:
         return ef
     m = _ICIMS.search(url)
@@ -148,6 +179,11 @@ def canonical_job_id(url: str) -> str | None:
     m = _JIBE.search(url)
     if m:
         return f"jibe_{m.group(1).lower()}_{m.group(2) or m.group(3)}"
+    # A Jibe site's plain job link ("careers.garmin.com/jobs/16827"), for the
+    # sites we scrape: too generic a shape to trust on any host.
+    m = re.match(r"https?://([\w.-]+)/jobs/(\d+)/?(?:[?#]|$)", url)
+    if m and m.group(1).lower() in _jibe_hosts():
+        return f"jibe_{m.group(1).lower()}_{m.group(2)}"
     for pattern, fmt in _URL_IDS:
         m = pattern.search(url)
         if m:
