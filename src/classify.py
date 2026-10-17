@@ -18,7 +18,7 @@ ROLE_TYPES = ("intern", "new_grad", "mid", "senior")
 # Bump whenever the rules change what counts as intern/new_grad. The first run
 # on a new version stores jobs it newly recognizes on already-known boards
 # silently (unless freshly posted) instead of announcing weeks-old postings.
-VERSION = 8   # 8: re-opened Greenhouse postings re-dated, wider Workday recency check
+VERSION = 9   # 9: "Engineer Associate", "MTS 1", "Multiple levels", "Entry ..." titles
 
 # "APM" the entry role (Associate Product Manager), not the product category
 # (Application / Asset Performance Management): "Sales Manager – APM
@@ -96,7 +96,15 @@ _RULES: list[tuple[str, str]] = [
      r"consultant|product\s+manager|programmer)|" + _APM + r"|"
      # named entry programs: "Career Accelerator Program", "AI Resident"
      r"(?:career\s+)?accelerator\s+program|launch\s+program|analyst\s+program|"
-     r"development\s+program|graduate\s+scheme|(?:ai|ml|aiml|research)\s+resident)\b",
+     r"development\s+program|graduate\s+scheme|(?:ai|ml|aiml|research)\s+resident|"
+     # 2026-10-17, from curated new-grad titles the rules missed:
+     # "MTS 1 - Software Engineer"; "Systems Engineer Associate",
+     # "Software Engineering - Associate"; a posting open to "Multiple
+     # levels" / "All levels" (like an "Engineer I-III" ladder); a title
+     # starting "Entry ..." ("Entry Clinical Intelligence Analyst").
+     r"mts\s*[-–]?\s*(?:1|i)|(?:engineer\w*|developer|analyst|scientist|programmer)\s*"
+     r"[-,–]?\s*associate(?!\s+(?:director|manager|vice|principal|partner|general|dean|"
+     r"professor|vp)\b)|(?:multiple|all)\s+levels?|^entry(?=\s+(?!level)\w))\b",
      "new_grad"),
     # "Software Engineer I", "Analyst 1" — level one of a laddered title.
     # Not level one of a senior ladder ("Senior Software Engineer I", "Staff
