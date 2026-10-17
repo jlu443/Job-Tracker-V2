@@ -7607,3 +7607,1415 @@ companies:
   name: AgZen
   aliases:
   - agzen
+- slug: 1st%20Formations
+  name: 1st Formations
+- slug: 2ndwave
+  name: 2ndwave
+- slug: 3e
+  name: 3e
+- slug: 5bluesoftware
+  name: 5bluesoftware
+- slug: 9-mothers
+  name: 9 Mothers
+  aliases:
+  - 9-mothers
+- slug: a-place-for-mom
+  name: A Place For Mom
+  aliases:
+  - a-place-for-mom
+- slug: Accord
+  name: Accord
+- slug: aclima
+  name: aclima
+- slug: adaptive-innovations
+  name: Adaptive Innovations
+  aliases:
+  - adaptive-innovations
+- slug: adapty-io
+  name: Adapty Io
+  aliases:
+  - adapty-io
+- slug: adexis
+  name: adexis
+- slug: adjoe
+  name: adjoe
+- slug: adthena
+  name: adthena
+- slug: advanced-systems-group
+  name: Advanced Systems Group
+  aliases:
+  - advanced-systems-group
+- slug: afference
+  name: afference
+- slug: affinity.co
+  name: affinity.co
+- slug: agentmail
+  name: agentmail
+- slug: aidigest
+  name: aidigest
+- slug: airbound
+  name: airbound
+- slug: Ajax
+  name: Ajax
+- slug: aligned
+  name: aligned
+- slug: AllWage
+  name: AllWage
+- slug: allwyn-corp
+  name: Allwyn Corp
+  aliases:
+  - allwyn-corp
+- slug: almetra
+  name: almetra
+- slug: alpha-design-ai-inc
+  name: Alpha Design Ai Inc
+  aliases:
+  - alpha-design-ai-inc
+- slug: Ambrosia-Energy
+  name: Ambrosia Energy
+  aliases:
+  - Ambrosia-Energy
+- slug: amenitiz
+  name: amenitiz
+- slug: american-turbines
+  name: American Turbines
+  aliases:
+  - american-turbines
+- slug: Amplitude
+  name: Amplitude
+- slug: andercore
+  name: andercore
+- slug: angi
+  name: angi
+- slug: anvilcarbon
+  name: anvilcarbon
+- slug: aphex
+  name: aphex
+- slug: apollo-information-systems
+  name: Apollo Information Systems
+  aliases:
+  - apollo-information-systems
+- slug: aragorn
+  name: aragorn
+- slug: arca
+  name: arca
+- slug: arceus
+  name: arceus
+- slug: ardea-partners
+  name: Ardea Partners
+  aliases:
+  - ardea-partners
+- slug: arena-magazine
+  name: Arena Magazine
+  aliases:
+  - arena-magazine
+- slug: argon-ai
+  name: Argon Ai
+  aliases:
+  - argon-ai
+- slug: arini
+  name: arini
+- slug: arrive
+  name: arrive
+- slug: arthur-ai
+  name: Arthur Ai
+  aliases:
+  - arthur-ai
+- slug: artian
+  name: artian
+- slug: astrocade
+  name: astrocade
+- slug: atira
+  name: atira
+- slug: atlys
+  name: atlys
+- slug: Atolio
+  name: Atolio
+- slug: atrato
+  name: atrato
+- slug: Augustus
+  name: Augustus
+- slug: aveni
+  name: aveni
+- slug: axiombio
+  name: axiombio
+- slug: axiommath
+  name: axiommath
+- slug: axleinsure
+  name: axleinsure
+- slug: ayblehealth
+  name: ayblehealth
+- slug: basecamp-research
+  name: Basecamp Research
+  aliases:
+  - basecamp-research
+- slug: basecompute
+  name: basecompute
+- slug: beamimpact
+  name: beamimpact
+- slug: beparallel
+  name: beparallel
+- slug: bettermile
+  name: bettermile
+- slug: bevaya
+  name: bevaya
+- slug: blocktech
+  name: blocktech
+- slug: boldgames
+  name: boldgames
+- slug: bolna
+  name: bolna
+- slug: bonfireanalytics
+  name: bonfireanalytics
+- slug: brainly
+  name: brainly
+- slug: brale
+  name: brale
+- slug: brandlight
+  name: brandlight
+- slug: bridgepoint-consulting
+  name: Bridgepoint Consulting
+  aliases:
+  - bridgepoint-consulting
+- slug: build-ai
+  name: Build Ai
+  aliases:
+  - build-ai
+- slug: bumbleinc
+  name: bumbleinc
+- slug: butter
+  name: butter
+- slug: capsa
+  name: capsa
+- slug: cardflight
+  name: cardflight
+- slug: careerswift.ai
+  name: careerswift.ai
+- slug: cargado
+  name: cargado
+- slug: catchafire
+  name: catchafire
+- slug: cedar
+  name: cedar
+- slug: ceezer
+  name: ceezer
+- slug: century.health
+  name: century.health
+- slug: certifyos
+  name: certifyos
+- slug: cge
+  name: cge
+- slug: chariotclaims
+  name: chariotclaims
+- slug: ciridae
+  name: ciridae
+- slug: Cleric
+  name: Cleric
+- slug: clerk
+  name: clerk
+- slug: clickhouse
+  name: clickhouse
+- slug: ClinicallyAI
+  name: ClinicallyAI
+- slug: clueso
+  name: clueso
+- slug: codeway
+  name: codeway
+- slug: compyl
+  name: compyl
+- slug: connectly
+  name: connectly
+- slug: constellation
+  name: constellation
+- slug: convey
+  name: convey
+- slug: cortea
+  name: cortea
+- slug: council-capital
+  name: Council Capital
+  aliases:
+  - council-capital
+- slug: coverbase
+  name: coverbase
+- slug: current-advisors
+  name: Current Advisors
+  aliases:
+  - current-advisors
+- slug: currentsurgical
+  name: currentsurgical
+- slug: customuse
+  name: customuse
+- slug: cytix
+  name: cytix
+- slug: dandelionhealth
+  name: dandelionhealth
+- slug: datafold
+  name: datafold
+- slug: datalab
+  name: datalab
+- slug: Dataleap
+  name: Dataleap
+- slug: dataro
+  name: dataro
+- slug: datasnipper
+  name: datasnipper
+- slug: david-ai
+  name: David Ai
+  aliases:
+  - david-ai
+- slug: davischicago
+  name: davischicago
+- slug: ddn
+  name: ddn
+- slug: deepjudge
+  name: deepjudge
+- slug: deepsetai
+  name: deepsetai
+- slug: deepslate
+  name: deepslate
+- slug: delian
+  name: delian
+- slug: deposco
+  name: deposco
+- slug: designworkstalent
+  name: designworkstalent
+- slug: dialo
+  name: dialo
+- slug: differential.bio
+  name: differential.bio
+- slug: DiligenceSquared
+  name: DiligenceSquared
+- slug: Discern
+  name: Discern
+- slug: Discovery-Loop
+  name: Discovery Loop
+  aliases:
+  - Discovery-Loop
+- slug: distance
+  name: distance
+- slug: dlc-inc
+  name: Dlc Inc
+  aliases:
+  - dlc-inc
+- slug: doctolib
+  name: doctolib
+- slug: doctoralia-brasil
+  name: Doctoralia Brasil
+  aliases:
+  - doctoralia-brasil
+- slug: dovetail
+  name: dovetail
+- slug: earthforce
+  name: earthforce
+- slug: egym
+  name: egym
+- slug: electricplant
+  name: electricplant
+- slug: elicit
+  name: elicit
+- slug: ellipsis-health
+  name: Ellipsis Health
+  aliases:
+  - ellipsis-health
+- slug: emberai
+  name: emberai
+- slug: emergence
+  name: emergence
+- slug: emora-health
+  name: Emora Health
+  aliases:
+  - emora-health
+- slug: empirical-security
+  name: Empirical Security
+  aliases:
+  - empirical-security
+- slug: endra
+  name: endra
+- slug: eneba
+  name: eneba
+- slug: epackpro
+  name: epackpro
+- slug: everis
+  name: everis
+- slug: everops
+  name: everops
+- slug: Evvy
+  name: Evvy
+- slug: Excelerate
+  name: Excelerate
+- slug: exponential
+  name: exponential
+- slug: extrac.ai
+  name: extrac.ai
+- slug: EYT
+  name: EYT
+- slug: fal-ai
+  name: Fal Ai
+  aliases:
+  - fal-ai
+- slug: feedbackfruits
+  name: feedbackfruits
+- slug: fellowai
+  name: fellowai
+- slug: fernstone
+  name: fernstone
+- slug: ferocia
+  name: ferocia
+- slug: finagra
+  name: finagra
+- slug: finch
+  name: finch
+- slug: findarbor
+  name: findarbor
+- slug: finmid.com
+  name: finmid.com
+- slug: FINNY
+  name: FINNY
+- slug: flagstone
+  name: flagstone
+- slug: flinn
+  name: flinn
+- slug: flipturn
+  name: flipturn
+- slug: foley
+  name: foley
+- slug: fomo-labs
+  name: Fomo Labs
+  aliases:
+  - fomo-labs
+- slug: Fonio
+  name: Fonio
+- slug: fonzi
+  name: fonzi
+- slug: footprint
+  name: footprint
+- slug: forerunner
+  name: forerunner
+- slug: formbio
+  name: formbio
+- slug: Foundational%20Industries
+  name: Foundational Industries
+- slug: fourth-power
+  name: Fourth Power
+  aliases:
+  - fourth-power
+- slug: freckle
+  name: freckle
+- slug: FronzaFrancis
+  name: FronzaFrancis
+- slug: fuel-cycle
+  name: Fuel Cycle
+  aliases:
+  - fuel-cycle
+- slug: futrue-neuroscience
+  name: Futrue Neuroscience
+  aliases:
+  - futrue-neuroscience
+- slug: gainsight
+  name: gainsight
+- slug: gallatin
+  name: gallatin
+- slug: gardens
+  name: gardens
+- slug: generatorhealth
+  name: generatorhealth
+- slug: gigi
+  name: gigi
+- slug: gismart
+  name: gismart
+- slug: goaly
+  name: goaly
+- slug: goodstack
+  name: goodstack
+- slug: GotPhoto
+  name: GotPhoto
+- slug: Gravity
+  name: Gravity
+- slug: Gray%20Swan%20AI
+  name: Gray Swan AI
+- slug: greptile
+  name: greptile
+- slug: growthprotocol
+  name: growthprotocol
+- slug: guild
+  name: guild
+- slug: hall-cpa
+  name: Hall Cpa
+  aliases:
+  - hall-cpa
+- slug: halluminate
+  name: halluminate
+- slug: hamilton-ai
+  name: Hamilton Ai
+  aliases:
+  - hamilton-ai
+- slug: hammerhead-ai
+  name: Hammerhead Ai
+  aliases:
+  - hammerhead-ai
+- slug: harmonic-ai
+  name: Harmonic Ai
+  aliases:
+  - harmonic-ai
+- slug: hatch
+  name: hatch
+- slug: headway
+  name: headway
+- slug: hedge
+  name: hedge
+- slug: heirloomcarbon
+  name: heirloomcarbon
+- slug: heymilo
+  name: heymilo
+- slug: hive-autonomy
+  name: Hive Autonomy
+  aliases:
+  - hive-autonomy
+- slug: hived
+  name: hived
+- slug: honeybook
+  name: honeybook
+- slug: hud
+  name: hud
+- slug: Hyperliquid%20Labs
+  name: Hyperliquid Labs
+- slug: hyphametrics
+  name: hyphametrics
+- slug: imagineart
+  name: imagineart
+- slug: immunic-therapeutics
+  name: Immunic Therapeutics
+  aliases:
+  - immunic-therapeutics
+- slug: impossible-foods
+  name: Impossible Foods
+  aliases:
+  - impossible-foods
+- slug: incard
+  name: incard
+- slug: Injective
+  name: Injective
+- slug: inshur
+  name: inshur
+- slug: instil
+  name: instil
+- slug: intangible.ai
+  name: intangible.ai
+- slug: integral-de
+  name: Integral De
+  aliases:
+  - integral-de
+- slug: Intelligence-Security-Laboratories
+  name: Intelligence Security Laboratories
+  aliases:
+  - Intelligence-Security-Laboratories
+- slug: interrahealth
+  name: interrahealth
+- slug: irissoftwaregroup
+  name: irissoftwaregroup
+- slug: ispeedtolead
+  name: ispeedtolead
+- slug: ivo-inc
+  name: Ivo Inc
+  aliases:
+  - ivo-inc
+- slug: jameda
+  name: jameda
+- slug: jito-labs
+  name: Jito Labs
+  aliases:
+  - jito-labs
+- slug: joinbetter
+  name: joinbetter
+- slug: justplay-gmbh
+  name: Justplay Gmbh
+  aliases:
+  - justplay-gmbh
+- slug: kalibri-labs
+  name: Kalibri Labs
+  aliases:
+  - kalibri-labs
+- slug: kantoko
+  name: kantoko
+- slug: katapult-Labs
+  name: Katapult Labs
+  aliases:
+  - katapult-Labs
+- slug: kelluu
+  name: kelluu
+- slug: kijimea
+  name: kijimea
+- slug: kinetic
+  name: kinetic
+- slug: kiwi-com
+  name: Kiwi Com
+  aliases:
+  - kiwi-com
+- slug: kleinerperkinsfellows
+  name: kleinerperkinsfellows
+- slug: kraken-kinetics
+  name: Kraken Kinetics
+  aliases:
+  - kraken-kinetics
+- slug: krakentech
+  name: krakentech
+- slug: kranz-consulting
+  name: Kranz Consulting
+  aliases:
+  - kranz-consulting
+- slug: kuro
+  name: kuro
+- slug: lark
+  name: lark
+- slug: LatchBio
+  name: LatchBio
+- slug: latent%20defense
+  name: latent defense
+- slug: latent
+  name: latent
+- slug: LeanLayer
+  name: LeanLayer
+- slug: ledge
+  name: ledge
+- slug: legal-500
+  name: Legal 500
+  aliases:
+  - legal-500
+- slug: Lemonade
+  name: Lemonade
+- slug: leovegasgroup
+  name: leovegasgroup
+- slug: level-ai
+  name: Level Ai
+  aliases:
+  - level-ai
+- slug: li.fi
+  name: li.fi
+- slug: libra
+  name: libra
+- slug: liftoffrank
+  name: liftoffrank
+- slug: lighttable
+  name: lighttable
+- slug: linro
+  name: linro
+- slug: liqid-lig
+  name: Liqid Lig
+  aliases:
+  - liqid-lig
+- slug: localstack
+  name: localstack
+- slug: loki
+  name: loki
+- slug: lottie
+  name: lottie
+- slug: lumaai
+  name: lumaai
+- slug: lyceum
+  name: lyceum
+- slug: macroscope
+  name: macroscope
+- slug: magnitude.ai
+  name: magnitude.ai
+- slug: maintainx
+  name: maintainx
+- slug: manifest-os
+  name: Manifest Os
+  aliases:
+  - manifest-os
+- slug: manychat
+  name: manychat
+- slug: marqeta-inc
+  name: Marqeta Inc
+  aliases:
+  - marqeta-inc
+- slug: mast
+  name: mast
+- slug: Mastra
+  name: Mastra
+- slug: materialize
+  name: materialize
+- slug: matx
+  name: matx
+- slug: mdcalc
+  name: mdcalc
+- slug: mednet
+  name: mednet
+- slug: Meliora-Academy
+  name: Meliora Academy
+  aliases:
+  - Meliora-Academy
+- slug: menlo
+  name: menlo
+- slug: merge
+  name: merge
+- slug: mia-labs
+  name: Mia Labs
+  aliases:
+  - mia-labs
+- slug: midpage
+  name: midpage
+- slug: midstream
+  name: midstream
+- slug: mindbeam
+  name: mindbeam
+- slug: minerva
+  name: minerva
+- slug: MioDottore
+  name: MioDottore
+- slug: mirendil
+  name: mirendil
+- slug: mirror-physics
+  name: Mirror Physics
+  aliases:
+  - mirror-physics
+- slug: modulate
+  name: modulate
+- slug: monk
+  name: monk
+- slug: moonactive
+  name: moonactive
+- slug: multiplymii
+  name: multiplymii
+- slug: munich-electrification
+  name: Munich Electrification
+  aliases:
+  - munich-electrification
+- slug: mycroft
+  name: mycroft
+- slug: nano-qt
+  name: Nano Qt
+  aliases:
+  - nano-qt
+- slug: ncontracts
+  name: ncontracts
+- slug: ndeavour
+  name: ndeavour
+- slug: negotiate-ai
+  name: Negotiate Ai
+  aliases:
+  - negotiate-ai
+- slug: neptune
+  name: neptune
+- slug: netbird
+  name: netbird
+- slug: neudata
+  name: neudata
+- slug: neura-robotics-gmbh
+  name: Neura Robotics Gmbh
+  aliases:
+  - neura-robotics-gmbh
+- slug: neural-earth
+  name: Neural Earth
+  aliases:
+  - neural-earth
+- slug: neuralconcept
+  name: neuralconcept
+- slug: nevis
+  name: nevis
+- slug: newtonx
+  name: newtonx
+- slug: nexus-intelligence
+  name: Nexus Intelligence
+  aliases:
+  - nexus-intelligence
+- slug: noon-design
+  name: Noon Design
+  aliases:
+  - noon-design
+- slug: nord-security
+  name: Nord Security
+  aliases:
+  - nord-security
+- slug: nous
+  name: nous
+- slug: Novogaia
+  name: Novogaia
+- slug: oaknorth
+  name: oaknorth
+- slug: oath
+  name: oath
+- slug: odewithanthropic
+  name: odewithanthropic
+- slug: offstream
+  name: offstream
+- slug: oh
+  name: oh
+- slug: ollama
+  name: ollama
+- slug: omegga
+  name: omegga
+- slug: omnifold
+  name: omnifold
+- slug: omnilex
+  name: omnilex
+- slug: ontra
+  name: ontra
+- slug: openai-deployment-company
+  name: Openai Deployment Company
+  aliases:
+  - openai-deployment-company
+- slug: openart
+  name: openart
+- slug: openclaw-foundation-inc
+  name: Openclaw Foundation Inc
+  aliases:
+  - openclaw-foundation-inc
+- slug: openly
+  name: openly
+- slug: options-it
+  name: Options It
+  aliases:
+  - options-it
+- slug: Ostrom
+  name: Ostrom
+- slug: outro-health
+  name: Outro Health
+  aliases:
+  - outro-health
+- slug: palmstreet
+  name: palmstreet
+- slug: palo-it
+  name: Palo It
+  aliases:
+  - palo-it
+- slug: pantograph
+  name: pantograph
+- slug: partisiablockchain
+  name: partisiablockchain
+- slug: partyhat
+  name: partyhat
+- slug: passagehealth
+  name: passagehealth
+- slug: passionfroot
+  name: passionfroot
+- slug: patlytics
+  name: patlytics
+- slug: peakmetrics
+  name: peakmetrics
+- slug: people-data-labs
+  name: People Data Labs
+  aliases:
+  - people-data-labs
+- slug: perryweather
+  name: perryweather
+- slug: petual
+  name: petual
+- slug: Phinitylabs
+  name: Phinitylabs
+- slug: phoenix
+  name: phoenix
+- slug: phrase
+  name: phrase
+- slug: pikl
+  name: pikl
+- slug: Plan-Bee-Academy
+  name: Plan Bee Academy
+  aliases:
+  - Plan-Bee-Academy
+- slug: plancraft
+  name: plancraft
+- slug: platform-engineering
+  name: Platform Engineering
+  aliases:
+  - platform-engineering
+- slug: Playbook
+  name: Playbook
+- slug: plenful
+  name: plenful
+- slug: plot-pointe
+  name: Plot Pointe
+  aliases:
+  - plot-pointe
+- slug: ployai
+  name: ployai
+- slug: pointfive
+  name: pointfive
+- slug: posh-ai
+  name: Posh Ai
+  aliases:
+  - posh-ai
+- slug: possible-finance
+  name: Possible Finance
+  aliases:
+  - possible-finance
+- slug: pplwise
+  name: pplwise
+- slug: procurementsciences
+  name: procurementsciences
+- slug: productgenius
+  name: productgenius
+- slug: progress-partners
+  name: Progress Partners
+  aliases:
+  - progress-partners
+- slug: project-expedition
+  name: Project Expedition
+  aliases:
+  - project-expedition
+- slug: prose
+  name: prose
+- slug: quartermaster
+  name: quartermaster
+- slug: rainmaker
+  name: rainmaker
+- slug: Reaktor
+  name: Reaktor
+- slug: Refer
+  name: Refer
+- slug: reflexai
+  name: reflexai
+- slug: rematiq-gmbh
+  name: Rematiq Gmbh
+  aliases:
+  - rematiq-gmbh
+- slug: remilia
+  name: remilia
+- slug: replo
+  name: replo
+- slug: resolution
+  name: resolution
+- slug: ResolveAI
+  name: ResolveAI
+- slug: Revecore
+  name: Revecore
+- slug: revelrobotics
+  name: revelrobotics
+- slug: riplo
+  name: riplo
+- slug: riseguide
+  name: riseguide
+- slug: river
+  name: river
+- slug: Rivermont-Schools
+  name: Rivermont Schools
+  aliases:
+  - Rivermont-Schools
+- slug: rivertechnologies
+  name: rivertechnologies
+- slug: robco
+  name: robco
+- slug: rohlik
+  name: rohlik
+- slug: rxvantage
+  name: rxvantage
+- slug: sabi
+  name: sabi
+- slug: Safe
+  name: Safe
+- slug: SageOx
+  name: SageOx
+- slug: salmon-group
+  name: Salmon Group
+  aliases:
+  - salmon-group
+- slug: sampura
+  name: sampura
+- slug: sanctuary
+  name: sanctuary
+- slug: santermedia
+  name: santermedia
+- slug: sapiom
+  name: sapiom
+- slug: sarjai
+  name: sarjai
+- slug: sarvam
+  name: sarvam
+- slug: SASH
+  name: SASH
+- slug: savvymoney
+  name: savvymoney
+- slug: scoreplay
+  name: scoreplay
+- slug: scrollmark
+  name: scrollmark
+- slug: SearchApi
+  name: SearchApi
+- slug: security-level-5
+  name: Security Level 5
+  aliases:
+  - security-level-5
+- slug: sema4.ai
+  name: sema4.ai
+- slug: sensor-tower
+  name: Sensor Tower
+  aliases:
+  - sensor-tower
+- slug: sentradel
+  name: sentradel
+- slug: sequoia
+  name: sequoia
+- slug: seyna
+  name: seyna
+- slug: sharedcontextlab
+  name: sharedcontextlab
+- slug: siepe
+  name: siepe
+- slug: sierra-jp
+  name: Sierra Jp
+  aliases:
+  - sierra-jp
+- slug: signalwire
+  name: signalwire
+- slug: silktide
+  name: silktide
+- slug: simetrik
+  name: simetrik
+- slug: simular
+  name: simular
+- slug: singu
+  name: singu
+- slug: sintra
+  name: sintra
+- slug: sitecore
+  name: sitecore
+- slug: Skip
+  name: Skip
+- slug: skylo
+  name: skylo
+- slug: skynrg
+  name: skynrg
+- slug: slant
+  name: slant
+- slug: slingshot-aerospace
+  name: Slingshot Aerospace
+  aliases:
+  - slingshot-aerospace
+- slug: snapmagic
+  name: snapmagic
+- slug: snowball
+  name: snowball
+- slug: sola-insurance
+  name: Sola Insurance
+  aliases:
+  - sola-insurance
+- slug: solstice
+  name: solstice
+- slug: solveintelligence
+  name: solveintelligence
+- slug: sondermind
+  name: sondermind
+- slug: sorcerer
+  name: sorcerer
+- slug: soulside%20ai
+  name: soulside ai
+- slug: sound-ventures
+  name: Sound Ventures
+  aliases:
+  - sound-ventures
+- slug: sourcedev
+  name: sourcedev
+- slug: sparta-commodities
+  name: Sparta Commodities
+  aliases:
+  - sparta-commodities
+- slug: spear-ai
+  name: Spear Ai
+  aliases:
+  - spear-ai
+- slug: spellbook.com
+  name: spellbook.com
+- slug: splitmetrics
+  name: splitmetrics
+- slug: spotlight
+  name: spotlight
+- slug: squad
+  name: squad
+- slug: stacker
+  name: stacker
+- slug: strix
+  name: strix
+- slug: stryker-digital
+  name: Stryker Digital
+  aliases:
+  - stryker-digital
+- slug: summer-robotics
+  name: Summer Robotics
+  aliases:
+  - summer-robotics
+- slug: sunday-natural
+  name: Sunday Natural
+  aliases:
+  - sunday-natural
+- slug: sunset
+  name: sunset
+- slug: Superbolt
+  name: Superbolt
+- slug: supercell
+  name: supercell
+- slug: surveymonkey
+  name: surveymonkey
+- slug: sylvan-labs
+  name: Sylvan Labs
+  aliases:
+  - sylvan-labs
+- slug: syntro
+  name: syntro
+- slug: tabbed
+  name: tabbed
+- slug: tabz
+  name: tabz
+- slug: tailwind
+  name: tailwind
+- slug: tamarindbio
+  name: tamarindbio
+- slug: tbc
+  name: tbc
+- slug: tekion
+  name: tekion
+- slug: temper
+  name: temper
+- slug: teragenenergy
+  name: teragenenergy
+- slug: ternary
+  name: ternary
+- slug: TerraFirma-Inc
+  name: Terrafirma Inc
+  aliases:
+  - TerraFirma-Inc
+- slug: testgorilla
+  name: testgorilla
+- slug: tetrix
+  name: tetrix
+- slug: the-rec-hub
+  name: The Rec Hub
+  aliases:
+  - the-rec-hub
+- slug: The-Spire-School
+  name: The Spire School
+  aliases:
+  - The-Spire-School
+- slug: theflex
+  name: theflex
+- slug: ThinkingMachines
+  name: ThinkingMachines
+- slug: thorin
+  name: thorin
+- slug: thorit
+  name: thorit
+- slug: threataware
+  name: threataware
+- slug: tides
+  name: tides
+- slug: tiny-health
+  name: Tiny Health
+  aliases:
+  - tiny-health
+- slug: trajectory
+  name: trajectory
+- slug: trawa
+  name: trawa
+- slug: trilitech
+  name: trilitech
+- slug: triomics
+  name: triomics
+- slug: trulioo-coopandinterns
+  name: Trulioo Coopandinterns
+  aliases:
+  - trulioo-coopandinterns
+- slug: trustly
+  name: trustly
+- slug: tuesday-labs
+  name: Tuesday Labs
+  aliases:
+  - tuesday-labs
+- slug: typesafe-ai
+  name: Typesafe Ai
+  aliases:
+  - typesafe-ai
+- slug: UHP-UnlockHumanPotential
+  name: Uhp Unlockhumanpotential
+  aliases:
+  - UHP-UnlockHumanPotential
+- slug: universe
+  name: universe
+- slug: upguard
+  name: upguard
+- slug: uplane
+  name: uplane
+- slug: va4u
+  name: va4u
+- slug: Valid
+  name: Valid
+- slug: vasco
+  name: vasco
+- slug: vastai
+  name: vastai
+- slug: veda
+  name: veda
+- slug: veeda-ai
+  name: Veeda Ai
+  aliases:
+  - veeda-ai
+- slug: vertanical
+  name: vertanical
+- slug: vessl-ai
+  name: Vessl Ai
+  aliases:
+  - vessl-ai
+- slug: Vibrant%20Planet
+  name: Vibrant Planet
+- slug: victorious
+  name: victorious
+- slug: vidrush
+  name: vidrush
+- slug: viggle
+  name: viggle
+- slug: villagesql
+  name: villagesql
+- slug: Vitesse
+  name: Vitesse
+- slug: vocca
+  name: vocca
+- slug: voldex
+  name: voldex
+- slug: volition-capital
+  name: Volition Capital
+  aliases:
+  - volition-capital
+- slug: volta
+  name: volta
+- slug: voyfai
+  name: voyfai
+- slug: wafer
+  name: wafer
+- slug: walrus
+  name: walrus
+- slug: warren
+  name: warren
+- slug: wayve
+  name: wayve
+- slug: wearebeyondsports
+  name: wearebeyondsports
+- slug: whop
+  name: whop
+- slug: wincent
+  name: wincent
+- slug: windfall
+  name: windfall
+- slug: Wisdom-AI
+  name: Wisdom Ai
+  aliases:
+  - Wisdom-AI
+- slug: with-fulcrum
+  name: With Fulcrum
+  aliases:
+  - with-fulcrum
+- slug: workshop-hiring
+  name: Workshop Hiring
+  aliases:
+  - workshop-hiring
+- slug: world-foundation
+  name: World Foundation
+  aliases:
+  - world-foundation
+- slug: worldlabs
+  name: worldlabs
+- slug: wraithwatch
+  name: wraithwatch
+- slug: xdof
+  name: xdof
+- slug: xephyr
+  name: xephyr
+- slug: yadda
+  name: yadda
+- slug: ygo
+  name: ygo
+- slug: yondr
+  name: yondr
+- slug: zenos
+  name: zenos
+- slug: zero
+  name: zero
+- slug: ziplines
+  name: ziplines
+- slug: znanylekarz
+  name: znanylekarz
+- slug: zodl
+  name: zodl
+- slug: zus-health
+  name: Zus Health
+  aliases:
+  - zus-health
+- slug: a16z-new-media
+  name: A16z New Media
+  aliases:
+  - a16z-new-media
+- slug: adclear
+  name: adclear
+- slug: aim
+  name: aim
+- slug: alternativepayments
+  name: alternativepayments
+- slug: Altis%20Labs
+  name: Altis Labs
+- slug: ampeers
+  name: ampeers
+- slug: aquarianlp
+  name: aquarianlp
+- slug: poetic
+  name: poetic
+- slug: porters
+  name: porters
+- slug: Powerlattice
+  name: Powerlattice
+- slug: praecipio
+  name: praecipio
+- slug: probably-good
+  name: Probably Good
+  aliases:
+  - probably-good
+- slug: prophetic-technologies
+  name: Prophetic Technologies
+  aliases:
+  - prophetic-technologies
+- slug: proterahealth
+  name: proterahealth
+- slug: qorelo
+  name: qorelo
+- slug: raccoonai
+  name: raccoonai
+- slug: raintree-systems
+  name: Raintree Systems
+  aliases:
+  - raintree-systems
+- slug: reactivemarkets
+  name: reactivemarkets
+- slug: reprise
+  name: reprise
+- slug: rev
+  name: rev
+- slug: Rezi
+  name: Rezi
+- slug: rwx
+  name: rwx
+- slug: sagelabs.ai
+  name: sagelabs.ai
+- slug: sazabi
+  name: sazabi
+- slug: scalar
+  name: scalar
+- slug: scaled-cognition
+  name: Scaled Cognition
+  aliases:
+  - scaled-cognition
+- slug: scalera
+  name: scalera
+- slug: Scholarly
+  name: Scholarly
+- slug: seamflow
+  name: seamflow
+- slug: secureframe
+  name: secureframe
+- slug: seekeasy
+  name: seekeasy
+- slug: sequen-ai
+  name: Sequen Ai
+  aliases:
+  - sequen-ai
+- slug: shoponpickle
+  name: shoponpickle
+- slug: signoz
+  name: signoz
+- slug: Skalar
+  name: Skalar
+- slug: snd
+  name: snd
+- slug: sol
+  name: sol
+- slug: space44
+  name: space44
+- slug: Stand
+  name: Stand
+- slug: statsports-careers
+  name: Statsports Careers
+  aliases:
+  - statsports-careers
+- slug: stealth-healthtech-startup
+  name: Stealth Healthtech Startup
+  aliases:
+  - stealth-healthtech-startup
+- slug: stemwave
+  name: stemwave
+- slug: stillbright
+  name: stillbright
+- slug: stork
+  name: stork
+- slug: straia
+  name: straia
+- slug: surgimate
+  name: surgimate
+- slug: swoopapp
+  name: swoopapp
+- slug: tabulabio
+  name: tabulabio
+- slug: tactiq
+  name: tactiq
+- slug: tango
+  name: tango
+- slug: tarro
+  name: tarro
+- slug: Taxo
+  name: Taxo
+- slug: Teambridge
+  name: Teambridge
+- slug: teampascal
+  name: teampascal
+- slug: telepatia
+  name: telepatia
+- slug: tensec
+  name: tensec
+- slug: TENTENS-Tech
+  name: Tentens Tech
+  aliases:
+  - TENTENS-Tech
+- slug: teraswitch
+  name: teraswitch
+- slug: the-suite
+  name: The Suite
+  aliases:
+  - the-suite
+- slug: the-token-company
+  name: The Token Company
+  aliases:
+  - the-token-company
+- slug: themuralgroup
+  name: themuralgroup
+- slug: tillster
+  name: tillster
+- slug: trovehq
+  name: trovehq
+- slug: uprootclean
+  name: uprootclean
+- slug: valerie-group
+  name: Valerie Group
+  aliases:
+  - valerie-group
+- slug: validio
+  name: validio
+- slug: vaulted-deep
+  name: Vaulted Deep
+  aliases:
+  - vaulted-deep
+- slug: velocity
+  name: velocity
+- slug: venatus.com
+  name: venatus.com
+- slug: virio
+  name: virio
+- slug: vistar
+  name: vistar
+- slug: xapien
+  name: xapien
+- slug: zayzoon
+  name: zayzoon
+- slug: zedfinancial
+  name: zedfinancial
+- slug: ziina
+  name: ziina
+- slug: zydro
+  name: zydro
+- slug: bridgeneurotech
+  name: bridgeneurotech
+- slug: generalastronautics
+  name: generalastronautics

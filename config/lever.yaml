@@ -1295,3 +1295,45 @@ companies:
   name: Istari Digital
   aliases:
   - istaridigital.ai
+- slug: alice-bob
+  name: Alice Bob
+  aliases:
+  - alice-bob
+- slug: blueland
+  name: blueland
+- slug: boxlunch
+  name: boxlunch
+- slug: c12qe
+  name: c12qe
+- slug: csit
+  name: csit
+- slug: despegar
+  name: despegar
+- slug: finn
+  name: finn
+- slug: Flex
+  name: flex
+- slug: lunaphysicaltherapy
+  name: lunaphysicaltherapy
+- slug: lyrahealth
+  name: lyrahealth
+- slug: mammothbiosci
+  name: mammothbiosci
+- slug: moonpay
+  name: moonpay
+- slug: novaspace
+  name: novaspace
+- slug: paytm
+  name: paytm
+- slug: pendulum
+  name: pendulum
+- slug: princeton10
+  name: princeton10
+- slug: venusaero
+  name: venusaero
+- slug: zippi
+  name: zippi
+- slug: arraylabs.io
+  name: arraylabs.io
+- slug: walkerconsultants
+  name: walkerconsultants

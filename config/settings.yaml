@@ -57,14 +57,19 @@ recency_check:
 # matrix: one "SOURCE:k/n" part per shard, plus "rest" for everything else).
 # Workday rate-limits per client IP, so two machines ~halve its time.
 ci_shards:
-  workday: 2
-  icims: 1         # its own job: the slowest source (globally spaced requests)
+  # three machines since Common Crawl discovery took Workday to 2,645 sites
+  # (2026-10-17); every site gets the new-postings check every run
+  workday: 3
+  # Its own jobs: the slowest source (globally spaced requests, rate-limited
+  # per IP); two machines since discovery took it to ~1,300 portals (2026-10-17).
+  icims: 2
 
 # Boards that fail the main pass (Workday answers bursts from one IP with
 # 429) are retried once after `delay` seconds with only `workers` threads.
 # ~3% of Workday boards per run were left incomplete before this.
 retry_incomplete:
   workday: {delay: 20, workers: 4}
+  oracle: {delay: 20, workers: 3}
 
 # ATS sources to skip entirely (e.g. while a site is blocking us).
 disabled_sources: []
@@ -90,6 +95,13 @@ long_tail_rotation:
   jobvite: {hot: 1, tail: 12}
   # Avature sites search five terms each (Deloitte ~80 s); 20 sites
   avature: {hot: 1, tail: 4}
+  # Common Crawl discovery (2026-10-17) tripled Greenhouse (2,966 boards) and
+  # quadrupled Oracle (812) and SmartRecruiters (989): read in full every run
+  # once they've had an entry-level job, otherwise every 6 runs (3 hours).
+  greenhouse: {hot: 1, tail: 6}
+  ashby: {hot: 1, tail: 6}
+  smartrecruiters: {hot: 1, tail: 6}
+  oracle: {hot: 1, tail: 6}
 
 # Politeness
 request_timeout: 30     # seconds
@@ -100,7 +112,7 @@ scrape_workers: 8       # companies scraped concurrently (different hosts)
 scrape_workers_by_source:
   workday: 32        # Workday rate-limits per client IP (429s at 64)
   smartrecruiters: 16
-  oracle: 16          # each tenant is its own host
+  oracle: 8           # tenants share data-center pods that answer bursts with 503
   icims: 2            # one shared edge; requests are also globally spaced
   paylocity: 1        # one shared host that answers bursts with 429
 

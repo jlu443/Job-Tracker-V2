@@ -1,7 +1,7 @@
 """Collect stage: scrape every source (or one CI part), trim, save and merge parts.
 
     collect(settings, conn)            everything, in one process
-    collect(settings, conn, part)      one CI part: "workday:0/2", "icims:0/1", "rest"
+    collect(settings, conn, part)      one CI part: "workday:0/2", "icims:0/2", "rest"
     trim_for_handoff / save_part       what a CI scrape job hands to the process job
     load_parts                         merge the parts, in dedupe precedence order
 """

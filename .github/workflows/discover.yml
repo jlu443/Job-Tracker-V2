@@ -1,7 +1,9 @@
 name: discover-boards
 
 # Daily: find company job boards the tracker doesn't scrape yet. Harvests
-# ATS links from the curated GitHub lists (and JobSpy postings), validates
+# ATS links from the curated GitHub lists, JobSpy postings and the apply
+# links of the jobs we already track (an employer posting an internship on
+# Indeed with a Workday link gets its Workday site added), validates
 # each new board against its ATS's API, gives it a real company name, and
 # commits the config. New boards' existing jobs are stored silently on their
 # first scrape, so this never floods Discord.
@@ -12,6 +14,10 @@ on:
 
 permissions:
   contents: write
+
+env:
+  GH_TOKEN: ${{ github.token }}
+  DB_RELEASE: db-latest
 
 concurrency:
   group: discover-boards
@@ -31,16 +37,19 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      # Common Crawl is skipped: it's slow and mostly re-finds known boards.
+      - name: Download database (read-only; for its apply links)
+        run: bash .github/scripts/download_db.sh
+
+      # Common Crawl runs weekly instead (discover-crawl.yml): it's slow.
       - name: Discover new boards
-        run: python -m src.discover --no-cc
+        run: python -m src.discover --no-cc --db data/jobs.db
 
       - name: Name new boards
         run: python -m src.names
 
       - name: Commit config changes
         run: |
-          if git diff --quiet -- config/; then
+          if git diff --quiet -- config/ && [ -z "$(git status --porcelain -- config/)" ]; then
             echo "No new boards."
             exit 0
           fi

@@ -8,7 +8,8 @@ ceiling. The pipeline is source-agnostic and ATS-agnostic:
     config/seeds.txt           →                          →
     GitHub job lists (+JSON)   →   every ATS's URL regex  →   hit the ATS's
     JobSpy posting URLs        →   runs over every byte   →   public API; keep
-    Common Crawl URL index     →   of harvested text      →   boards with jobs
+    our jobs' apply links (DB) →   of harvested text      →   boards with jobs
+    Common Crawl URL index     →                          →
 
 Every source feeds every ATS: a Greenhouse link in a GitHub README, an Ashby
 URL inside an Indeed posting, and a Workday tenant in Common Crawl are all
@@ -23,6 +24,7 @@ Run occasionally (it's slow); the per-run scraper just reads the config files.
     python -m src.discover --no-cc            # skip Common Crawl (the slow one)
     python -m src.discover --ats greenhouse,ashby   # limit to some ATSes
     python -m src.discover --cc-max-pages 100      # cap CC pages per pattern
+    python -m src.discover --no-cc --db data/jobs.db   # daily: + our own jobs' apply links
 """
 
 from __future__ import annotations
@@ -34,6 +36,7 @@ import os
 import re
 import sys
 import time
+from datetime import date, timedelta
 from concurrent.futures import ThreadPoolExecutor
 
 import requests
@@ -227,6 +230,27 @@ def harvest_from_jobspy(specs: list[ATSSpec] = ATS_SPECS) -> dict[str, list[dict
     return found
 
 
+def harvest_from_db(db_path: str, specs: list[ATSSpec] = ATS_SPECS) -> dict[str, list[dict]]:
+    """Boards behind the jobs we already track: the employer links Indeed
+    and LinkedIn postings reveal (direct_url) and the curated lists' apply
+    links. Each is an employer that posted an intern / new-grad job, so a
+    board found here is one worth having (2026-10-17)."""
+    import sqlite3
+    if not os.path.exists(db_path):
+        log.info(f"  {db_path} not found — skipping the database harvest.")
+        return {}
+    conn = sqlite3.connect(db_path)
+    urls = [u for (u,) in conn.execute(
+        "SELECT direct_url FROM jobs WHERE direct_url != '' UNION "
+        "SELECT apply_url FROM jobs WHERE source IN ('simplify', 'linkedin', 'indeed')")]
+    conn.close()
+    log.info(f"  {len(urls)} apply links in the database")
+    found: dict[str, list[dict]] = {}
+    for i in range(0, len(urls), 5000):
+        _merge_found(found, extract_all("\n".join(urls[i:i + 5000]), specs))
+    return found
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Source: Common Crawl URL index — one query pattern per ATS domain
 # ─────────────────────────────────────────────────────────────────────────────
@@ -379,26 +403,63 @@ def harvest_from_common_crawl(specs: list[ATSSpec] = ATS_SPECS,
 # ─────────────────────────────────────────────────────────────────────────────
 
 
+# Candidates that failed validation, with the date: a weekly Common Crawl
+# pass re-finds thousands of dead or empty boards (1,610 of 2,493 Workday
+# candidates on 2026-10-17), and re-checking each one every week is what made
+# it too slow to run. They're re-checked after _REJECT_DAYS (a board with no
+# jobs today may post some later).
+_REJECTED = os.path.join(CONFIG_DIR, "discover_rejected.json")
+_REJECT_DAYS = 60
+
+
+def _load_rejected() -> dict[str, dict[str, str]]:
+    try:
+        with open(_REJECTED, encoding="utf-8") as fh:
+            return json.load(fh)
+    except (OSError, ValueError):
+        return {}
+
+
+def _save_rejected(rejected: dict[str, dict[str, str]]) -> None:
+    with open(_REJECTED, "w", encoding="utf-8") as fh:
+        json.dump(rejected, fh, indent=0, sort_keys=True)
+
+
+def _key_text(key) -> str:
+    return json.dumps(key) if isinstance(key, (tuple, list)) else str(key)
+
+
 def validate_and_merge(spec: ATSSpec, candidates: list[dict]) -> int:
-    """Validate new candidates concurrently; merge survivors into the config."""
+    """Validate new candidates concurrently; merge survivors into the config.
+    Candidates rejected in the last _REJECT_DAYS aren't re-checked."""
     existing, existing_keys = load_existing(spec)
-    todo = [c for c in dedupe_candidates(spec, candidates) if spec.key(c) not in existing_keys]
+    rejected_all = _load_rejected()
+    rejected = rejected_all.setdefault(spec.name, {})
+    cutoff = (date.today() - timedelta(days=_REJECT_DAYS)).isoformat()
+    new = [c for c in dedupe_candidates(spec, candidates) if spec.key(c) not in existing_keys]
+    todo = [c for c in new if rejected.get(_key_text(spec.key(c)), "") < cutoff]
     if not todo:
-        log.info(f"  [{spec.name}] nothing new to validate "
-              f"({len(existing)} already configured).")
+        log.info(f"  [{spec.name}] nothing new to validate ({len(existing)} configured, "
+                 f"{len(new) - len(todo)} recently rejected).")
         return 0
 
-    log.info(f"  [{spec.name}] validating {len(todo)} new candidates ...")
+    log.info(f"  [{spec.name}] validating {len(todo)} new candidates "
+             f"({len(new) - len(todo)} recently rejected skipped) ...")
     added = 0
+    today = date.today().isoformat()
     with ThreadPoolExecutor(max_workers=_VALIDATE_WORKERS) as pool:
         for cand, ok in zip(todo, pool.map(spec.validate, todo)):
+            key = _key_text(spec.key(cand))
             if not ok:
+                rejected[key] = today
                 continue
+            rejected.pop(key, None)
             existing.append(cand)
             existing_keys.add(spec.key(cand))
             added += 1
             log.info(f"    + [{spec.name}] {cand.get('name')}")
     save_config(spec, existing)
+    _save_rejected(rejected_all)
     log.info(f"  [{spec.name}] added {added}, total {len(existing)}.")
     return added
 
@@ -423,6 +484,8 @@ def main() -> int:
                          "multi-thousand-URL block)")
     ap.add_argument("--cc-indexes", type=int, default=3,
                     help="how many of the newest CC indexes to query")
+    ap.add_argument("--db", default="",
+                    help="also harvest apply links from this jobs.db")
     args = ap.parse_args()
 
     specs = ATS_SPECS
@@ -447,6 +510,10 @@ def main() -> int:
     if not args.seeds_only and not args.no_jobspy:
         log.info("Harvesting ATS URLs from job boards via JobSpy ...")
         _merge_found(found, harvest_from_jobspy(specs))
+
+    if not args.seeds_only and args.db:
+        log.info("Harvesting ATS URLs from the jobs database ...")
+        _merge_found(found, harvest_from_db(args.db, specs))
 
     if not args.seeds_only and not args.no_cc:
         log.info("Harvesting from Common Crawl ...")

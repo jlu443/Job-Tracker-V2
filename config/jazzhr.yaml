@@ -825,6 +825,28 @@ companies:
   name: Amigos de Guadalupe
   aliases:
   - amigosdeguadalupe
+- slug: belaytechnologies
+  name: belaytechnologies
+- slug: conecoengineersscientists
+  name: conecoengineersscientists
+- slug: enerfab
+  name: enerfab
+- slug: harder
+  name: harder
+- slug: holmes
+  name: holmes
+- slug: kaizenanalytix
+  name: kaizenanalytix
+- slug: keith
+  name: keith
+- slug: loureiroengineeringassociatesinc
+  name: loureiroengineeringassociatesinc
+- slug: pivotpathsolutions
+  name: pivotpathsolutions
+- slug: sportsinfosolutions1
+  name: sportsinfosolutions1
+- slug: swdinc
+  name: swdinc
 - slug: ticketmanager
   name: ticketmanager
 - slug: fas

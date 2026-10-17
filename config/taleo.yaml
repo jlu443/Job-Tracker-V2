@@ -14,6 +14,14 @@ companies:
 - host: beallsinc.taleo.net
   section: bealls+outlet+mobile
   name: Bealls
+- host: hdr.taleo.net
+  section: ex
+  name: hdr
+- host: wvu.taleo.net
+  section: faculty
+  name: West Virginia University
+  aliases:
+  - wvu
 - host: massanf.taleo.net
   section: ex
   name: Commonwealth of Massachusetts
@@ -34,11 +42,6 @@ companies:
   name: State of Montana
   aliases:
   - mtstatejobs
-- host: wvu.taleo.net
-  section: faculty
-  name: West Virginia University
-  aliases:
-  - wvu
 - host: aarcorp.taleo.net
   section: aar_mobile
   name: AAR

@@ -2977,3 +2977,7 @@ companies:
   name: Linea Energy
   aliases:
   - linea-energy
+- slug: procopio-companies
+  name: procopio-companies
+- slug: windsorengineers
+  name: windsorengineers

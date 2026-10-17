@@ -46,6 +46,18 @@ def _search_url(host: str, site: str, term: str, offset: int) -> str:
             f"?onlyData=true&expand=requisitionList&finder={quote(finder, safe=';=,')}")
 
 
+def _get(url: str, timeout: int) -> requests.Response:
+    """Oracle's pods answer bursts with 503 (325 of them in one run once
+    discovery took us to 812 sites, 2026-10-17) or 429: wait and retry."""
+    for attempt in range(3):
+        resp = _SESSION.get(url, timeout=timeout)
+        if resp.status_code not in (429, 503) or attempt == 2:
+            return resp
+        wait = resp.headers.get("Retry-After", "")
+        time.sleep(min(int(wait), 60) if wait.isdigit() else 5 * 2 ** attempt)
+    return resp
+
+
 def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting], bool]:
     host, site = company["host"], company["site"]
     name = company.get("name", host)
@@ -60,7 +72,7 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
         offset = 0
         for _ in range(max_pages):
             try:
-                resp = _SESSION.get(_search_url(host, site, term, offset), timeout=timeout)
+                resp = _get(_search_url(host, site, term, offset), timeout)
                 if resp.status_code == 404:
                     log.warning(f"  ! {name}: site '{site}' not found (404)")
                     return [], True

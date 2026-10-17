@@ -18847,14 +18847,20 @@ companies:
   name: Zoological Society of Milwaukee
   aliases:
   - zoologicalofmilwaukee
-- slug: birdrock
-  name: Bird Rock Systems
-  aliases:
-  - birdrock
+- slug: appliedcontrolengineering
+  name: appliedcontrolengineering
 - slug: ascendanalytics
   name: Ascend Analytics
   aliases:
   - ascendanalytics
+- slug: birdrock
+  name: Bird Rock Systems
+  aliases:
+  - birdrock
+- slug: pmdigital
+  name: pmdigital
+- slug: zeptolife
+  name: zeptolife
 - slug: fallstech
   name: Falls Technology
   aliases:

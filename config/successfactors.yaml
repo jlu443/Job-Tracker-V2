@@ -329,3 +329,37 @@ companies:
   - jobs.hilmarcheese.com
 - host: jobs.jlab.org
   name: jobs.jlab.org
+- host: careers.brightstarlottery.com
+  name: careers.brightstarlottery.com
+- host: careers.gates.com
+  name: careers.gates.com
+- host: careers.gentherm.com
+  name: careers.gentherm.com
+- host: careers.hawaiianelectric.com
+  name: careers.hawaiianelectric.com
+- host: careers.hscpoly.com
+  name: careers.hscpoly.com
+- host: careers.msimarinesolutions.com
+  name: careers.msimarinesolutions.com
+- host: careers.opmobility.com
+  name: careers.opmobility.com
+- host: careers.rhimagnesita.com
+  name: careers.rhimagnesita.com
+- host: careers.simplot.com
+  name: careers.simplot.com
+- host: careers.subsea7.com
+  name: careers.subsea7.com
+- host: jobs.ametek.com
+  name: jobs.ametek.com
+- host: jobs.dsv.com
+  name: jobs.dsv.com
+- host: jobs.expandenergy.com
+  name: jobs.expandenergy.com
+- host: jobs.fcx.com
+  name: jobs.fcx.com
+- host: jobs.gainwelltechnologies.com
+  name: jobs.gainwelltechnologies.com
+- host: jobs.nppd.com
+  name: jobs.nppd.com
+- host: jobs.septa.org
+  name: jobs.septa.org

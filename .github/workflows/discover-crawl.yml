@@ -1,0 +1,55 @@
+name: discover-crawl
+
+# Weekly: the full Common Crawl pass over every platform's URL pattern. On
+# 2026-10-17 it found 883 Workday, 1,994 Greenhouse, 950 iCIMS, 695
+# SmartRecruiters, 604 Oracle and 583 Ashby boards the daily pass never saw.
+# Candidates that fail validation are remembered for 60 days
+# (config/discover_rejected.json), so after the first pass each week checks
+# only boards Common Crawl newly indexed. New boards' existing jobs are stored
+# silently on their first scrape, so this never floods Discord.
+on:
+  schedule:
+    - cron: "41 6 * * 0"      # Sundays
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+# Shares the daily discovery's group: both commit config/.
+concurrency:
+  group: discover-boards
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Discover new boards (Common Crawl)
+        run: python -m src.discover --no-github --no-jobspy --cc-indexes 2 --cc-max-pages 20
+
+      - name: Name new boards
+        run: python -m src.names
+
+      - name: Commit config changes
+        run: |
+          if git diff --quiet -- config/ && [ -z "$(git status --porcelain -- config/)" ]; then
+            echo "No new boards."
+            exit 0
+          fi
+          git diff --stat -- config/
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add config/
+          git commit -m "chore: discover new job boards (Common Crawl) [skip ci]"
+          git pull --rebase origin main
+          git push

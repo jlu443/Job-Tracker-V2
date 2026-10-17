@@ -2,7 +2,7 @@
 
 Finds US **internships and new-grad roles** in tech: software, data/ML,
 hardware, quant and product. It reads them straight from company job boards,
-**~13,300 boards across 17 applicant-tracking systems** plus five big
+**~19,000 boards across 17 applicant-tracking systems** plus five big
 employers' own career sites. It also takes in community-curated lists and
 LinkedIn / Indeed. Every 30 minutes it announces what's new to a **Discord
 channel** and refreshes a shared **Google Sheet** with status tracking.
@@ -12,7 +12,7 @@ accuracy every day against hand-curated lists.
 
 | At a glance (2026-10-15) | |
 |---|---|
-| Job boards watched | 13,258: BambooHR 4,728 · Ashby 2,834 · Workday 1,762 · Greenhouse 972 · Rippling 902 · Jobvite 410 · iCIMS 342 · Lever 337 · SmartRecruiters 294 · JazzHR 246 · Oracle 208 · Jibe 89 · SuccessFactors 84 · Avature 20 · Paylocity 15 · Taleo 5 · Eightfold 5 · TikTok, ByteDance, Amazon, Apple, Atlassian |
+| Job boards watched | 19,088: BambooHR 4,733 · Ashby 3,419 · Greenhouse 2,968 · Workday 2,667 · iCIMS 1,325 · SmartRecruiters 989 · Rippling 905 · Oracle 813 · Jobvite 410 · Lever 357 · JazzHR 257 · SuccessFactors 101 · Jibe 89 · Avature 23 · Paylocity 15 · Taleo 7 · Eightfold 5 · TikTok, ByteDance, Amazon, Apple, Atlassian |
 | Open US tech roles tracked | 17,595 (10,774 internships, 6,821 new-grad) at 3,268 companies |
 | How often | Every 30 minutes; a new posting reaches Discord and the Sheet in about 30–45 minutes |
 | Reliability | 399 of 404 runs succeeded since 2026-10-01 (98.8%); median run 11 min |
@@ -50,7 +50,7 @@ go to the employer's own page when an aggregator reveals it.
 
 ```
 config/*.yaml ─▶ scrape ─▶ dedupe ─▶ classify ─▶ SQLite ─▶ triage ─▶ enrich ─▶ Discord + Sheet
-13,258 boards   (22 scrapers  (exact id,  (role +    (new /     (new vs     (description:
+19,088 boards   (22 scrapers  (exact id,  (role +    (new /     (new vs     (description:
                  + curated     then fuzzy  function)  updated /  backlog /   visa, clearance,
                  lists +       company/                removed)   repost)     pay, country)
                  LinkedIn,     title/city)
@@ -76,7 +76,7 @@ so their server-rendered listing pages are parsed instead.
 | Enrich | [enrich.py](src/enrich.py) | Reads each announceable job's description: visa sponsorship, US citizenship, clearance, OPT/CPT, grad year, pay, PhD/research track. Workday job pages also give the **country** of jobs listed as a bare "Crawley" or "2 Locations" |
 | Announce | [notify.py](src/notify.py), [sheets.py](src/sheets.py) | Announces only internships and new-grad roles in the US, in a tech function, once, with the same role in other cities merged |
 | Check | [accuracy.py](src/accuracy.py), [health.py](src/health.py) | Daily accuracy against curated lists; per-run health checks with Discord alerts |
-| Discover | [discover.py](src/discover.py), [names.py](src/names.py) | Daily: finds new boards from curated lists, job posts, seeds and the Common Crawl index, validates them against each platform's API, and adds them to `config/`; `names.py` replaces URL slugs with real company names |
+| Discover | [discover.py](src/discover.py), [names.py](src/names.py) | Finds new boards automatically: daily from curated lists, job posts and our own jobs' apply links, weekly from the Common Crawl index; validates them against each platform's API and adds them to `config/`; `names.py` replaces URL slugs with real company names |
 
 ## Accuracy: how we know it's right
 
@@ -124,7 +124,7 @@ response. The workflow's own schedule stays as an every-3-hours fallback.
 **Renew the token before it expires**; if runs stop, check that first.
 
 **One run** (median 11 min, p90 16 min):
-1. Four **scrape** jobs run in parallel on separate machines: Workday in two halves, iCIMS, and everything else. Separate machines mean separate IPs for Workday's per-IP rate limit. Each saves its postings as an artifact.
+1. Six **scrape** jobs run in parallel on separate machines: Workday in three parts, iCIMS in two, and everything else. Separate machines mean separate IPs for Workday's and iCIMS's per-IP rate limits. Each saves its postings as an artifact.
 2. The **process** job runs the test suite, then merges the parts and does classification, the DB sync, enrichment, Discord and the Sheet.
 3. Runs never overlap (a concurrency group); a late one waits.
 
@@ -148,9 +148,27 @@ per problem. The checks:
 - more than half of a source's boards fail;
 - a run nears the 30-minute CI limit.
 
-**Daily discovery** ([.github/workflows/discover.yml](.github/workflows/discover.yml))
-adds new boards found in the curated lists and commits the config, including
-Greenhouse boards hidden behind company career pages (`?gh_jid=`).
+**Automatic discovery.** New boards are found and added without anyone
+listing them:
+- **Daily** ([discover.yml](.github/workflows/discover.yml)): boards linked from
+  the curated lists, from LinkedIn/Indeed postings, and from the apply links
+  of every job already tracked (an employer posting an internship on Indeed
+  with a Workday link gets its Workday site added), including Greenhouse
+  boards hidden behind company career pages (`?gh_jid=`).
+- **Weekly** ([discover-crawl.yml](.github/workflows/discover-crawl.yml)): every
+  platform's URL pattern in the Common Crawl web index. Its first pass
+  (2026-10-17) added 883 Workday, 1,994 Greenhouse, 950 iCIMS, 695
+  SmartRecruiters, 604 Oracle and 583 Ashby boards. Candidates that fail
+  validation are remembered for 60 days (`config/discover_rejected.json`), so
+  each week checks only newly indexed boards.
+
+Each candidate is confirmed against its platform's API before it's added
+(and, for platforms added since 2026-10-17, against robots.txt), gets a real
+company name where one can be found, and has its existing jobs stored
+silently on its first scrape, so a new board never floods Discord. Large
+platforms read boards that have never had an entry-level job less often
+(`long_tail_rotation`) and split across CI machines (`ci_shards`), so more
+boards don't mean longer runs.
 
 ## Setup
 
