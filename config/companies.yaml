@@ -15291,3 +15291,35 @@ companies:
   wd: wd115
   site: Minnesota_State_Careers
   name: minnstate
+- tenant: groundworks
+  wd: wd1
+  site: Groundworks
+  name: Groundworks
+  aliases:
+  - groundworks
+- tenant: mastercorp
+  wd: wd1
+  site: MC
+  name: Mastercorp
+  aliases:
+  - mastercorp
+- tenant: orix
+  wd: wd5
+  site: External_ORIX
+  name: ORIX
+  aliases:
+  - orix
+- tenant: pbv
+  wd: wd503
+  site: external
+  name: pbv
+- tenant: plexus
+  wd: wd504
+  site: plexus_careers
+  name: Plexus
+  aliases:
+  - plexus
+- tenant: volarisgroup
+  wd: wd3
+  site: Cultura
+  name: volarisgroup

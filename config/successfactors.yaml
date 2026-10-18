@@ -387,3 +387,9 @@ companies:
   name: Septa
   aliases:
   - jobs.septa.org
+- host: careers.bv.com
+  name: careers.bv.com
+- host: careers.smud.org
+  name: SMUD
+  aliases:
+  - careers.smud.org

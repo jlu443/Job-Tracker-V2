@@ -18875,3 +18875,11 @@ companies:
   name: CMT Services Inc
   aliases:
   - cmtservicesinc
+- slug: usmmg
+  name: US Multimodal Group
+  aliases:
+  - usmmg
+- slug: northernlight
+  name: Northern Light
+  aliases:
+  - northernlight

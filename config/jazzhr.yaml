@@ -859,3 +859,11 @@ companies:
   name: FAS
   aliases:
   - fas
+- slug: reportallusa
+  name: ReportAll USA
+  aliases:
+  - reportallusa
+- slug: laansu
+  name: Laansu
+  aliases:
+  - laansu
