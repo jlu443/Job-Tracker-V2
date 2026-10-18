@@ -18848,7 +18848,9 @@ companies:
   aliases:
   - zoologicalofmilwaukee
 - slug: appliedcontrolengineering
-  name: appliedcontrolengineering
+  name: Applied Control Engineering
+  aliases:
+  - appliedcontrolengineering
 - slug: ascendanalytics
   name: Ascend Analytics
   aliases:
@@ -18858,9 +18860,13 @@ companies:
   aliases:
   - birdrock
 - slug: pmdigital
-  name: pmdigital
+  name: Program Management Solutions LLC
+  aliases:
+  - pmdigital
 - slug: zeptolife
-  name: zeptolife
+  name: Zepto Life Technology
+  aliases:
+  - zeptolife
 - slug: fallstech
   name: Falls Technology
   aliases:

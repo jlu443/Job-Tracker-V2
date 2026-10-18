@@ -2978,6 +2978,8 @@ companies:
   aliases:
   - linea-energy
 - slug: procopio-companies
-  name: procopio-companies
+  name: Procopio Companies
+  aliases:
+  - procopio-companies
 - slug: windsorengineers
   name: windsorengineers

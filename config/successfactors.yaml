@@ -330,11 +330,17 @@ companies:
 - host: jobs.jlab.org
   name: jobs.jlab.org
 - host: careers.brightstarlottery.com
-  name: careers.brightstarlottery.com
+  name: Brightstar Lottery
+  aliases:
+  - careers.brightstarlottery.com
 - host: careers.gates.com
-  name: careers.gates.com
+  name: Gates
+  aliases:
+  - careers.gates.com
 - host: careers.gentherm.com
-  name: careers.gentherm.com
+  name: Gentherm
+  aliases:
+  - careers.gentherm.com
 - host: careers.hawaiianelectric.com
   name: careers.hawaiianelectric.com
 - host: careers.hscpoly.com
@@ -342,24 +348,42 @@ companies:
 - host: careers.msimarinesolutions.com
   name: careers.msimarinesolutions.com
 - host: careers.opmobility.com
-  name: careers.opmobility.com
+  name: OP Mobility
+  aliases:
+  - careers.opmobility.com
 - host: careers.rhimagnesita.com
-  name: careers.rhimagnesita.com
+  name: RHI Magnesita
+  aliases:
+  - careers.rhimagnesita.com
 - host: careers.simplot.com
-  name: careers.simplot.com
+  name: Simplot
+  aliases:
+  - careers.simplot.com
 - host: careers.subsea7.com
-  name: careers.subsea7.com
+  name: Subsea7
+  aliases:
+  - careers.subsea7.com
 - host: jobs.ametek.com
-  name: jobs.ametek.com
+  name: Ametek
+  aliases:
+  - jobs.ametek.com
 - host: jobs.dsv.com
-  name: jobs.dsv.com
+  name: DSV
+  aliases:
+  - jobs.dsv.com
 - host: jobs.expandenergy.com
-  name: jobs.expandenergy.com
+  name: Expand Energy
+  aliases:
+  - jobs.expandenergy.com
 - host: jobs.fcx.com
   name: jobs.fcx.com
 - host: jobs.gainwelltechnologies.com
-  name: jobs.gainwelltechnologies.com
+  name: Gainwell Technologies
+  aliases:
+  - jobs.gainwelltechnologies.com
 - host: jobs.nppd.com
   name: jobs.nppd.com
 - host: jobs.septa.org
-  name: jobs.septa.org
+  name: Septa
+  aliases:
+  - jobs.septa.org

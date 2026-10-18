@@ -828,7 +828,9 @@ companies:
 - slug: belaytechnologies
   name: belaytechnologies
 - slug: conecoengineersscientists
-  name: conecoengineersscientists
+  name: Coneco Engineers & Scientists
+  aliases:
+  - conecoengineersscientists
 - slug: enerfab
   name: enerfab
 - slug: harder
@@ -836,9 +838,13 @@ companies:
 - slug: holmes
   name: holmes
 - slug: kaizenanalytix
-  name: kaizenanalytix
+  name: Kaizen Analytix
+  aliases:
+  - kaizenanalytix
 - slug: keith
-  name: keith
+  name: KEITH
+  aliases:
+  - keith
 - slug: loureiroengineeringassociatesinc
   name: loureiroengineeringassociatesinc
 - slug: pivotpathsolutions

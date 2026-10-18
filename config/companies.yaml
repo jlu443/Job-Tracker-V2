@@ -640,7 +640,7 @@ companies:
 - tenant: acciona
   wd: wd3
   site: acciona_employment_channel
-  name: ACCIONA
+  name: Acciona
   aliases:
   - ACCIONA
   - Acciona
@@ -5427,7 +5427,9 @@ companies:
 - tenant: mmc
   wd: wd1
   site: mmc
-  name: mmc
+  name: Marsh
+  aliases:
+  - mmc
 - tenant: syneoshealth
   wd: wd12
   site: Syneos_Health_External_Site
@@ -12968,7 +12970,9 @@ companies:
 - tenant: mmc
   wd: wd1
   site: careers
-  name: mmc
+  name: Marsh
+  aliases:
+  - mmc
 - tenant: modivcare
   wd: wd1
   site: careers
@@ -14142,7 +14146,9 @@ companies:
 - tenant: norconsult
   wd: wd3
   site: Norconsult_Career_Site
-  name: norconsult
+  name: Norconsult
+  aliases:
+  - norconsult
 - tenant: norconsult
   wd: wd3
   site: Nordic_Office_of_Architecture_Career_Site
@@ -15121,3 +15127,167 @@ companies:
   name: Schreiber Foods
   aliases:
   - schreiberfoods
+- tenant: abercrombie
+  wd: wd108
+  site: anf
+  name: abercrombie
+- tenant: acu
+  wd: wd108
+  site: ACUCareers
+  name: ACU
+  aliases:
+  - acu
+- tenant: americanglobal
+  wd: wd108
+  site: American_Global_Careers
+  name: American Global
+  aliases:
+  - americanglobal
+- tenant: americanglobal
+  wd: wd108
+  site: Internship
+  name: American Global
+  aliases:
+  - americanglobal
+- tenant: athenago
+  wd: wd108
+  site: athena
+  name: athenago
+- tenant: blackline
+  wd: wd108
+  site: BlackLineCareers
+  name: BlackLine
+  aliases:
+  - blackline
+- tenant: brookshires
+  wd: wd108
+  site: BGC
+  name: brookshires
+- tenant: dabella
+  wd: wd108
+  site: DaBella_Exteriors_Careers
+  name: dabella
+- tenant: dickinson
+  wd: wd108
+  site: Jobs
+  name: Dickinson
+  aliases:
+  - dickinson
+- tenant: edsi
+  wd: wd108
+  site: EDSI
+  name: EDSI
+  aliases:
+  - edsi
+- tenant: fticonsulting
+  wd: wd108
+  site: CompassLexeconCareers
+  name: FTI Consulting
+  aliases:
+  - fticonsulting
+- tenant: genpact
+  wd: wd108
+  site: campussite
+  name: Genpact
+  aliases:
+  - genpact
+- tenant: genpact
+  wd: wd108
+  site: External_Careers
+  name: Genpact
+  aliases:
+  - genpact
+- tenant: jbtm
+  wd: wd108
+  site: JBT_Marel_Career_Site
+  name: jbtm
+- tenant: mdtkangaroo
+  wd: wd108
+  site: MiniMedCareers
+  name: mdtkangaroo
+- tenant: medifastinc
+  wd: wd108
+  site: Medifast
+  name: medifastinc
+- tenant: mysrhs
+  wd: wd108
+  site: SRHS
+  name: mysrhs
+- tenant: nature
+  wd: wd108
+  site: ExternalCareers
+  name: Nature
+  aliases:
+  - nature
+- tenant: nclh
+  wd: wd108
+  site: BIHL_Careers
+  name: nclh
+- tenant: nclh
+  wd: wd108
+  site: NCL_Shoreside_Careers
+  name: nclh
+- tenant: nclh
+  wd: wd108
+  site: NCLH_Careers
+  name: nclh
+- tenant: nclh
+  wd: wd108
+  site: POA_Careers
+  name: nclh
+- tenant: njit
+  wd: wd108
+  site: NJIT_Careers
+  name: njit
+- tenant: northmark
+  wd: wd108
+  site: Salamander
+  name: NorthMark Strategies
+  aliases:
+  - northmark
+- tenant: ntta
+  wd: wd108
+  site: NTTA_Careers
+  name: ntta
+- tenant: comcast
+  wd: wd115
+  site: Comcast_Careers
+  name: Comcast
+  aliases:
+  - comcast
+- tenant: condenast
+  wd: wd115
+  site: CondeCareers
+  name: Conde Nast
+  aliases:
+  - condenast
+- tenant: cotality
+  wd: wd115
+  site: Global
+  name: cotality
+- tenant: enhsa
+  wd: wd115
+  site: Duet1
+  name: enhsa
+- tenant: furman
+  wd: wd115
+  site: Furman_Careers
+  name: Furman
+  aliases:
+  - furman
+- tenant: kukio
+  wd: wd115
+  site: Kukio
+  name: Kukio
+  aliases:
+  - kukio
+- tenant: lilly
+  wd: wd115
+  site: LLY
+  name: Lilly USA
+  aliases:
+  - lilly
+- tenant: minnstate
+  wd: wd115
+  site: Minnesota_State_Careers
+  name: minnstate
