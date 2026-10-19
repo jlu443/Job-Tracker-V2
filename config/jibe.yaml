@@ -355,3 +355,7 @@ companies:
   name: H&R Block
   aliases:
   - careers.hrblock.com
+- host: www.osfcareers.org
+  name: OSF HealthCare
+  aliases:
+  - www.osfcareers.org

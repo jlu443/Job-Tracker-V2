@@ -9021,3 +9021,9 @@ companies:
   name: generalastronautics
 - slug: engramme
   name: engramme
+- slug: appfolio
+  name: appfolio
+- slug: neighborly-software
+  name: Neighborly Software
+  aliases:
+  - neighborly-software

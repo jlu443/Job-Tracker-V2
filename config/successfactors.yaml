@@ -393,3 +393,9 @@ companies:
   name: SMUD
   aliases:
   - careers.smud.org
+- host: careers.srpnet.com
+  name: careers.srpnet.com
+- host: jobs.volvogroup.com
+  name: Volvo Group
+  aliases:
+  - jobs.volvogroup.com

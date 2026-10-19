@@ -640,7 +640,7 @@ companies:
 - tenant: acciona
   wd: wd3
   site: acciona_employment_channel
-  name: Acciona
+  name: ACCIONA
   aliases:
   - ACCIONA
   - Acciona
@@ -1853,7 +1853,7 @@ companies:
 - tenant: hitachi
   wd: wd1
   site: hitachi
-  name: Hitachi
+  name: HITACHI
   aliases:
   - HITACHI
   - Hitachi
@@ -11684,7 +11684,9 @@ companies:
 - tenant: jacksonhealthcare
   wd: wd1
   site: careers-jacksonhealthcare
-  name: jacksonhealthcare
+  name: Jackson Healthcare
+  aliases:
+  - jacksonhealthcare
 - tenant: jacksonhealthcare
   wd: wd1
   site: careers-jacksonnurseprofessionals
@@ -13994,7 +13996,9 @@ companies:
 - tenant: linklaters
   wd: wd3
   site: Linklaters
-  name: linklaters
+  name: Linklaters
+  aliases:
+  - linklaters
 - tenant: luminegrp
   wd: wd3
   site: AxyomCore
@@ -14062,7 +14066,9 @@ companies:
 - tenant: mango
   wd: wd3
   site: Mango_Work_Your_Passion
-  name: mango
+  name: MANGO
+  aliases:
+  - mango
 - tenant: mckesson
   wd: wd3
   site: Ontada_Careers
@@ -14680,7 +14686,9 @@ companies:
 - tenant: tilray
   wd: wd3
   site: Tilray
-  name: tilray
+  name: Tilray
+  aliases:
+  - tilray
 - tenant: trafigura
   wd: wd3
   site: ImpalaCareerSite
@@ -15034,7 +15042,9 @@ companies:
 - tenant: bracco
   wd: wd103
   site: BraccoCareers
-  name: bracco
+  name: Bracco
+  aliases:
+  - bracco
 - tenant: buildertrend
   wd: wd108
   site: confidentialposting
@@ -15323,3 +15333,21 @@ companies:
   wd: wd3
   site: Cultura
   name: volarisgroup
+- tenant: unilever
+  wd: wd3
+  site: Unilever_Early_Careers
+  name: Unilever
+  aliases:
+  - unilever
+- tenant: nshe
+  wd: wd1
+  site: DRI-External
+  name: University of Nevada, Reno
+  aliases:
+  - nshe
+- tenant: cityoflewisville
+  wd: wd503
+  site: COL
+  name: City of Lewisville
+  aliases:
+  - cityoflewisville
