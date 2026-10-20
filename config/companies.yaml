@@ -640,7 +640,7 @@ companies:
 - tenant: acciona
   wd: wd3
   site: acciona_employment_channel
-  name: ACCIONA
+  name: Acciona
   aliases:
   - ACCIONA
   - Acciona
@@ -2537,8 +2537,9 @@ companies:
 - tenant: byu
   wd: wd1
   site: byu-careers
-  name: BYU
+  name: Brigham Young University
   aliases:
+  - BYU
   - byu
 - tenant: roberthalf
   wd: wd1
@@ -10738,12 +10739,15 @@ companies:
 - tenant: byu
   wd: wd1
   site: ce-employment
-  name: byu
+  name: Brigham Young University
+  aliases:
+  - byu
 - tenant: byu
   wd: wd1
   site: faculty-careers
-  name: BYU
+  name: Brigham Young University
   aliases:
+  - BYU
   - byu
 - tenant: cabinetworksgroup
   wd: wd1
@@ -11262,7 +11266,9 @@ companies:
 - tenant: fedex
   wd: wd1
   site: FXE-LAC_External_Career_Site
-  name: fedex
+  name: FedEx
+  aliases:
+  - fedex
 - tenant: fedex
   wd: wd1
   site: FXE-MEISA-External
@@ -11766,7 +11772,9 @@ companies:
 - tenant: kimberlyclark
   wd: wd1
   site: GLOBAL
-  name: kimberlyclark
+  name: Kimberly-Clark
+  aliases:
+  - kimberlyclark
 - tenant: kla
   wd: wd1
   site: Israel
@@ -11862,7 +11870,9 @@ companies:
 - tenant: onvo
   wd: wd108
   site: onvocareers
-  name: onvo
+  name: Onvo-
+  aliases:
+  - onvo
 - tenant: pacs
   wd: wd108
   site: pacs
@@ -13336,7 +13346,9 @@ companies:
 - tenant: alsa
   wd: wd3
   site: Alsa
-  name: alsa
+  name: ALSA
+  aliases:
+  - alsa
 - tenant: astrazeneca
   wd: wd3
   site: broadbean_external
@@ -13514,7 +13526,9 @@ companies:
 - tenant: diconium
   wd: wd3
   site: diconium
-  name: diconium
+  name: Diconium
+  aliases:
+  - diconium
 - tenant: dssmith
   wd: wd3
   site: careers
@@ -14066,8 +14080,9 @@ companies:
 - tenant: mango
   wd: wd3
   site: Mango_Work_Your_Passion
-  name: MANGO
+  name: Mango
   aliases:
+  - MANGO
   - mango
 - tenant: mckesson
   wd: wd3
@@ -14984,8 +14999,9 @@ companies:
 - tenant: qiagen
   wd: wd502
   site: QIAGEN
-  name: Qiagen
+  name: QIAGEN
   aliases:
+  - Qiagen
   - qiagen
 - tenant: randstad
   wd: wd502
@@ -15140,7 +15156,9 @@ companies:
 - tenant: abercrombie
   wd: wd108
   site: anf
-  name: abercrombie
+  name: Abercrombie
+  aliases:
+  - abercrombie
 - tenant: acu
   wd: wd108
   site: ACUCareers
@@ -15322,7 +15340,9 @@ companies:
 - tenant: pbv
   wd: wd503
   site: external
-  name: pbv
+  name: PBV
+  aliases:
+  - pbv
 - tenant: plexus
   wd: wd504
   site: plexus_careers
@@ -15351,3 +15371,33 @@ companies:
   name: City of Lewisville
   aliases:
   - cityoflewisville
+- tenant: nba
+  wd: wd108
+  site: nbacareers
+  name: NBA
+  aliases:
+  - nba
+- tenant: wonder
+  wd: wd1
+  site: Grubhub_Careers
+  name: Wonder
+  aliases:
+  - wonder
+- tenant: donaldson
+  wd: wd115
+  site: DonaldsonCareers
+  name: Donaldson Company
+  aliases:
+  - donaldson
+- tenant: victaulic
+  wd: wd1
+  site: victaulic_careers
+  name: Victaulic
+  aliases:
+  - victaulic
+- tenant: werner
+  wd: wd501
+  site: Werner
+  name: Werner
+  aliases:
+  - werner

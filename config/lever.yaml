@@ -1337,3 +1337,11 @@ companies:
   name: arraylabs.io
 - slug: walkerconsultants
   name: walkerconsultants
+- slug: bloomon
+  name: Bloom & Wild Group
+  aliases:
+  - bloomon
+- slug: merlinlabs
+  name: merlinlabs
+- slug: clearedge
+  name: clearedge

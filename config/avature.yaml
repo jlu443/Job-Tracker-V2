@@ -48,3 +48,5 @@ companies:
   name: frequentis.avature.net
 - base: https://jobs.lenovo.com/en_US/careers
   name: jobs.lenovo.com
+- base: https://mhcta.avature.net/careers
+  name: mhcta.avature.net

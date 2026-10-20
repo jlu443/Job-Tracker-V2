@@ -11972,8 +11972,9 @@ companies:
   aliases:
   - hungryroot
 - token: huntress
-  name: Huntress
+  name: Huntress Labs
   aliases:
+  - Huntress
   - huntress
 - token: hut8
   name: Hut 8

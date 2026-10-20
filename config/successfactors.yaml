@@ -399,3 +399,11 @@ companies:
   name: Volvo Group
   aliases:
   - jobs.volvogroup.com
+- host: jobs.netapp.com
+  name: NetApp
+  aliases:
+  - jobs.netapp.com
+- host: jobs.lear.com
+  name: Lear
+  aliases:
+  - jobs.lear.com

@@ -2983,3 +2983,7 @@ companies:
   - procopio-companies
 - slug: windsorengineers
   name: windsorengineers
+- slug: acclaro-corporation
+  name: Acclaro Corporation
+  aliases:
+  - acclaro-corporation

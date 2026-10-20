@@ -18883,3 +18883,7 @@ companies:
   name: Northern Light
   aliases:
   - northernlight
+- slug: sgi
+  name: Our Company
+  aliases:
+  - sgi

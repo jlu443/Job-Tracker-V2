@@ -5307,3 +5307,11 @@ companies:
   name: Ukjobs Ajg.icims.com
   aliases:
   - ukjobs-ajg
+- host: careers-ishpi.icims.com
+  name: Ishpi
+  aliases:
+  - careers-ishpi
+- host: careers-ccsww.icims.com
+  name: Careers Ccsww.icims.com
+  aliases:
+  - careers-ccsww
