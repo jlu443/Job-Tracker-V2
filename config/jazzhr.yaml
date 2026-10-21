@@ -873,3 +873,11 @@ companies:
   name: gracecommunityhealth
 - slug: lancointegrated
   name: lancointegrated
+- slug: alllinestechnology
+  name: All Lines Technology
+  aliases:
+  - alllinestechnology
+- slug: west4thstrategy
+  name: West 4th Strategy
+  aliases:
+  - west4thstrategy

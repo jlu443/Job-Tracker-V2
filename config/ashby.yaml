@@ -6742,7 +6742,9 @@ companies:
 - slug: stay22
   name: stay22
 - slug: steel
-  name: steel
+  name: Steel
+  aliases:
+  - steel
 - slug: stellar-health
   name: Stellar Health
   aliases:
@@ -7814,7 +7816,9 @@ companies:
 - slug: clerk
   name: clerk
 - slug: clickhouse
-  name: clickhouse
+  name: ClickHouse
+  aliases:
+  - clickhouse
 - slug: ClinicallyAI
   name: ClinicallyAI
 - slug: clueso
@@ -9037,3 +9041,11 @@ companies:
   name: F7d8749a 72d6 407c Bf98 292ea630c73a
   aliases:
   - f7d8749a-72d6-407c-bf98-292ea630c73a
+- slug: metamorphic
+  name: Metamorphic
+  aliases:
+  - metamorphic
+- slug: integrate
+  name: Integrate
+  aliases:
+  - integrate

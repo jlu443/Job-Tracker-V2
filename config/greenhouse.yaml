@@ -14996,3 +14996,7 @@ companies:
   name: Graviton Research Capital LLP
   aliases:
   - gravitonresearchcapital
+- token: entrupy
+  name: Entrupy
+- token: storable
+  name: Storable

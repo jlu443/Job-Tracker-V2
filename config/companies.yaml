@@ -1853,7 +1853,7 @@ companies:
 - tenant: hitachi
   wd: wd1
   site: hitachi
-  name: HITACHI
+  name: Hitachi
   aliases:
   - HITACHI
   - Hitachi
@@ -10838,7 +10838,9 @@ companies:
 - tenant: cityblockhealth
   wd: wd1
   site: CityblockExternalCareerSite
-  name: cityblockhealth
+  name: Cityblock Health
+  aliases:
+  - cityblockhealth
 - tenant: clarkcountywashington
   wd: wd1
   site: ClarkCountyJobs
@@ -12276,7 +12278,9 @@ companies:
 - tenant: tranetechnologies
   wd: wd12
   site: Trane_Technologies_Careers
-  name: tranetechnologies
+  name: Trane Technologies
+  aliases:
+  - tranetechnologies
 - tenant: valleychildrens
   wd: wd12
   site: VCH_External
@@ -12286,7 +12290,9 @@ companies:
 - tenant: valleyhealth
   wd: wd12
   site: valley_health_system_careers_
-  name: valleyhealth
+  name: Valley Health
+  aliases:
+  - valleyhealth
 - tenant: vitalant
   wd: wd12
   site: PlasmaSourceCareers
@@ -12462,7 +12468,9 @@ companies:
 - tenant: ayvens
   wd: wd3
   site: AyvensCareers
-  name: ayvens
+  name: Ayvens
+  aliases:
+  - ayvens
 - tenant: belron
   wd: wd3
   site: Autoglass_and_Laddaw_Careers
@@ -14080,9 +14088,10 @@ companies:
 - tenant: mango
   wd: wd3
   site: Mango_Work_Your_Passion
-  name: Mango
+  name: MANGO
   aliases:
   - MANGO
+  - Mango
   - mango
 - tenant: mckesson
   wd: wd3
@@ -14201,11 +14210,15 @@ companies:
 - tenant: nutreco
   wd: wd3
   site: Nutreco_External
-  name: nutreco
+  name: Nutreco
+  aliases:
+  - nutreco
 - tenant: nutreco
   wd: wd3
   site: SHV_Internal_Job_Board
-  name: nutreco
+  name: Nutreco
+  aliases:
+  - nutreco
 - tenant: oldmutual
   wd: wd3
   site: Old_Mutual_Careers
@@ -14959,7 +14972,9 @@ companies:
 - tenant: burkert
   wd: wd502
   site: burkert-career
-  name: burkert
+  name: Burkert
+  aliases:
+  - burkert
 - tenant: delfingen
   wd: wd502
   site: delfingen-careers
@@ -15216,8 +15231,9 @@ companies:
 - tenant: genpact
   wd: wd108
   site: campussite
-  name: Genpact
+  name: GENPACT
   aliases:
+  - Genpact
   - genpact
 - tenant: genpact
   wd: wd108
@@ -15401,3 +15417,31 @@ companies:
   name: Werner
   aliases:
   - werner
+- tenant: fireflyspace
+  wd: wd115
+  site: Firefly
+  name: fireflyspace
+- tenant: exactcare
+  wd: wd1
+  site: AnewHealth_Career_Site
+  name: ExactCare
+  aliases:
+  - exactcare
+- tenant: americanregent
+  wd: wd1
+  site: American_Regent_Careers
+  name: AMERICAN REGENT
+  aliases:
+  - americanregent
+- tenant: chamberlain
+  wd: wd1
+  site: Systems_LLC
+  name: Chamberlain Group
+  aliases:
+  - chamberlain
+- tenant: reworld
+  wd: wd5
+  site: External
+  name: Reworld
+  aliases:
+  - reworld

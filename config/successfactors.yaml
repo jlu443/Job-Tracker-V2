@@ -407,3 +407,13 @@ companies:
   name: Lear
   aliases:
   - jobs.lear.com
+- host: jobs.hii-tsd.com
+  name: jobs.hii-tsd.com
+- host: jobs.janushenderson.com
+  name: Janus Henderson
+  aliases:
+  - jobs.janushenderson.com
+- host: jobs.lincolnelectric.com
+  name: Lincoln Electric
+  aliases:
+  - jobs.lincolnelectric.com
