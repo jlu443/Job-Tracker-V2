@@ -881,3 +881,11 @@ companies:
   name: West 4th Strategy
   aliases:
   - west4thstrategy
+- slug: cvhcare
+  name: CVHCare
+  aliases:
+  - cvhcare
+- slug: partnersfcu
+  name: partnersfcu
+- slug: catalysteducation
+  name: catalysteducation

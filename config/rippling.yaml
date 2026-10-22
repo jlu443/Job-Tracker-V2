@@ -1542,7 +1542,9 @@ companies:
   aliases:
   - sharp-performance
 - slug: sightmachine
-  name: sightmachine
+  name: Sight Machine
+  aliases:
+  - sightmachine
 - slug: signaladvisors
   name: signaladvisors
 - slug: silvercrest-asset-management-group
@@ -2987,3 +2989,11 @@ companies:
   name: Acclaro Corporation
   aliases:
   - acclaro-corporation
+- slug: petfolk
+  name: Petfolk
+  aliases:
+  - petfolk
+- slug: type-one-energy-group
+  name: Type One Energy Group
+  aliases:
+  - type-one-energy-group

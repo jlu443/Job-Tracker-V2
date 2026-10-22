@@ -3126,7 +3126,9 @@ companies:
 - slug: metal
   name: metal
 - slug: metalenz
-  name: metalenz
+  name: Metalenz
+  aliases:
+  - metalenz
 - slug: metaview
   name: Metaview
   aliases:
@@ -5702,7 +5704,9 @@ companies:
 - slug: wallbit
   name: wallbit
 - slug: walrusfi
-  name: walrusfi
+  name: Walrus
+  aliases:
+  - walrusfi
 - slug: warp
   name: warp
 - slug: warpbuild
@@ -8360,7 +8364,9 @@ companies:
   aliases:
   - openai-deployment-company
 - slug: openart
-  name: openart
+  name: OpenArt AI
+  aliases:
+  - openart
 - slug: openclaw-foundation-inc
   name: Openclaw Foundation Inc
   aliases:

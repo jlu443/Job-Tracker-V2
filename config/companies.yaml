@@ -5087,7 +5087,9 @@ companies:
 - tenant: volarisgroup
   wd: wd3
   site: volaris
-  name: volarisgroup
+  name: Volaris Group
+  aliases:
+  - volarisgroup
 - tenant: slu
   wd: wd5
   site: Careers
@@ -7527,8 +7529,9 @@ companies:
 - tenant: digikey
   wd: wd5
   site: digi-key
-  name: DigiKey
+  name: Digi-Key
   aliases:
+  - DigiKey
   - digikey
 - tenant: pjm
   wd: wd5
@@ -8451,7 +8454,9 @@ companies:
 - tenant: etsy
   wd: wd5
   site: Depop_Careers
-  name: etsy
+  name: Etsy
+  aliases:
+  - etsy
 - tenant: denverhealth
   wd: wd1
   site: DHHA-Main
@@ -11004,7 +11009,9 @@ companies:
 - tenant: corrohealth
   wd: wd1
   site: Virtix
-  name: corrohealth
+  name: CorroHealth
+  aliases:
+  - corrohealth
 - tenant: costar
   wd: wd1
   site: broadbean_external
@@ -12314,7 +12321,9 @@ companies:
 - tenant: 7eleven
   wd: wd3
   site: 7eleven
-  name: 7eleven
+  name: 7-Eleven
+  aliases:
+  - 7eleven
 - tenant: 7eleven
   wd: wd3
   site: 7elevenv2
@@ -14088,7 +14097,7 @@ companies:
 - tenant: mango
   wd: wd3
   site: Mango_Work_Your_Passion
-  name: MANGO
+  name: Mango
   aliases:
   - MANGO
   - Mango
@@ -14294,8 +14303,9 @@ companies:
 - tenant: pluxee
   wd: wd3
   site: Pluxee_Career_Site
-  name: PLUXEE
+  name: Pluxee
   aliases:
+  - PLUXEE
   - pluxee
 - tenant: polpharma
   wd: wd3
@@ -15231,8 +15241,9 @@ companies:
 - tenant: genpact
   wd: wd108
   site: campussite
-  name: GENPACT
+  name: Genpact
   aliases:
+  - GENPACT
   - Genpact
   - genpact
 - tenant: genpact
@@ -15445,3 +15456,23 @@ companies:
   name: Reworld
   aliases:
   - reworld
+- tenant: comfortsystemsusa
+  wd: wd1
+  site: cwc_careers
+  name: comfortsystemsusa
+- tenant: ally
+  wd: wd1
+  site: Ally
+  name: Ally
+  aliases:
+  - ally
+- tenant: hennypenny
+  wd: wd1
+  site: hennypenny
+  name: Henny Penny
+  aliases:
+  - hennypenny
+- tenant: lindtspruengli
+  wd: wd103
+  site: LindtSpruengliGroupCareers
+  name: lindtspruengli

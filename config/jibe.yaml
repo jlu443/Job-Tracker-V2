@@ -359,3 +359,7 @@ companies:
   name: OSF HealthCare
   aliases:
   - www.osfcareers.org
+- host: careers.kentro.us
+  name: Kentro
+  aliases:
+  - careers.kentro.us

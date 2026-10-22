@@ -417,3 +417,11 @@ companies:
   name: Lincoln Electric
   aliases:
   - jobs.lincolnelectric.com
+- host: careers.safran-dsi.com
+  name: Safran
+  aliases:
+  - careers.safran-dsi.com
+- host: jobs.bayer.com
+  name: Bayer
+  aliases:
+  - jobs.bayer.com

@@ -1349,3 +1349,7 @@ companies:
   name: servicewire
 - slug: woodardcurran
   name: woodardcurran
+- slug: massschoolbuildings
+  name: Massachusetts School Building Authority
+  aliases:
+  - massschoolbuildings
