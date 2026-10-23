@@ -626,7 +626,9 @@ companies:
   - fa-etnb-saasfaprod1
 - host: ewij.fa.us8.oraclecloud.com
   site: CX_2
-  name: ewij
+  name: Nevada National Security Site
+  aliases:
+  - ewij
 - host: hcwt.fa.us2.oraclecloud.com
   site: CX
   name: Denso

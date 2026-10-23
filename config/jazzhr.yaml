@@ -889,3 +889,9 @@ companies:
   name: partnersfcu
 - slug: catalysteducation
   name: catalysteducation
+- slug: bluematterconsulting
+  name: Blue Matter
+  aliases:
+  - bluematterconsulting
+- slug: taranawireless
+  name: taranawireless

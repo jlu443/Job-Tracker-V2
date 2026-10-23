@@ -5323,3 +5323,15 @@ companies:
   name: Applynetwork Winco.icims.com
   aliases:
   - applynetwork-winco
+- host: careers-plansys.icims.com
+  name: Careers Plansys.icims.com
+  aliases:
+  - careers-plansys
+- host: careers-citizensenergygroup.icims.com
+  name: Careers Citizensenergygroup.icims.com
+  aliases:
+  - careers-citizensenergygroup
+- host: ireland-careers-aon.icims.com
+  name: Ireland Careers Aon.icims.com
+  aliases:
+  - ireland-careers-aon

@@ -13757,7 +13757,9 @@ companies:
 - tenant: gianttiger
   wd: wd3
   site: gianttiger
-  name: gianttiger
+  name: Giant Tiger
+  aliases:
+  - gianttiger
 - tenant: giorgiglobal
   wd: wd3
   site: canpack
@@ -14097,7 +14099,7 @@ companies:
 - tenant: mango
   wd: wd3
   site: Mango_Work_Your_Passion
-  name: Mango
+  name: MANGO
   aliases:
   - MANGO
   - Mango
@@ -14303,9 +14305,10 @@ companies:
 - tenant: pluxee
   wd: wd3
   site: Pluxee_Career_Site
-  name: Pluxee
+  name: PLUXEE
   aliases:
   - PLUXEE
+  - Pluxee
   - pluxee
 - tenant: polpharma
   wd: wd3
@@ -15475,4 +15478,48 @@ companies:
 - tenant: lindtspruengli
   wd: wd103
   site: LindtSpruengliGroupCareers
-  name: lindtspruengli
+  name: Lindt & Spruengli
+  aliases:
+  - lindtspruengli
+- tenant: freight
+  wd: wd108
+  site: FXF_External_Career_Site
+  name: FedEx Freight
+  aliases:
+  - freight
+- tenant: oatey
+  wd: wd5
+  site: Oatey_External_
+  name: OATEY
+  aliases:
+  - oatey
+- tenant: crescentenergyco
+  wd: wd108
+  site: crescent_energy_careers
+  name: Crescent Energy
+  aliases:
+  - crescentenergyco
+- tenant: ilitch
+  wd: wd5
+  site: detroit-tigers
+  name: Little Caesars Enterprises
+  aliases:
+  - ilitch
+- tenant: boeing
+  wd: wd1
+  site: tap2
+  name: The Boeing Company
+  aliases:
+  - boeing
+- tenant: collegeboard
+  wd: wd1
+  site: cbcareers
+  name: College Board
+  aliases:
+  - collegeboard
+- tenant: verily
+  wd: wd1
+  site: verily_careers
+  name: Verily
+  aliases:
+  - verily

@@ -1353,3 +1353,35 @@ companies:
   name: Massachusetts School Building Authority
   aliases:
   - massschoolbuildings
+- slug: algorex
+  name: N1 Health
+  aliases:
+  - algorex
+- slug: valkyrietrading
+  name: Valkyrie Trading
+  aliases:
+  - valkyrietrading
+- slug: worldscape-technology
+  name: Worldscape Technology
+  aliases:
+  - worldscape-technology
+- slug: mytos
+  name: Mytos
+  aliases:
+  - mytos
+- slug: teamsnap
+  name: TeamSnap
+  aliases:
+  - teamsnap
+- slug: regal.ai
+  name: Regal
+  aliases:
+  - regal.ai
+- slug: jupiterintel
+  name: Jupiter Intelligence
+  aliases:
+  - jupiterintel
+- slug: realself
+  name: realself
+- slug: HowGood
+  name: howgood

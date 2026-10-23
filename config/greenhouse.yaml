@@ -15002,3 +15002,11 @@ companies:
   name: Storable
 - token: smxtech
   name: SMX
+- token: amendconsulting
+  name: AMEND Consulting
+  aliases:
+  - amendconsulting
+- token: stage
+  name: Careers at KKR
+- token: losangelesfootballclub
+  name: Los Angeles Football Club

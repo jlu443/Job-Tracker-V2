@@ -425,3 +425,11 @@ companies:
   name: Bayer
   aliases:
   - jobs.bayer.com
+- host: careers.leprino.com
+  name: Leprino
+  aliases:
+  - careers.leprino.com
+- host: jobs.delekus.com
+  name: Delek US
+  aliases:
+  - jobs.delekus.com

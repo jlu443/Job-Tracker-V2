@@ -18887,3 +18887,19 @@ companies:
   name: Our Company
   aliases:
   - sgi
+- slug: psware
+  name: Performance Software
+  aliases:
+  - psware
+- slug: earthoptics
+  name: EarthOptics
+  aliases:
+  - earthoptics
+- slug: yahara
+  name: Yahara Software
+  aliases:
+  - yahara
+- slug: ironwillventures
+  name: Iron Will Ventures
+  aliases:
+  - ironwillventures

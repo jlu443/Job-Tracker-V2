@@ -2100,7 +2100,9 @@ companies:
 - slug: Grindr%20LLC
   name: Grindr LLC
 - slug: gritt
-  name: gritt
+  name: Gritt
+  aliases:
+  - gritt
 - slug: grotto
   name: grotto
 - slug: groundnews
@@ -3776,7 +3778,9 @@ companies:
 - slug: Parkade
   name: Parkade
 - slug: parker
-  name: parker
+  name: Parker
+  aliases:
+  - parker
 - slug: parspec
   name: Parspec
   aliases:
@@ -9055,3 +9059,7 @@ companies:
   name: Integrate
   aliases:
   - integrate
+- slug: ornn
+  name: ornn
+- slug: infirobotics
+  name: infirobotics
