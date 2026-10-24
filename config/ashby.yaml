@@ -4832,7 +4832,9 @@ companies:
 - slug: sofarocean
   name: sofarocean
 - slug: sola
-  name: sola
+  name: Sola
+  aliases:
+  - sola
 - slug: solace
   name: Solace Health
   aliases:
@@ -6264,7 +6266,9 @@ companies:
 - slug: focus
   name: focus
 - slug: focused
-  name: focused
+  name: Focused
+  aliases:
+  - focused
 - slug: formal
   name: formal
 - slug: forum-ventures
@@ -9063,3 +9067,15 @@ companies:
   name: ornn
 - slug: infirobotics
   name: infirobotics
+- slug: scout-ai
+  name: Scout AI
+  aliases:
+  - scout-ai
+- slug: hex
+  name: Hex Technologies
+  aliases:
+  - hex
+- slug: Abode%20Money
+  name: Abode Money
+- slug: obsidiansystems
+  name: obsidiansystems

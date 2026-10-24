@@ -895,3 +895,11 @@ companies:
   - bluematterconsulting
 - slug: taranawireless
   name: taranawireless
+- slug: autorabit
+  name: AutoRABIT Holding Inc.
+  aliases:
+  - autorabit
+- slug: mak
+  name: MAK Technologies
+  aliases:
+  - mak

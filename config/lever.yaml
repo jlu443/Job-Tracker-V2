@@ -1385,3 +1385,7 @@ companies:
   name: realself
 - slug: HowGood
   name: howgood
+- slug: auw
+  name: Applied Underwriters
+  aliases:
+  - auw

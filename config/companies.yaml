@@ -12645,7 +12645,9 @@ companies:
 - tenant: loewshotels
   wd: wd5
   site: loewshotels
-  name: loewshotels
+  name: Loews Hotels
+  aliases:
+  - loewshotels
 - tenant: loyola
   wd: wd5
   site: External
@@ -15523,3 +15525,19 @@ companies:
   name: Verily
   aliases:
   - verily
+- tenant: albertamotorassociation
+  wd: wd3
+  site: ama
+  name: AMA
+  aliases:
+  - albertamotorassociation
+- tenant: hayward
+  wd: wd1
+  site: External
+  name: Hayward
+  aliases:
+  - hayward
+- tenant: oxychem
+  wd: wd504
+  site: Corporate
+  name: oxychem

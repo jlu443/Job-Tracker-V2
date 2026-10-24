@@ -3840,8 +3840,9 @@ companies:
   aliases:
   - recrute1-carrefour
 - host: renewables-skyclimber.icims.com
-  name: Renewables Skyclimber.icims.com
+  name: Sky Climber
   aliases:
+  - Renewables Skyclimber.icims.com
   - renewables-skyclimber
 - host: research-princeton.icims.com
   name: Research Princeton.icims.com

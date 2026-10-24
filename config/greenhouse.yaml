@@ -15010,3 +15010,9 @@ companies:
   name: Careers at KKR
 - token: losangelesfootballclub
   name: Los Angeles Football Club
+- token: freestonecapitalmanagement
+  name: Freestone Capital Management
+  aliases:
+  - freestonecapitalmanagement
+- token: carvana
+  name: Carvana
