@@ -16231,7 +16231,9 @@ companies:
 - tenant: sagility
   wd: wd1
   site: Sagility
-  name: sagility
+  name: Sagility
+  aliases:
+  - sagility
 - tenant: sagility
   wd: wd1
   site: Sagility_Careers_IND
@@ -16715,7 +16717,9 @@ companies:
 - tenant: guillevin
   wd: wd3
   site: GIC
-  name: guillevin
+  name: Guillevin
+  aliases:
+  - guillevin
 - tenant: guillevin
   wd: wd3
   site: NOR
@@ -18039,7 +18043,9 @@ companies:
 - tenant: languageline
   wd: wd5
   site: LLS_UK_Careers
-  name: languageline
+  name: Language Line
+  aliases:
+  - languageline
 - tenant: languageline
   wd: wd5
   site: PSG_Careers
