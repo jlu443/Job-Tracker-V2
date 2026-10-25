@@ -4859,3 +4859,1734 @@ companies:
 - host: ibtcjb.fa.ocs.oraclecloud.com
   site: CX
   name: ibtcjb
+- host: epdm.fa.la1.oraclecloud.com
+  site: PicPay
+  name: epdm
+- host: alleghenycollege-ibwwjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Alleghenycollege Ibwwjb.fa.ocs.oraclecloud.com
+  aliases:
+  - alleghenycollege-ibwwjb
+- host: bcps-ibohjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Bcps Ibohjb.fa.ocs.oraclecloud.com
+  aliases:
+  - bcps-ibohjb
+- host: cargolux-iajigs.fa.ocs.oraclecloud.com
+  site: CargoluxPilots
+  name: Cargolux Iajigs.fa.ocs.oraclecloud.com
+  aliases:
+  - cargolux-iajigs
+- host: etihadrail-iaalbv.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Etihadrail Iaalbv.fa.ocs.oraclecloud.com
+  aliases:
+  - etihadrail-iaalbv
+- host: fa-elhu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Elhu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-elhu-saasfaprod1
+- host: fa-elwc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Elwc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-elwc-saasfaprod1
+- host: fa-elxu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1012
+  name: Fa Elxu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-elxu-saasfaprod1
+- host: fa-elxu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1016
+  name: Fa Elxu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-elxu-saasfaprod1
+- host: fa-elxu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1032
+  name: Fa Elxu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-elxu-saasfaprod1
+- host: fa-elxu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Fa Elxu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-elxu-saasfaprod1
+- host: fa-elxu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2005
+  name: Fa Elxu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-elxu-saasfaprod1
+- host: fa-elxu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_4001
+  name: Fa Elxu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-elxu-saasfaprod1
+- host: fa-emlm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Emlm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-emlm-saasfaprod1
+- host: fa-emmq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Emmq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-emmq-saasfaprod1
+- host: fa-emoz-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Emoz Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-emoz-saasfaprod1
+- host: fa-emsb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Emsb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-emsb-saasfaprod1
+- host: fa-eoic-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_12001
+  name: Fa Eoic Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eoic-saasfaprod1
+- host: fa-eomf-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: UTHealth Houston
+  aliases:
+  - fa-eomf-saasfaprod1
+- host: fa-eomj-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Eomj Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eomj-saasfaprod1
+- host: fa-eoqj-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1003
+  name: Fa Eoqj Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eoqj-saasfaprod1
+- host: fa-eoqj-saasfaprod1.fa.ocs.oraclecloud.com
+  site: juilliard
+  name: Fa Eoqj Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eoqj-saasfaprod1
+- host: fa-eotc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: abbs
+  name: Fa Eotc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eotc-saasfaprod1
+- host: fa-eotc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Eotc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eotc-saasfaprod1
+- host: fa-eotc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_35004
+  name: Fa Eotc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eotc-saasfaprod1
+- host: fa-eotc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_4001
+  name: Fa Eotc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eotc-saasfaprod1
+- host: fa-eotc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_5001
+  name: Fa Eotc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eotc-saasfaprod1
+- host: fa-eotc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: schoolsupport
+  name: Fa Eotc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eotc-saasfaprod1
+- host: fa-eotc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: specialeducation
+  name: Fa Eotc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eotc-saasfaprod1
+- host: fa-eovh-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Eovh Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eovh-saasfaprod1
+- host: fa-eovh-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Eovh Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eovh-saasfaprod1
+- host: fa-eowa-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: CSX
+  aliases:
+  - fa-eowa-saasfaprod1
+- host: fa-epec-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Epec Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-epec-saasfaprod1
+- host: fa-epeq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2002
+  name: Fa Epeq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-epeq-saasfaprod1
+- host: fa-epss-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Epss Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-epss-saasfaprod1
+- host: fa-eqbh-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_7001
+  name: Fa Eqbh Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqbh-saasfaprod1
+- host: fa-eqec-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: Fa Eqec Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqec-saasfaprod1
+- host: fa-eqid-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eqid Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqid-saasfaprod1
+- host: fa-eqkk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Fa Eqkk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqkk-saasfaprod1
+- host: fa-eqqg-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Eqqg Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqqg-saasfaprod1
+- host: fa-equm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Equm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-equm-saasfaprod1
+- host: fa-equm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Fa Equm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-equm-saasfaprod1
+- host: fa-equm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Equm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-equm-saasfaprod1
+- host: fa-eqvg-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eqvg Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqvg-saasfaprod1
+- host: fa-eqwz-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eqwz Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqwz-saasfaprod1
+- host: fa-eqwz-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_3001
+  name: Fa Eqwz Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqwz-saasfaprod1
+- host: fa-eran-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eran Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eran-saasfaprod1
+- host: fa-eron-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eron Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eron-saasfaprod1
+- host: fa-erqb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: ADT
+  aliases:
+  - fa-erqb-saasfaprod1
+- host: fa-erqw-saasfaprod1.fa.ocs.oraclecloud.com
+  site: D360BankCareerPage
+  name: Fa Erqw Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-erqw-saasfaprod1
+- host: fa-errt-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: SCOR
+  aliases:
+  - fa-errt-saasfaprod1
+- host: fa-ertb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Photon
+  aliases:
+  - fa-ertb-saasfaprod1
+- host: fa-eryk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Eryk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eryk-saasfaprod1
+- host: fa-esau-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Esau Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esau-saasfaprod1
+- host: fa-esbv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Fa Esbv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esbv-saasfaprod1
+- host: fa-esfy-saasfaprod1.fa.ocs.oraclecloud.com
+  site: medela-potentia-id
+  name: Fa Esfy Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esfy-saasfaprod1
+- host: fa-esgu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Montenson
+  aliases:
+  - fa-esgu-saasfaprod1
+- host: fa-esgu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Montenson
+  aliases:
+  - fa-esgu-saasfaprod1
+- host: fa-esiu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Esiu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esiu-saasfaprod1
+- host: fa-esjf-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Esjf Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esjf-saasfaprod1
+- host: fa-essf-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Berkshire Hathaway Energy
+  aliases:
+  - fa-essf-saasfaprod1
+- host: fa-esta-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Esta Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esta-saasfaprod1
+- host: fa-esth-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Esth Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esth-saasfaprod1
+- host: fa-etgw-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: TriNet
+  aliases:
+  - fa-etgw-saasfaprod1
+- host: fa-etjb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1004
+  name: Fa Etjb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etjb-saasfaprod1
+- host: fa-etjd-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: FirstEnergy
+  aliases:
+  - fa-etjd-saasfaprod1
+- host: fa-etjg-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Etjg Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etjg-saasfaprod1
+- host: fa-etlq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Etlq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etlq-saasfaprod1
+- host: fa-etnf-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Etnf Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etnf-saasfaprod1
+- host: fa-etnv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: capitol-view-transitional-care-center
+  name: Fa Etnv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etnv-saasfaprod1
+- host: fa-etnv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Etnv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etnv-saasfaprod1
+- host: fa-etnv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: healthpartners
+  name: Fa Etnv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etnv-saasfaprod1
+- host: fa-etnv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Etnv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etnv-saasfaprod1
+- host: fa-etqd-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Etqd Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etqd-saasfaprod1
+- host: fa-etqo-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: HEXAWARE
+  aliases:
+  - fa-etqo-saasfaprod1
+- host: fa-etum-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: GuideWell Mutual
+  aliases:
+  - fa-etum-saasfaprod1
+- host: fa-etum-saasfaprod1.fa.ocs.oraclecloud.com
+  site: webtpa
+  name: GuideWell Mutual
+  aliases:
+  - fa-etum-saasfaprod1
+- host: fa-etus-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Fa Etus Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etus-saasfaprod1
+- host: fa-etus-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2004
+  name: Fa Etus Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etus-saasfaprod1
+- host: fa-etwa-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Etwa Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etwa-saasfaprod1
+- host: fa-etwq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Etwq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etwq-saasfaprod1
+- host: fa-etzd-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Etzd Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etzd-saasfaprod1
+- host: fa-eubm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eubm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eubm-saasfaprod1
+- host: fa-eubm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1robots
+  name: Fa Eubm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eubm-saasfaprod1
+- host: fa-eudi-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eudi Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eudi-saasfaprod1
+- host: fa-eugp-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_3001
+  name: Fa Eugp Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eugp-saasfaprod1
+- host: fa-euii-saasfaprod1.fa.ocs.oraclecloud.com
+  site: careers
+  name: Fa Euii Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euii-saasfaprod1
+- host: fa-eukk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Eukk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eukk-saasfaprod1
+- host: fa-eukk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eukk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eukk-saasfaprod1
+- host: fa-eukq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_3
+  name: Fa Eukq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eukq-saasfaprod1
+- host: fa-eulx-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eulx Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eulx-saasfaprod1
+- host: fa-eunv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Eunv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eunv-saasfaprod1
+- host: fa-euok-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Euok Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euok-saasfaprod1
+- host: fa-euqk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Euqk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euqk-saasfaprod1
+- host: fa-eurk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: Fa Eurk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eurk-saasfaprod1
+- host: fa-eurt-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2004
+  name: Fa Eurt Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eurt-saasfaprod1
+- host: fa-eute-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eute Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eute-saasfaprod1
+- host: fa-eutm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_xx
+  name: Fa Eutm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eutm-saasfaprod1
+- host: fa-euwx-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Euwx Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euwx-saasfaprod1
+- host: fa-euxc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Citco
+  aliases:
+  - fa-euxc-saasfaprod1
+- host: fa-euxw-saasfaprod1.fa.ocs.oraclecloud.com
+  site: AloricaCanada
+  name: Fa Euxw Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euxw-saasfaprod1
+- host: fa-euyk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Euyk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euyk-saasfaprod1
+- host: fa-euyo-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_4
+  name: Fa Euyo Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euyo-saasfaprod1
+- host: fa-euyq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Euyq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euyq-saasfaprod1
+- host: fa-euzi-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Euzi Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euzi-saasfaprod1
+- host: fa-evav-saasfaprod1.fa.ocs.oraclecloud.com
+  site: connecticutchildrenscareers
+  name: Fa Evav Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evav-saasfaprod1
+- host: fa-evav-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Evav Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evav-saasfaprod1
+- host: fa-evax-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Evax Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evax-saasfaprod1
+- host: fa-evdi-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Evdi Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evdi-saasfaprod1
+- host: fa-eveq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eveq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eveq-saasfaprod1
+- host: fa-evfp-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Evfp Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evfp-saasfaprod1
+- host: fa-evft-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Evft Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evft-saasfaprod1
+- host: fa-evgk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: Bonnell
+  name: Fa Evgk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evgk-saasfaprod1
+- host: fa-evgk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Evgk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evgk-saasfaprod1
+- host: fa-evhj-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Evhj Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evhj-saasfaprod1
+- host: fa-evlj-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Evlj Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evlj-saasfaprod1
+- host: fa-evlo-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_xx
+  name: Fa Evlo Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evlo-saasfaprod1
+- host: fa-evmb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Evmb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evmb-saasfaprod1
+- host: fa-evng-saasfaprod1.fa.ocs.oraclecloud.com
+  site: LBWF
+  name: Fa Evng Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evng-saasfaprod1
+- host: fa-evpg-saasfaeuraprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Evpg Saasfaeuraprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evpg-saasfaeuraprod1
+- host: fa-evvx-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Evvx Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evvx-saasfaprod1
+- host: fa-evvx-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Evvx Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evvx-saasfaprod1
+- host: fa-evwo-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Evwo Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evwo-saasfaprod1
+- host: fa-evyu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Evyu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evyu-saasfaprod1
+- host: fa-evzn-saasfaukgovprod1.fa.ocs.oraclecloud.com
+  site: UKSBS-Careers
+  name: Fa Evzn Saasfaukgovprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evzn-saasfaukgovprod1
+- host: fa-evzu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Evzu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evzu-saasfaprod1
+- host: fa-ewag-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewag Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewag-saasfaprod1
+- host: fa-ewcd-saasfaprod1.fa.ocs.oraclecloud.com
+  site: JGCGroup
+  name: Fa Ewcd Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewcd-saasfaprod1
+- host: fa-ewdg-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Ewdg Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewdg-saasfaprod1
+- host: fa-ewdg-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewdg Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewdg-saasfaprod1
+- host: fa-ewdp-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Ewdp Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewdp-saasfaprod1
+- host: fa-ewdp-saasfaprod1.fa.ocs.oraclecloud.com
+  site: Portal-USB
+  name: Fa Ewdp Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewdp-saasfaprod1
+- host: fa-ewfi-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewfi Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewfi-saasfaprod1
+- host: fa-ewfm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: steenstrom
+  name: Fa Ewfm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewfm-saasfaprod1
+- host: fa-ewfo-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewfo Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewfo-saasfaprod1
+- host: fa-ewgu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Chubb
+  aliases:
+  - fa-ewgu-saasfaprod1
+- host: fa-ewje-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Ewje Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewje-saasfaprod1
+- host: fa-ewje-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewje Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewje-saasfaprod1
+- host: fa-ewjt-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: EXL
+  aliases:
+  - fa-ewjt-saasfaprod1
+- host: fa-ewmx-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewmx Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewmx-saasfaprod1
+- host: fa-ewmy-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Verisk
+  aliases:
+  - fa-ewmy-saasfaprod1
+- host: fa-ewnv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: BIBANCA-Lavora-Con-Noi
+  name: Fa Ewnv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewnv-saasfaprod1
+- host: fa-ewph-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Ewph Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewph-saasfaprod1
+- host: fa-ewqb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewqb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewqb-saasfaprod1
+- host: fa-ewrh-saasfaprod1.fa.ocs.oraclecloud.com
+  site: RayaCareers
+  name: Fa Ewrh Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewrh-saasfaprod1
+- host: fa-ewrl-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Ewrl Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewrl-saasfaprod1
+- host: fa-ewto-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Ewto Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewto-saasfaprod1
+- host: fa-ewur-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Ewur Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewur-saasfaprod1
+- host: fa-ewwt-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewwt Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewwt-saasfaprod1
+- host: fa-exdv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: Careers
+  name: Fa Exdv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exdv-saasfaprod1
+- host: fa-exdv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Exdv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exdv-saasfaprod1
+- host: fa-exdv-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Exdv Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exdv-saasfaprod1
+- host: fa-exea-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Exea Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exea-saasfaprod1
+- host: fa-exer-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Exer Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exer-saasfaprod1
+- host: fa-exer-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Exer Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exer-saasfaprod1
+- host: fa-exlt-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Exlt Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exlt-saasfaprod1
+- host: fa-exmi-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Weatherford
+  aliases:
+  - fa-exmi-saasfaprod1
+- host: fa-exow-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Exow Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exow-saasfaprod1
+- host: fa-exrr-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Exrr Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exrr-saasfaprod1
+- host: fa-exrr-saasfaprod1.fa.ocs.oraclecloud.com
+  site: rcandersen
+  name: Fa Exrr Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exrr-saasfaprod1
+- host: fa-exrr-saasfaprod1.fa.ocs.oraclecloud.com
+  site: structuretoneintnl
+  name: Fa Exrr Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exrr-saasfaprod1
+- host: fa-exvu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: GM financial
+  aliases:
+  - fa-exvu-saasfaprod1
+- host: fa-exxm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Exxm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-exxm-saasfaprod1
+- host: fa-eyau-saasfaprod1.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: Fa Eyau Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eyau-saasfaprod1
+- host: faulkner-iccjjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Faulkner Iccjjb.fa.ocs.oraclecloud.com
+  aliases:
+  - faulkner-iccjjb
+- host: gpi-iacriz.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Gpi Iacriz.fa.ocs.oraclecloud.com
+  aliases:
+  - gpi-iacriz
+- host: iaagkf.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: iaagkf
+- host: iaagmj.fa.ocs.oraclecloud.com
+  site: GG
+  name: iaagmj
+- host: iaaktz.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: iaaktz
+- host: iaaonf.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: iaaonf
+- host: iaarcp.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: iaarcp
+- host: iaarey.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: iaarey
+- host: iaavas.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: iaavas
+- host: iaaxiz.fa.ocs.oraclecloud.com
+  site: OpusCareers
+  name: iaaxiz
+- host: iaayou.fa.ocs.oraclecloud.com
+  site: GCF-Careers
+  name: iaayou
+- host: iaayzv.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: iaayzv
+- host: iaazkf.fa.ocs.oraclecloud.com
+  site: SPL-Careers
+  name: iaazkf
+- host: iabcbn.fa.ocs.oraclecloud.com
+  site: CX
+  name: iabcbn
+- host: iabcbn.fa.ocs.oraclecloud.com
+  site: DLL
+  name: iabcbn
+- host: iabdgs.fa.ocs.oraclecloud.com
+  site: Estonia
+  name: iabdgs
+- host: iabhtj.fa.ocs.oraclecloud.com
+  site: CLP-Recruitment-System
+  name: iabhtj
+- host: iabigs.fa.ocs.oraclecloud.com
+  site: Kirey-Career-Site
+  name: iabigs
+- host: iachey.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: iachey
+- host: iacpey.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: iacpey
+- host: iadugs.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Legrand
+  aliases:
+  - iadugs
+- host: iaefup.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: iaefup
+- host: iagjme.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: iagjme
+- host: iahbme.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: iahbme
+- host: iahtgs.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: iahtgs
+- host: ialmme.fa.ocs.oraclecloud.com
+  site: CX
+  name: ialmme
+- host: iaotqy.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: iaotqy
+- host: iayzqy.fa.ocs.oraclecloud.com
+  site: jobsearch
+  name: iayzqy
+- host: iazbqy.fa.ocs.oraclecloud.com
+  site: CX
+  name: iazbqy
+- host: iaziqy.fa.ocs.oraclecloud.com
+  site: CX
+  name: Uber
+  aliases:
+  - iaziqy
+- host: ibaeqy.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: ibaeqy
+- host: ibanqy.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: ibanqy
+- host: ibanqy.fa.ocs.oraclecloud.com
+  site: CX_4
+  name: ibanqy
+- host: ibcjqy.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: ibcjqy
+- host: ibcjqy.fa.ocs.oraclecloud.com
+  site: jobsmymlc
+  name: ibcjqy
+- host: ibewqy.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: ibewqy
+- host: ibjzqy.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: ibjzqy
+- host: iblyjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: iblyjb
+- host: ibmwjb.fa.ocs.oraclecloud.com
+  site: CX
+  name: ibmwjb
+- host: ibmxjb.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: ibmxjb
+- host: ibpcjb.fa.ocs.oraclecloud.com
+  site: CX_1004
+  name: ibpcjb
+- host: ibqhjb.fa.ocs.oraclecloud.com
+  site: PY
+  name: ibqhjb
+- host: ibspjb.fa.ocs.oraclecloud.com
+  site: CX
+  name: ibspjb
+- host: ibspjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: ibspjb
+- host: ibtsjb.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: ibtsjb
+- host: ibxwjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: ibxwjb
+- host: ibxwjb.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: ibxwjb
+- host: ibxwjb-test.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Ibxwjb Test.fa.ocs.oraclecloud.com
+  aliases:
+  - ibxwjb-test
+- host: ibyrjb.fa.ocs.oraclecloud.com
+  site: ACCJobs
+  name: ibyrjb
+- host: mycarey-iaaenf.fa.ocs.oraclecloud.com
+  site: careyemployment
+  name: Mycarey Iaaenf.fa.ocs.oraclecloud.com
+  aliases:
+  - mycarey-iaaenf
+- host: osumc-iborjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Osumc Iborjb.fa.ocs.oraclecloud.com
+  aliases:
+  - osumc-iborjb
+- host: osumc-iborjb.fa.ocs.oraclecloud.com
+  site: OSUMC
+  name: Osumc Iborjb.fa.ocs.oraclecloud.com
+  aliases:
+  - osumc-iborjb
+- host: parkview-ibyyjb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Parkview Ibyyjb.fa.ocs.oraclecloud.com
+  aliases:
+  - parkview-ibyyjb
+- host: rjcorphcm-iacbiz.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Rjcorphcm Iacbiz.fa.ocs.oraclecloud.com
+  aliases:
+  - rjcorphcm-iacbiz
+- host: rose-state-iccljb.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Rose State Iccljb.fa.ocs.oraclecloud.com
+  aliases:
+  - rose-state-iccljb
+- host: rose-state-iccljb.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: Rose State Iccljb.fa.ocs.oraclecloud.com
+  aliases:
+  - rose-state-iccljb
+- host: tulane-ibqejb.fa.ocs.oraclecloud.com
+  site: CX
+  name: Tulane University
+  aliases:
+  - tulane-ibqejb
+- host: usgi-iacoiz.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Usgi Iacoiz.fa.ocs.oraclecloud.com
+  aliases:
+  - usgi-iacoiz
+- host: wsib-iaepup.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Wsib Iaepup.fa.ocs.oraclecloud.com
+  aliases:
+  - wsib-iaepup
+- host: hbap.fa.us1.oraclecloud.com
+  site: jobsearch
+  name: hbap
+- host: hcas.fa.us1.oraclecloud.com
+  site: jobsearch
+  name: hcas
+- host: cbha.fa.us2.oraclecloud.com
+  site: CX
+  name: cbha
+- host: eabw.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: eabw
+- host: ebez.fa.us2.oraclecloud.com
+  site: CX
+  name: ebez
+- host: ebez.fa.us2.oraclecloud.com
+  site: CX_4
+  name: ebez
+- host: ebez.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: ebez
+- host: ebhu.fa.us2.oraclecloud.com
+  site: Careers
+  name: Cetera Financial Group
+  aliases:
+  - ebhu
+- host: ebhu.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Cetera Financial Group
+  aliases:
+  - ebhu
+- host: ebqb.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: ebqb
+- host: ebtg.fa.us2.oraclecloud.com
+  site: Career-Site-Quantcast
+  name: ebtg
+- host: ebwb.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: Hologic
+  aliases:
+  - ebwb
+- host: ebxs.fa.us2.oraclecloud.com
+  site: CX
+  name: Michael Baker International
+  aliases:
+  - ebxs
+- host: ebxs.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Michael Baker International
+  aliases:
+  - ebxs
+- host: eckb.fa.us2.oraclecloud.com
+  site: CX_1
+  name: eckb
+- host: eckb.fa.us2.oraclecloud.com
+  site: CX_1003
+  name: eckb
+- host: eckb.fa.us2.oraclecloud.com
+  site: CX_1011
+  name: eckb
+- host: eckb.fa.us2.oraclecloud.com
+  site: CX_2
+  name: eckb
+- host: ecvz.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: Adventist Health
+  aliases:
+  - ecvz
+- host: eczd.fa.us2.oraclecloud.com
+  site: CX_4001
+  name: eczd
+- host: eczd.fa.us2.oraclecloud.com
+  site: CX_9001
+  name: eczd
+- host: edbz.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Texas Instruments
+  aliases:
+  - edbz
+- host: edel.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: Fortinet
+  aliases:
+  - edel
+- host: edjd.fa.us2.oraclecloud.com
+  site: CX
+  name: edjd
+- host: edjd.fa.us2.oraclecloud.com
+  site: CX_1
+  name: edjd
+- host: edwa.fa.us2.oraclecloud.com
+  site: CX_2
+  name: edwa
+- host: edxn.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Boston Properties
+  aliases:
+  - edxn
+- host: edym.fa.us2.oraclecloud.com
+  site: CX_1
+  name: edym
+- host: edyo.fa.us2.oraclecloud.com
+  site: CX_1
+  name: edyo
+- host: edyo.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: edyo
+- host: eehb.fa.us2.oraclecloud.com
+  site: CX_2005
+  name: eehb
+- host: eehb.fa.us2.oraclecloud.com
+  site: CX_3001
+  name: eehb
+- host: eeik.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: University of Wyoming
+  aliases:
+  - eeik
+- host: eexs.fa.us2.oraclecloud.com
+  site: ClarendaleArcadia
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: ClarendaleClayton
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: ClarendaleSixCorners
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: CX_12007
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: CX_9001
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: EastcaslePlace
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: ForumatRancho
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: HeritageatIreneWoods
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: HeritagePointe
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: MoldawResidences
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: TheAvalonofAuburnHills
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: TheAvalonofCommerceTownship
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: eexs.fa.us2.oraclecloud.com
+  site: Wyndemere
+  name: Greenwood Village South
+  aliases:
+  - eexs
+- host: egqw.fa.us2.oraclecloud.com
+  site: CX_11
+  name: egqw
+- host: egsd.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: egsd
+- host: egue-dev12.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Egue Dev12.fa.us2.oraclecloud.com
+  aliases:
+  - egue-dev12
+- host: ehnn.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: ehnn
+- host: ehnn.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: ehnn
+- host: ehxr.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: ehxr
+- host: ehzq.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: Grant Thornton
+  aliases:
+  - ehzq
+- host: ejlu.fa.us2.oraclecloud.com
+  site: HilltopHoldingsAllJobs
+  name: ejlu
+- host: ejlu.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: ejlu
+- host: ejof.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: ejof
+- host: ejrz.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: VITAS Healthcare
+  aliases:
+  - ejrz
+- host: ejrz-dev3.fa.us2.oraclecloud.com
+  site: CX
+  name: Ejrz Dev3.fa.us2.oraclecloud.com
+  aliases:
+  - ejrz-dev3
+- host: ejrz-dev3.fa.us2.oraclecloud.com
+  site: CX_5001
+  name: Ejrz Dev3.fa.us2.oraclecloud.com
+  aliases:
+  - ejrz-dev3
+- host: ekaw.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: Securitas
+  aliases:
+  - ekaw
+- host: ekkt.fa.us2.oraclecloud.com
+  site: CX
+  name: ekkt
+- host: ekkt.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: ekkt
+- host: eklm.fa.us2.oraclecloud.com
+  site: CX_1001
+  name: eklm
+- host: eklm.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: eklm
+- host: ekze.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: ekze
+- host: elar.fa.us2.oraclecloud.com
+  site: CX_11013
+  name: Inova
+  aliases:
+  - elar
+- host: elhr.fa.us2.oraclecloud.com
+  site: CX
+  name: elhr
+- host: elje.fa.us2.oraclecloud.com
+  site: CX
+  name: elje
+- host: elje.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: elje
+- host: eljs.fa.us2.oraclecloud.com
+  site: CX_7001
+  name: eljs
+- host: eljs.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: eljs
+- host: elrj.fa.us2.oraclecloud.com
+  site: agency
+  name: Omnicell
+  aliases:
+  - elrj
+- host: eluq.fa.us2.oraclecloud.com
+  site: CX
+  name: eluq
+- host: elyb.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: elyb
+- host: emvo.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: emvo
+- host: eodr.fa.us2.oraclecloud.com
+  site: CX_1
+  name: eodr
+- host: eofe.fa.us2.oraclecloud.com
+  site: CX_1
+  name: BNY
+  aliases:
+  - eofe
+- host: eofe.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: BNY
+  aliases:
+  - eofe
+- host: eolj.fa.us2.oraclecloud.com
+  site: CX
+  name: eolj
+- host: epyc.fa.us2.oraclecloud.com
+  site: CLH-CA
+  name: Clean Harbors
+  aliases:
+  - epyc
+- host: epyz.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: epyz
+- host: erqh.fa.us2.oraclecloud.com
+  site: CX_1
+  name: erqh
+- host: esgj.fa.us2.oraclecloud.com
+  site: CX_1
+  name: esgj
+- host: esgj.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: esgj
+- host: evac.fa.us2.oraclecloud.com
+  site: CX_1004
+  name: evac
+- host: hcal.fa.us2.oraclecloud.com
+  site: CX_1
+  name: Subaru
+  aliases:
+  - hcal
+- host: hccg.fa.us2.oraclecloud.com
+  site: CX
+  name: hccg
+- host: hcfa.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: hcfa
+- host: hcjm.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: hcjm
+- host: cargolux-iajigs.fa.ocs.oraclecloud.com
+  site: CargoluxGroundStaff
+  name: Cargolux Iajigs.fa.ocs.oraclecloud.com
+  aliases:
+  - cargolux-iajigs
+- host: cargolux-iajigs.fa.ocs.oraclecloud.com
+  site: CargoluxPilotsItaly
+  name: Cargolux Iajigs.fa.ocs.oraclecloud.com
+  aliases:
+  - cargolux-iajigs
+- host: cargolux-iajigs.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: Cargolux Iajigs.fa.ocs.oraclecloud.com
+  aliases:
+  - cargolux-iajigs
+- host: efpv-dev10.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Efpv Dev10.fa.ocs.oraclecloud.com
+  aliases:
+  - efpv-dev10
+- host: efpv-dev10.fa.ocs.oraclecloud.com
+  site: CX_6001
+  name: Efpv Dev10.fa.ocs.oraclecloud.com
+  aliases:
+  - efpv-dev10
+- host: fa-elxu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_3013
+  name: Fa Elxu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-elxu-saasfaprod1
+- host: fa-emad-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_6001
+  name: Fa Emad Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-emad-saasfaprod1
+- host: fa-enor-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Phoenix Group
+  aliases:
+  - fa-enor-saasfaprod1
+- host: fa-eosa-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1013
+  name: Fa Eosa Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eosa-saasfaprod1
+- host: fa-eosa-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_3001
+  name: Fa Eosa Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eosa-saasfaprod1
+- host: fa-eotc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_29024
+  name: Fa Eotc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eotc-saasfaprod1
+- host: fa-eotc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_30010
+  name: Fa Eotc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eotc-saasfaprod1
+- host: fa-eozb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_5001
+  name: Fa Eozb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eozb-saasfaprod1
+- host: fa-epmd-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Linamar
+  aliases:
+  - fa-epmd-saasfaprod1
+- host: fa-epwu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Epwu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-epwu-saasfaprod1
+- host: fa-eqgp-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_xx
+  name: Fa Eqgp Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqgp-saasfaprod1
+- host: fa-eqva-saasfaprod1.fa.ocs.oraclecloud.com
+  site: FidelityCareerSite
+  name: Fa Eqva Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqva-saasfaprod1
+- host: fa-eqzh-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eqzh Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eqzh-saasfaprod1
+- host: fa-erbb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_10
+  name: Fa Erbb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-erbb-saasfaprod1
+- host: fa-erbb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1013
+  name: Fa Erbb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-erbb-saasfaprod1
+- host: fa-erbb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_31
+  name: Fa Erbb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-erbb-saasfaprod1
+- host: fa-erbb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_7
+  name: Fa Erbb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-erbb-saasfaprod1
+- host: fa-erqf-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Erqf Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-erqf-saasfaprod1
+- host: fa-esaq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Esaq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esaq-saasfaprod1
+- host: fa-esfy-saasfaprod1.fa.ocs.oraclecloud.com
+  site: medela-potentia-en
+  name: Fa Esfy Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esfy-saasfaprod1
+- host: fa-eslq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Eslq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eslq-saasfaprod1
+- host: fa-eslq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Eslq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eslq-saasfaprod1
+- host: fa-esvb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Esvb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-esvb-saasfaprod1
+- host: fa-etbm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Etbm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etbm-saasfaprod1
+- host: fa-ethm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ethm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ethm-saasfaprod1
+- host: fa-etjb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: cx
+  name: Fa Etjb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etjb-saasfaprod1
+- host: fa-etrb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_3001
+  name: Fa Etrb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etrb-saasfaprod1
+- host: fa-etrr-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Etrr Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etrr-saasfaprod1
+- host: fa-etrr-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_5001
+  name: Fa Etrr Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etrr-saasfaprod1
+- host: fa-etus-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Etus Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etus-saasfaprod1
+- host: fa-etuy-saasfaeuraprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Etuy Saasfaeuraprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-etuy-saasfaeuraprod1
+- host: fa-etvc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Dallas County
+  aliases:
+  - fa-etvc-saasfaprod1
+- host: fa-etyr-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_4
+  name: City of Oklahoma City
+  aliases:
+  - fa-etyr-saasfaprod1
+- host: fa-etyr-saasfaprod1.fa.ocs.oraclecloud.com
+  site: OKCFD
+  name: City of Oklahoma City
+  aliases:
+  - fa-etyr-saasfaprod1
+- host: fa-euhj-saasfaukgovprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Euhj Saasfaukgovprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euhj-saasfaukgovprod1
+- host: fa-eulx-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CityOfParramattaCareers
+  name: Fa Eulx Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-eulx-saasfaprod1
+- host: fa-euqw-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Fa Euqw Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euqw-saasfaprod1
+- host: fa-euuc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2
+  name: Fa Euuc Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euuc-saasfaprod1
+- host: fa-euud-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Euud Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euud-saasfaprod1
+- host: fa-euxc-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Citco
+  aliases:
+  - fa-euxc-saasfaprod1
+- host: fa-euxw-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Euxw Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euxw-saasfaprod1
+- host: fa-euyk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Euyk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euyk-saasfaprod1
+- host: fa-euyk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: PenskeCareersFrench
+  name: Fa Euyk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euyk-saasfaprod1
+- host: fa-euzb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Euzb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euzb-saasfaprod1
+- host: fa-euzb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Euzb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euzb-saasfaprod1
+- host: fa-euzi-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_4
+  name: Fa Euzi Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euzi-saasfaprod1
+- host: fa-euzu-test-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Euzu Test Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-euzu-test-saasfaprod1
+- host: fa-evcm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Evcm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evcm-saasfaprod1
+- host: fa-evei-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Evei Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evei-saasfaprod1
+- host: fa-evlb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Fa Evlb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evlb-saasfaprod1
+- host: fa-evlp-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Evlp Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evlp-saasfaprod1
+- host: fa-evwo-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_2001
+  name: Fa Evwo Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evwo-saasfaprod1
+- host: fa-evxo-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Community Health Systems
+  aliases:
+  - fa-evxo-saasfaprod1
+- host: fa-evzu-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Evzu Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-evzu-saasfaprod1
+- host: fa-ewci-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewci Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewci-saasfaprod1
+- host: fa-ewfb-saasfaprod1.fa.ocs.oraclecloud.com
+  site: Careers
+  name: Fa Ewfb Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewfb-saasfaprod1
+- host: fa-ewfm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: klepierre
+  name: Fa Ewfm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewfm-saasfaprod1
+- host: fa-ewkd-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewkd Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewkd-saasfaprod1
+- host: fa-ewlq-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX
+  name: Fa Ewlq Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewlq-saasfaprod1
+- host: fa-ewnp-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewnp Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewnp-saasfaprod1
+- host: fa-ewqm-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Ewqm Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewqm-saasfaprod1
+- host: fa-ewtd-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_7001
+  name: Fa Ewtd Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewtd-saasfaprod1
+- host: fa-ewtk-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1001
+  name: Fa Ewtk Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewtk-saasfaprod1
+- host: fa-ewtx-saasfaprod1.fa.ocs.oraclecloud.com
+  site: CX_1
+  name: Fa Ewtx Saasfaprod1.fa.ocs.oraclecloud.com
+  aliases:
+  - fa-ewtx-saasfaprod1
+- host: hbcp.fa.us2.oraclecloud.com
+  site: CX_2
+  name: hbcp
+- host: hdhf.fa.us6.oraclecloud.com
+  site: CX_2001
+  name: hdhf
+- host: hdhl.fa.us6.oraclecloud.com
+  site: cx_1
+  name: Stantec
+  aliases:
+  - hdhl
+- host: hdhl.fa.us6.oraclecloud.com
+  site: jobsearch
+  name: Stantec
+  aliases:
+  - hdhl
+- host: hdnn.fa.us6.oraclecloud.com
+  site: cx
+  name: Arconic
+  aliases:
+  - hdnn
+- host: exzj.fa.us8.oraclecloud.com
+  site: CX
+  name: exzj

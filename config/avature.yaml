@@ -50,3 +50,5 @@ companies:
   name: jobs.lenovo.com
 - base: https://mhcta.avature.net/careers
   name: mhcta.avature.net
+- base: https://unifi.avature.net/careers
+  name: unifi.avature.net

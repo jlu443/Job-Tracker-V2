@@ -1389,3 +1389,337 @@ companies:
   name: Applied Underwriters
   aliases:
   - auw
+- slug: 100ms
+  name: 100ms
+- slug: 90seconds
+  name: 90seconds
+- slug: actionlife
+  name: actionlife
+- slug: aero
+  name: aero
+- slug: agiloft
+  name: agiloft
+- slug: ahschc
+  name: ahschc
+- slug: airalo
+  name: airalo
+- slug: airslate
+  name: airslate
+- slug: altarum
+  name: altarum
+- slug: amtengineering
+  name: amtengineering
+- slug: ana-corp
+  name: Ana Corp
+  aliases:
+  - ana-corp
+- slug: andersencorp
+  name: andersencorp
+- slug: animocabrands
+  name: animocabrands
+- slug: aogarciaagency
+  name: aogarciaagency
+- slug: applydigital
+  name: applydigital
+- slug: arbitalhealth
+  name: arbitalhealth
+- slug: asapp-2
+  name: Asapp 2
+  aliases:
+  - asapp-2
+- slug: assist-world
+  name: Assist World
+  aliases:
+  - assist-world
+- slug: avalerehealth
+  name: avalerehealth
+- slug: bfsaulhotels
+  name: bfsaulhotels
+- slug: binance
+  name: binance
+- slug: biobus.org
+  name: biobus.org
+- slug: bluelightconsulting
+  name: bluelightconsulting
+- slug: bold-orange
+  name: Bold Orange
+  aliases:
+  - bold-orange
+- slug: bounteous
+  name: bounteous
+- slug: BreezeBio
+  name: breezebio
+- slug: brighte
+  name: brighte
+- slug: Burro
+  name: burro
+- slug: BusaraCenter
+  name: busaracenter
+- slug: businesswire
+  name: businesswire
+- slug: bv
+  name: bv
+- slug: cagents
+  name: cagents
+- slug: CatalystMobility
+  name: catalystmobility
+- slug: charmindustrial
+  name: charmindustrial
+- slug: chipping-concrete
+  name: Chipping Concrete
+  aliases:
+  - chipping-concrete
+- slug: chownow
+  name: chownow
+- slug: ciandt
+  name: ciandt
+- slug: circadiahealth
+  name: circadiahealth
+- slug: clevelandconstruction
+  name: clevelandconstruction
+- slug: coinmarketcap
+  name: coinmarketcap
+- slug: connext-network
+  name: Connext Network
+  aliases:
+  - connext-network
+- slug: convelio
+  name: convelio
+- slug: crypto
+  name: crypto
+- slug: dadavidson
+  name: dadavidson
+- slug: deputy
+  name: deputy
+- slug: dijital-team-pty-ltd
+  name: Dijital Team Pty Ltd
+  aliases:
+  - dijital-team-pty-ltd
+- slug: disher
+  name: disher
+- slug: doola
+  name: doola
+- slug: dualitas-therapeutics
+  name: Dualitas Therapeutics
+  aliases:
+  - dualitas-therapeutics
+- slug: dulcedo
+  name: dulcedo
+- slug: easypost-2
+  name: Easypost 2
+  aliases:
+  - easypost-2
+- slug: emma-sleep
+  name: Emma Sleep
+  aliases:
+  - emma-sleep
+- slug: epoch-ai
+  name: Epoch Ai
+  aliases:
+  - epoch-ai
+- slug: flashapp
+  name: flashapp
+- slug: flux-mobility
+  name: Flux Mobility
+  aliases:
+  - flux-mobility
+- slug: furientis
+  name: furientis
+- slug: genuine-health
+  name: Genuine Health
+  aliases:
+  - genuine-health
+- slug: gettyimages
+  name: gettyimages
+- slug: ghj
+  name: ghj
+- slug: goodleap
+  name: goodleap
+- slug: gopuff
+  name: gopuff
+- slug: goswift
+  name: goswift
+- slug: GoToGroup
+  name: gotogroup
+- slug: hashtagpaid
+  name: hashtagpaid
+- slug: heyrowan
+  name: heyrowan
+- slug: highstreetit
+  name: highstreetit
+- slug: hutker-architects-inc
+  name: Hutker Architects Inc
+  aliases:
+  - hutker-architects-inc
+- slug: includedhealth
+  name: includedhealth
+- slug: Instrumentl
+  name: instrumentl
+- slug: jobgether
+  name: jobgether
+- slug: jobscan-2
+  name: Jobscan 2
+  aliases:
+  - jobscan-2
+- slug: joltcharge
+  name: joltcharge
+- slug: jumpcloud
+  name: jumpcloud
+- slug: kariusdx
+  name: kariusdx
+- slug: kivaconfections
+  name: kivaconfections
+- slug: kobie
+  name: kobie
+- slug: Kyverna
+  name: kyverna
+- slug: last-energy
+  name: Last Energy
+  aliases:
+  - last-energy
+- slug: Legend
+  name: legend
+- slug: lessen
+  name: lessen
+- slug: loopreturns
+  name: loopreturns
+- slug: lvs1
+  name: lvs1
+- slug: makpar
+  name: makpar
+- slug: meesho
+  name: meesho
+- slug: megaport
+  name: megaport
+- slug: menta
+  name: menta
+- slug: mindtickle
+  name: mindtickle
+- slug: MissionWired
+  name: missionwired
+- slug: momsmeals
+  name: momsmeals
+- slug: murgadoautomotive
+  name: murgadoautomotive
+- slug: networkconnex
+  name: networkconnex
+- slug: ninjavan
+  name: ninjavan
+- slug: nium
+  name: nium
+- slug: NuvoAir
+  name: nuvoair
+- slug: offchainlabs
+  name: offchainlabs
+- slug: omnidian
+  name: omnidian
+- slug: oneimpression
+  name: oneimpression
+- slug: orcabiosystems
+  name: orcabiosystems
+- slug: otilumionics
+  name: otilumionics
+- slug: outreach
+  name: outreach
+- slug: overhead-garage-door
+  name: Overhead Garage Door
+  aliases:
+  - overhead-garage-door
+- slug: payjoy
+  name: payjoy
+- slug: people-ai
+  name: People Ai
+  aliases:
+  - people-ai
+- slug: perforce
+  name: perforce
+- slug: premiertruck
+  name: premiertruck
+- slug: prolific-machines
+  name: Prolific Machines
+  aliases:
+  - prolific-machines
+- slug: qualysoft
+  name: qualysoft
+- slug: quilted-health
+  name: Quilted Health
+  aliases:
+  - quilted-health
+- slug: radformation
+  name: radformation
+- slug: redoxengine
+  name: redoxengine
+- slug: renofi
+  name: renofi
+- slug: repurposeglobal
+  name: repurposeglobal
+- slug: ridezum
+  name: ridezum
+- slug: ro
+  name: ro
+- slug: roshalimaging
+  name: roshalimaging
+- slug: scale3c
+  name: scale3c
+- slug: ScaleMicrogridSolutions
+  name: scalemicrogridsolutions
+- slug: scaleway
+  name: scaleway
+- slug: scality
+  name: scality
+- slug: servicerocket
+  name: servicerocket
+- slug: shakudo
+  name: shakudo
+- slug: sierraclub
+  name: sierraclub
+- slug: spreetail
+  name: spreetail
+- slug: sycurio
+  name: sycurio
+- slug: teambuilders
+  name: teambuilders
+- slug: terrahq
+  name: terrahq
+- slug: theathletic
+  name: theathletic
+- slug: thuma
+  name: thuma
+- slug: togetherhood
+  name: togetherhood
+- slug: tryjeeves
+  name: tryjeeves
+- slug: unlimit
+  name: unlimit
+- slug: valiantys
+  name: valiantys
+- slug: velaura
+  name: velaura
+- slug: virtualitics
+  name: virtualitics
+- slug: viseven
+  name: viseven
+- slug: wahed.com
+  name: wahed.com
+- slug: wattpad
+  name: wattpad
+- slug: wealthfront
+  name: wealthfront
+- slug: wra-ca
+  name: Wra Ca
+  aliases:
+  - wra-ca
+- slug: yardstick
+  name: yardstick
+- slug: Yassir
+  name: yassir
+- slug: yuno
+  name: yuno
+- slug: Zanskar
+  name: zanskar
+- slug: zerion
+  name: zerion
+- slug: zimperium
+  name: zimperium
+- slug: zurichinstruments
+  name: zurichinstruments

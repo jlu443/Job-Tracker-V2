@@ -1636,3 +1636,75 @@ companies:
   name: ADC Solutions USA, LLC Horizon Brands
   aliases:
   - winplususa
+- slug: act-on-software
+  name: Act-On Software
+  aliases:
+  - act-on-software
+- slug: barcodesinc
+  name: Levata
+  aliases:
+  - barcodesinc
+- slug: childserve
+  name: ChildServe
+  aliases:
+  - childserve
+- slug: coastdental
+  name: Coast Dental
+  aliases:
+  - coastdental
+- slug: communityoptions
+  name: Community Options, Inc.
+  aliases:
+  - communityoptions
+- slug: firstbusinessbank
+  name: First Business Bank
+  aliases:
+  - firstbusinessbank
+- slug: generalparts
+  name: General Parts Group
+  aliases:
+  - generalparts
+- slug: hoodindustries
+  name: Hood Industries, Inc.
+  aliases:
+  - hoodindustries
+- slug: lewiscareers
+  name: Lewis Group of Companies
+  aliases:
+  - lewiscareers
+- slug: nrchealth
+  name: NRC Health
+  aliases:
+  - nrchealth
+- slug: nuscale-power
+  name: NuScale Power, LLC
+  aliases:
+  - nuscale-power
+- slug: renovateamerica
+  name: Renovate America
+  aliases:
+  - renovateamerica
+- slug: roedl
+  name: RÖDL USA
+  aliases:
+  - roedl
+- slug: sumidenso-automotive-technologies-asia-corp
+  name: Sumidenso Automotive Technologies Asia Corp
+  aliases:
+  - sumidenso-automotive-technologies-asia-corp
+- slug: techsmith
+  name: TechSmith Corporation
+  aliases:
+  - techsmith
+- slug: thefremontseniorliving
+  name: The Fremont Senior Living
+  aliases:
+  - thefremontseniorliving
+- slug: usana
+  name: USANA Health Sciences
+  aliases:
+  - usana
+- slug: veterinaryemergencysarasota
+  name: Veterinary Emergency Clinic (VEC) - Sarasota
+  aliases:
+  - veterinaryemergencysarasota

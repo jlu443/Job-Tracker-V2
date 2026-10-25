@@ -2997,3 +2997,409 @@ companies:
   name: Type One Energy Group
   aliases:
   - type-one-energy-group
+- slug: optigon
+  name: optigon
+- slug: ovationcxm
+  name: ovationcxm
+- slug: pai-job-board
+  name: Pai Job Board
+  aliases:
+  - pai-job-board
+- slug: phillips-farms-employment
+  name: Phillips Farms Employment
+  aliases:
+  - phillips-farms-employment
+- slug: pocketbook-strategies
+  name: Pocketbook Strategies
+  aliases:
+  - pocketbook-strategies
+- slug: primesecurity
+  name: primesecurity
+- slug: prisma-careers
+  name: Prisma Careers
+  aliases:
+  - prisma-careers
+- slug: processunity
+  name: processunity
+- slug: protecs-inc
+  name: Protecs Inc
+  aliases:
+  - protecs-inc
+- slug: qalamcareers
+  name: qalamcareers
+- slug: ravensdown
+  name: ravensdown
+- slug: rugiet
+  name: rugiet
+- slug: rust-automation-controls
+  name: Rust Automation Controls
+  aliases:
+  - rust-automation-controls
+- slug: schwartz-brothers-restaurants
+  name: Schwartz Brothers Restaurants
+  aliases:
+  - schwartz-brothers-restaurants
+- slug: scratch-financial
+  name: Scratch Financial
+  aliases:
+  - scratch-financial
+- slug: seah-superalloy-technologies
+  name: Seah Superalloy Technologies
+  aliases:
+  - seah-superalloy-technologies
+- slug: secretome-therapeutics
+  name: Secretome Therapeutics
+  aliases:
+  - secretome-therapeutics
+- slug: sensei
+  name: sensei
+- slug: shopdoen
+  name: shopdoen
+- slug: sketchy
+  name: sketchy
+- slug: smcnational-careers
+  name: Smcnational Careers
+  aliases:
+  - smcnational-careers
+- slug: spangleai
+  name: spangleai
+- slug: sprout-therapy-pdx
+  name: Sprout Therapy Pdx
+  aliases:
+  - sprout-therapy-pdx
+- slug: spyder
+  name: spyder
+- slug: standearth
+  name: standearth
+- slug: storedtech
+  name: storedtech
+- slug: straddle-inc
+  name: Straddle Inc
+  aliases:
+  - straddle-inc
+- slug: swimkids-utah
+  name: Swimkids Utah
+  aliases:
+  - swimkids-utah
+- slug: t2-flex-force
+  name: T2 Flex Force
+  aliases:
+  - t2-flex-force
+- slug: tersus-solutions
+  name: Tersus Solutions
+  aliases:
+  - tersus-solutions
+- slug: the-rockwell-museum
+  name: The Rockwell Museum
+  aliases:
+  - the-rockwell-museum
+- slug: tllignitejobs
+  name: tllignitejobs
+- slug: tombrascareers
+  name: tombrascareers
+- slug: trec-dental-partnership
+  name: Trec Dental Partnership
+  aliases:
+  - trec-dental-partnership
+- slug: triad-partners
+  name: Triad Partners
+  aliases:
+  - triad-partners
+- slug: triplemoon
+  name: triplemoon
+- slug: ulrich
+  name: ulrich
+- slug: vintage-hill-consulting-llc
+  name: Vintage Hill Consulting Llc
+  aliases:
+  - vintage-hill-consulting-llc
+- slug: vurvey-labs-inc
+  name: Vurvey Labs Inc
+  aliases:
+  - vurvey-labs-inc
+- slug: vynedental
+  name: vynedental
+- slug: walden-robotics
+  name: Walden Robotics
+  aliases:
+  - walden-robotics
+- slug: we-comes-before-me-corp-dba-sqldbm
+  name: We Comes Before Me Corp Dba Sqldbm
+  aliases:
+  - we-comes-before-me-corp-dba-sqldbm
+- slug: winston-artory-group
+  name: Winston Artory Group
+  aliases:
+  - winston-artory-group
+- slug: womens-coaching-alliance
+  name: Womens Coaching Alliance
+  aliases:
+  - womens-coaching-alliance
+- slug: xwp
+  name: xwp
+- slug: youth-era
+  name: Youth Era
+  aliases:
+  - youth-era
+- slug: pts-bb
+  name: Pts Bb
+  aliases:
+  - pts-bb
+- slug: qesolar
+  name: qesolar
+- slug: quadrant-strategies
+  name: Quadrant Strategies
+  aliases:
+  - quadrant-strategies
+- slug: rainey-careers
+  name: Rainey Careers
+  aliases:
+  - rainey-careers
+- slug: raslegalgroup
+  name: raslegalgroup
+- slug: rbmediacareers
+  name: rbmediacareers
+- slug: rcx-sports
+  name: Rcx Sports
+  aliases:
+  - rcx-sports
+- slug: reailizecareers
+  name: reailizecareers
+- slug: realmhealth
+  name: realmhealth
+- slug: redeemer-counseling
+  name: Redeemer Counseling
+  aliases:
+  - redeemer-counseling
+- slug: redeemer-presbyterian-church-brooklyn
+  name: Redeemer Presbyterian Church Brooklyn
+  aliases:
+  - redeemer-presbyterian-church-brooklyn
+- slug: redford-center
+  name: Redford Center
+  aliases:
+  - redford-center
+- slug: refine-labs
+  name: Refine Labs
+  aliases:
+  - refine-labs
+- slug: regent-surgical-health-biospinetampa
+  name: Regent Surgical Health Biospinetampa
+  aliases:
+  - regent-surgical-health-biospinetampa
+- slug: remote-area-medical
+  name: Remote Area Medical
+  aliases:
+  - remote-area-medical
+- slug: renew-heath-and-recovery
+  name: Renew Heath And Recovery
+  aliases:
+  - renew-heath-and-recovery
+- slug: rentsync_careers
+  name: Rentsync Careers
+  aliases:
+  - rentsync_careers
+- slug: rescue42
+  name: rescue42
+- slug: resourcemonitor
+  name: resourcemonitor
+- slug: rhino-federated-computing-jobs
+  name: Rhino Federated Computing Jobs
+  aliases:
+  - rhino-federated-computing-jobs
+- slug: richmond-aesthetic-surgery-and-dermlounge
+  name: Richmond Aesthetic Surgery And Dermlounge
+  aliases:
+  - richmond-aesthetic-surgery-and-dermlounge
+- slug: riveter-defense-llc
+  name: Riveter Defense Llc
+  aliases:
+  - riveter-defense-llc
+- slug: roberts-civil-engineering-careers
+  name: Roberts Civil Engineering Careers
+  aliases:
+  - roberts-civil-engineering-careers
+- slug: rovia
+  name: rovia
+- slug: rudderstack-careers
+  name: Rudderstack Careers
+  aliases:
+  - rudderstack-careers
+- slug: sabinemarinegroup
+  name: sabinemarinegroup
+- slug: sage-health-careers
+  name: Sage Health Careers
+  aliases:
+  - sage-health-careers
+- slug: sagent
+  name: sagent
+- slug: sciens-logistics
+  name: Sciens Logistics
+  aliases:
+  - sciens-logistics
+- slug: search-leaders-llc
+  name: Search Leaders Llc
+  aliases:
+  - search-leaders-llc
+- slug: serviceupcareers
+  name: serviceupcareers
+- slug: sevlaser
+  name: sevlaser
+- slug: shelter-inc
+  name: Shelter Inc
+  aliases:
+  - shelter-inc
+- slug: shooster-holdings
+  name: Shooster Holdings
+  aliases:
+  - shooster-holdings
+- slug: simply-solar
+  name: Simply Solar
+  aliases:
+  - simply-solar
+- slug: sipcam-agro-solutions-llc
+  name: Sipcam Agro Solutions Llc
+  aliases:
+  - sipcam-agro-solutions-llc
+- slug: smarthostjobs
+  name: smarthostjobs
+- slug: snow-peak-usa
+  name: Snow Peak Usa
+  aliases:
+  - snow-peak-usa
+- slug: solidus-resources
+  name: Solidus Resources
+  aliases:
+  - solidus-resources
+- slug: soluna-us-services-llc
+  name: Soluna Us Services Llc
+  aliases:
+  - soluna-us-services-llc
+- slug: spc-credit-union
+  name: Spc Credit Union
+  aliases:
+  - spc-credit-union
+- slug: sports-basement
+  name: Sports Basement
+  aliases:
+  - sports-basement
+- slug: spruce-building-services
+  name: Spruce Building Services
+  aliases:
+  - spruce-building-services
+- slug: sps
+  name: sps
+- slug: stansell-electric-company
+  name: Stansell Electric Company
+  aliases:
+  - stansell-electric-company
+- slug: stem-inc
+  name: Stem Inc
+  aliases:
+  - stem-inc
+- slug: strong-technical-services-inc
+  name: Strong Technical Services Inc
+  aliases:
+  - strong-technical-services-inc
+- slug: styliticscareers
+  name: styliticscareers
+- slug: sunflower-care-homes
+  name: Sunflower Care Homes
+  aliases:
+  - sunflower-care-homes
+- slug: syoncap
+  name: syoncap
+- slug: team-outsider
+  name: Team Outsider
+  aliases:
+  - team-outsider
+- slug: the-art-source-inc
+  name: The Art Source Inc
+  aliases:
+  - the-art-source-inc
+- slug: the-block
+  name: The Block
+  aliases:
+  - the-block
+- slug: the-mind-company
+  name: The Mind Company
+  aliases:
+  - the-mind-company
+- slug: the-mortgage-office
+  name: The Mortgage Office
+  aliases:
+  - the-mortgage-office
+- slug: the-phoenix
+  name: The Phoenix
+  aliases:
+  - the-phoenix
+- slug: the-road-home-dane-county
+  name: The Road Home Dane County
+  aliases:
+  - the-road-home-dane-county
+- slug: tightknit
+  name: tightknit
+- slug: timberlakechurch
+  name: timberlakechurch
+- slug: titandms
+  name: titandms
+- slug: topquadrant
+  name: topquadrant
+- slug: trestleiq
+  name: trestleiq
+- slug: troost-management-llc
+  name: Troost Management Llc
+  aliases:
+  - troost-management-llc
+- slug: truecomp
+  name: truecomp
+- slug: usi-consultants
+  name: Usi Consultants
+  aliases:
+  - usi-consultants
+- slug: utility
+  name: utility
+- slug: vectored-approach
+  name: Vectored Approach
+  aliases:
+  - vectored-approach
+- slug: voiantcareers
+  name: voiantcareers
+- slug: voyageur-group
+  name: Voyageur Group
+  aliases:
+  - voyageur-group
+- slug: vse-careers
+  name: Vse Careers
+  aliases:
+  - vse-careers
+- slug: vtdigger
+  name: vtdigger
+- slug: wa-opportunities
+  name: Wa Opportunities
+  aliases:
+  - wa-opportunities
+- slug: weconnect-international
+  name: Weconnect International
+  aliases:
+  - weconnect-international
+- slug: wilkinsonandcompanyllp
+  name: wilkinsonandcompanyllp
+- slug: wineenthusiast
+  name: wineenthusiast
+- slug: wiq-careers
+  name: Wiq Careers
+  aliases:
+  - wiq-careers
+- slug: wonderist-agency
+  name: Wonderist Agency
+  aliases:
+  - wonderist-agency
+- slug: wsp
+  name: wsp
+- slug: xypncareers
+  name: xypncareers
+- slug: zrg-partners-careers
+  name: Zrg Partners Careers
+  aliases:
+  - zrg-partners-careers
