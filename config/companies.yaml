@@ -12332,7 +12332,9 @@ companies:
 - tenant: 7eleven
   wd: wd3
   site: 7elevenv2
-  name: 7eleven
+  name: 7-Eleven
+  aliases:
+  - 7eleven
 - tenant: a1group
   wd: wd3
   site: A1_Jobs
@@ -13914,7 +13916,9 @@ companies:
 - tenant: intrum
   wd: wd3
   site: External
-  name: intrum
+  name: Intrum
+  aliases:
+  - intrum
 - tenant: islamicreliefcanada
   wd: wd3
   site: Islamic_Relief_Canada
@@ -14212,7 +14216,9 @@ companies:
 - tenant: norgesgruppen
   wd: wd3
   site: karriere
-  name: norgesgruppen
+  name: NorgesGruppen
+  aliases:
+  - norgesgruppen
 - tenant: novartis
   wd: wd3
   site: Internal_Careers_for_Acquired_Entities
@@ -14228,8 +14234,9 @@ companies:
 - tenant: nutreco
   wd: wd3
   site: Nutreco_External
-  name: Nutreco
+  name: NUTRECO
   aliases:
+  - Nutreco
   - nutreco
 - tenant: nutreco
   wd: wd3
@@ -14312,7 +14319,7 @@ companies:
 - tenant: pluxee
   wd: wd3
   site: Pluxee_Career_Site
-  name: PLUXEE
+  name: Pluxee
   aliases:
   - PLUXEE
   - Pluxee
@@ -15625,7 +15632,9 @@ companies:
 - tenant: guggenheim
   wd: wd1
   site: Guggenheim_Careers
-  name: guggenheim
+  name: Guggenheim
+  aliases:
+  - guggenheim
 - tenant: guggenheim
   wd: wd1
   site: Guggenheim_Partners
@@ -16619,7 +16628,9 @@ companies:
 - tenant: trinityhealth
   wd: wd1
   site: jobs
-  name: trinityhealth
+  name: Trinity Health
+  aliases:
+  - trinityhealth
 - tenant: ttc
   wd: wd1
   site: AUS1
@@ -16959,7 +16970,9 @@ companies:
 - tenant: nexperia
   wd: wd3
   site: ITEC
-  name: nexperia
+  name: Nexperia
+  aliases:
+  - nexperia
 - tenant: noerr
   wd: wd3
   site: Careers_Business_Professionals
@@ -17273,8 +17286,9 @@ companies:
 - tenant: weir
   wd: wd3
   site: Weir_External_Careers
-  name: Weir
+  name: WEIR
   aliases:
+  - Weir
   - weir
 - tenant: wellcome
   wd: wd3
@@ -18819,7 +18833,9 @@ companies:
 - tenant: stevenstransport
   wd: wd503
   site: stevenstransportinc
-  name: stevenstransport
+  name: Stevens Transport
+  aliases:
+  - stevenstransport
 - tenant: stord
   wd: wd503
   site: Stord_External_Career
@@ -19702,3 +19718,15 @@ companies:
   name: Spicer Group
   aliases:
   - spicergroup
+- tenant: interface
+  wd: wd1
+  site: interface
+  name: Interface
+  aliases:
+  - interface
+- tenant: cambiahealth
+  wd: wd504
+  site: External
+  name: Cambia Health Solutions
+  aliases:
+  - cambiahealth

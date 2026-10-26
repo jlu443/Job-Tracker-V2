@@ -5336,3 +5336,7 @@ companies:
   name: Ireland Careers Aon.icims.com
   aliases:
   - ireland-careers-aon
+- host: careers-tsoln-inc.icims.com
+  name: Careers Tsoln Inc.icims.com
+  aliases:
+  - careers-tsoln-inc
