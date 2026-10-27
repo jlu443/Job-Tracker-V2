@@ -905,3 +905,9 @@ companies:
   - mak
 - slug: bln24
   name: bln24
+- slug: lowrisc
+  name: lowRISC CIC
+  aliases:
+  - lowrisc
+- slug: billhighway
+  name: billhighway

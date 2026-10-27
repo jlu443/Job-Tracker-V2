@@ -24071,3 +24071,7 @@ companies:
   name: Zuno
   aliases:
   - zuno
+- slug: legato
+  name: Legato, LLC
+  aliases:
+  - legato

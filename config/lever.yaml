@@ -1725,3 +1725,17 @@ companies:
   name: zurichinstruments
 - slug: ellevationeducation
   name: ellevationeducation
+- slug: pibenchmark
+  name: PredictX
+  aliases:
+  - pibenchmark
+- slug: Farcast
+  name: Farcast
+  aliases:
+  - farcast
+- slug: crosscountry-consulting
+  name: CrossCountry Consulting
+  aliases:
+  - crosscountry-consulting
+- slug: tpgsi
+  name: tpgsi

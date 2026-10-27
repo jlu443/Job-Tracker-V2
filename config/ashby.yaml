@@ -2306,7 +2306,9 @@ companies:
   aliases:
   - hiverge
 - slug: hiya
-  name: hiya
+  name: Hiya
+  aliases:
+  - hiya
 - slug: hockeystack
   name: hockeystack
 - slug: holywater
@@ -2954,7 +2956,9 @@ companies:
 - slug: madecard
   name: madecard
 - slug: madhive
-  name: madhive
+  name: Madhive
+  aliases:
+  - madhive
 - slug: magic.dev
   name: magic.dev
 - slug: magical
@@ -8528,7 +8532,9 @@ companies:
   aliases:
   - salmon-group
 - slug: sampura
-  name: sampura
+  name: Sampura Research
+  aliases:
+  - sampura
 - slug: sanctuary
   name: sanctuary
 - slug: santermedia
@@ -9085,3 +9091,5 @@ companies:
   name: nexttoken
 - slug: prysmhealth
   name: prysmhealth
+- slug: sodalis
+  name: sodalis

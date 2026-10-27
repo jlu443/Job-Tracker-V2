@@ -5340,3 +5340,11 @@ companies:
   name: Careers Tsoln Inc.icims.com
   aliases:
   - careers-tsoln-inc
+- host: careers-bcore.icims.com
+  name: Bcore
+  aliases:
+  - careers-bcore
+- host: careers-cpco-inc.icims.com
+  name: Careers Cpco Inc.icims.com
+  aliases:
+  - careers-cpco-inc

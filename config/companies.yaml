@@ -11052,7 +11052,9 @@ companies:
 - tenant: deepwater
   wd: wd1
   site: GlobalExternalCareerSite
-  name: deepwater
+  name: Deepwater
+  aliases:
+  - deepwater
 - tenant: deepwater
   wd: wd1
   site: MexicoExternalCareerSite
@@ -13552,8 +13554,9 @@ companies:
 - tenant: diconium
   wd: wd3
   site: diconium
-  name: Diconium
+  name: diconium
   aliases:
+  - Diconium
   - diconium
 - tenant: dssmith
   wd: wd3
@@ -13794,7 +13797,9 @@ companies:
 - tenant: gsma
   wd: wd3
   site: External_Careers
-  name: gsma
+  name: GSMA
+  aliases:
+  - gsma
 - tenant: haier
   wd: wd3
   site: Haier_Europe_UKI_Careers
@@ -14040,8 +14045,9 @@ companies:
 - tenant: linklaters
   wd: wd3
   site: Linklaters
-  name: Linklaters
+  name: LINKLATERS
   aliases:
+  - Linklaters
   - linklaters
 - tenant: luminegrp
   wd: wd3
@@ -14234,8 +14240,9 @@ companies:
 - tenant: nutreco
   wd: wd3
   site: Nutreco_External
-  name: NUTRECO
+  name: Nutreco
   aliases:
+  - NUTRECO
   - Nutreco
   - nutreco
 - tenant: nutreco
@@ -14319,7 +14326,7 @@ companies:
 - tenant: pluxee
   wd: wd3
   site: Pluxee_Career_Site
-  name: Pluxee
+  name: PLUXEE
   aliases:
   - PLUXEE
   - Pluxee
@@ -15582,7 +15589,9 @@ companies:
 - tenant: flextronics
   wd: wd1
   site: crown_careers
-  name: flextronics
+  name: FLEXTRONICS
+  aliases:
+  - flextronics
 - tenant: fordfoundation
   wd: wd1
   site: FordFoundationCareerPage
@@ -15818,7 +15827,9 @@ companies:
 - tenant: mercy
   wd: wd1
   site: mercycareers
-  name: mercy
+  name: Mercy
+  aliases:
+  - mercy
 - tenant: methodisthealthsystem
   wd: wd1
   site: MHS_Careers
@@ -17286,8 +17297,9 @@ companies:
 - tenant: weir
   wd: wd3
   site: Weir_External_Careers
-  name: WEIR
+  name: Weir
   aliases:
+  - WEIR
   - Weir
   - weir
 - tenant: wellcome
@@ -17987,8 +17999,9 @@ companies:
 - tenant: iff
   wd: wd5
   site: IFF_Careers
-  name: IFF
+  name: International Flavors & Fragrances
   aliases:
+  - IFF
   - iff
 - tenant: iheartmedia
   wd: wd5
@@ -18333,7 +18346,9 @@ companies:
 - tenant: thriveworks
   wd: wd5
   site: Thriveworks
-  name: thriveworks
+  name: Thriveworks
+  aliases:
+  - thriveworks
 - tenant: tysonfoods
   wd: wd5
   site: TSN5
@@ -19730,3 +19745,15 @@ companies:
   name: Cambia Health Solutions
   aliases:
   - cambiahealth
+- tenant: verawholehealth
+  wd: wd1
+  site: Castlight
+  name: Millennium Physician Group
+  aliases:
+  - verawholehealth
+- tenant: tep
+  wd: wd1
+  site: TEP
+  name: TEP
+  aliases:
+  - tep

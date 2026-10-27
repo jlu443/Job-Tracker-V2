@@ -3403,3 +3403,7 @@ companies:
   name: Zrg Partners Careers
   aliases:
   - zrg-partners-careers
+- slug: octasic-inc
+  name: Octasic
+  aliases:
+  - octasic-inc

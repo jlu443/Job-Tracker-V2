@@ -433,3 +433,7 @@ companies:
   name: Delek US
   aliases:
   - jobs.delekus.com
+- host: us-careers.crown.com
+  name: Crown
+  aliases:
+  - us-careers.crown.com
