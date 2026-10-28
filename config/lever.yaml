@@ -1739,3 +1739,49 @@ companies:
   - crosscountry-consulting
 - slug: tpgsi
   name: tpgsi
+- slug: futo-org
+  name: FUTO
+  aliases:
+  - futo-org
+- slug: nuvacore
+  name: NUVACORE
+  aliases:
+  - nuvacore
+- slug: camstex
+  name: CAMS
+  aliases:
+  - camstex
+- slug: rosaiclabs
+  name: RosaicLabs
+  aliases:
+  - rosaiclabs
+- slug: rainfocus
+  name: RainFocus
+  aliases:
+  - rainfocus
+- slug: prima
+  name: Prima
+  region: eu
+  aliases:
+  - prima
+- slug: coretechsecurity
+  name: CoreTech Security Services
+  region: eu
+  aliases:
+  - coretechsecurity
+- slug: lumaril-corporation
+  name: Lumaril
+  aliases:
+  - lumaril-corporation
+- slug: nio-usa
+  name: Nio
+  aliases:
+  - nio-usa
+- slug: project-healthy-minds
+  name: Project Healthy Minds
+  aliases:
+  - project-healthy-minds
+- slug: leversys
+  name: Leversys
+  aliases:
+  - leversys

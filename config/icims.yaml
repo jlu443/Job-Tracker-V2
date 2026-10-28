@@ -5348,3 +5348,11 @@ companies:
   name: Careers Cpco Inc.icims.com
   aliases:
   - careers-cpco-inc
+- host: ca-careers-rivian.icims.com
+  name: Rivian
+  aliases:
+  - ca-careers-rivian
+- host: careers-steely.icims.com
+  name: STEELY
+  aliases:
+  - careers-steely

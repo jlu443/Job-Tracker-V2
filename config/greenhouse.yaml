@@ -16372,3 +16372,11 @@ companies:
   name: Hive Financial Systems
   aliases:
   - hivefinancialsystems
+- token: bettermentcampusrecruiting
+  name: Betterment Campus Recruiting
+  aliases:
+  - bettermentcampusrecruiting
+- token: glencoreuk
+  name: Glencore UK
+  aliases:
+  - glencoreuk

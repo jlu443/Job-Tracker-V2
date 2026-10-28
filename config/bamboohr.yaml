@@ -24075,3 +24075,7 @@ companies:
   name: Legato, LLC
   aliases:
   - legato
+- slug: pulsara
+  name: Pulsara
+  aliases:
+  - pulsara

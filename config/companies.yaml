@@ -12252,7 +12252,9 @@ companies:
 - tenant: shrinerschildrens
   wd: wd12
   site: Shriners
-  name: shrinerschildrens
+  name: Shriners Children's
+  aliases:
+  - shrinerschildrens
 - tenant: skyzone
   wd: wd12
   site: skyzone
@@ -13554,7 +13556,7 @@ companies:
 - tenant: diconium
   wd: wd3
   site: diconium
-  name: diconium
+  name: Diconium
   aliases:
   - Diconium
   - diconium
@@ -14326,7 +14328,7 @@ companies:
 - tenant: pluxee
   wd: wd3
   site: Pluxee_Career_Site
-  name: PLUXEE
+  name: Pluxee
   aliases:
   - PLUXEE
   - Pluxee
@@ -16889,8 +16891,9 @@ companies:
 - tenant: lendlease
   wd: wd3
   site: lendleasecareers
-  name: LENDLEASE
+  name: Lendlease
   aliases:
+  - LENDLEASE
   - lendlease
 - tenant: lgt
   wd: wd3
@@ -17567,8 +17570,9 @@ companies:
 - tenant: avon
   wd: wd5
   site: AvonCareers
-  name: AVON
+  name: Avon
   aliases:
+  - AVON
   - avon
 - tenant: barryu
   wd: wd5
@@ -19708,7 +19712,9 @@ companies:
 - tenant: valorhospitality
   wd: wd503
   site: who-we-are
-  name: valorhospitality
+  name: Valor Hospitality
+  aliases:
+  - valorhospitality
 - tenant: webcor
   wd: wd503
   site: webcor
@@ -19757,3 +19763,15 @@ companies:
   name: TEP
   aliases:
   - tep
+- tenant: illuminateusa
+  wd: wd503
+  site: Illuminate_Careers
+  name: Illuminate USA
+  aliases:
+  - illuminateusa
+- tenant: chrobinson
+  wd: wd5
+  site: UNCFCareerSite
+  name: C.H. Robinson
+  aliases:
+  - chrobinson

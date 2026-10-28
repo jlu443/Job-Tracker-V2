@@ -437,3 +437,9 @@ companies:
   name: Crown
   aliases:
   - us-careers.crown.com
+- host: jobs.bunge.com
+  name: Bunge
+  aliases:
+  - jobs.bunge.com
+- host: up.jobs
+  name: up.jobs

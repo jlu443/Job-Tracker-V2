@@ -7594,7 +7594,9 @@ companies:
 - slug: queueinc
   name: queueinc
 - slug: careers.mural
-  name: careers.mural
+  name: Mural
+  aliases:
+  - careers.mural
 - slug: veho-tech-inc
   name: Veho Tech Inc
   aliases:
@@ -7604,7 +7606,9 @@ companies:
 - slug: Tereina
   name: Tereina
 - slug: pureapp
-  name: pureapp
+  name: Pure
+  aliases:
+  - pureapp
 - slug: mecka.ai
   name: mecka.ai
 - slug: monday.com
@@ -7758,7 +7762,9 @@ companies:
 - slug: axiombio
   name: axiombio
 - slug: axiommath
-  name: axiommath
+  name: Axiom Math
+  aliases:
+  - axiommath
 - slug: axleinsure
   name: axleinsure
 - slug: ayblehealth
@@ -7976,7 +7982,9 @@ companies:
 - slug: feedbackfruits
   name: feedbackfruits
 - slug: fellowai
-  name: fellowai
+  name: Fellow
+  aliases:
+  - fellowai
 - slug: fernstone
   name: fernstone
 - slug: ferocia
@@ -8044,7 +8052,9 @@ companies:
 - slug: gismart
   name: gismart
 - slug: goaly
-  name: goaly
+  name: Goaly
+  aliases:
+  - goaly
 - slug: goodstack
   name: goodstack
 - slug: GotPhoto
@@ -8256,7 +8266,9 @@ companies:
 - slug: materialize
   name: materialize
 - slug: matx
-  name: matx
+  name: MatX
+  aliases:
+  - matx
 - slug: mdcalc
   name: mdcalc
 - slug: mednet
@@ -8784,7 +8796,9 @@ companies:
 - slug: vidrush
   name: vidrush
 - slug: viggle
-  name: viggle
+  name: Viggle AI
+  aliases:
+  - viggle
 - slug: villagesql
   name: villagesql
 - slug: Vitesse
@@ -9030,7 +9044,9 @@ companies:
 - slug: vistar
   name: vistar
 - slug: xapien
-  name: xapien
+  name: Xapien
+  aliases:
+  - xapien
 - slug: zayzoon
   name: zayzoon
 - slug: zedfinancial
@@ -9040,11 +9056,15 @@ companies:
 - slug: zydro
   name: zydro
 - slug: bridgeneurotech
-  name: bridgeneurotech
+  name: Bridge Neurotech
+  aliases:
+  - bridgeneurotech
 - slug: generalastronautics
   name: generalastronautics
 - slug: engramme
-  name: engramme
+  name: Engramme
+  aliases:
+  - engramme
 - slug: appfolio
   name: appfolio
 - slug: neighborly-software
@@ -9093,3 +9113,119 @@ companies:
   name: prysmhealth
 - slug: sodalis
   name: sodalis
+- slug: hyphenate
+  name: Hyphenate
+  aliases:
+  - hyphenate
+- slug: old-mission-capital
+  name: Old Mission
+  aliases:
+  - old-mission-capital
+- slug: powertown
+  name: Powertown
+  aliases:
+  - powertown
+- slug: drivewealth
+  name: DriveWealth
+  aliases:
+  - drivewealth
+- slug: onerobot
+  name: One Robot
+  aliases:
+  - onerobot
+- slug: ixianrobotics
+  name: Ixian Robotics
+  aliases:
+  - ixianrobotics
+- slug: generalmagic
+  name: General Magic
+  aliases:
+  - generalmagic
+- slug: dmodel
+  name: dmodel
+- slug: laminar-jobs
+  name: Laminar
+  aliases:
+  - laminar-jobs
+- slug: quadric
+  name: Quadric
+  aliases:
+  - quadric
+- slug: certa
+  name: Certa
+  aliases:
+  - certa
+- slug: xterra%20ai
+  name: xterra ai
+- slug: openmind
+  name: OpenMind
+  aliases:
+  - openmind
+- slug: sycamore
+  name: Sycamore
+  aliases:
+  - sycamore
+- slug: worldengine
+  name: WorldEngine AI
+  aliases:
+  - worldengine
+- slug: the-robotics-company
+  name: The Robotics Company
+  aliases:
+  - the-robotics-company
+- slug: webfx
+  name: WebFX
+  aliases:
+  - webfx
+- slug: resurgent-industries
+  name: Resurgent Industries
+  aliases:
+  - resurgent-industries
+- slug: generate
+  name: Generate Capital
+  aliases:
+  - generate
+- slug: elveo
+  name: Elveo
+  aliases:
+  - elveo
+- slug: alchemi
+  name: Alchemi
+  aliases:
+  - alchemi
+- slug: spectral%20labs
+  name: spectral labs
+- slug: resonance
+  name: Resonance
+  aliases:
+  - resonance
+- slug: veritus
+  name: Veritus
+  aliases:
+  - veritus
+- slug: bagsfm
+  name: Bags
+  aliases:
+  - bagsfm
+- slug: agave
+  name: Agave
+  aliases:
+  - agave
+- slug: sela
+  name: Sela AI
+  aliases:
+  - sela
+- slug: within.ai
+  name: Within
+  aliases:
+  - within.ai
+- slug: takt
+  name: Takt
+  aliases:
+  - takt
+- slug: eradrive
+  name: eradrive
+- slug: runtrellis
+  name: runtrellis
+- slug: raptive
+  name: raptive

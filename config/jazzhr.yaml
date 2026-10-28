@@ -911,3 +911,13 @@ companies:
   - lowrisc
 - slug: billhighway
   name: billhighway
+- slug: perspectivetherapeutics
+  name: Perspective Therapeutics
+  aliases:
+  - perspectivetherapeutics
+- slug: andrewscooper
+  name: Andrews Cooper Technology LLC
+  aliases:
+  - andrewscooper
+- slug: lynchconsultantsllc
+  name: lynchconsultantsllc
