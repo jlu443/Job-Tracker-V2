@@ -363,3 +363,7 @@ companies:
   name: Kentro
   aliases:
   - careers.kentro.us
+- host: careers.appliedmedical.com
+  name: Applied Medical
+  aliases:
+  - careers.appliedmedical.com

@@ -16380,3 +16380,91 @@ companies:
   name: Glencore UK
   aliases:
   - glencoreuk
+- token: sxinternships
+  name: SoundExchange
+  aliases:
+  - sxinternships
+- token: ftsp27co-ops
+  name: Flow Traders Spring 2027 Co-op Opportunities
+  aliases:
+  - ftsp27co-ops
+- token: akunacapitaloci
+  name: Akuna Capital On-Campus Interviews
+  aliases:
+  - akunacapitaloci
+- token: graphcore-early-careers
+  name: Graphcore Early Careers
+  aliases:
+  - graphcore-early-careers
+- token: hpsinterns
+  name: HPS Investment Partners Summer Internship Program 2027
+  aliases:
+  - hpsinterns
+- token: castelioncorporation
+  name: Castelion Corporation
+  aliases:
+  - castelioncorporation
+- token: scmaea
+  name: SCM
+  aliases:
+  - scmaea
+- token: quantiq
+  name: Quantiq
+  aliases:
+  - quantiq
+- token: sitimecorporation
+  name: SiTime Corporation
+  aliases:
+  - sitimecorporation
+- token: astronicscorporation
+  name: Astronics
+  aliases:
+  - astronicscorporation
+- token: mantari
+  name: Mantari
+  aliases:
+  - mantari
+- token: sparxlearning
+  name: Sparx Learning
+  aliases:
+  - sparxlearning
+- token: hearst
+  name: Hearst
+  aliases:
+  - hearst
+- token: humaninterestswe1
+  name: Human Interest SWE 1
+  aliases:
+  - humaninterestswe1
+- token: apcon
+  name: APCON
+  aliases:
+  - apcon
+- token: indeedflex
+  name: Indeed Flex
+  aliases:
+  - indeedflex
+- token: quantitativeequity
+  name: CCLIM - Quantitative Equity
+- token: coveoen
+  name: Coveo
+- token: indieinterns
+  name: indie Interns
+- token: capitalderecherchetower
+  name: Capital de Recherche Tower
+- token: riverlane
+  name: Riverlane
+- token: wavelifesciencesusainc
+  name: Wave Life Sciences USA, Inc.
+- token: procogia
+  name: ProCogia
+- token: burnsengineeringinc
+  name: Burns Engineering, Inc.
+- token: thoughtworks
+  name: Thoughtworks
+- token: thinkdynamic
+  name: Dynamic Lifecycle Innovations
+- token: nucleargraduates
+  name: Nuclear Graduates
+- token: omenai
+  name: Omen AI

@@ -9229,3 +9229,17 @@ companies:
   name: runtrellis
 - slug: raptive
   name: raptive
+- slug: subtotal
+  name: Subtotal
+  aliases:
+  - subtotal
+- slug: fractile
+  name: Fractile
+  aliases:
+  - fractile
+- slug: Discernis
+  name: Discernis
+- slug: deaa6ad2-d184-436b-b69e-17f761da1d94
+  name: Deaa6ad2 D184 436b B69e 17f761da1d94
+  aliases:
+  - deaa6ad2-d184-436b-b69e-17f761da1d94

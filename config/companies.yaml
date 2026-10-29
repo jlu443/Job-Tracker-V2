@@ -10417,7 +10417,9 @@ companies:
 - tenant: novonesis
   wd: wd103
   site: Novonesis_Careers
-  name: novonesis
+  name: Novonesis
+  aliases:
+  - novonesis
 - tenant: totalwine
   wd: wd1
   site: twm
@@ -14118,7 +14120,7 @@ companies:
 - tenant: mango
   wd: wd3
   site: Mango_Work_Your_Passion
-  name: MANGO
+  name: Mango
   aliases:
   - MANGO
   - Mango
@@ -14242,7 +14244,7 @@ companies:
 - tenant: nutreco
   wd: wd3
   site: Nutreco_External
-  name: Nutreco
+  name: NUTRECO
   aliases:
   - NUTRECO
   - Nutreco
@@ -16715,7 +16717,9 @@ companies:
 - tenant: umphysicians
   wd: wd1
   site: umpcareers
-  name: umphysicians
+  name: UMPhysicians
+  aliases:
+  - umphysicians
 - tenant: ur
   wd: wd1
   site: URcareers
@@ -17570,9 +17574,10 @@ companies:
 - tenant: avon
   wd: wd5
   site: AvonCareers
-  name: Avon
+  name: AVON
   aliases:
   - AVON
+  - Avon
   - avon
 - tenant: barryu
   wd: wd5
@@ -18598,7 +18603,9 @@ companies:
 - tenant: marathonhealth
   wd: wd501
   site: Marathon-Health-Careers
-  name: marathonhealth
+  name: Marathon Health
+  aliases:
+  - marathonhealth
 - tenant: mbg
   wd: wd501
   site: mbgcareers
@@ -19536,7 +19543,9 @@ companies:
 - tenant: sammonsindustrial
   wd: wd501
   site: SIND
-  name: sammonsindustrial
+  name: Sammons Industrial
+  aliases:
+  - sammonsindustrial
 - tenant: soterahealth
   wd: wd501
   site: External
