@@ -1854,7 +1854,7 @@ companies:
 - tenant: hitachi
   wd: wd1
   site: hitachi
-  name: HITACHI
+  name: Hitachi
   aliases:
   - HITACHI
   - Hitachi
@@ -10341,7 +10341,9 @@ companies:
 - tenant: pacourts
   wd: wd5
   site: PACourts
-  name: pacourts
+  name: PA Courts
+  aliases:
+  - pacourts
 - tenant: kainos
   wd: wd3
   site: kainos
@@ -12112,7 +12114,9 @@ companies:
 - tenant: ezcorp
   wd: wd12
   site: ezcorp
-  name: ezcorp
+  name: EZCORP
+  aliases:
+  - ezcorp
 - tenant: faef
   wd: wd12
   site: FAEF_External_Careers
@@ -13478,7 +13482,9 @@ companies:
 - tenant: citicclsa
   wd: wd3
   site: External
-  name: citicclsa
+  name: CITIC CLSA
+  aliases:
+  - citicclsa
 - tenant: clarivate
   wd: wd3
   site: jobs
@@ -13558,7 +13564,7 @@ companies:
 - tenant: diconium
   wd: wd3
   site: diconium
-  name: Diconium
+  name: diconium
   aliases:
   - Diconium
   - diconium
@@ -14049,8 +14055,9 @@ companies:
 - tenant: linklaters
   wd: wd3
   site: Linklaters
-  name: LINKLATERS
+  name: Linklaters
   aliases:
+  - LINKLATERS
   - Linklaters
   - linklaters
 - tenant: luminegrp
@@ -16413,7 +16420,9 @@ companies:
 - tenant: srsdistribution
   wd: wd1
   site: SRSEvergreenCareers
-  name: srsdistribution
+  name: SRS Distribution
+  aliases:
+  - srsdistribution
 - tenant: standardmeat
   wd: wd1
   site: SMC
@@ -18553,7 +18562,9 @@ companies:
 - tenant: emerysapp
   wd: wd501
   site: ESSC
-  name: emerysapp
+  name: Emery Sapp
+  aliases:
+  - emerysapp
 - tenant: emerysapp
   wd: wd501
   site: RUM
@@ -19499,7 +19510,9 @@ companies:
 - tenant: ambiententerprises
   wd: wd501
   site: careers
-  name: ambiententerprises
+  name: Ambient Enterprises
+  aliases:
+  - ambiententerprises
 - tenant: atltechnology
   wd: wd501
   site: ATL
@@ -19784,3 +19797,15 @@ companies:
   name: C.H. Robinson
   aliases:
   - chrobinson
+- tenant: valeris
+  wd: wd108
+  site: Valeris
+  name: Valeris
+  aliases:
+  - valeris
+- tenant: morningstar
+  wd: wd5
+  site: MorningstarDBRS
+  name: Morningstar
+  aliases:
+  - morningstar

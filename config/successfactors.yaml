@@ -443,3 +443,11 @@ companies:
   - jobs.bunge.com
 - host: up.jobs
   name: up.jobs
+- host: illinois.jobs2web.com
+  name: Illinois
+  aliases:
+  - illinois.jobs2web.com
+- host: jobs.marvingroup.com
+  name: Marvin Group
+  aliases:
+  - jobs.marvingroup.com

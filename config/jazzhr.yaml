@@ -260,7 +260,9 @@ companies:
   aliases:
   - healthpeak
 - slug: intelliforceitsolutionsgroup
-  name: intelliforceitsolutionsgroup
+  name: Intelliforce-IT Solutions Group
+  aliases:
+  - intelliforceitsolutionsgroup
 - slug: firstadvantage
   name: First Advantage
   aliases:
@@ -921,3 +923,7 @@ companies:
   - andrewscooper
 - slug: lynchconsultantsllc
   name: lynchconsultantsllc
+- slug: bodyspec
+  name: BodySpec
+  aliases:
+  - bodyspec

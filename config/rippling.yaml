@@ -3409,3 +3409,7 @@ companies:
   - octasic-inc
 - slug: 10fitness
   name: 10fitness
+- slug: golden
+  name: Golden Analytics
+  aliases:
+  - golden

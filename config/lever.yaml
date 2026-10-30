@@ -1785,3 +1785,7 @@ companies:
   name: Leversys
   aliases:
   - leversys
+- slug: loftorbital
+  name: Loft Orbital
+  aliases:
+  - loftorbital

@@ -5364,3 +5364,11 @@ companies:
   name: Inhouse Scasurgery.icims.com
   aliases:
   - inhouse-scasurgery
+- host: careers-adastragrp.icims.com
+  name: Careers Adastragrp.icims.com
+  aliases:
+  - careers-adastragrp
+- host: corporate-nationalbeef.icims.com
+  name: Corporate Nationalbeef.icims.com
+  aliases:
+  - corporate-nationalbeef

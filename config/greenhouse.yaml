@@ -16468,3 +16468,37 @@ companies:
   name: Nuclear Graduates
 - token: omenai
   name: Omen AI
+- token: nyisointernships
+  name: NYISO Internship Program
+  aliases:
+  - nyisointernships
+- token: ncinoearlytalent
+  name: nCino Early Talent
+  aliases:
+  - ncinoearlytalent
+- token: drwfr
+  name: DRW Montreal
+  aliases:
+  - drwfr
+- token: c3ascend
+  name: 'C3 AI Ascend Internship Program: Summer 2027'
+  aliases:
+  - c3ascend
+- token: bitgowinter2027
+  name: BitGo Internships and New Grads
+  aliases:
+  - bitgowinter2027
+- token: co-op_intern
+  name: AtriCure Co-op/Intern
+  aliases:
+  - co-op_intern
+- token: alphafmcrolesearlycareers
+  name: Alpha Financial Markets Consulting - Early Careers
+  aliases:
+  - alphafmcrolesearlycareers
+- token: trelliswaretechnologies-newgrads
+  name: TrellisWare Technologies for New Grads
+  aliases:
+  - trelliswaretechnologies-newgrads
+- token: fidelityguarantylifeinternships
+  name: Fidelity & Guaranty Life Internships

@@ -9243,3 +9243,11 @@ companies:
   name: Deaa6ad2 D184 436b B69e 17f761da1d94
   aliases:
   - deaa6ad2-d184-436b-b69e-17f761da1d94
+- slug: westmag
+  name: Western Magnetics
+  aliases:
+  - westmag
+- slug: geniusai
+  name: Genius AI
+  aliases:
+  - geniusai
