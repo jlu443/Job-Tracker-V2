@@ -5372,3 +5372,11 @@ companies:
   name: Corporate Nationalbeef.icims.com
   aliases:
   - corporate-nationalbeef
+- host: careers-lse-srmc.icims.com
+  name: Careers Lse Srmc.icims.com
+  aliases:
+  - careers-lse-srmc
+- host: careers-patternenergy.icims.com
+  name: Pattern Energy
+  aliases:
+  - careers-patternenergy

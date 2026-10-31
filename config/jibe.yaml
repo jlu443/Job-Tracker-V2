@@ -367,3 +367,47 @@ companies:
   name: Applied Medical
   aliases:
   - careers.appliedmedical.com
+- host: kinaxis.jibeapply.com
+  name: Kinaxis
+  aliases:
+  - kinaxis.jibeapply.com
+- host: blackhawknetwork.jibeapply.com
+  name: Blackhawk Network Holdings
+  aliases:
+  - blackhawknetwork.jibeapply.com
+- host: emory.jibeapply.com
+  name: Emory University
+  aliases:
+  - emory.jibeapply.com
+- host: se.jibeapply.com
+  name: Schneider Electric
+  aliases:
+  - se.jibeapply.com
+- host: publicisgroupe.jibeapply.com
+  name: Publicis Groupe
+  aliases:
+  - publicisgroupe.jibeapply.com
+- host: ice.jibeapply.com
+  name: Intercontinental Exchange
+  aliases:
+  - ice.jibeapply.com
+- host: peraton.jibeapply.com
+  name: Peraton
+  aliases:
+  - peraton.jibeapply.com
+- host: stifel.jibeapply.com
+  name: Stifel
+  aliases:
+  - stifel.jibeapply.com
+- host: careers.axa.com
+  name: AXA
+  aliases:
+  - careers.axa.com
+- host: careers.rti.org
+  name: RTI International
+  aliases:
+  - careers.rti.org
+- host: i3-corps.jibeapply.com
+  name: Integration Innovation (i3)
+  aliases:
+  - i3-corps.jibeapply.com

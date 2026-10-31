@@ -927,3 +927,11 @@ companies:
   name: BodySpec
   aliases:
   - bodyspec
+- slug: obsidian
+  name: Obsidian Entertainment
+  aliases:
+  - obsidian
+- slug: elucid
+  name: Elucid
+  aliases:
+  - elucid

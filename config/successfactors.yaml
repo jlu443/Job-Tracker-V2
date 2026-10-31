@@ -451,3 +451,7 @@ companies:
   name: Marvin Group
   aliases:
   - jobs.marvingroup.com
+- host: careers.mann-hummel.com
+  name: MANN+HUMMEL
+  aliases:
+  - careers.mann-hummel.com

@@ -16502,3 +16502,45 @@ companies:
   - trelliswaretechnologies-newgrads
 - token: fidelityguarantylifeinternships
   name: Fidelity & Guaranty Life Internships
+- token: protagonist
+  name: Protagonist
+  aliases:
+  - protagonist
+- token: morph
+  name: Morph
+  aliases:
+  - morph
+- token: pretiuminternships2027
+  name: 2027 Summer Internship Job Board
+  aliases:
+  - pretiuminternships2027
+- token: vmax
+  name: Vmax
+  aliases:
+  - vmax
+- token: isam
+  name: iSAM
+  aliases:
+  - isam
+- token: cambridgeconsultantslimited
+  name: Cambridge Consultants
+  aliases:
+  - cambridgeconsultantslimited
+- token: superapp
+  name: SuperApp
+  aliases:
+  - superapp
+- token: starmountaincapital
+  name: Star Mountain Capital
+  aliases:
+  - starmountaincapital
+- token: orbisoperations
+  name: Orbis
+  aliases:
+  - orbisoperations
+- token: neptunenorth
+  name: Neptune North
+  aliases:
+  - neptunenorth
+- token: a16z
+  name: a16z

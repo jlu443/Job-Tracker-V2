@@ -67,3 +67,6 @@ companies:
   name: Bealls
   aliases:
   - beallsinc
+- host: equitable.taleo.net
+  section: eqh_1
+  name: equitable

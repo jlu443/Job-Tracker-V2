@@ -9108,7 +9108,9 @@ companies:
 - slug: FlowGen%20Labs
   name: FlowGen Labs
 - slug: nexttoken
-  name: nexttoken
+  name: NextToken
+  aliases:
+  - nexttoken
 - slug: prysmhealth
   name: prysmhealth
 - slug: sodalis
@@ -9251,3 +9253,13 @@ companies:
   name: Genius AI
   aliases:
   - geniusai
+- slug: designrulesco
+  name: The Design Rules Company
+  aliases:
+  - designrulesco
+- slug: isembard
+  name: Isembard
+  aliases:
+  - isembard
+- slug: infiniteedge
+  name: infiniteedge

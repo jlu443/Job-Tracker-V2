@@ -798,8 +798,9 @@ companies:
 - tenant: etsy
   wd: wd5
   site: Etsy_Careers
-  name: Etsy
+  name: Depop
   aliases:
+  - Etsy
   - etsy
 - tenant: menasha
   wd: wd12
@@ -3339,8 +3340,9 @@ companies:
 - tenant: oxy
   wd: wd5
   site: Corporate
-  name: Oxy
+  name: Occidental Petroleum Corporation (Oxy)
   aliases:
+  - Oxy
   - oxy
 - tenant: musc
   wd: wd1
@@ -3375,8 +3377,9 @@ companies:
 - tenant: oxy
   wd: wd5
   site: UniversityRelations
-  name: Oxy
+  name: Occidental Petroleum Corporation (Oxy)
   aliases:
+  - Oxy
   - oxy
 - tenant: theocc
   wd: wd5
@@ -8457,8 +8460,9 @@ companies:
 - tenant: etsy
   wd: wd5
   site: Depop_Careers
-  name: Etsy
+  name: Depop
   aliases:
+  - Etsy
   - etsy
 - tenant: denverhealth
   wd: wd1
@@ -11856,7 +11860,9 @@ companies:
 - tenant: macfound
   wd: wd1
   site: MAC_FOUND_EXT_CAREERS
-  name: macfound
+  name: John D. and Catherine T. MacArthur Foundation
+  aliases:
+  - macfound
 - tenant: marylandconnect
   wd: wd1
   site: BSU_Careers
@@ -14127,7 +14133,7 @@ companies:
 - tenant: mango
   wd: wd3
   site: Mango_Work_Your_Passion
-  name: Mango
+  name: MANGO
   aliases:
   - MANGO
   - Mango
@@ -19809,3 +19815,13 @@ companies:
   name: Morningstar
   aliases:
   - morningstar
+- tenant: martinmarietta
+  wd: wd5
+  site: Martin_Marietta_Careers
+  name: Martin Marietta
+  aliases:
+  - martinmarietta
+- tenant: vincitgroup
+  wd: wd5
+  site: Vincit_External_1
+  name: vincitgroup

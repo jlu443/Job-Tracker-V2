@@ -3502,3 +3502,7 @@ companies:
   name: SAP IT Business Systeme
   aliases:
   - SAPITBusinessSysteme
+- company: Pyrotek3
+  name: Pyrotek
+  aliases:
+  - Pyrotek3

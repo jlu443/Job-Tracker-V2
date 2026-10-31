@@ -1789,3 +1789,7 @@ companies:
   name: Loft Orbital
   aliases:
   - loftorbital
+- slug: fireworkhq
+  name: Firework
+  aliases:
+  - fireworkhq
