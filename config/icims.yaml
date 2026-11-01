@@ -8316,3 +8316,7 @@ companies:
   name: Youthjobs Boston.icims.com
   aliases:
   - youthjobs-boston
+- host: globalcareers-ice.icims.com
+  name: ICE
+  aliases:
+  - globalcareers-ice

@@ -9523,3 +9523,11 @@ companies:
   name: ticketure
 - slug: tolmo
   name: tolmo
+- slug: pocket
+  name: Open Vision Engineering
+  aliases:
+  - pocket
+- slug: kaluza
+  name: Kaluza
+  aliases:
+  - kaluza
