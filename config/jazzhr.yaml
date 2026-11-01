@@ -935,3 +935,59 @@ companies:
   name: Elucid
   aliases:
   - elucid
+- slug: aapc
+  name: aapc
+- slug: adhoc
+  name: adhoc
+- slug: ascent
+  name: ascent
+- slug: aspincorporated
+  name: aspincorporated
+- slug: bloomfieldrobotics
+  name: bloomfieldrobotics
+- slug: cityparksfoundation
+  name: cityparksfoundation
+- slug: cornerstoneadvocacyservices
+  name: cornerstoneadvocacyservices
+- slug: digitalalchemylimited
+  name: Digital Alchemy Limited
+  aliases:
+  - digitalalchemylimited
+- slug: easternctstateuniversity
+  name: Eastern CT State University
+  aliases:
+  - easternctstateuniversity
+- slug: ethosveterinaryhealth
+  name: ethosveterinaryhealth
+- slug: flyusainc
+  name: flyusainc
+- slug: foursquareitp
+  name: foursquareitp
+- slug: greenzie
+  name: greenzie
+- slug: hutchautogroup
+  name: Hutch Auto Group
+  aliases:
+  - hutchautogroup
+- slug: instinctscience
+  name: instinctscience
+- slug: locallogic
+  name: locallogic
+- slug: mota
+  name: mota
+- slug: oshmanfamilyjcc
+  name: Oshman Family JCC
+  aliases:
+  - oshmanfamilyjcc
+- slug: replicainc
+  name: replicainc
+- slug: stmarksepiscopalschool
+  name: stmarksepiscopalschool
+- slug: talentminded74
+  name: talentminded74
+- slug: themorancompany
+  name: themorancompany
+- slug: manatee
+  name: Manatee
+  aliases:
+  - manatee

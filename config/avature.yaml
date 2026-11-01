@@ -52,3 +52,9 @@ companies:
   name: mhcta.avature.net
 - base: https://unifi.avature.net/careers
   name: unifi.avature.net
+- base: https://ciusss.avature.net/careers
+  name: ciusss.avature.net
+- base: https://dth.avature.net/careers
+  name: dth.avature.net
+- base: https://justicejobs.avature.net/careers
+  name: justicejobs.avature.net

@@ -9263,3 +9263,263 @@ companies:
   - isembard
 - slug: infiniteedge
   name: infiniteedge
+- slug: 115ventures
+  name: 115ventures
+- slug: aboon
+  name: aboon
+- slug: agiholdings
+  name: agiholdings
+- slug: aim-solutions
+  name: Aim Solutions
+  aliases:
+  - aim-solutions
+- slug: alleviatehealth
+  name: alleviatehealth
+- slug: answerthis
+  name: answerthis
+- slug: anthrogen
+  name: anthrogen
+- slug: arclight-consulting
+  name: Arclight Consulting
+  aliases:
+  - arclight-consulting
+- slug: aslan
+  name: aslan
+- slug: atria
+  name: atria
+- slug: augur
+  name: augur
+- slug: bankjoy
+  name: bankjoy
+- slug: benevity
+  name: benevity
+- slug: better-mortgage
+  name: Better Mortgage
+  aliases:
+  - better-mortgage
+- slug: bite
+  name: bite
+- slug: black-forest-labs
+  name: Black Forest Labs
+  aliases:
+  - black-forest-labs
+- slug: cardboard
+  name: cardboard
+- slug: caruso
+  name: caruso
+- slug: complir
+  name: complir
+- slug: consensys
+  name: consensys
+- slug: dewarmte
+  name: dewarmte
+- slug: distill
+  name: distill
+- slug: doubleblindbio
+  name: doubleblindbio
+- slug: dynamic-creatures
+  name: Dynamic Creatures
+  aliases:
+  - dynamic-creatures
+- slug: edisyl
+  name: edisyl
+- slug: edwin
+  name: edwin
+- slug: elyos
+  name: elyos
+- slug: engram
+  name: engram
+- slug: entendre
+  name: entendre
+- slug: evervault
+  name: evervault
+- slug: exo
+  name: exo
+- slug: FamiliarMachines
+  name: FamiliarMachines
+- slug: farmersd40
+  name: farmersd40
+- slug: fieldmaterials
+  name: fieldmaterials
+- slug: forgd-ai
+  name: Forgd Ai
+  aliases:
+  - forgd-ai
+- slug: forgepoint
+  name: forgepoint
+- slug: foundational
+  name: foundational
+- slug: freehand
+  name: freehand
+- slug: futrue
+  name: futrue
+- slug: generalrobotics
+  name: generalrobotics
+- slug: gradient
+  name: gradient
+- slug: greatsky
+  name: greatsky
+- slug: grounded
+  name: grounded
+- slug: healthleap
+  name: healthleap
+- slug: helogen
+  name: helogen
+- slug: hume-ai
+  name: Hume Ai
+  aliases:
+  - hume-ai
+- slug: hyde
+  name: hyde
+- slug: ideal%20dental
+  name: ideal dental
+- slug: impact-justice
+  name: Impact Justice
+  aliases:
+  - impact-justice
+- slug: kandou-ai
+  name: Kandou Ai
+  aliases:
+  - kandou-ai
+- slug: kantiv
+  name: kantiv
+- slug: keplar
+  name: keplar
+- slug: klarify
+  name: klarify
+- slug: Kobalt%20Labs
+  name: Kobalt Labs
+- slug: kontakt
+  name: kontakt
+- slug: koro
+  name: koro
+- slug: laelaps
+  name: laelaps
+- slug: lemon-io
+  name: Lemon Io
+  aliases:
+  - lemon-io
+- slug: lemrock
+  name: lemrock
+- slug: lighthousehq
+  name: lighthousehq
+- slug: mach10usa
+  name: mach10usa
+- slug: midjourney
+  name: midjourney
+- slug: mitti
+  name: mitti
+- slug: mobi
+  name: mobi
+- slug: mubit
+  name: mubit
+- slug: Neuromorphic-Labs
+  name: Neuromorphic Labs
+  aliases:
+  - Neuromorphic-Labs
+- slug: Ohr
+  name: Ohr
+- slug: onepot
+  name: onepot
+- slug: openstandard
+  name: openstandard
+- slug: oviva
+  name: oviva
+- slug: philo
+  name: philo
+- slug: plotlineso
+  name: plotlineso
+- slug: polaroid
+  name: polaroid
+- slug: powerverse
+  name: powerverse
+- slug: predikt
+  name: predikt
+- slug: PRISM
+  name: PRISM
+- slug: proofofhuman
+  name: proofofhuman
+- slug: prosus
+  name: prosus
+- slug: pure-app
+  name: Pure App
+  aliases:
+  - pure-app
+- slug: qlub
+  name: qlub
+- slug: radical-health
+  name: Radical Health
+  aliases:
+  - radical-health
+- slug: radixark
+  name: radixark
+- slug: redpanda-data
+  name: Redpanda Data
+  aliases:
+  - redpanda-data
+- slug: repeatbuilders
+  name: repeatbuilders
+- slug: robert-rauschenberg-foundation
+  name: Robert Rauschenberg Foundation
+  aliases:
+  - robert-rauschenberg-foundation
+- slug: Runbook
+  name: Runbook
+- slug: sail
+  name: sail
+- slug: sideshift
+  name: sideshift
+- slug: skin-analytics
+  name: Skin Analytics
+  aliases:
+  - skin-analytics
+- slug: SkyLink
+  name: SkyLink
+- slug: slide
+  name: slide
+- slug: Solvea
+  name: Solvea
+- slug: successionai
+  name: successionai
+- slug: synthetic
+  name: synthetic
+- slug: temporal
+  name: temporal
+- slug: theprimary
+  name: theprimary
+- slug: toogoodtogo
+  name: toogoodtogo
+- slug: up
+  name: up
+- slug: vandenboomassociates
+  name: vandenboomassociates
+- slug: vegatech
+  name: vegatech
+- slug: velocfo
+  name: velocfo
+- slug: verlo
+  name: verlo
+- slug: weave-os
+  name: Weave Os
+  aliases:
+  - weave-os
+- slug: when
+  name: when
+- slug: whisk
+  name: whisk
+- slug: Wonderful
+  name: Wonderful
+- slug: you-health
+  name: You Health
+  aliases:
+  - you-health
+- slug: Coalesce
+  name: Coalesce
+- slug: playerzero
+  name: playerzero
+- slug: sfg20
+  name: sfg20
+- slug: ticketure
+  name: ticketure
+- slug: tolmo
+  name: tolmo
