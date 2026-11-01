@@ -70,9 +70,10 @@ def is_bump(old: str, new: str, min_days: int = 3) -> bool:
     """
     if not old or not new or new <= old:
         return False
-    gap = (date.fromisoformat(new[:10]) - date.fromisoformat(old[:10])).days
-    age = dates.age_days(new)
-    return gap >= min_days and age is not None and age < 28
+    age, old_age = dates.age_days(new), dates.age_days(old)   # None unless ISO
+    if age is None or old_age is None:
+        return False
+    return old_age - age >= min_days and age < 28
 
 
 def triage(new_jobs: list[dict], history: dict, new_boards: set[tuple[str, str]],

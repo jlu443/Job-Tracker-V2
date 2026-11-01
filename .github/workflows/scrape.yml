@@ -31,14 +31,15 @@ jobs:
   # Stage 1: scrape in parallel. Each part runs on its own machine, so the
   # two Workday halves get separate IPs (Workday rate-limits per client IP).
   # Parts only read a copy of the DB (board rotation); nothing is uploaded.
-  # Keep the workday parts in line with settings.yaml -> ci_shards.
+  # Keep the sharded parts in line with settings.yaml -> ci_shards.
   scrape:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        part: ["workday:0/3", "workday:1/3", "workday:2/3", "icims:0/2", "icims:1/2", "rest"]
+        part: ["workday:0/3", "workday:1/3", "workday:2/3", "icims:0/2", "icims:1/2",
+               "oracle:0/2", "oracle:1/2", "rest"]
     steps:
       - uses: actions/checkout@v7
 

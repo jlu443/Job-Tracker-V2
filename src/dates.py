@@ -38,6 +38,24 @@ def relative_to_iso(text: str, anchor: date | None = None) -> str:
     return (anchor - timedelta(days=days)).isoformat()
 
 
+_SPELLED = ("%B %d, %Y", "%b %d, %Y", "%m/%d/%Y")
+
+
+def to_iso(text: str) -> str:
+    """Any absolute date a source sends ('2026-08-04T07:54Z', 'August 4,
+    2026', '08/04/2026') → ISO; '' when it isn't one. A non-ISO value that
+    slipped through crashed every run for a day (Schneider's Jibe, 2026-10-31)."""
+    t = " ".join((text or "").split())
+    if _ISO_PREFIX.match(t):
+        return t[:10]
+    for fmt in _SPELLED:
+        try:
+            return datetime.strptime(t, fmt).date().isoformat()
+        except ValueError:
+            pass
+    return ""
+
+
 def epoch_to_iso(seconds) -> str:
     try:
         return datetime.fromtimestamp(float(seconds), tz=timezone.utc).date().isoformat()

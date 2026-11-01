@@ -16,7 +16,7 @@ import time
 
 import requests
 
-from . import enrich, http_pool
+from . import dates, enrich, http_pool
 from .posting import JobPosting
 
 log = logging.getLogger(__name__)
@@ -82,7 +82,9 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
                     job_id=jid, company=name, title=title,
                     apply_url=f"https://{host}/jobs/{slug}?icims=1",
                     location=j.get("full_location") or "",
-                    posted_on=(j.get("posted_date") or "")[:10], source="jibe",
+                    # posted_date is ISO on most sites, "August 4, 2026" on some.
+                    posted_on=dates.to_iso(j.get("posted_date")) or (j.get("create_date") or "")[:10],
+                    source="jibe",
                     # The underlying ATS posting, when Jibe exposes it.
                     direct_url=j.get("apply_url") or "",
                     **enrich.described_fields(title, enrich._strip_html(description)))

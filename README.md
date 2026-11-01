@@ -124,7 +124,7 @@ response. The workflow's own schedule stays as an every-3-hours fallback.
 **Renew the token before it expires**; if runs stop, check that first.
 
 **One run** (median 11 min, p90 16 min):
-1. Six **scrape** jobs run in parallel on separate machines: Workday in three parts, iCIMS in two, and everything else. Separate machines mean separate IPs for Workday's and iCIMS's per-IP rate limits. Each saves its postings as an artifact.
+1. Eight **scrape** jobs run in parallel on separate machines: Workday in three parts, iCIMS in two, Oracle in two, and everything else. Separate machines mean separate IPs for Workday's and iCIMS's per-IP rate limits and for Oracle's burst limits. Each saves its postings as an artifact.
 2. The **process** job runs the test suite, then merges the parts and does classification, the DB sync, enrichment, Discord and the Sheet.
 3. Runs never overlap (a concurrency group); a late one waits.
 

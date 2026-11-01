@@ -162,6 +162,20 @@ def test_detail_reads_descriptions_without_the_usual_closing(monkeypatch):
         def raise_for_status(self):
             pass
     monkeypatch.setattr(sf._SESSION, "get", lambda *a, **k: Resp())
-    text, posted = sf.fetch_detail("https://jobs.example.com/job/x/1430217600/")
+    text, posted, country = sf.fetch_detail("https://jobs.example.com/job/x/1430217600/")
     assert "New graduates welcome." in text and "Apply" not in text
-    assert posted == "2026-10-14"
+    assert posted == "2026-10-14" and country == ""
+
+
+def test_detail_reads_country(monkeypatch):
+    # MANN+HUMMEL's listings show no location; the page names the country
+    page = ('<span data-careersite-propertyid="city" class="rtltextaligneligible">Singapore</span>'
+            '<span data-careersite-propertyid="country" class="rtltextaligneligible">SG</span>')
+
+    class Resp:
+        text = page
+
+        def raise_for_status(self):
+            pass
+    monkeypatch.setattr(sf._SESSION, "get", lambda *a, **k: Resp())
+    assert sf.fetch_detail("https://careers.mann-hummel.com/job/x/1388698033/")[2] == "SG"

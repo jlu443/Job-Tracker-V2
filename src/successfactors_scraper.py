@@ -63,6 +63,7 @@ _LOC_TABLE = re.compile(r'<span class="jobLocation">\s*([^<]+?)\s*</span>')
 _LOC_TILE = re.compile(r'id="job-\d+-desktop-section-location-value"[^>]*>\s*([^<]+?)\s*<')
 _TOTAL = re.compile(r'aria-rowcount="(\d+)"|of\s*<b>\s*([\d,]+)\s*</b>')
 _DATE = re.compile(r'itemprop="datePosted"[^>]*content="([^"]+)"')
+_COUNTRY = re.compile(r'data-careersite-propertyid="country"[^>]*>\s*([A-Z]{2})\s*<')
 _DESC = re.compile(r'class="jobdescription"[^>]*>(.*?)</span>\s*</div>', re.S)
 _TAG = re.compile(r"<[^>]+>")
 _JOB_URL = re.compile(r"https?://([^/]+)(?:/[^/?#]+)?/job/[^/?#]+/(\d{6,})/?")
@@ -173,8 +174,10 @@ def fetch_company_jobs(company: dict, settings: dict) -> tuple[list[JobPosting],
     return list(seen.values()), complete
 
 
-def fetch_detail(url: str, timeout: int = 30) -> tuple[str, str]:
-    """(description text, ISO post date or '') from a job page."""
+def fetch_detail(url: str, timeout: int = 30) -> tuple[str, str, str]:
+    """(description text, ISO post date or '', ISO country or '') from a job
+    page. Some sites' listings show no location (MANN+HUMMEL's Singapore
+    interns went out as US, 2026-10-31); the page's country field says."""
     resp = _SESSION.get(url, timeout=timeout)
     resp.raise_for_status()
     page = resp.text
@@ -198,4 +201,5 @@ def fetch_detail(url: str, timeout: int = 30) -> tuple[str, str]:
             posted = datetime.strptime(d.group(1), "%a %b %d %H:%M:%S %Z %Y").date().isoformat()
         except ValueError:
             pass
-    return text, posted
+    c = _COUNTRY.search(page)
+    return text, posted, c.group(1) if c else ""

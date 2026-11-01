@@ -63,6 +63,9 @@ ci_shards:
   # Its own jobs: the slowest source (globally spaced requests, rate-limited
   # per IP); two machines since discovery took it to ~1,300 portals (2026-10-17).
   icims: 2
+  # Out of "rest" since discovery took it to 1,529 sites: alone it took
+  # 13-19.5 of rest's 20 minutes and timed rest out twice (2026-10-31).
+  oracle: 2
 
 # Boards that fail the main pass (Workday answers bursts from one IP with
 # 429) are retried once after `delay` seconds with only `workers` threads.

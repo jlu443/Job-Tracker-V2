@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from . import dates
+
 
 @dataclass(frozen=True)
 class JobPosting:
@@ -33,3 +35,5 @@ class JobPosting:
         # Sources embed newlines/tabs in titles ("Intern\nTorrance, CA").
         for name in ("company", "title", "location"):
             object.__setattr__(self, name, " ".join((getattr(self, name) or "").split()))
+        # Date math downstream assumes ISO; one odd board mustn't break a run.
+        object.__setattr__(self, "posted_on", dates.to_iso(self.posted_on))

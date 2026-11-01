@@ -204,6 +204,21 @@ def test_is_bump():
     assert not repost.is_bump(d(20), d(19))         # jitter
     assert not repost.is_bump(d(40), d(30))         # Workday "30+ days" drift
     assert not repost.is_bump("", d(2)) and not repost.is_bump(d(2), "")
+    assert not repost.is_bump("2026-08-01", "September ")  # no crash on a non-ISO date
+
+
+def test_posted_dates_normalized_to_iso():
+    from src import dates
+    from src.posting import JobPosting
+    assert dates.to_iso("2026-08-04T07:54:22+0000") == "2026-08-04"
+    assert dates.to_iso("August 4, 2026") == "2026-08-04"
+    assert dates.to_iso("Sep 29, 2026") == "2026-09-29"
+    assert dates.to_iso("08/04/2026") == "2026-08-04"
+    assert dates.to_iso("Posted 3 days ago") == "" and dates.to_iso(None) == ""
+    # Schneider Electric's Jibe site sends "August 4, 2026" (2026-10-31)
+    p = JobPosting("jibe_se.jibeapply.com_1", "Schneider Electric", "Intern", "u", "",
+                   "August 4, 2026", "jibe")
+    assert p.posted_on == "2026-08-04"
 
 
 def test_sync_detects_same_id_redating_once_and_keeps_original_date():

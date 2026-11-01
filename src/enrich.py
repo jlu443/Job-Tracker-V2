@@ -294,9 +294,11 @@ def _fetch_icims(job: dict) -> str:
 
 def _fetch_successfactors(job: dict) -> str:
     # Listings carry no post date; the job page does.
-    text, posted = successfactors_scraper.fetch_detail(job["apply_url"], _TIMEOUT)
+    text, posted, country = successfactors_scraper.fetch_detail(job["apply_url"], _TIMEOUT)
     if posted and not job.get("posted_on"):
         job["posted_on"] = posted
+    if country:
+        job["country"] = country
     return text
 
 
