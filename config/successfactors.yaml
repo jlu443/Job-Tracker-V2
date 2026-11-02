@@ -455,3 +455,7 @@ companies:
   name: MANN+HUMMEL
   aliases:
   - careers.mann-hummel.com
+- host: careers.amtrak.com
+  name: Amtrak
+  aliases:
+  - careers.amtrak.com

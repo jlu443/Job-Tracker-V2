@@ -1793,3 +1793,7 @@ companies:
   name: Firework
   aliases:
   - fireworkhq
+- slug: elementsolutions
+  name: Element Solutions
+  aliases:
+  - elementsolutions

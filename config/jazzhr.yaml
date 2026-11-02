@@ -991,3 +991,7 @@ companies:
   name: Manatee
   aliases:
   - manatee
+- slug: trianglemanufacturing
+  name: Triangle Manufacturing
+  aliases:
+  - trianglemanufacturing

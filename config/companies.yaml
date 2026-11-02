@@ -12066,7 +12066,9 @@ companies:
 - tenant: carilionclinic
   wd: wd12
   site: External_Careers
-  name: carilionclinic
+  name: Carilion Clinic
+  aliases:
+  - carilionclinic
 - tenant: cars
   wd: wd12
   site: cars
@@ -14343,7 +14345,7 @@ companies:
 - tenant: pluxee
   wd: wd3
   site: Pluxee_Career_Site
-  name: Pluxee
+  name: PLUXEE
   aliases:
   - PLUXEE
   - Pluxee
@@ -15150,7 +15152,9 @@ companies:
 - tenant: dover
   wd: wd103
   site: Dover
-  name: dover
+  name: Dover
+  aliases:
+  - dover
 - tenant: eversource
   wd: wd1
   site: Eversource_Confidential
@@ -16910,9 +16914,10 @@ companies:
 - tenant: lendlease
   wd: wd3
   site: lendleasecareers
-  name: Lendlease
+  name: LENDLEASE
   aliases:
   - LENDLEASE
+  - Lendlease
   - lendlease
 - tenant: lgt
   wd: wd3
@@ -17709,7 +17714,9 @@ companies:
 - tenant: cgb
   wd: wd5
   site: CGB_Careers
-  name: cgb
+  name: CGB
+  aliases:
+  - cgb
 - tenant: chevron
   wd: wd5
   site: ExternalCareerSite_Private
@@ -20492,7 +20499,9 @@ companies:
 - tenant: extendicare
   wd: wd10
   site: Paramed2023
-  name: extendicare
+  name: Extendicare
+  aliases:
+  - extendicare
 - tenant: fengate
   wd: wd10
   site: Fengate_Careers
@@ -21706,7 +21715,9 @@ companies:
 - tenant: storebrand
   wd: wd3
   site: SPP_Careers
-  name: storebrand
+  name: Storebrand
+  aliases:
+  - storebrand
 - tenant: swisslife
   wd: wd3
   site: Swiss_Life_Asset_Managers_Career_Site
@@ -22237,3 +22248,9 @@ companies:
   name: LEARFIELD
   aliases:
   - learfield
+- tenant: martin
+  wd: wd1
+  site: mphc
+  name: Martin's Point Health Care
+  aliases:
+  - martin

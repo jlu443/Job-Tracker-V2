@@ -17328,3 +17328,9 @@ companies:
   name: super{set} Hive Community
   aliases:
   - superset
+- token: thgingenuity
+  name: THG Ingenuity
+  aliases:
+  - thgingenuity
+- token: nebius_internships_tech
+  name: Nebius SWE and ML Early Talent Program
