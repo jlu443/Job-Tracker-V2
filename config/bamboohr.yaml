@@ -24083,3 +24083,11 @@ companies:
   name: Education Advanced, Inc.
   aliases:
   - educationadvanced
+- slug: horwitzinc
+  name: Horwitz
+  aliases:
+  - horwitzinc
+- slug: improvinglife
+  name: BranchPattern
+  aliases:
+  - improvinglife

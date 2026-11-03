@@ -5888,7 +5888,9 @@ companies:
 - slug: zefir
   name: zefir
 - slug: zefr
-  name: zefr
+  name: Zefr
+  aliases:
+  - zefr
 - slug: zeit-ai
   name: Zeit Ai
   aliases:
@@ -9531,3 +9533,13 @@ companies:
   name: Kaluza
   aliases:
   - kaluza
+- slug: ariesglobal
+  name: Aries Global
+  aliases:
+  - ariesglobal
+- slug: plsn
+  name: Polished Snow
+  aliases:
+  - plsn
+- slug: facilityos
+  name: facilityos

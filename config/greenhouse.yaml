@@ -17334,3 +17334,9 @@ companies:
   - thgingenuity
 - token: nebius_internships_tech
   name: Nebius SWE and ML Early Talent Program
+- token: rotheramarketsllc
+  name: Rothera
+  aliases:
+  - rotheramarketsllc
+- token: triafederal
+  name: Tria Federal

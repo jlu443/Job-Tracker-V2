@@ -686,7 +686,9 @@ companies:
   - ibnjjb
 - host: ehtl.fa.us6.oraclecloud.com
   site: CX_2
-  name: ehtl
+  name: Resideo
+  aliases:
+  - ehtl
 - host: fa-eomf-saasfaprod1.fa.ocs.oraclecloud.com
   site: CX_1002
   name: UTHealth Houston
@@ -849,7 +851,9 @@ companies:
   - elrj
 - host: ehtl.fa.us6.oraclecloud.com
   site: CX
-  name: ehtl
+  name: Resideo
+  aliases:
+  - ehtl
 - host: fa-exmi-saasfaprod1.fa.ocs.oraclecloud.com
   site: CX_1
   name: Weatherford
@@ -3203,7 +3207,9 @@ companies:
   - ehac
 - host: ehtl.fa.us6.oraclecloud.com
   site: CX_1
-  name: ehtl
+  name: Resideo
+  aliases:
+  - ehtl
 - host: eidg.fa.us6.oraclecloud.com
   site: CX_2
   name: eidg

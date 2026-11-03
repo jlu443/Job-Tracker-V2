@@ -8320,3 +8320,11 @@ companies:
   name: ICE
   aliases:
   - globalcareers-ice
+- host: corporatejobs-alaskaair.icims.com
+  name: Corporatejobs Alaskaair.icims.com
+  aliases:
+  - corporatejobs-alaskaair
+- host: els-blackhawknetwork.icims.com
+  name: Blackhawk Network
+  aliases:
+  - els-blackhawknetwork

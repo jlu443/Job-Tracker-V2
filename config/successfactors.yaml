@@ -459,3 +459,7 @@ companies:
   name: Amtrak
   aliases:
   - careers.amtrak.com
+- host: careers.stratasys.com
+  name: stratasys
+  aliases:
+  - careers.stratasys.com

@@ -13572,7 +13572,7 @@ companies:
 - tenant: diconium
   wd: wd3
   site: diconium
-  name: diconium
+  name: Diconium
   aliases:
   - Diconium
   - diconium
@@ -14259,7 +14259,7 @@ companies:
 - tenant: nutreco
   wd: wd3
   site: Nutreco_External
-  name: NUTRECO
+  name: Nutreco
   aliases:
   - NUTRECO
   - Nutreco
@@ -15286,7 +15286,7 @@ companies:
 - tenant: genpact
   wd: wd108
   site: campussite
-  name: Genpact
+  name: GENPACT
   aliases:
   - GENPACT
   - Genpact
@@ -18097,7 +18097,9 @@ companies:
 - tenant: languageline
   wd: wd5
   site: LLS_Careers
-  name: languageline
+  name: Language Line
+  aliases:
+  - languageline
 - tenant: languageline
   wd: wd5
   site: LLS_UK_Careers
@@ -20687,7 +20689,9 @@ companies:
 - tenant: europcar
   wd: wd103
   site: EuropcarCareerPage
-  name: europcar
+  name: Europcar
+  aliases:
+  - europcar
 - tenant: europeanenergy
   wd: wd103
   site: European_Energy
@@ -21763,7 +21767,9 @@ companies:
 - tenant: uniphar
   wd: wd3
   site: uniphar_external_careers
-  name: uniphar
+  name: Uniphar
+  aliases:
+  - uniphar
 - tenant: uq
   wd: wd3
   site: broadbean_external
@@ -22254,3 +22260,9 @@ companies:
   name: Martin's Point Health Care
   aliases:
   - martin
+- tenant: gaig
+  wd: wd1
+  site: Not_Posted_GAIG
+  name: Great American Insurance Company
+  aliases:
+  - gaig
