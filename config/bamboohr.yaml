@@ -24091,3 +24091,11 @@ companies:
   name: BranchPattern
   aliases:
   - improvinglife
+- slug: landfx
+  name: Land F/X
+  aliases:
+  - landfx
+- slug: invid
+  name: INVID
+  aliases:
+  - invid

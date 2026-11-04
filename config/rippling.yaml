@@ -3987,3 +3987,7 @@ companies:
   name: Sperry Rail
   aliases:
   - sperry-rail-inc
+- slug: shadowdragon
+  name: ShadowDragon
+  aliases:
+  - shadowdragon

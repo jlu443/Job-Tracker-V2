@@ -3811,8 +3811,9 @@ companies:
 - tenant: arlo
   wd: wd12
   site: external_careers
-  name: Arlo
+  name: Arlo Technologies
   aliases:
+  - Arlo
   - arlo
 - tenant: alliancedata
   wd: wd5
@@ -11342,7 +11343,9 @@ companies:
 - tenant: fico
   wd: wd1
   site: External
-  name: fico
+  name: FICO
+  aliases:
+  - fico
 - tenant: firststudent
   wd: wd1
   site: firststudent
@@ -12642,7 +12645,9 @@ companies:
 - tenant: lgi
   wd: wd5
   site: LGI_Careers
-  name: lgi
+  name: LGI
+  aliases:
+  - lgi
 - tenant: liberty
   wd: wd5
   site: lu_job_board_faculty
@@ -12860,7 +12865,9 @@ companies:
 - tenant: apacheip
   wd: wd1
   site: Apache_Careers
-  name: apacheip
+  name: Apache Industrial
+  aliases:
+  - apacheip
 - tenant: aresmgmt
   wd: wd1
   site: external-ada
@@ -15286,7 +15293,7 @@ companies:
 - tenant: genpact
   wd: wd108
   site: campussite
-  name: GENPACT
+  name: Genpact
   aliases:
   - GENPACT
   - Genpact
@@ -18181,7 +18188,9 @@ companies:
 - tenant: nextracker
   wd: wd5
   site: nextpower_careers
-  name: nextracker
+  name: Nextracker
+  aliases:
+  - nextracker
 - tenant: nphosting
   wd: wd5
   site: CU_Careers
@@ -22266,3 +22275,15 @@ companies:
   name: Great American Insurance Company
   aliases:
   - gaig
+- tenant: octa
+  wd: wd1
+  site: OCTA_Interns
+  name: OCTA
+  aliases:
+  - octa
+- tenant: tepa
+  wd: wd108
+  site: Tepa
+  name: Tepa
+  aliases:
+  - tepa

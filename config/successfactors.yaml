@@ -463,3 +463,7 @@ companies:
   name: stratasys
   aliases:
   - careers.stratasys.com
+- host: jobs.venturafoods.com
+  name: Ventura Foods
+  aliases:
+  - jobs.venturafoods.com

@@ -296,8 +296,9 @@ companies:
   aliases:
   - muonspace
 - token: fsastorecom
-  name: FSAStore.com
+  name: Health-eCommerce.com
   aliases:
+  - FSAStore.com
   - fsastorecom
 - token: bluelabsanalyticsinc
   name: BlueLabs, Inc.
@@ -628,8 +629,9 @@ companies:
 - token: tastytrade
   name: tastytrade
 - token: idmeuniversityrecruiting
-  name: ID.me University Recruiting
+  name: IDMe University Recruiting
   aliases:
+  - ID.me University Recruiting
   - idmeuniversityrecruiting
 - token: betterhelpcom
   name: BetterHelp
@@ -3536,8 +3538,9 @@ companies:
   aliases:
   - stackadapt-confidential
 - token: idme
-  name: ID.me
+  name: IDMe
   aliases:
+  - ID.me
   - idme
 - token: fanaticsfbg
   name: Fanatics Betting & Gaming
@@ -17340,3 +17343,9 @@ companies:
   - rotheramarketsllc
 - token: triafederal
   name: Tria Federal
+- token: sofiuniversity
+  name: SoFi University
+- token: globalrelay
+  name: Global Relay
+- token: nebius_internships_infra
+  name: Nebius Early Talent Program Roles

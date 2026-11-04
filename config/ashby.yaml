@@ -3248,7 +3248,9 @@ companies:
   aliases:
   - moonshot-ai
 - slug: morningconsult
-  name: morningconsult
+  name: Morning Consult
+  aliases:
+  - morningconsult
 - slug: morpho
   name: morpho
 - slug: mosaic
@@ -9543,3 +9545,7 @@ companies:
   - plsn
 - slug: facilityos
   name: facilityos
+- slug: regent
+  name: REGENT
+  aliases:
+  - regent
