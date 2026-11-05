@@ -1368,8 +1368,9 @@ companies:
   aliases:
   - careers-kyocera
 - host: careers-ermcoeci.icims.com
-  name: Careers Ermcoeci.icims.com
+  name: ERMCO Distribution Transformers
   aliases:
+  - Careers Ermcoeci.icims.com
   - careers-ermcoeci
 - host: 1stheritage-attainfinance.icims.com
   name: 1stheritage Attainfinance.icims.com
@@ -1668,8 +1669,9 @@ companies:
   aliases:
   - career-goldbeltshareholder
 - host: career-portal-wolfandco.icims.com
-  name: Career Portal Wolfandco.icims.com
+  name: Wolf & Company
   aliases:
+  - Career Portal Wolfandco.icims.com
   - career-portal-wolfandco
 - host: career-realalloy.icims.com
   name: Career Realalloy.icims.com
@@ -3028,8 +3030,9 @@ companies:
   aliases:
   - europecareers-celanese
 - host: everwatch-everwatchsolutions.icims.com
-  name: Everwatch Everwatchsolutions.icims.com
+  name: Everwatch
   aliases:
+  - Everwatch Everwatchsolutions.icims.com
   - everwatch-everwatchsolutions
 - host: experienced-opportunities-cohenco.icims.com
   name: Cohen & Co
@@ -5217,8 +5220,9 @@ companies:
   aliases:
   - careers-planview
 - host: careers-primecontrols.icims.com
-  name: Careers Primecontrols.icims.com
+  name: Prime Controls
   aliases:
+  - Careers Primecontrols.icims.com
   - careers-primecontrols
 - host: careers-prismvisiongroup.icims.com
   name: PRISM Vision Group
@@ -5317,8 +5321,9 @@ companies:
   aliases:
   - careers-ccsww
 - host: careers-mineralstech.icims.com
-  name: Careers Mineralstech.icims.com
+  name: Minerals Technologies
   aliases:
+  - Careers Mineralstech.icims.com
   - careers-mineralstech
 - host: applynetwork-winco.icims.com
   name: Applynetwork Winco.icims.com
@@ -5329,8 +5334,9 @@ companies:
   aliases:
   - careers-plansys
 - host: careers-citizensenergygroup.icims.com
-  name: Careers Citizensenergygroup.icims.com
+  name: Citizens Energy Group
   aliases:
+  - Careers Citizensenergygroup.icims.com
   - careers-citizensenergygroup
 - host: ireland-careers-aon.icims.com
   name: Ireland Careers Aon.icims.com
@@ -6349,8 +6355,9 @@ companies:
   aliases:
   - careers-kelleylogistics
 - host: careers-kingfisher2.icims.com
-  name: Careers Kingfisher2.icims.com
+  name: Kingfisher
   aliases:
+  - Careers Kingfisher2.icims.com
   - careers-kingfisher2
 - host: careers-ko-merlinentertainments.icims.com
   name: Careers Ko Merlinentertainments.icims.com
@@ -6597,8 +6604,9 @@ companies:
   aliases:
   - careers-navanta
 - host: careers-navitus.icims.com
-  name: Careers Navitus.icims.com
+  name: Navitus Health Solutions
   aliases:
+  - Careers Navitus.icims.com
   - careers-navitus
 - host: careers-ncfe.icims.com
   name: NCFE
@@ -8321,10 +8329,35 @@ companies:
   aliases:
   - globalcareers-ice
 - host: corporatejobs-alaskaair.icims.com
-  name: Corporatejobs Alaskaair.icims.com
+  name: Alaska Air Group
   aliases:
+  - Corporatejobs Alaskaair.icims.com
   - corporatejobs-alaskaair
 - host: els-blackhawknetwork.icims.com
   name: Blackhawk Network
   aliases:
   - els-blackhawknetwork
+- host: careerseast-eastpennmanufacturing.icims.com
+  name: East Penn Manufacturing
+  aliases:
+  - careerseast-eastpennmanufacturing
+- host: careers-pgworks.icims.com
+  name: Philadelphia Gas Works
+  aliases:
+  - careers-pgworks
+- host: careers-cis.icims.com
+  name: CIS Secure
+  aliases:
+  - careers-cis
+- host: careers-yusen-logistics.icims.com
+  name: Logistics
+  aliases:
+  - careers-yusen-logistics
+- host: careersen-wonderbrands.icims.com
+  name: Wonderbrands
+  aliases:
+  - careersen-wonderbrands
+- host: careers-glotech.icims.com
+  name: Glotech
+  aliases:
+  - careers-glotech

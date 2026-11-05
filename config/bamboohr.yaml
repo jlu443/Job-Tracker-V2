@@ -24099,3 +24099,11 @@ companies:
   name: INVID
   aliases:
   - invid
+- slug: nomadecomm
+  name: Nomad eCommerce
+  aliases:
+  - nomadecomm
+- slug: dwe
+  name: Design West Engineering
+  aliases:
+  - dwe

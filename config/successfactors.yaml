@@ -467,3 +467,7 @@ companies:
   name: Ventura Foods
   aliases:
   - jobs.venturafoods.com
+- host: careers.knorr-bremse.com
+  name: Knorr-Bremse
+  aliases:
+  - careers.knorr-bremse.com

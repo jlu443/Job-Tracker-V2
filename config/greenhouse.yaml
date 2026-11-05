@@ -3907,8 +3907,9 @@ companies:
   aliases:
   - ably30
 - token: abricareinc
-  name: Abricare, Inc.
+  name: AbriCare, Inc.
   aliases:
+  - Abricare, Inc.
   - abricareinc
 - token: absolutesecurityintl
   name: Absolute International Security
@@ -17349,3 +17350,11 @@ companies:
   name: Global Relay
 - token: nebius_internships_infra
   name: Nebius Early Talent Program Roles
+- token: baringa
+  name: Baringa
+  aliases:
+  - baringa
+- token: imbueunlisted
+  name: Imbue Unlisted
+  aliases:
+  - imbueunlisted

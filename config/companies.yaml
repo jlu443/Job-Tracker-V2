@@ -15159,8 +15159,9 @@ companies:
 - tenant: dover
   wd: wd103
   site: Dover
-  name: Dover
+  name: DOVER
   aliases:
+  - Dover
   - dover
 - tenant: eversource
   wd: wd1
@@ -15407,8 +15408,9 @@ companies:
 - tenant: mastercorp
   wd: wd1
   site: MC
-  name: Mastercorp
+  name: MasterCorp
   aliases:
+  - Mastercorp
   - mastercorp
 - tenant: orix
   wd: wd5
@@ -16681,15 +16683,21 @@ companies:
 - tenant: tti
   wd: wd1
   site: CDA
-  name: tti
+  name: Milwaukee Tool
+  aliases:
+  - tti
 - tenant: tti
   wd: wd1
   site: teamtti-jobs
-  name: tti
+  name: Milwaukee Tool
+  aliases:
+  - tti
 - tenant: tti
   wd: wd1
   site: TTI_Floor_Care
-  name: tti
+  name: Milwaukee Tool
+  aliases:
+  - tti
 - tenant: tuftsmedicine
   wd: wd1
   site: Jobs
@@ -18050,7 +18058,9 @@ companies:
 - tenant: ilitch
   wd: wd5
   site: Champion-Foods
-  name: ilitch
+  name: Little Caesars Enterprises
+  aliases:
+  - ilitch
 - tenant: inlandimaging
   wd: wd5
   site: IRCM_Careers
@@ -20788,7 +20798,9 @@ companies:
 - tenant: luxexperience
   wd: wd103
   site: LuxExperience_Careers
-  name: luxexperience
+  name: LuxExperience
+  aliases:
+  - luxexperience
 - tenant: materialise
   wd: wd103
   site: Materialise_Jobs
@@ -20910,7 +20922,9 @@ companies:
 - tenant: kinrise
   wd: wd105
   site: KinriseCareers
-  name: kinrise
+  name: Kinrise
+  aliases:
+  - kinrise
 - tenant: mercyagedcare
   wd: wd105
   site: External
@@ -22226,7 +22240,9 @@ companies:
 - tenant: ilitch
   wd: wd5
   site: Ilitch-Sports-Entertainment
-  name: ilitch
+  name: Little Caesars Enterprises
+  aliases:
+  - ilitch
 - tenant: imtt
   wd: wd5
   site: IMTT
@@ -22287,3 +22303,25 @@ companies:
   name: Tepa
   aliases:
   - tepa
+- tenant: amerch
+  wd: wd1
+  site: amerchcareers
+  name: Anderson Merchandisers
+  aliases:
+  - amerch
+- tenant: amica
+  wd: wd503
+  site: CareersAmica
+  name: Amica
+  aliases:
+  - amica
+- tenant: cartech
+  wd: wd5
+  site: CTCExternal
+  name: cartech
+- tenant: westernalliancebank
+  wd: wd5
+  site: AMH
+  name: Western Alliance
+  aliases:
+  - westernalliancebank

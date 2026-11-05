@@ -58,3 +58,5 @@ companies:
   name: dth.avature.net
 - base: https://justicejobs.avature.net/careers
   name: justicejobs.avature.net
+- base: https://jobs.enel.com/en_US/careers
+  name: jobs.enel.com

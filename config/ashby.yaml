@@ -1020,7 +1020,9 @@ companies:
 - slug: claryo
   name: claryo
 - slug: clasp
-  name: clasp
+  name: Clasp
+  aliases:
+  - clasp
 - slug: clasp-group
   name: Clasp
   aliases:
@@ -9549,3 +9551,11 @@ companies:
   name: REGENT
   aliases:
   - regent
+- slug: longitudelabs
+  name: Longitude Labs
+  aliases:
+  - longitudelabs
+- slug: didero
+  name: Didero
+  aliases:
+  - didero
