@@ -471,3 +471,5 @@ companies:
   name: Knorr-Bremse
   aliases:
   - careers.knorr-bremse.com
+- host: jobs.volvocars.com
+  name: jobs.volvocars.com

@@ -12,7 +12,9 @@ companies:
   aliases:
   - esvolta
 - slug: deka
-  name: deka
+  name: DEKA Research & Development Corp.
+  aliases:
+  - deka
 - slug: palomarproducts
   name: Palomar Products
   aliases:
@@ -634,7 +636,9 @@ companies:
 - slug: cityofwindsor
   name: cityofwindsor
 - slug: ctstatecommunitycollege
-  name: ctstatecommunitycollege
+  name: Connecticut State Community College
+  aliases:
+  - ctstatecommunitycollege
 - slug: directagents
   name: directagents
 - slug: dmdsystems

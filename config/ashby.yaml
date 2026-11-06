@@ -2340,7 +2340,9 @@ companies:
 - slug: hopper
   name: hopper
 - slug: horizon3ai
-  name: horizon3ai
+  name: Horizon3.ai
+  aliases:
+  - horizon3ai
 - slug: hostinger
   name: hostinger
 - slug: hotspexmedia
@@ -2504,7 +2506,9 @@ companies:
 - slug: interface
   name: interface
 - slug: interplay
-  name: interplay
+  name: Interplay
+  aliases:
+  - interplay
 - slug: intology
   name: intology
 - slug: intrinsic-safety
@@ -8744,7 +8748,9 @@ companies:
   aliases:
   - tiny-health
 - slug: trajectory
-  name: trajectory
+  name: Trajectory
+  aliases:
+  - trajectory
 - slug: trawa
   name: trawa
 - slug: trilitech
@@ -9559,3 +9565,7 @@ companies:
   name: Didero
   aliases:
   - didero
+- slug: hoyoverse
+  name: HoYoverse
+  aliases:
+  - hoyoverse

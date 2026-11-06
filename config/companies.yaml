@@ -10330,8 +10330,9 @@ companies:
 - tenant: otis
   wd: wd504
   site: REC_Ext_Gateway
-  name: Otis
+  name: Otis Worldwide
   aliases:
+  - Otis
   - otis
 - tenant: devoted
   wd: wd1
@@ -11947,7 +11948,9 @@ companies:
 - tenant: sciensbuildingsolutions
   wd: wd108
   site: sciens_external_careers
-  name: sciensbuildingsolutions
+  name: Sciens Building Solutions
+  aliases:
+  - sciensbuildingsolutions
 - tenant: seattleu
   wd: wd108
   site: SeattleUJobs
@@ -13447,23 +13450,33 @@ companies:
 - tenant: capitalauto
   wd: wd3
   site: capitalautogroupcareers
-  name: capitalauto
+  name: Capital Automotive Group
+  aliases:
+  - capitalauto
 - tenant: capitalauto
   wd: wd3
   site: capitalfordlincolncareers
-  name: capitalauto
+  name: Capital Automotive Group
+  aliases:
+  - capitalauto
 - tenant: capitalauto
   wd: wd3
   site: capitalgmcareersite
-  name: capitalauto
+  name: Capital Automotive Group
+  aliases:
+  - capitalauto
 - tenant: capitalauto
   wd: wd3
   site: crestviewchrysler
-  name: capitalauto
+  name: Capital Automotive Group
+  aliases:
+  - capitalauto
 - tenant: capitalauto
   wd: wd3
   site: renfrewchrysler
-  name: capitalauto
+  name: Capital Automotive Group
+  aliases:
+  - capitalauto
 - tenant: cba
   wd: wd3
   site: Private_Ad
@@ -15408,8 +15421,9 @@ companies:
 - tenant: mastercorp
   wd: wd1
   site: MC
-  name: MasterCorp
+  name: Mastercorp
   aliases:
+  - MasterCorp
   - Mastercorp
   - mastercorp
 - tenant: orix
@@ -16929,7 +16943,7 @@ companies:
 - tenant: lendlease
   wd: wd3
   site: lendleasecareers
-  name: LENDLEASE
+  name: Lendlease
   aliases:
   - LENDLEASE
   - Lendlease

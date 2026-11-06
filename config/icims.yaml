@@ -5188,8 +5188,9 @@ companies:
   aliases:
   - campuscanada-amd
 - host: canadacareers-amd.icims.com
-  name: Canadacareers Amd.icims.com
+  name: AMD
   aliases:
+  - Canadacareers Amd.icims.com
   - canadacareers-amd
 - host: careers-bartwest.icims.com
   name: Careers Bartwest.icims.com
@@ -8361,3 +8362,7 @@ companies:
   name: Glotech
   aliases:
   - careers-glotech
+- host: careers-therapypartnersolutions.icims.com
+  name: Therapy Partner Solutions®
+  aliases:
+  - careers-therapypartnersolutions
