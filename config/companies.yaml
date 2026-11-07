@@ -15899,7 +15899,9 @@ companies:
 - tenant: neiu
   wd: wd1
   site: NEIU
-  name: neiu
+  name: Northeastern Illinois University
+  aliases:
+  - neiu
 - tenant: ngs
   wd: wd1
   site: ngs_external_career_site
@@ -17549,7 +17551,9 @@ companies:
 - tenant: anaheimducks
   wd: wd5
   site: AllCo
-  name: anaheimducks
+  name: Anaheim Ducks
+  aliases:
+  - anaheimducks
 - tenant: anaheimducks
   wd: wd5
   site: ADHCTW
@@ -17559,7 +17563,9 @@ companies:
 - tenant: anaheimducks
   wd: wd5
   site: HC
-  name: anaheimducks
+  name: Anaheim Ducks
+  aliases:
+  - anaheimducks
 - tenant: anaheimducks
   wd: wd5
   site: Linkedin
@@ -18236,7 +18242,9 @@ companies:
 - tenant: orionsteel
   wd: wd5
   site: externalcareers
-  name: orionsteel
+  name: Orion Steel
+  aliases:
+  - orionsteel
 - tenant: osfglobal
   wd: wd5
   site: OSF
@@ -22339,3 +22347,15 @@ companies:
   name: Western Alliance
   aliases:
   - westernalliancebank
+- tenant: petronascanada
+  wd: wd3
+  site: PETRONASCanada
+  name: PETRONAS Canada
+  aliases:
+  - petronascanada
+- tenant: marmon
+  wd: wd501
+  site: Marmon_Internships
+  name: Marmon Holdings
+  aliases:
+  - marmon

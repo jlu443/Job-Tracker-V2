@@ -415,3 +415,11 @@ companies:
   name: 84 Lumber
   aliases:
   - careers.84lumber.com
+- host: www.osi-systems.jobs
+  name: OSI Systems
+  aliases:
+  - www.osi-systems.jobs
+- host: jobs.tufts.edu
+  name: Tufts University
+  aliases:
+  - jobs.tufts.edu

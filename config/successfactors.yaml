@@ -473,3 +473,7 @@ companies:
   - careers.knorr-bremse.com
 - host: jobs.volvocars.com
   name: jobs.volvocars.com
+- host: careers.celestica.com
+  name: Celestica
+  aliases:
+  - careers.celestica.com

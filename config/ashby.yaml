@@ -3662,7 +3662,9 @@ companies:
 - slug: orbit
   name: orbit
 - slug: orbital
-  name: orbital
+  name: Orbital
+  aliases:
+  - orbital
 - slug: orbitalindustries
   name: Orbital Industries
   aliases:
@@ -9569,3 +9571,9 @@ companies:
   name: HoYoverse
   aliases:
   - hoyoverse
+- slug: machinacognita
+  name: Machina Cognita Technologies
+  aliases:
+  - machinacognita
+- slug: mossrobotics
+  name: mossrobotics

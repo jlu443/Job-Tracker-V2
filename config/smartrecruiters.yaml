@@ -985,7 +985,9 @@ companies:
 - company: ALTEN
   name: ALTEN
 - company: ThoughtForge
-  name: ThoughtForge
+  name: Thought Forge
+  aliases:
+  - ThoughtForge
 - company: Catch22
   name: Catch22
 - company: IPTGlobal

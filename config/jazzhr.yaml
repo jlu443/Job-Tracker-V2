@@ -1001,3 +1001,9 @@ companies:
   - trianglemanufacturing
 - slug: thekentuckyscienceandtechnologycorporation
   name: thekentuckyscienceandtechnologycorporation
+- slug: bubblynet
+  name: BubblyNet
+  aliases:
+  - bubblynet
+- slug: constellationinc
+  name: constellationinc

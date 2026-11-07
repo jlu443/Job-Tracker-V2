@@ -1797,3 +1797,7 @@ companies:
   name: Element Solutions
   aliases:
   - elementsolutions
+- slug: subsense
+  name: Subsense
+  aliases:
+  - subsense
