@@ -7352,3 +7352,365 @@ companies:
 - host: eehb.fa.us2.oraclecloud.com
   site: CX_1
   name: eehb
+- host: hcml.fa.us2.oraclecloud.com
+  site: CX
+  name: hcml
+- host: hcqq.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: RH
+  aliases:
+  - hcqq
+- host: hcrb.fa.us2.oraclecloud.com
+  site: CX_1
+  name: hcrb
+- host: hctz.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: onsemi
+  aliases:
+  - hctz
+- host: hcwx.fa.us2.oraclecloud.com
+  site: CX_12
+  name: hcwx
+- host: hcwx.fa.us2.oraclecloud.com
+  site: CX_6001
+  name: hcwx
+- host: hcwx.fa.us2.oraclecloud.com
+  site: CX_7
+  name: hcwx
+- host: hdat.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: hdat
+- host: hdbt.fa.us2.oraclecloud.com
+  site: CX_1
+  name: hdbt
+- host: hdid.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: Jefferies
+  aliases:
+  - hdid
+- host: hdiy.fa.us2.oraclecloud.com
+  site: jobsearch
+  name: hdiy
+- host: eeof.fa.us6.oraclecloud.com
+  site: jobsearch
+  name: eeof
+- host: eeug.fa.us6.oraclecloud.com
+  site: CX_1
+  name: Diebold Nixdorf
+  aliases:
+  - eeug
+- host: eevd.fa.us6.oraclecloud.com
+  site: CX_14001
+  name: Hearst
+  aliases:
+  - eevd
+- host: eevd.fa.us6.oraclecloud.com
+  site: CX_16
+  name: Hearst
+  aliases:
+  - eevd
+- host: eevd.fa.us6.oraclecloud.com
+  site: CX_3
+  name: Hearst
+  aliases:
+  - eevd
+- host: eevd.fa.us6.oraclecloud.com
+  site: CX_8007
+  name: Hearst
+  aliases:
+  - eevd
+- host: eevd.fa.us6.oraclecloud.com
+  site: jobsearch
+  name: Hearst
+  aliases:
+  - eevd
+- host: efhn.fa.us6.oraclecloud.com
+  site: CX
+  name: efhn
+- host: efsp.fa.us6.oraclecloud.com
+  site: jobsearch
+  name: Hoffman Construction
+  aliases:
+  - efsp
+- host: efuq.fa.us6.oraclecloud.com
+  site: CX_1
+  name: efuq
+- host: eifn.fa.us6.oraclecloud.com
+  site: CX_1
+  name: eifn
+- host: eifn.fa.us6.oraclecloud.com
+  site: CX_1001
+  name: eifn
+- host: eify.fa.us6.oraclecloud.com
+  site: jobsearch
+  name: eify
+- host: eigx.fa.us6.oraclecloud.com
+  site: CX_13
+  name: eigx
+- host: einj.fa.us6.oraclecloud.com
+  site: CX_1
+  name: einj
+- host: eiqu.fa.us6.oraclecloud.com
+  site: CX_1
+  name: eiqu
+- host: ejfh.fa.us6.oraclecloud.com
+  site: CX
+  name: ejfh
+- host: ejfh.fa.us6.oraclecloud.com
+  site: CX_1
+  name: ejfh
+- host: ejia.fa.us6.oraclecloud.com
+  site: CX_1
+  name: S&C Electric Company
+  aliases:
+  - ejia
+- host: ejid.fa.us6.oraclecloud.com
+  site: CX_1001
+  name: ejid
+- host: ejql.fa.us6.oraclecloud.com
+  site: jobsearch
+  name: ejql
+- host: ejvr.fa.us6.oraclecloud.com
+  site: CX_2
+  name: ejvr
+- host: ekpl.fa.us6.oraclecloud.com
+  site: CX_3001
+  name: ekpl
+- host: ekug.fa.us6.oraclecloud.com
+  site: jobsearch
+  name: ekug
+- host: emje.fa.us6.oraclecloud.com
+  site: CX
+  name: Southern Company
+  aliases:
+  - emje
+- host: emje.fa.us6.oraclecloud.com
+  site: jobsearch
+  name: Southern Company
+  aliases:
+  - emje
+- host: eozs.fa.us6.oraclecloud.com
+  site: CX_13
+  name: eozs
+- host: eozs.fa.us6.oraclecloud.com
+  site: CX_20
+  name: eozs
+- host: eozs.fa.us6.oraclecloud.com
+  site: CX_30
+  name: eozs
+- host: eswt.fa.us6.oraclecloud.com
+  site: CX_3001
+  name: eswt
+- host: hdow.fa.us6.oraclecloud.com
+  site: CX
+  name: Newmark Group
+  aliases:
+  - hdow
+- host: hdsn.fa.us6.oraclecloud.com
+  site: jobsearch
+  name: American Tower
+  aliases:
+  - hdsn
+- host: eese.fa.us8.oraclecloud.com
+  site: CX
+  name: eese
+- host: eihu.fa.us8.oraclecloud.com
+  site: CX_1
+  name: SAIC
+  aliases:
+  - eihu
+- host: ewal.fa.us8.oraclecloud.com
+  site: CX
+  name: ewal
+- host: ewal.fa.us8.oraclecloud.com
+  site: CX_1
+  name: ewal
+- host: ewvl.fa.us8.oraclecloud.com
+  site: jobsearch
+  name: Savannah River National Laboratory
+  aliases:
+  - ewvl
+- host: hdrc.fa.ca3.oraclecloud.com
+  site: CX_1
+  name: hdrc
+- host: bun.fa.em2.oraclecloud.com
+  site: CX_1005
+  name: bun
+- host: ebfi.fa.em2.oraclecloud.com
+  site: CX_1001
+  name: ebfi
+- host: ebza.fa.em2.oraclecloud.com
+  site: CX
+  name: ebza
+- host: ecau.fa.em2.oraclecloud.com
+  site: CX
+  name: ecau
+- host: eckx.fa.em2.oraclecloud.com
+  site: MHRACareers
+  name: eckx
+- host: ehif.fa.em2.oraclecloud.com
+  site: CX
+  name: Wood
+  aliases:
+  - ehif
+- host: ehjc.fa.em2.oraclecloud.com
+  site: CX_17
+  name: ehjc
+- host: ehth.fa.em2.oraclecloud.com
+  site: CX
+  name: Garrett Motion
+  aliases:
+  - ehth
+- host: eism.fa.em2.oraclecloud.com
+  site: CX
+  name: eism
+- host: eism.fa.em2.oraclecloud.com
+  site: lcc
+  name: eism
+- host: ejgk.fa.em2.oraclecloud.com
+  site: CX
+  name: ejgk
+- host: ejgk.fa.em2.oraclecloud.com
+  site: CX_3001
+  name: ejgk
+- host: ejgk.fa.em2.oraclecloud.com
+  site: CX_3R
+  name: ejgk
+- host: ejgo.fa.em2.oraclecloud.com
+  site: CX_4
+  name: ejgo
+- host: ejgo.fa.em2.oraclecloud.com
+  site: Farrans-Jobs
+  name: ejgo
+- host: ejwt.fa.em2.oraclecloud.com
+  site: CX
+  name: ejwt
+- host: ekez.fa.em2.oraclecloud.com
+  site: CX
+  name: ekez
+- host: ekkz.fa.em2.oraclecloud.com
+  site: CX_5001
+  name: ekkz
+- host: ekqz.fa.em2.oraclecloud.com
+  site: CX_1001
+  name: ekqz
+- host: elus.fa.em2.oraclecloud.com
+  site: CX_1001
+  name: elus
+- host: elvh.fa.em2.oraclecloud.com
+  site: CX_2001
+  name: elvh
+- host: estm.fa.em2.oraclecloud.com
+  site: CX_
+  name: estm
+- host: estm.fa.em2.oraclecloud.com
+  site: jobsearch
+  name: estm
+- host: hcqr.fa.em2.oraclecloud.com
+  site: CX_2005
+  name: hcqr
+- host: hcqt.fa.em2.oraclecloud.com
+  site: Reale-Group
+  name: hcqt
+- host: hcrg.fa.em2.oraclecloud.com
+  site: CX_1
+  name: hcrg
+- host: hcri.fa.em2.oraclecloud.com
+  site: CX
+  name: hcri
+- host: ebet.fa.em3.oraclecloud.com
+  site: MK
+  name: ebet
+- host: eedu.fa.em3.oraclecloud.com
+  site: CX_3001
+  name: WTW
+  aliases:
+  - eedu
+- host: eenp.fa.em3.oraclecloud.com
+  site: CX_1
+  name: eenp
+- host: egst.fa.em3.oraclecloud.com
+  site: CX
+  name: egst
+- host: ejti.fa.em3.oraclecloud.com
+  site: WMBC
+  name: ejti
+- host: ekmu.fa.em3.oraclecloud.com
+  site: CX
+  name: Fife Council
+  aliases:
+  - ekmu
+- host: ekov.fa.em3.oraclecloud.com
+  site: CX_2001
+  name: ekov
+- host: elxw.fa.em3.oraclecloud.com
+  site: CX
+  name: The University of Edinburgh
+  aliases:
+  - elxw
+- host: eofb.fa.em3.oraclecloud.com
+  site: CX
+  name: eofb
+- host: eofb.fa.em3.oraclecloud.com
+  site: CX_3001
+  name: eofb
+- host: epgv.fa.em3.oraclecloud.com
+  site: CX_2001
+  name: epgv
+- host: hccz.fa.em3.oraclecloud.com
+  site: CX
+  name: Pearson
+  aliases:
+  - hccz
+- host: hdga.fa.em3.oraclecloud.com
+  site: Lucyelectric
+  name: hdga
+- host: hdix.fa.em3.oraclecloud.com
+  site: CX_1
+  name: hdix
+- host: efds.fa.em5.oraclecloud.com
+  site: Ford-Model-e
+  name: Ford Motor Company
+  aliases:
+  - efds
+- host: efds-test.fa.em5.oraclecloud.com
+  site: CX_8001
+  name: Efds Test.fa.em5.oraclecloud.com
+  aliases:
+  - efds-test
+- host: ehpy.fa.em5.oraclecloud.com
+  site: CX_1004
+  name: ehpy
+- host: eicl.fa.em5.oraclecloud.com
+  site: CX_7001
+  name: eicl
+- host: eicl.fa.em5.oraclecloud.com
+  site: HAGroup
+  name: eicl
+- host: eicl.fa.em5.oraclecloud.com
+  site: PD
+  name: eicl
+- host: elon.fa.em8.oraclecloud.com
+  site: CX_1001
+  name: elon
+- host: elzw.fa.em8.oraclecloud.com
+  site: CX_1001
+  name: elzw
+- host: enpk.fa.em8.oraclecloud.com
+  site: CX
+  name: enpk
+- host: enpk.fa.em8.oraclecloud.com
+  site: CX_1001
+  name: enpk
+- host: enpk.fa.em8.oraclecloud.com
+  site: CX_4001
+  name: enpk
+- host: erqv.fa.em8.oraclecloud.com
+  site: CX_1001
+  name: erqv
+- host: esbe.fa.em8.oraclecloud.com
+  site: CX_1
+  name: esbe
+- host: esbe.fa.em8.oraclecloud.com
+  site: CX_1001
+  name: esbe
