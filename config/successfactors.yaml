@@ -477,3 +477,5 @@ companies:
   name: Celestica
   aliases:
   - careers.celestica.com
+- host: careers.nypa.gov
+  name: careers.nypa.gov

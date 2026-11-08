@@ -9577,3 +9577,7 @@ companies:
   - machinacognita
 - slug: mossrobotics
   name: mossrobotics
+- slug: artificialanalysis
+  name: Artificial Analysis
+  aliases:
+  - artificialanalysis
