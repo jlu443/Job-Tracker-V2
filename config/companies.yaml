@@ -1742,8 +1742,9 @@ companies:
 - tenant: zoetis
   wd: wd5
   site: zoetis
-  name: Zoetis
+  name: Zoetis Services
   aliases:
+  - Zoetis
   - zoetis
 - tenant: tamus
   wd: wd1
@@ -15421,7 +15422,7 @@ companies:
 - tenant: mastercorp
   wd: wd1
   site: MC
-  name: Mastercorp
+  name: MasterCorp
   aliases:
   - MasterCorp
   - Mastercorp
@@ -18572,14 +18573,16 @@ companies:
 - tenant: zoetis
   wd: wd5
   site: broadbean_external
-  name: Zoetis
+  name: Zoetis Services
   aliases:
+  - Zoetis
   - zoetis
 - tenant: zoetis
   wd: wd5
   site: zoetis_intl
-  name: Zoetis
+  name: Zoetis Services
   aliases:
+  - Zoetis
   - zoetis
 - tenant: bft
   wd: wd501
@@ -19550,8 +19553,9 @@ companies:
 - tenant: zoetis
   wd: wd5
   site: zoetis_intern
-  name: Zoetis
+  name: Zoetis Services
   aliases:
+  - Zoetis
   - zoetis
 - tenant: aha
   wd: wd501
@@ -20116,7 +20120,9 @@ companies:
 - tenant: crossroadstreatmentcenters
   wd: wd1
   site: crossroads
-  name: crossroadstreatmentcenters
+  name: Crossroads Treatment Centers
+  aliases:
+  - crossroadstreatmentcenters
 - tenant: cscc
   wd: wd1
   site: CSCC_ext
@@ -22359,3 +22365,7 @@ companies:
   name: Marmon Holdings
   aliases:
   - marmon
+- tenant: pgahq
+  wd: wd1
+  site: PGAHQ
+  name: pgahq

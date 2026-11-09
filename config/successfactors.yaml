@@ -479,3 +479,7 @@ companies:
   - careers.celestica.com
 - host: careers.nypa.gov
   name: careers.nypa.gov
+- host: jobs.adidas-group.com
+  name: Adidas
+  aliases:
+  - jobs.adidas-group.com

@@ -60,3 +60,5 @@ companies:
   name: justicejobs.avature.net
 - base: https://jobs.enel.com/en_US/careers
   name: jobs.enel.com
+- base: https://careers.mt.com/en_US/careers
+  name: careers.mt.com

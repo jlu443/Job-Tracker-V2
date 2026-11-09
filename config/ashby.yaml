@@ -9581,3 +9581,9 @@ companies:
   name: Artificial Analysis
   aliases:
   - artificialanalysis
+- slug: netholabs
+  name: Netholabs
+  aliases:
+  - netholabs
+- slug: Verne
+  name: Verne

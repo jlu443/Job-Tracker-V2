@@ -423,3 +423,11 @@ companies:
   name: Tufts University
   aliases:
   - jobs.tufts.edu
+- host: haskell.jibeapply.com
+  name: Haskell
+  aliases:
+  - haskell.jibeapply.com
+- host: careers.haskell.com
+  name: Haskell
+  aliases:
+  - careers.haskell.com
