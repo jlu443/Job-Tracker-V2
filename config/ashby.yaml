@@ -1962,7 +1962,9 @@ companies:
 - slug: generalintelligencecompany
   name: generalintelligencecompany
 - slug: generaltranslation
-  name: generaltranslation
+  name: General Translation
+  aliases:
+  - generaltranslation
 - slug: genesis-molecular-ai
   name: Genesis Molecular AI
   aliases:
@@ -2618,7 +2620,9 @@ companies:
   aliases:
   - kairos-project
 - slug: kalshi
-  name: kalshi
+  name: Kalshi
+  aliases:
+  - kalshi
 - slug: Kastle
   name: Kastle AI
   aliases:
@@ -5362,7 +5366,9 @@ companies:
   aliases:
   - tonal
 - slug: tonicai
-  name: tonicai
+  name: Tonic
+  aliases:
+  - tonicai
 - slug: toogeza
   name: toogeza
 - slug: Tools%20for%20Humanity
@@ -9576,7 +9582,9 @@ companies:
   aliases:
   - machinacognita
 - slug: mossrobotics
-  name: mossrobotics
+  name: Moss
+  aliases:
+  - mossrobotics
 - slug: artificialanalysis
   name: Artificial Analysis
   aliases:
@@ -9586,4 +9594,16 @@ companies:
   aliases:
   - netholabs
 - slug: Verne
-  name: Verne
+  name: Verne Robotics
+  aliases:
+  - Verne
+- slug: f40d14d9-07f4-403d-802b-37453deccf0a
+  name: Klaviyo
+  aliases:
+  - f40d14d9-07f4-403d-802b-37453deccf0a
+- slug: ande
+  name: Ande
+  aliases:
+  - ande
+- slug: quo
+  name: quo

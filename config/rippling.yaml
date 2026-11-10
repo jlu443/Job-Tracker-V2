@@ -1372,7 +1372,9 @@ companies:
 - slug: liveops
   name: liveops
 - slug: longshot
-  name: longshot
+  name: Longshot Space Technologies
+  aliases:
+  - longshot
 - slug: luminarycloud
   name: luminarycloud
 - slug: malwarebytes
@@ -3991,3 +3993,7 @@ companies:
   name: ShadowDragon
   aliases:
   - shadowdragon
+- slug: eagle-wireless
+  name: Eagle Wireless
+  aliases:
+  - eagle-wireless

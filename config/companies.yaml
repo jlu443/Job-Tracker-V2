@@ -14156,7 +14156,7 @@ companies:
 - tenant: mango
   wd: wd3
   site: Mango_Work_Your_Passion
-  name: MANGO
+  name: Mango
   aliases:
   - MANGO
   - Mango
@@ -15422,7 +15422,7 @@ companies:
 - tenant: mastercorp
   wd: wd1
   site: MC
-  name: MasterCorp
+  name: Mastercorp
   aliases:
   - MasterCorp
   - Mastercorp
@@ -16718,8 +16718,9 @@ companies:
 - tenant: tuftsmedicine
   wd: wd1
   site: Jobs
-  name: TuftsMedicine
+  name: Tufts Medicine
   aliases:
+  - TuftsMedicine
   - tuftsmedicine
 - tenant: tvc
   wd: wd1
@@ -18026,7 +18027,9 @@ companies:
 - tenant: grammy
   wd: wd5
   site: The_Recording_Academy_Career_Site
-  name: grammy
+  name: GRAMMY
+  aliases:
+  - grammy
 - tenant: greif
   wd: wd5
   site: Greif
@@ -20506,7 +20509,9 @@ companies:
 - tenant: beneva
   wd: wd10
   site: benevasite_carriere
-  name: beneva
+  name: Beneva
+  aliases:
+  - beneva
 - tenant: beneva
   wd: wd10
   site: Uni_Sitecarriere
@@ -20864,8 +20869,9 @@ companies:
 - tenant: rohlig
   wd: wd103
   site: Rohlig_Careers
-  name: ROHLIG
+  name: Rohlig
   aliases:
+  - ROHLIG
   - rohlig
 - tenant: rollsroycesmr
   wd: wd103
@@ -22369,3 +22375,9 @@ companies:
   wd: wd1
   site: PGAHQ
   name: pgahq
+- tenant: dulyhealthandcare
+  wd: wd1
+  site: Duly
+  name: Duly Health and Care
+  aliases:
+  - dulyhealthandcare

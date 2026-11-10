@@ -431,3 +431,47 @@ companies:
   name: Haskell
   aliases:
   - careers.haskell.com
+- host: jobs.auburn.edu
+  name: Auburn University
+  aliases:
+  - jobs.auburn.edu
+- host: careers.fm.com
+  name: FM Global
+  aliases:
+  - careers.fm.com
+- host: jobs.republicfinance.com
+  name: Republic Finance
+  aliases:
+  - jobs.republicfinance.com
+- host: careers.marzetticompany.com
+  name: The Marzetti Company
+  aliases:
+  - careers.marzetticompany.com
+- host: jobs.trilogyhs.com
+  name: Trilogy Health Services
+  aliases:
+  - jobs.trilogyhs.com
+- host: jobs.selective.com
+  name: Selective Insurance
+  aliases:
+  - jobs.selective.com
+- host: www.xanterrajobs.com
+  name: Windstar Cruises
+  aliases:
+  - www.xanterrajobs.com
+- host: careers.kearneyco.com
+  name: Kearney and Co.
+  aliases:
+  - careers.kearneyco.com
+- host: careers.merrick.com
+  name: Merrick
+  aliases:
+  - careers.merrick.com
+- host: careers.colliersengineering.com
+  name: Colliers Engineering & Design
+  aliases:
+  - careers.colliersengineering.com
+- host: careers.sproutup.com
+  name: Sprout
+  aliases:
+  - careers.sproutup.com

@@ -1272,8 +1272,9 @@ companies:
   aliases:
   - wclcareers-mastec
 - host: careers-kleinfelder.icims.com
-  name: Careers Kleinfelder.icims.com
+  name: Kleinfelder
   aliases:
+  - Careers Kleinfelder.icims.com
   - careers-kleinfelder
 - host: careers2-wyn.icims.com
   name: Careers2 Wyn.icims.com
@@ -2962,8 +2963,9 @@ companies:
   aliases:
   - element-ext-ger
 - host: element-ext-us.icims.com
-  name: Element Ext Us.icims.com
+  name: Element Materials Technology
   aliases:
+  - Element Ext Us.icims.com
   - element-ext-us
 - host: elementsmassage-wellbizbrands.icims.com
   name: Elementsmassage Wellbizbrands.icims.com
@@ -6858,8 +6860,9 @@ companies:
   aliases:
   - careers-peakdentalservices
 - host: careers-peelregion.icims.com
-  name: Careers Peelregion.icims.com
+  name: Region of Peel
   aliases:
+  - Careers Peelregion.icims.com
   - careers-peelregion
 - host: careers-peninsulabehavioral.icims.com
   name: Peninsula Behavioral

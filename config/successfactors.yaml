@@ -483,3 +483,15 @@ companies:
   name: Adidas
   aliases:
   - jobs.adidas-group.com
+- host: careers.bwxt.com
+  name: BWXT
+  aliases:
+  - careers.bwxt.com
+- host: jobs.domtar.com
+  name: Domtar
+  aliases:
+  - jobs.domtar.com
+- host: jobs.nexteer.com
+  name: Nexteer
+  aliases:
+  - jobs.nexteer.com

@@ -14549,8 +14549,9 @@ companies:
   aliases:
   - hotmartcareersesp
 - token: hspg
-  name: HSPG
+  name: Sevet
   aliases:
+  - HSPG
   - hspg
 - token: hypr
   name: HYPR
@@ -17468,3 +17469,11 @@ companies:
   name: SCT
   aliases:
   - sct
+- token: gsacapital
+  name: GSA
+  aliases:
+  - gsacapital
+- token: biodesixcareers
+  name: Biodesix, Inc.
+- token: artofproblemsolving
+  name: Art of Problem Solving
