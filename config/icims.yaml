@@ -3906,8 +3906,9 @@ companies:
   aliases:
   - securitycareers-alliedbarton
 - host: securitycareers-aus.icims.com
-  name: Securitycareers Aus.icims.com
+  name: Allied Universal
   aliases:
+  - Securitycareers Aus.icims.com
   - securitycareers-aus
 - host: seg-goauto.icims.com
   name: Seg Goauto.icims.com
@@ -8573,3 +8574,15 @@ companies:
   name: RVU
   aliases:
   - careers-rvu
+- host: apply2-republicfinance.icims.com
+  name: Apply2 Republicfinance.icims.com
+  aliases:
+  - apply2-republicfinance
+- host: canada-careers-merrick.icims.com
+  name: Merrick
+  aliases:
+  - canada-careers-merrick
+- host: field-hrblock.icims.com
+  name: Field Hrblock.icims.com
+  aliases:
+  - field-hrblock

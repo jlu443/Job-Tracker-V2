@@ -1011,3 +1011,11 @@ companies:
   name: AO Globe Life
   aliases:
   - aoglobelifebrittmarieyarian
+- slug: techstrasolutions
+  name: Techstra Solutions
+  aliases:
+  - techstrasolutions
+- slug: marketbridge
+  name: Marketbridge
+  aliases:
+  - marketbridge

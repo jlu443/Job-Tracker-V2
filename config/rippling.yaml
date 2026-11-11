@@ -3997,3 +3997,5 @@ companies:
   name: Eagle Wireless
   aliases:
   - eagle-wireless
+- slug: neurospark
+  name: neurospark

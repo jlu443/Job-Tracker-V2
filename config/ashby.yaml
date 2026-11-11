@@ -1930,8 +1930,9 @@ companies:
 - slug: galvany
   name: galvany
 - slug: gamechanger
-  name: Gamechanger
+  name: GameChanger
   aliases:
+  - Gamechanger
   - gamechanger
 - slug: gamma
   name: gamma
@@ -9607,3 +9608,17 @@ companies:
   - ande
 - slug: quo
   name: quo
+- slug: shield
+  name: Shield AI
+  aliases:
+  - shield
+- slug: formulary
+  name: Formulary Financial
+  aliases:
+  - formulary
+- slug: stratos
+  name: STRATOS Technologies
+  aliases:
+  - stratos
+- slug: spinorenergy
+  name: spinorenergy

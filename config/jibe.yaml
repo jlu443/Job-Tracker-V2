@@ -475,3 +475,15 @@ companies:
   name: Sprout
   aliases:
   - careers.sproutup.com
+- host: careers.kimley-horn.com
+  name: Kimley-Horn
+  aliases:
+  - careers.kimley-horn.com
+- host: careers.promega.com
+  name: Promega
+  aliases:
+  - careers.promega.com
+- host: jobs.sheetz.com
+  name: Sheetz
+  aliases:
+  - jobs.sheetz.com

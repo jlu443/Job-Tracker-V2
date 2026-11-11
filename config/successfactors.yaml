@@ -495,3 +495,7 @@ companies:
   name: Nexteer
   aliases:
   - jobs.nexteer.com
+- host: careers.westernmidstream.com
+  name: Western Midstream
+  aliases:
+  - careers.westernmidstream.com

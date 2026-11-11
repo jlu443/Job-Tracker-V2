@@ -14156,7 +14156,7 @@ companies:
 - tenant: mango
   wd: wd3
   site: Mango_Work_Your_Passion
-  name: Mango
+  name: MANGO
   aliases:
   - MANGO
   - Mango
@@ -14280,7 +14280,7 @@ companies:
 - tenant: nutreco
   wd: wd3
   site: Nutreco_External
-  name: Nutreco
+  name: NUTRECO
   aliases:
   - NUTRECO
   - Nutreco
@@ -15088,8 +15088,9 @@ companies:
 - tenant: qiagen
   wd: wd502
   site: QIAGEN
-  name: QIAGEN
+  name: Qiagen
   aliases:
+  - QIAGEN
   - Qiagen
   - qiagen
 - tenant: randstad
@@ -15286,7 +15287,9 @@ companies:
 - tenant: dabella
   wd: wd108
   site: DaBella_Exteriors_Careers
-  name: dabella
+  name: DaBella
+  aliases:
+  - dabella
 - tenant: dickinson
   wd: wd108
   site: Jobs
@@ -17571,7 +17574,9 @@ companies:
 - tenant: anaheimducks
   wd: wd5
   site: Linkedin
-  name: anaheimducks
+  name: Anaheim Ducks
+  aliases:
+  - anaheimducks
 - tenant: anaheimducks
   wd: wd5
   site: ocvibe
@@ -18790,7 +18795,9 @@ companies:
 - tenant: aaregional
   wd: wd503
   site: Search
-  name: aaregional
+  name: Piedmont Airlines
+  aliases:
+  - aaregional
 - tenant: arlingtontx
   wd: wd503
   site: cityofarlingtoncareers
@@ -20061,7 +20068,9 @@ companies:
 - tenant: calyx
   wd: wd1
   site: Perceptive
-  name: calyx
+  name: Calyx
+  aliases:
+  - calyx
 - tenant: carlyle
   wd: wd1
   site: Carlyle
@@ -20515,7 +20524,9 @@ companies:
 - tenant: beneva
   wd: wd10
   site: Uni_Sitecarriere
-  name: beneva
+  name: Beneva
+  aliases:
+  - beneva
 - tenant: cdpq
   wd: wd10
   site: CDPQ-recrutement-universitaire
@@ -22381,3 +22392,13 @@ companies:
   name: Duly Health and Care
   aliases:
   - dulyhealthandcare
+- tenant: investquebec
+  wd: wd10
+  site: ext
+  name: Investissement Québec
+  aliases:
+  - investquebec
+- tenant: tidalwaveautospa
+  wd: wd1
+  site: TWAS
+  name: tidalwaveautospa

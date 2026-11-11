@@ -1801,3 +1801,7 @@ companies:
   name: Subsense
   aliases:
   - subsense
+- slug: biointellisense
+  name: Biointellisense
+  aliases:
+  - biointellisense
