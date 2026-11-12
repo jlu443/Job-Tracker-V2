@@ -487,3 +487,7 @@ companies:
   name: Sheetz
   aliases:
   - jobs.sheetz.com
+- host: markonsolutions.jibeapply.com
+  name: Markon
+  aliases:
+  - markonsolutions.jibeapply.com

@@ -1196,7 +1196,9 @@ companies:
   aliases:
   - contoro
 - slug: conveo
-  name: conveo
+  name: Conveo.ai
+  aliases:
+  - conveo
 - slug: conversion
   name: conversion
 - slug: convex-dev
@@ -9622,3 +9624,7 @@ companies:
   - stratos
 - slug: spinorenergy
   name: spinorenergy
+- slug: sfdata
+  name: San Francisco Data
+  aliases:
+  - sfdata

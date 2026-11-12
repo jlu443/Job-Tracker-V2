@@ -12171,7 +12171,9 @@ companies:
 - tenant: kissusa
   wd: wd12
   site: KISS_Careers_External
-  name: kissusa
+  name: Kiss Products
+  aliases:
+  - kissusa
 - tenant: maschmeyer
   wd: wd12
   site: MCC
@@ -15088,7 +15090,7 @@ companies:
 - tenant: qiagen
   wd: wd502
   site: QIAGEN
-  name: Qiagen
+  name: QIAGEN
   aliases:
   - QIAGEN
   - Qiagen
@@ -15174,8 +15176,9 @@ companies:
 - tenant: dover
   wd: wd103
   site: Dover
-  name: DOVER
+  name: Dover
   aliases:
+  - DOVER
   - Dover
   - dover
 - tenant: eversource
@@ -15325,7 +15328,9 @@ companies:
 - tenant: jbtm
   wd: wd108
   site: JBT_Marel_Career_Site
-  name: jbtm
+  name: JBT Marel
+  aliases:
+  - jbtm
 - tenant: mdtkangaroo
   wd: wd108
   site: MiniMedCareers
@@ -16950,7 +16955,7 @@ companies:
 - tenant: lendlease
   wd: wd3
   site: lendleasecareers
-  name: Lendlease
+  name: LENDLEASE
   aliases:
   - LENDLEASE
   - Lendlease
@@ -18227,8 +18232,9 @@ companies:
 - tenant: nextracker
   wd: wd5
   site: nextpower_careers
-  name: Nextracker
+  name: Nextpower
   aliases:
+  - Nextracker
   - nextracker
 - tenant: nphosting
   wd: wd5
@@ -19754,8 +19760,9 @@ companies:
 - tenant: mobility
   wd: wd503
   site: Mobility
-  name: Mobility
+  name: Mobility Global
   aliases:
+  - Mobility
   - mobility
 - tenant: peterpiperpizza
   wd: wd503
@@ -22339,8 +22346,9 @@ companies:
 - tenant: octa
   wd: wd1
   site: OCTA_Interns
-  name: OCTA
+  name: Orange County Transportation Authority
   aliases:
+  - OCTA
   - octa
 - tenant: tepa
   wd: wd108
@@ -22401,4 +22409,76 @@ companies:
 - tenant: tidalwaveautospa
   wd: wd1
   site: TWAS
-  name: tidalwaveautospa
+  name: Tidal Wave Auto Spa
+  aliases:
+  - tidalwaveautospa
+- tenant: panerabread
+  wd: wd5
+  site: panera_careers
+  name: Panera Bread
+  aliases:
+  - panerabread
+- tenant: plusgrade
+  wd: wd10
+  site: Plusgrade_External_Site
+  name: Plusgrade
+  aliases:
+  - plusgrade
+- tenant: osc
+  wd: wd3
+  site: OSCCareers
+  name: Ontario Securities Commission
+  aliases:
+  - osc
+- tenant: greyco
+  wd: wd108
+  site: GTI
+  name: Greystone
+  aliases:
+  - greyco
+- tenant: multimatic
+  wd: wd10
+  site: MMEC
+  name: Multimatic
+  aliases:
+  - multimatic
+- tenant: octa
+  wd: wd1
+  site: OCTA_Careers
+  name: Orange County Transportation Authority
+  aliases:
+  - octa
+- tenant: sidley
+  wd: wd501
+  site: US
+  name: Sidley Austin
+  aliases:
+  - sidley
+- tenant: prim
+  wd: wd108
+  site: Primoris
+  name: Primoris Services
+  aliases:
+  - prim
+- tenant: latticesemi
+  wd: wd5
+  site: latticesemiconductorscareers
+  name: Lattice Semiconductor
+  aliases:
+  - latticesemi
+- tenant: tplink
+  wd: wd503
+  site: External
+  name: TP-Link Systems
+  aliases:
+  - tplink
+- tenant: rsli
+  wd: wd503
+  site: RSLIJobs
+  name: rsli
+- tenant: mcgough
+  wd: wd504
+  site: McGoughGlobalCareers
+  name: McGough
+  aliases:
+  - mcgough

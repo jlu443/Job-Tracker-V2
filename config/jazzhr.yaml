@@ -1019,3 +1019,11 @@ companies:
   name: Marketbridge
   aliases:
   - marketbridge
+- slug: zotecpartners
+  name: Zotec Partners
+  aliases:
+  - zotecpartners
+- slug: luxfermeltechnologiesuk
+  name: Luxfer MEL Technologies - UK
+  aliases:
+  - luxfermeltechnologiesuk

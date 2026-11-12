@@ -499,3 +499,7 @@ companies:
   name: Western Midstream
   aliases:
   - careers.westernmidstream.com
+- host: careers.lyondellbasell.com
+  name: LyondellBasell
+  aliases:
+  - careers.lyondellbasell.com

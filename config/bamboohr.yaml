@@ -10188,8 +10188,9 @@ companies:
   aliases:
   - su
 - slug: substance
-  name: Substance
+  name: Substance X DDMG
   aliases:
+  - Substance
   - substance
 - slug: suburbanenterprises
   name: Suburban Enterprises
@@ -27563,3 +27564,7 @@ companies:
   name: Ziptrek
   aliases:
   - ziptrekeco
+- slug: securitymetrics
+  name: SecurityMetrics
+  aliases:
+  - securitymetrics

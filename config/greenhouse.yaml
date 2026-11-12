@@ -17485,3 +17485,21 @@ companies:
   name: ChukMedia
 - token: astrodynecorporation
   name: Astrodyne TDI
+- token: nasdaq
+  name: Nasdaq
+  aliases:
+  - nasdaq
+- token: cariadinc
+  name: CARIAD, Inc.
+  aliases:
+  - cariadinc
+- token: avante
+  name: Avante
+  aliases:
+  - avante
+- token: dillards
+  name: Dillards
+  aliases:
+  - dillards
+- token: nintendo
+  name: Nintendo

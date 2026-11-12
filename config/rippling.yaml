@@ -3999,3 +3999,7 @@ companies:
   - eagle-wireless
 - slug: neurospark
   name: neurospark
+- slug: inscipher-careers
+  name: InsCipher
+  aliases:
+  - inscipher-careers
