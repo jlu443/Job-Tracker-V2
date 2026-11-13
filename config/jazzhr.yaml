@@ -1027,3 +1027,9 @@ companies:
   name: Luxfer MEL Technologies - UK
   aliases:
   - luxfermeltechnologiesuk
+- slug: pura
+  name: pura
+- slug: nitkatechnologies
+  name: Nitka Technologies
+  aliases:
+  - nitkatechnologies

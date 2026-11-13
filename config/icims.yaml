@@ -8586,3 +8586,7 @@ companies:
   name: Field Hrblock.icims.com
   aliases:
   - field-hrblock
+- host: careers-chasebrass.icims.com
+  name: Careers Chasebrass.icims.com
+  aliases:
+  - careers-chasebrass

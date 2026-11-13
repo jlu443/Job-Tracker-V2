@@ -4003,3 +4003,7 @@ companies:
   name: InsCipher
   aliases:
   - inscipher-careers
+- slug: empowerly
+  name: Empowerly
+  aliases:
+  - empowerly

@@ -4043,7 +4043,9 @@ companies:
 - slug: powerline
   name: powerline
 - slug: pragmatike
-  name: pragmatike
+  name: Pragmatike
+  aliases:
+  - pragmatike
 - slug: pravah
   name: pravah
 - slug: prefect
@@ -9628,3 +9630,15 @@ companies:
   name: San Francisco Data
   aliases:
   - sfdata
+- slug: zetta2
+  name: ZettaSquared
+  aliases:
+  - zetta2
+- slug: c898d712-c4ab-4157-954a-5df226a781e2
+  name: Thoughtworks
+  aliases:
+  - c898d712-c4ab-4157-954a-5df226a781e2
+- slug: scope-labs
+  name: Scope Labs
+  aliases:
+  - scope-labs

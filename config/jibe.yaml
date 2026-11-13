@@ -491,3 +491,7 @@ companies:
   name: Markon
   aliases:
   - markonsolutions.jibeapply.com
+- host: careers.nfiindustries.com
+  name: NFI Industries
+  aliases:
+  - careers.nfiindustries.com

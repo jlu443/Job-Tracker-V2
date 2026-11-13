@@ -9078,8 +9078,9 @@ companies:
   aliases:
   - restlessdevelopment
 - slug: resurgo
-  name: Resurgo
+  name: Spear
   aliases:
+  - Resurgo
   - resurgo
 - slug: retiresmart
   name: Retire SMART Holdings, Inc.
@@ -27568,3 +27569,7 @@ companies:
   name: SecurityMetrics
   aliases:
   - securitymetrics
+- slug: heelstoneenergy
+  name: Heelstone Renewable Energy
+  aliases:
+  - heelstoneenergy

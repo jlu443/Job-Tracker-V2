@@ -1805,3 +1805,13 @@ companies:
   name: Biointellisense
   aliases:
   - biointellisense
+- slug: verisinsights
+  name: Veris Insights
+  aliases:
+  - verisinsights
+- slug: diamondfoundry
+  name: diamondfoundry
+- slug: convergentresearch
+  name: convergentresearch
+- slug: germanamerican
+  name: germanamerican

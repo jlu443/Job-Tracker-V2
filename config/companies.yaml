@@ -10115,7 +10115,9 @@ companies:
 - tenant: thgrp
   wd: wd12
   site: HeritageConstructionMaterials
-  name: thgrp
+  name: Envita Solutions
+  aliases:
+  - thgrp
 - tenant: teladoc
   wd: wd503
   site: teladochealth_is_hiring
@@ -12313,7 +12315,9 @@ companies:
 - tenant: thgrp
   wd: wd12
   site: Envita
-  name: thgrp
+  name: Envita Solutions
+  aliases:
+  - thgrp
 - tenant: tranetechnologies
   wd: wd12
   site: Trane_Technologies_Careers
@@ -13664,7 +13668,9 @@ companies:
 - tenant: fastretailing
   wd: wd3
   site: headquarter_roles_vn_Uniqlo
-  name: fastretailing
+  name: FAST RETAILING
+  aliases:
+  - fastretailing
 - tenant: fastretailing
   wd: wd3
   site: headquarters_hk_GU
@@ -14290,8 +14296,9 @@ companies:
 - tenant: nutreco
   wd: wd3
   site: SHV_Internal_Job_Board
-  name: Nutreco
+  name: NUTRECO
   aliases:
+  - Nutreco
   - nutreco
 - tenant: oldmutual
   wd: wd3
@@ -14368,7 +14375,7 @@ companies:
 - tenant: pluxee
   wd: wd3
   site: Pluxee_Career_Site
-  name: PLUXEE
+  name: Pluxee
   aliases:
   - PLUXEE
   - Pluxee
@@ -15626,7 +15633,9 @@ companies:
 - tenant: fhlb
   wd: wd1
   site: FHLB_Careers
-  name: fhlb
+  name: Federal Home Loan Bank of Dallas
+  aliases:
+  - fhlb
 - tenant: firstam
   wd: wd1
   site: wdcareers
@@ -17623,7 +17632,9 @@ companies:
 - tenant: athene
   wd: wd5
   site: apollononpubliccareersite
-  name: athene
+  name: Athene
+  aliases:
+  - athene
 - tenant: atlantabravesmlb
   wd: wd5
   site: AtlantaBraves
@@ -22482,3 +22493,51 @@ companies:
   name: McGough
   aliases:
   - mcgough
+- tenant: capitalpower
+  wd: wd10
+  site: External
+  name: Capital Power
+  aliases:
+  - capitalpower
+- tenant: jsx
+  wd: wd503
+  site: JSX_Careers
+  name: JSX
+  aliases:
+  - jsx
+- tenant: sjindustries
+  wd: wd1
+  site: SJI
+  name: SJI
+  aliases:
+  - sjindustries
+- tenant: fondsftq
+  wd: wd10
+  site: sitecarriere_externe
+  name: Fonds de solidarité FTQ
+  aliases:
+  - fondsftq
+- tenant: abinbev
+  wd: wd1
+  site: CAN
+  name: Anheuser-Busch
+  aliases:
+  - abinbev
+- tenant: jdpa
+  wd: wd501
+  site: JDPower
+  name: J.D. Power
+  aliases:
+  - jdpa
+- tenant: newbraunfels
+  wd: wd12
+  site: CONB
+  name: City of New Braunfels
+  aliases:
+  - newbraunfels
+- tenant: originbank
+  wd: wd1
+  site: Careers
+  name: Origin Bank
+  aliases:
+  - originbank

@@ -503,3 +503,11 @@ companies:
   name: LyondellBasell
   aliases:
   - careers.lyondellbasell.com
+- host: careers.huber.com
+  name: Huber
+  aliases:
+  - careers.huber.com
+- host: recruiting.southernglazers.com
+  name: Southern Glazer’s
+  aliases:
+  - recruiting.southernglazers.com
