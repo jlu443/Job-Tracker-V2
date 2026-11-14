@@ -89,8 +89,24 @@ def _board_key(url: str):
 def measure(truth: list[dict], conn: sqlite3.Connection, max_age: int | None = None) -> dict:
     conn.row_factory = sqlite3.Row
     first_party = {r["job_id"]: dict(r) for r in conn.execute(
-        "SELECT job_id, source, company, posted_on, first_seen FROM jobs "
+        "SELECT job_id, source, company, title, role_type, posted_on, first_seen FROM jobs "
         "WHERE source NOT IN ('simplify','linkedin','indeed','glassdoor','zip_recruiter')")}
+    # Listings with no job id to match (vanshb03's go.vansh.nyc short links:
+    # 37% of US listings, 2026-11-13) are matched by company + reworded title.
+    by_company = defaultdict(list)
+    for row in first_party.values():
+        co = dedupe._norm_company(row["company"] or "")
+        if co:
+            by_company[co.split()[0]].append(
+                (co, dedupe.loose_title(row["company"], row["title"] or ""), row["role_type"]))
+
+    def found_by_title(item: dict) -> bool:
+        co = dedupe._norm_company(item.get("company_name") or "")
+        if not co:
+            return False
+        loose = dedupe.loose_title(item.get("company_name") or "", item.get("title") or "")
+        return any(role == item.get("role") and dedupe.same_company(c, co)
+                   and dedupe.retitled(t, loose) for c, t, role in by_company[co.split()[0]])
     purged = {r[0] for r in conn.execute("SELECT job_id FROM purged")} \
         if conn.execute("SELECT name FROM sqlite_master WHERE name='purged'").fetchone() else set()
     boards = _configured_boards()
@@ -115,7 +131,7 @@ def measure(truth: list[dict], conn: sqlite3.Connection, max_age: int | None = N
         if in_window and any(geo.is_us_job(item.get("title", ""), loc or "")
                              for loc in item.get("locations") or [""]):
             us_total += 1
-            us_found += bool(jid and jid in first_party)
+            us_found += bool(jid in first_party if jid else found_by_title(item))
         if not jid:
             cov["unsupported"]["listings"] += 1
             continue
@@ -219,7 +235,7 @@ def record_daily(conn: sqlite3.Connection, settings: dict) -> dict | None:
     if last and (now - datetime.fromisoformat(last)).total_seconds() < 23 * 3600:
         return None
     report = measure(load_truth(settings), conn, settings.get("max_listing_age_days"))
-    headline = {k: report[k] for k in ("truth_listings", "in_scope_recall")}
+    headline = {k: report[k] for k in ("truth_listings", "us_found_share", "in_scope_recall")}
     headline["entry_level_recall"] = report["role"]["entry_level_recall"]
     headline["category_agreement"] = report["category"]["agreement"]
     headline["dates"] = report["dates"]

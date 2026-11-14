@@ -59,6 +59,54 @@ def fuzzy_key(company: str, title: str, location: str) -> str | None:
     return f"{c}|{t}|{_norm_location(location or '')}"
 
 
+# Words a curated list or aggregator adds or drops when it re-titles a
+# posting: our Jibe "Engineering Intern - Machine Learning Hardware (Spring
+# 2027 Co-op)" is "Engineering Co-op, Machine Learning Hardware" on
+# vanshb03's list, which links through a shortener we can't resolve.
+_RETITLE_NOISE = {
+    "intern", "interns", "internship", "internships", "co", "op", "coop", "start",
+    "new", "grad", "grads", "entry", "level", "early", "career", "program",
+    "programme", "bs", "ms", "master", "masters", "s", "and", "the", "of", "for",
+    "in", "a", "to", "at", "with", "remote", "hybrid", "onsite", "us", "usa",
+    "united", "states",
+}
+_SEASONS = {"summer", "spring", "fall", "autumn", "winter"}
+_YEAR = re.compile(r"20\d\d")
+
+LooseTitle = tuple[frozenset[str], frozenset[str], frozenset[str]]
+
+
+def loose_title(company: str, title: str) -> LooseTitle:
+    """(distinctive words, seasons, years) of a title. The words leave out
+    role filler and the company's own name ("Year at Palantir Intern")."""
+    noise = _RETITLE_NOISE | set(_tokens(company))
+    words, seasons, years = set(), set(), set()
+    for w in _tokens(title):
+        if w in _SEASONS:
+            seasons.add(w)
+        elif _YEAR.fullmatch(w):
+            years.add(w)
+        elif w not in noise:
+            words.add(w)
+    return frozenset(words), frozenset(seasons), frozenset(years)
+
+
+def retitled(a: LooseTitle, b: LooseTitle) -> bool:
+    """Same opening under two loose_title()s. A season or year only one title
+    names doesn't matter; different ones do (a Spring co-op and a Summer
+    internship are separate openings)."""
+    return (len(a[0]) >= 2 and a[0] == b[0]
+            and all(not x or not y or bool(x & y) for x, y in zip(a[1:], b[1:])))
+
+
+def same_company(a: str, b: str) -> bool:
+    """Normalized names, one a word-prefix of the other ("palantir" and
+    "palantir technologies"; "amazon" and "amazon web services")."""
+    ta, tb = a.split(), b.split()
+    n = min(len(ta), len(tb))
+    return n > 0 and ta[:n] == tb[:n]
+
+
 def role_key(job_key: str) -> str:
     """fuzzy_key minus the city: LinkedIn and Workday list one role once per
     location ("5 Locations" vs "Hillsboro, OR"), but to a job seeker that's

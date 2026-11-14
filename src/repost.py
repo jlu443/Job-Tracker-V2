@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import re
 from collections import Counter
+from dataclasses import dataclass
 from datetime import date, timedelta
 from statistics import median
 
@@ -76,9 +77,26 @@ def is_bump(old: str, new: str, min_days: int = 3) -> bool:
     return old_age - age >= min_days and age < 28
 
 
+@dataclass
+class TitleHistory:
+    """A stored row as triage compares titles across sources (db.title_history)."""
+    company: str          # dedupe._norm_company()
+    title: tuple          # dedupe.loose_title()
+    role_type: str
+    source: str
+    active: bool
+    last_seen: str
+
+    def is_copy(self, other: "TitleHistory") -> bool:
+        return (self.source != other.source and self.role_type == other.role_type
+                and dedupe.same_company(self.company, other.company)
+                and dedupe.retitled(self.title, other.title))
+
+
 def triage(new_jobs: list[dict], history: dict, new_boards: set[tuple[str, str]],
            board_of, aggregator_sources: set[str], recent_days: int = 60,
-           reclassified: bool = False, fresh_days: int = 3
+           reclassified: bool = False, fresh_days: int = 3,
+           titles: dict | None = None, secondhand: frozenset = frozenset()
            ) -> tuple[list[dict], dict[str, tuple[str, str]], Counter]:
     """Decide which of this run's new rows are news.
 
@@ -92,6 +110,11 @@ def triage(new_jobs: list[dict], history: dict, new_boards: set[tuple[str, str]]
       already_tracked  the role is live under another id, or an aggregator
                        listed it recently (we announced it then; aggregator
                        rows were historically expired unreliably)
+      retitled_copy    another source has the role under a reworded title
+                       (dedupe.retitled), live or relayed in the window, or
+                       it's a candidate this run: vanshb03's list renames
+                       postings, and 6.9% of announcements from 2026-10-20
+                       to 11-13 were such repeats
     A role whose earlier first-party listing had closed is a candidate, noted
     in relisted_from so annotate() can label it.
     """
@@ -100,6 +123,7 @@ def triage(new_jobs: list[dict], history: dict, new_boards: set[tuple[str, str]]
     first_of_role: dict[str, dict] = {}
     candidates: list[dict] = []
     relisted_from: dict[str, tuple[str, str]] = {}
+    this_run: dict[str, list[TitleHistory]] = {}
 
     for j in new_jobs:
         if board_of(j) in new_boards:
@@ -124,6 +148,17 @@ def triage(new_jobs: list[dict], history: dict, new_boards: set[tuple[str, str]]
         if h and (h.active or (h.source in aggregator_sources and h.last_seen >= cutoff)):
             skipped["already_tracked"] += 1
             continue
+        company = dedupe._norm_company(j.get("company") or "")
+        mine = TitleHistory(company, dedupe.loose_title(j.get("company") or "", j.get("title") or ""),
+                            j.get("role_type", ""), j.get("source", ""), True, "")
+        if titles is not None and company:
+            # Later rows this run are checked against this run's candidates too.
+            prior = [t for t in titles.get(company.split()[0], [])
+                     if t.active or (t.source in secondhand and t.last_seen >= cutoff)]
+            if any(t.is_copy(mine) for t in prior + this_run.get(company.split()[0], [])):
+                skipped["retitled_copy"] += 1
+                continue
+            this_run.setdefault(company.split()[0], []).append(mine)
         if h:
             relisted_from[j["job_id"]] = (h.job_id, h.last_seen)
         if rk:

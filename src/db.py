@@ -80,6 +80,20 @@ def role_history(conn: sqlite3.Connection) -> dict[str, RoleHistory]:
     return out
 
 
+def title_history(conn: sqlite3.Connection) -> dict[str, list[repost.TitleHistory]]:
+    """First word of the normalized company → every stored entry-level row,
+    for spotting a role re-titled by another source (repost.triage)."""
+    out: dict[str, list[TitleHistory]] = {}
+    for r in conn.execute("SELECT company, title, role_type, source, status, last_seen "
+                          "FROM jobs WHERE role_type IN ('intern', 'new_grad')"):
+        company = dedupe._norm_company(r["company"])
+        if company:
+            out.setdefault(company.split()[0], []).append(repost.TitleHistory(
+                company, dedupe.loose_title(r["company"], r["title"]), r["role_type"],
+                r["source"], r["status"] == "active", r["last_seen"]))
+    return out
+
+
 def register_boards(conn: sqlite3.Connection, scopes: set[tuple[str, str]]) -> set[tuple[str, str]]:
     """Record boards that completed a scrape; return the ones seen for the
     first time, whose postings are backlog rather than news."""

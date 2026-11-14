@@ -61,11 +61,15 @@ ci_shards:
   # (2026-10-17); every site gets the new-postings check every run
   workday: 3
   # Its own jobs: the slowest source (globally spaced requests, rate-limited
-  # per IP); two machines since discovery took it to ~1,300 portals (2026-10-17).
-  icims: 2
+  # per IP); two machines since discovery took it to ~1,300 portals (2026-10-17),
+  # three at 2,143 portals, when the halves reached 14.5-18 min of 20 (2026-11-13).
+  icims: 3
   # Out of "rest" since discovery took it to 1,529 sites: alone it took
   # 13-19.5 of rest's 20 minutes and timed rest out twice (2026-10-31).
   oracle: 2
+  # rest's slowest source (~520s of page-by-page searching); rest still
+  # timed out twice a day without it (2026-11-13).
+  successfactors: 1
 
 # Boards that fail the main pass (Workday answers bursts from one IP with
 # 429) are retried once after `delay` seconds with only `workers` threads.

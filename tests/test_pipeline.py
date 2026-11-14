@@ -286,6 +286,47 @@ def test_sync_skips_new_postings_older_than_max_age():
     assert res.new_jobs == [] and conn.execute("SELECT COUNT(*) FROM jobs").fetchone()[0] == 0
 
 
+def test_retitled_matches_reworded_copies_only():
+    loose = lambda t, c="Rivian": dedupe.loose_title(c, t)
+    assert dedupe.retitled(loose("Engineering Intern - Machine Learning Hardware (Spring 2027 Co-op)"),
+                           loose("Engineering Co-op, Machine Learning Hardware"))
+    assert dedupe.retitled(loose("Software Engineer, Internship - Query Engines", "Palantir"),
+                           loose("Software Engineer Intern, Query Engines", "Palantir"))
+    assert dedupe.retitled(loose("SoC Logic Design Engineer", "Intel"),
+                           loose("SoC Logic Design Engineer (Master's)", "Intel"))
+    # different season, different team, too generic to tell
+    assert not dedupe.retitled(loose("Electrical Engineering Co-op/Intern - Spring 2027", "CACI"),
+                               loose("Electrical Engineering Intern - Summer 2027", "CACI"))
+    assert not dedupe.retitled(loose("Software Engineer Intern - Backend", "Ramp"),
+                               loose("Software Engineer Intern - Frontend", "Ramp"))
+    assert not dedupe.retitled(loose("Software Intern", "Ramp"), loose("Software Co-op", "Ramp"))
+    assert dedupe.same_company("palantir", "palantir technologies")
+    assert not dedupe.same_company("general dynamics", "general motors")
+
+
+def test_triage_skips_retitled_copies_from_other_sources():
+    recent = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    th = lambda co, title, source, active=True, seen=recent: repost.TitleHistory(
+        dedupe._norm_company(co), dedupe.loose_title(co, title), "intern", source, active, seen)
+    titles = {"rivian": [th("Rivian", "Engineering Intern - ML Hardware (Spring 2027 Co-op)", "jibe")],
+              "palantir": [th("Palantir", "Software Engineer, Internship - Query Engines", "lever",
+                              active=False, seen="2026-01-01T00:00:00+00:00")]}
+    job = lambda jid, co, title, source: {"job_id": jid, "company": co, "title": title,
+                                          "source": source, "role_type": "intern",
+                                          "job_key": f"{jid}|x|", "location": ""}
+    jobs = [job("sim_1", "Rivian", "Engineering Co-op, ML Hardware", "simplify"),     # live on Jibe
+            job("jibe_2", "Rivian", "Engineering Co-op, ML Hardware", "jibe"),        # same source
+            job("sim_2", "Palantir Technologies", "Software Engineer Intern, Query Engines",
+                "simplify"),                                     # closed long ago: news again
+            job("li_1", "Palantir", "Software Engineer - Query Engines Internship",
+                "linkedin")]                                     # twin of sim_2 this run
+    cands, _, skipped = repost.triage(jobs, {}, set(), lambda j: (j["source"], j["company"]),
+                                      db.AGGREGATOR_SOURCES, titles=titles,
+                                      secondhand=frozenset(db._SECONDHAND))
+    assert [j["job_id"] for j in cands] == ["jibe_2", "sim_2"]
+    assert skipped == {"retitled_copy": 2}
+
+
 def test_triage_silences_reclassified_backlog_but_not_fresh_posts():
     fresh = date.today().isoformat()
     jobs = [{"job_id": "gh_1", "source": "greenhouse", "job_key": "a|x|", "location": "",

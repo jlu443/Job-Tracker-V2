@@ -80,6 +80,7 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
 
     # Snapshot before sync so "known" means "known before this run".
     history = db.role_history(conn)
+    titles = db.title_history(conn)
 
     store_roles = settings.get("store_roles")
     store_roles = frozenset(store_roles) if store_roles else None
@@ -106,7 +107,7 @@ def process(conn, settings: dict, collected: Collected, run_at: str,
     reclassified = db._meta_get(conn, "classifier_version") != str(classify.VERSION)
     fresh, relisted_from, skipped = repost.triage(
         result.new_jobs, history, new_boards, db.board_of, db.AGGREGATOR_SOURCES,
-        reclassified=reclassified)
+        reclassified=reclassified, titles=titles, secondhand=frozenset(db._SECONDHAND))
     if reclassified:
         db._meta_set(conn, "classifier_version", str(classify.VERSION))
         conn.commit()
