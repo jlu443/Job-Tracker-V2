@@ -1033,3 +1033,9 @@ companies:
   name: Nitka Technologies
   aliases:
   - nitkatechnologies
+- slug: h2oai
+  name: H2O.ai
+  aliases:
+  - h2oai
+- slug: pacemate
+  name: pacemate

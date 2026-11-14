@@ -9642,3 +9642,5 @@ companies:
   name: Scope Labs
   aliases:
   - scope-labs
+- slug: stonepower
+  name: stonepower

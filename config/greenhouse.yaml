@@ -17503,3 +17503,7 @@ companies:
   - dillards
 - token: nintendo
   name: Nintendo
+- token: mcmaster-carr-systems
+  name: McMaster-Carr Systems
+  aliases:
+  - mcmaster-carr-systems

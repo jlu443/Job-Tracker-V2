@@ -1815,3 +1815,7 @@ companies:
   name: convergentresearch
 - slug: germanamerican
   name: germanamerican
+- slug: esrtreit
+  name: Empire State Realty Trust
+  aliases:
+  - esrtreit

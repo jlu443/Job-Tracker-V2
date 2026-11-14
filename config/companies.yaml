@@ -14375,7 +14375,7 @@ companies:
 - tenant: pluxee
   wd: wd3
   site: Pluxee_Career_Site
-  name: Pluxee
+  name: PLUXEE
   aliases:
   - PLUXEE
   - Pluxee
@@ -22541,3 +22541,19 @@ companies:
   name: Origin Bank
   aliases:
   - originbank
+- tenant: postman
+  wd: wd108
+  site: careers
+  name: Postman
+  aliases:
+  - postman
+- tenant: lthc
+  wd: wd1
+  site: CDPHPCareers
+  name: Excellus BCBS
+  aliases:
+  - lthc
+- tenant: mckee
+  wd: wd1
+  site: mckee
+  name: mckee

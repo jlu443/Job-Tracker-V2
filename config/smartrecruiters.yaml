@@ -4236,3 +4236,7 @@ companies:
   name: Valley Medical Center & Clinics
   aliases:
   - ValleyMedicalCenterClinics
+- company: FrasersGroup
+  name: Frasers Group
+  aliases:
+  - FrasersGroup
